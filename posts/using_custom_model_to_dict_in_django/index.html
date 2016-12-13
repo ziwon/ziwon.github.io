@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    Using custom model_to_dict() in Django // Philbert
+  </title>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.16" />
+
+  <meta property="og:title" content="Using custom model_to_dict() in Django" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://ziwon.github.io/posts/using_custom_model_to_dict_in_django/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="https://ziwon.github.io//css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Philbert" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/tomorrow-night-bright.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+</head>
+
+<body>
+  
+
+  <div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+    <h1 class="brand-title">Philbert{}</h1>
+    <h2 class="brand-tagline">Python, Golang, Java, Scala</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://ziwon.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/about">About</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts">Blog</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/ziwon" target="_blank"><i class='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://instagram.com/lunozz" target="_blank"><i class='fa fa-instagram'></i></a>
+        
+      
+        
+        <a href="https://ziwon.github.io/index.xml" target="_blank"><i class='fa fa-rss'></i></a>
+        
+      
+      
+    </div>
+    
+
+  </div>
+</div>
+
+  
+  
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+    <a name="top"></a>
+    
+
+    
+      <section class="post">
+            <h1 class="post-title">
+              <a href="/posts/using_custom_model_to_dict_in_django/">Using custom model_to_dict() in Django</a>
+            </h1>
+            <h3 class="post-subtitle">
+              
+            </h3>
+            
+              <span class="post-date">
+                  <span class="post-date-day"><sup>9</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Dec</span> <span class="post-date-year">2016</span>
+              </span>
+              
+            
+              
+            
+
+      
+      
+        <div class="post-categories">
+        
+          <a class="post-category post-category-programming" href="https://ziwon.github.io//categories/programming">Programming</a>
+        
+        </div>
+      
+
+      
+          <div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f&title=Using%20custom%20model_to_dict%28%29%20in%20Django&summary=In%20Django%2c%20when%20converting%20a%20database%20model%20to%20a%20dictionary%2c%20I%20usually%20used%20to%20convert%20only%20the%20member%20variables%20corresponding%20to%20the%20column%20of%20the%20table%20to%20handle%20the%20response%20to%20the%20request%20in%20the%20form%20of%20Json%20and%20so%20on.%20But%2c%20whenever%20you%20encounter%20a%20member%20variable%20of%20type%20ManyToManyField%2c%20it%20would%20be%20too%20cumbersome%20to%20write%20three%20or%20four%20lines%20of%20code%20each%20time%20to%20loop%20around%20to%20get%20their%20values%20from%20the%20member%20variables%20of%20the%20ManyToManyField%20in%20a%20model%20object.}&source=Philbert" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=Using%20custom%20model_to_dict%28%29%20in%20Django&url=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+        
+
+      
+
+            <p>In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type <code>ManyToManyField</code>, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the <code>ManyToManyField</code> in a model object.</p>
+
+<p>For example, suppose you have a modeling class of <code>Publication</code>, <code>Article</code> as follows.</p>
+
+<pre><code>from django.db import models
+
+class Publication(models.Model):
+    title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
+
+    def __str__(self):
+        return self.headline
+
+    class Meta:
+        ordering = ('headline',)
+</code></pre>
+
+<p>For the <code>Publication</code> instance, you can convert it to a dictionary by calling the <code>model_to_dict()</code> function only once. However, when converting an instance of <code>Article</code> with a member variable of <code>ManyToManyField</code> to a dictionary, you have to invoke <code>model_to_dict()</code> or loop around more than once to get their values because <code>ManyToManyField</code> is a list type.</p>
+
+<p>Whenever I encountered <code>ManyToManyField</code>, I used to create a separate method, or loop it, and convert it each by each. Suddenly, every time I write a for statement or a separate function, I thought it would be better to solve it all once.</p>
+
+<p>For example, let&rsquo;s say you have a property in the <code>Article</code> class, a member function, and several <code>ManyToManyField</code>s like this:</p>
+
+<pre><code>class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
+    tags = models.ManyToManyField(Tag)
+
+    def convert_cover_img(self):
+        ...
+
+    @property
+    def count(self):
+        ...
+
+    def __str__(self):
+        return self.headline
+
+    class Meta:
+        ordering = ('headline',)
+</code></pre>
+
+<p>What I want is to specify each values to be transformed, it could be such as member variables, member functions, and properties of the modeling class, as shown below, and the whole instance is converted into a single dictationary chunk in a single call. For example, if you need only one of the member variables of <code>ManyToManyField</code>, you can convert it to <code>__[field_name]</code> by specifying the desired field name as follows.</p>
+
+<pre><code>FIELDS = {'id', 'headline', 'publications__title', 'tags__name', 'convert_cover_img', 'count']
+result = OrderedDict()
+result['data'] = [model_to_dict(instance=obj, fields=FIELDS) for obj in page.object_list]
+result['has_next'] = page.has_next()
+...
+return JsonResponse(format_response(result, RES_OK))
+</code></pre>
+
+<p>Unfortunately, if you need more than one column for <code>ManyToManyField</code> to build the response like json form, you have no choice but to define a seperate property or function in a model class. In a specific case, for example, if you are extending all attributes - like id, name and etc - of the tags member variable ManyToManyField while converting the Article instance.</p>
+
+<pre><code>@property
+def tags_to_dict(self):
+    ...
+</code></pre>
+
+<p>However, since the model class describes the process of transforming their member variables, the above manner has the advantage that it is well modularized and reusable. As a result, the entire code is really simple and neat, because it can hide the process of converting an instance to a dictionary.</p>
+
+<p>Now we no longer have to loop around to handle <code>ManyToManyFields</code> or write a separate function. It also eliminates the need to worry about member properties or member functions, which is not modeling fields .</p>
+
+<p>Here is the code for <code>model_to_dict()</code> that was created. Once the conversion code of the a model is unified into just one line as shown below, repetitive and annoying coding for conversion is no longer needed. Since the parent class is created and the most job in the inherited child class is just to specify only the fields to be converted. As a result, the development speed can be much faster, which can improve the quality of the query set manager or focus on more creative work.</p>
+
+<pre><code>def model_to_dict(instance, fields=None, exclude=None, date_to_strf=None):
+    from django.db.models.fields.related import ManyToManyField
+    from django.db.models.fields import DateTimeField
+    from django.db.models.fields.files import ImageField, FileField
+    opts = instance._meta
+    data = {}
+
+    &quot;&quot;&quot;
+    Why is `__fields` in here?
+        it holds the list of fields except for the one ends with a suffix '__[field_name]'.
+        When converting a model object to a dictionary using this method,
+        You can use a suffix to point to the field of ManyToManyField in the model instance.
+        The suffix ends with '__[field_name]' like 'publications__name'
+    &quot;&quot;&quot;
+    __fields = list(map(lambda a: a.split('__')[0], fields or []))
+
+    for f in chain(opts.concrete_fields, opts.virtual_fields, opts.many_to_many):
+        is_edtiable = getattr(f, 'editable', False)
+
+        if fields and f.name not in __fields:
+            continue
+
+        if exclude and f.name in exclude:
+            continue
+
+        if isinstance(f, ManyToManyField):
+            if instance.pk is None:
+                data[f.name] = []
+            else:
+                qs = f.value_from_object(instance)
+                if qs._result_cache is not None:
+                    data[f.name] = [item.pk for item in qs]
+                else:
+                    try:
+                        m2m_field  = list(filter(lambda a: f.name in a and a.find('__') != -1, fields))[0]
+                        key = m2m_field[len(f.name) + 2:]
+                        data[f.name] = list(qs.values_list(key, flat=True))
+                    except IndexError:
+                        data[f.name] = list(qs.values_list('pk', flat=True))
+
+        elif isinstance(f, DateTimeField):
+            date = f.value_from_object(instance)
+            data[f.name] = date_to_strf(date) if date_to_strf else date_to_timestamp(date)
+
+        elif isinstance(f, ImageField):
+            image = f.value_from_object(instance)
+            data[f.name] = image.url if image else None
+
+        elif isinstance(f, FileField):
+            file = f.value_from_object(instance)
+            data[f.name] = file.url if file  else None
+
+        elif is_edtiable:
+            data[f.name] = f.value_from_object(instance)
+
+    &quot;&quot;&quot;
+    Just call an instance's function or property from a string with the function name in `__fields` arguments.
+    &quot;&quot;&quot;
+    funcs = set(__fields) - set(list(data.keys()))
+    for func in funcs:
+        obj = getattr(instance, func)
+        if inspect.ismethod(obj):
+            data[func] = obj()
+        else:
+            data[func] = obj
+    return data
+</code></pre>
+
+<p>You might have performance problems, but if you have a lot of cost to convert an instance, you might be able to run 10 simultaneously using a coroutine, etc. Of course, if the order is important, when you collect the results, there may be a hassle, such as having to rearrange them in order.</p>
+
+  
+      
+          <div class="social-sharing">
+	<a class="share-button-facebook" onClick="return popupShare(this.href);" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f" target="_blank"><i class="fa fa-facebook"><span>Like</span></i></a>
+	<a class="share-button-google-plus" onClick="return popupShare(this.href);" href="https://plus.google.com/share?url=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f" target="_blank"><i class="fa fa-google-plus"><span>Google +1</span></i></a>
+	<a class="share-button-linkedin" onClick="return popupShare(this.href);" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f&title=Using%20custom%20model_to_dict%28%29%20in%20Django&summary=In%20Django%2c%20when%20converting%20a%20database%20model%20to%20a%20dictionary%2c%20I%20usually%20used%20to%20convert%20only%20the%20member%20variables%20corresponding%20to%20the%20column%20of%20the%20table%20to%20handle%20the%20response%20to%20the%20request%20in%20the%20form%20of%20Json%20and%20so%20on.%20But%2c%20whenever%20you%20encounter%20a%20member%20variable%20of%20type%20ManyToManyField%2c%20it%20would%20be%20too%20cumbersome%20to%20write%20three%20or%20four%20lines%20of%20code%20each%20time%20to%20loop%20around%20to%20get%20their%20values%20from%20the%20member%20variables%20of%20the%20ManyToManyField%20in%20a%20model%20object.}&source=Philbert" target="_blank"><i class="fa fa-linkedin"><span>Share on LinkedIn</span></i></a>
+	<a class="share-button-twitter" onClick="return popupShare(this.href);" href="http://twitter.com/share?text=Using%20custom%20model_to_dict%28%29%20in%20Django&url=https%3a%2f%2fziwon.github.io%2fposts%2fusing_custom_model_to_dict_in_django%2f" target="_blank"><i class="fa fa-twitter"><span>Tweet</span></i></a>	
+</div>
+        
+
+      
+        <div class="tags-list">
+          <span class="dark-red">Tags</span><span class="decorative-marker">//</span>
+          
+                  <a class="post-tag post-tag-python" href="https://ziwon.github.io//tags/python">python</a>,
+                  
+                  <a class="post-tag post-tag-django" href="https://ziwon.github.io//tags/django">django</a>,
+                  
+        </div>
+      
+
+      
+        <div class="paging">
+          <span class="paging-label">More Reading</span>
+          
+
+          
+          <div class="paging-older">
+            <span class="dark-red">Older</span><span class="decorative-marker">//</span>
+                  <a class="paging-link" href="/posts/effective-go-concurrency/">[번역] Effective Go: Concurrency</a>
+                </div>
+                
+              </div>
+            
+          </section>
+          
+            <div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'ziwon';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          
+        
+      <div class="footer">
+  <hr class="thin" />
+  <div class="pure-menu pure-menu-horizontal pure-menu-open">
+    <ul class="footer-menu">
+    
+    </ul>
+  </div>
+
+  <p>&copy; 2016. All rights reserved.</p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61678624-3', 'auto');
+ga('send', 'pageview');
+</script>
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+    </div>
+  </div>
+  
+
+  
+    <script type="text/javascript">
+      function popupShare(url) {
+        window.open(url, '_blank', 'scrollbars,resizable,height=525,width=600');
+        return false;
+      }
+    </script>
+  
+
+  
+</body>
+</html>

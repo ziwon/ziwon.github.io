@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <title>
+    Scala // Philbert
+  </title>
+
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="author" content="">
+<meta name="generator" content="Hugo 0.16" />
+
+  <meta property="og:title" content="Scala" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:url" content="https://ziwon.github.io/tags/scala/" />
+
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/base-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  
+  
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+  
+  
+
+  <link rel="stylesheet" href="https://ziwon.github.io//css/redlounge.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,200,100,700,300,500,600,800' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Libre+Baskerville:400,700,400italic' rel='stylesheet' type='text/css'>
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="https://ziwon.github.io/tags/scala/index.xml" rel="alternate" type="application/rss+xml" title="Philbert" />
+
+    
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/tomorrow-night-bright.min.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+
+  
+
+  
+
+  
+</head>
+
+<body>
+	<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+  <div class="header">
+    
+
+    <h1 class="brand-title">Philbert{}</h1>
+    <h2 class="brand-tagline">Python, Golang, Java, Scala</h2>
+
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item"><span class="nav-item-separator">//</span><a href="https://ziwon.github.io/">Home</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/about">About</a></li>
+        
+          <li class="nav-item"><span class="nav-item-separator">//</span><a href="/posts">Blog</a></li>
+        
+      </ul>
+    </nav>
+
+    
+    <div class="social-buttons">
+      
+        
+        <a href="https://github.com/ziwon" target="_blank"><i class='fa fa-github'></i></a>
+        
+      
+        
+        <a href="https://instagram.com/lunozz" target="_blank"><i class='fa fa-instagram'></i></a>
+        
+      
+        
+        <a href="https://ziwon.github.io/index.xml" target="_blank"><i class='fa fa-rss'></i></a>
+        
+      
+      
+    </div>
+    
+
+  </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+      <a name="top"></a>
+      
+
+      <div class="posts">
+        
+          <section  class="post">
+            <header class="post-header">
+            
+            <h1 class="post-title">
+              <a href="/posts/generics-of-a-higher-Kind/">Generics of a Higher Kind</a>
+            </h1>
+            </header>
+            <p class="post-meta">
+            	
+		          <span class="post-date">
+		            <span class="post-date-day"><sup>30</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Aug</span> <span class="post-date-year">2014</span>
+		          </span>
+      				
+      				
+      					
+      				
+              
+                <span class="post-reading-time"><i class="fa fa-clock-o"></i> <em>6 min. read</em></span>
+              
+      				
+      					<div class="post-categories">
+				        
+      					
+					        <a class="post-category post-category-programming" href="https://ziwon.github.io//categories/programming">Programming</a>
+      					
+					        <a class="post-category post-category-scala" href="https://ziwon.github.io//categories/scala">Scala</a>
+      					
+      					</div>
+      				
+            </p>
+            <article class="post-summary">
+            	1. Introduction 일차 매개변수적 다형성과 고차 타입 생성자 다형성 일차 매개변수적 다형성은 정적 타입 프로그래밍 언어의 표준 요소임 일차 매개변수적 다형성은 제네릭(generic)이라고 부름 제네릭의 한 가지 응용 분야는 콜렉션(collection) 예) List[A] 타입은 주어진 요소 A 타입의 리스트를 표현, A는 자유롭게 선택됨 일차 매개변수적 다형성은 List와 같은 타입 생성자를 도출하며 타입을 추상화 함 그러나 결과로 나온 타입 생성자는 그들 자신을 추상화할 수 없음 예) List와 같은 타입 생성자를 다른 타입 생성자의 타입 인자로 전달할 수 없음 이런 제한은 자연스러운 추상를 정형화하는데 방해가 되며 불필요한 중복 코드로 이어짐 고차 타입 생성자 다형성와 카인드 고차 타입 생성자 다형성을 통해 더 많은 제네럴티를 확보할 수 있음 이 논문에서는 Scala 프로그래밍 언어의 타입 생성자 다형성의 설계와 구현에 대해 살펴봄 Scala 2.5 버전부터 고차 타입 제네릭을 이용할 수 있음 고차 타입 제네릭에서는 타입과 타입 생성자를 특정 지우기 위해 개발한 카인드 시스템을 사용함 카인드는 &lsquo;어떤 타입 혹은 타입 생성자가 추상화에서 허용될 수 있는 인스턴스&rsquo; 인지를 표현함 즉, 카인드의 타입에 대한 역할은 타입이 변수에 대해 하는 역할임 카인드는 타입이나 타입 생성자의 3가지를 캡쳐함: 쉐이프, 하위/상위 바운드, 변성 추상 타입 멤버를 지닌 타입 vs 타입 생성자 가상 타입이나 가상 클래스를 지닌 언어는 추상 타입 멤버를 통해 타입 생성자 다형성을 코드화할 수 있음, Scala가 이런 부류의 언어에 속함 예) Scala에서는 타입 매개변수화된 클래스 대신 추상 타입 멤버를 지닌 클래스로 List를 정의할 수 있음 abstract class List { type Elem } List의 구체적인 구현은 List { type Elem - String } 처럼 타입 재정의를 통해 모델링할 수 있음 결정적인 것은 이렇게 코드화된 List가 타입 생성자가 아닌 타입이라는 점.
+            </article>
+			<div class="read-more-link">
+				<a href="/posts/generics-of-a-higher-Kind/"><span class="read-more-slashes">//</span>Read More...</a>
+			</div>
+          </section>
+        
+          <section  class="post">
+            <header class="post-header">
+            
+            <h1 class="post-title">
+              <a href="/posts/principles-of-reactive-programming/">Principles of Reactive Programming</a>
+            </h1>
+            </header>
+            <p class="post-meta">
+            	
+		          <span class="post-date">
+		            <span class="post-date-day"><sup>22</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Jan</span> <span class="post-date-year">2014</span>
+		          </span>
+      				
+      				
+      					
+      				
+              
+                <span class="post-reading-time"><i class="fa fa-clock-o"></i> <em>1 min. read</em></span>
+              
+      				
+      					<div class="post-categories">
+				        
+      					
+					        <a class="post-category post-category-programming" href="https://ziwon.github.io//categories/programming">Programming</a>
+      					
+      					</div>
+      				
+            </p>
+            <article class="post-summary">
+            	Finally got my certificate for the Coursera &ldquo;Principles of Reactive Programming&rdquo; course. :) It was rather easy in the beginning, but became more challenging as it went on. Now where to go?
+            </article>
+			<div class="read-more-link">
+				<a href="/posts/principles-of-reactive-programming/"><span class="read-more-slashes">//</span>Read More...</a>
+			</div>
+          </section>
+        
+      </div>
+
+      <div class="footer">
+  <hr class="thin" />
+  <div class="pure-menu pure-menu-horizontal pure-menu-open">
+    <ul class="footer-menu">
+    
+    </ul>
+  </div>
+
+  <p>&copy; 2016. All rights reserved.</p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-61678624-3', 'auto');
+ga('send', 'pageview');
+</script>
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+    </div>
+  </div>
+  
+</body>
+</html>
