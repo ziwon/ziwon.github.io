@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ziwon</title>
+    <title>人生は儚く短い。</title>
     <link>https://ziwon.github.io/index.xml</link>
-    <description>Recent content on ziwon</description>
+    <description>Recent content on 人生は儚く短い。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
@@ -49,10 +49,10 @@
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from os.path import join
 
 class FileObject:
-    &#39;&#39;&#39;Wrapper for file objects to make sure the file gets closed on deletion.&#39;&#39;&#39;
+    &#39;&#39;&#39;파일 삭제될 때 파일 닫기를 보장하는 파일 객체에 대한 래퍼&#39;&#39;&#39;
 
     def __init__(self, filepath=&#39;~&#39;, filename=&#39;sample.txt&#39;):
-        # open a file filename in filepath in read and write mode
+        # 읽기 쓰기 모드로 파일 경로의 파일을 엽니다.
         self.file = open(join(filepath, filename), &#39;r+&#39;)
 
     def __del__(self):
@@ -599,7 +599,7 @@ jar.close()
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import pickle
 
 pkl_file = open(&#39;data.pkl&#39;, &#39;rb&#39;) # 피클한 데이터에 연결합니다.
-data = pickle.load(pkl_file) # 데이터를 변수로 로드합니다. 
+data = pickle.load(pkl_file) # 데이터를 변수로 로드합니다.
 print data
 pkl_file.close()
 &lt;/code&gt;&lt;/pre&gt;

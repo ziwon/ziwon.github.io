@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="" name="keywords">
-<meta content="[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods) - ziwon" property="og:title">
-<title>[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods) | ziwon</title>
+<meta content="[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods) - 人生は儚く短い。" property="og:title">
+<title>[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods) | 人生は儚く短い。</title>
 <link rel="stylesheet" href="https://ziwon.github.io//css/style.css">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
@@ -16,7 +16,7 @@
   <div class="container">
     <nav class="nav">
       <div class="nav-left">
-        <a class="nav-item" href="https://ziwon.github.io/"><h1 class="title is-4">ziwon</h1></a>
+        <a class="nav-item" href="https://ziwon.github.io/"><h1 class="title is-4">人生は儚く短い。</h1></a>
       </div>
       <div class="nav-right">
         <nav class="nav-item level is-mobile">
@@ -91,10 +91,10 @@
 <pre><code class="language-python">from os.path import join
 
 class FileObject:
-    '''Wrapper for file objects to make sure the file gets closed on deletion.'''
+    '''파일 삭제될 때 파일 닫기를 보장하는 파일 객체에 대한 래퍼'''
 
     def __init__(self, filepath='~', filename='sample.txt'):
-        # open a file filename in filepath in read and write mode
+        # 읽기 쓰기 모드로 파일 경로의 파일을 엽니다.
         self.file = open(join(filepath, filename), 'r+')
 
     def __del__(self):
@@ -641,7 +641,7 @@ jar.close()
 <pre><code class="language-python">import pickle
 
 pkl_file = open('data.pkl', 'rb') # 피클한 데이터에 연결합니다.
-data = pickle.load(pkl_file) # 데이터를 변수로 로드합니다. 
+data = pickle.load(pkl_file) # 데이터를 변수로 로드합니다.
 print data
 pkl_file.close()
 </code></pre>
