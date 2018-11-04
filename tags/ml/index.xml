@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ml on 人生は儚く短い。</title>
+    <link>https://ziwon.github.io/tags/ml/</link>
+    <description>Recent content in Ml on 人生は儚く短い。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Sun, 09 Oct 2016 22:58:21 +0900</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/tags/ml/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linear Regression</title>
+      <link>https://ziwon.github.io/posts/linear-regression/</link>
+      <pubDate>Sun, 09 Oct 2016 22:58:21 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/posts/linear-regression/</guid>
+      <description>선형 회귀 (Linear Regression) 문제 형성 (Problem Formulation) 재교육으로써 선형 회귀를 어떻게 구현하는지 학습하는 것으로 시작할 것이다. 주된 아이디어는 목적 함수, 이들의 경사 그리고 매개변수 집합으로 목적함수를 최적화하는데 익숙해지는 것이다. 이러한 기본 도구는 이후의 좀 더 정교한 알고리즘을 위한 근간을 형성할 것이다. 추가적인 자세한 사항을 원하는 독자들은 지도 학습(Supervised Learning)의 강의 노트를 참고하길 바란다.
+선형 회귀에서 목적은 \(x \in \Re^n\)인 입력값의 벡터로 시작해 타겟인 y값을 예측하는 것이다. 예를 들어, \(y\)가 주택의 달러 가격을 표현하고, \(x\)의 \(x_j\)의 요소가 (크기나 방의 개수와 같은) 주택을 설명하는 &amp;ldquo;특징들&amp;rdquo;을 표현하도록 해서 주택 가격에 대한 예측을 하면 좋겠다고 하자.</description>
+    </item>
+    
+  </channel>
+</rss>
