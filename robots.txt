@@ -1,7 +1,3 @@
-User-agent: naverbot
-Disallow: /
-User-agent: yeti
-Disallow: /
 User-agent: *
-Disallow: 
-Sitemap: https://patriz.github.io/sitemap.xml
+
+Sitemap: https://ziwon.github.io//sitemap.xml

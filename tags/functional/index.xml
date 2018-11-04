@@ -2,12 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Functional on 人生は儚く短い。</title>
-    <link>https://ziwon.github.io/tags/functional/index.xml</link>
+    <link>https://ziwon.github.io/tags/functional/</link>
     <description>Recent content in Functional on 人生は儚く短い。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <atom:link href="https://ziwon.github.io/tags/functional/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Wed, 22 Jan 2014 11:15:43 +0900</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/tags/functional/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Principles of Reactive Programming</title>
@@ -15,12 +18,7 @@
       <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
       
       <guid>https://ziwon.github.io/posts/principles-of-reactive-programming/</guid>
-      <description>&lt;p&gt;Finally got my certificate for the Coursera &amp;ldquo;Principles of Reactive Programming&amp;rdquo; course. :)
-It was rather easy in the beginning, but became more challenging as it
-went on. Now where to go?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../coursera_reactive_2014.jpg&#34;/&gt;&lt;/p&gt;
-</description>
+      <description>Finally got my certificate for the Coursera &amp;ldquo;Principles of Reactive Programming&amp;rdquo; course. :) It was rather easy in the beginning, but became more challenging as it went on. Now where to go?</description>
     </item>
     
   </channel>

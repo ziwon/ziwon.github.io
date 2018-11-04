@@ -2,12 +2,15 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Django on 人生は儚く短い。</title>
-    <link>https://ziwon.github.io/tags/django/index.xml</link>
+    <link>https://ziwon.github.io/tags/django/</link>
     <description>Recent content in Django on 人生は儚く短い。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <atom:link href="https://ziwon.github.io/tags/django/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Fri, 09 Dec 2016 11:00:25 +0900</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/tags/django/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Using custom model_to_dict() in Django</title>
@@ -15,150 +18,7 @@
       <pubDate>Fri, 09 Dec 2016 11:00:25 +0900</pubDate>
       
       <guid>https://ziwon.github.io/posts/using_custom_model_to_dict_in_django/</guid>
-      <description>&lt;p&gt;In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type &lt;code&gt;ManyToManyField&lt;/code&gt;, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the &lt;code&gt;ManyToManyField&lt;/code&gt; in a model object.&lt;/p&gt;
-
-&lt;p&gt;For example, suppose you have a modeling class of &lt;code&gt;Publication&lt;/code&gt;, &lt;code&gt;Article&lt;/code&gt; as follows.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;from django.db import models
-
-class Publication(models.Model):
-    title = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = (&#39;title&#39;,)
-
-class Article(models.Model):
-    headline = models.CharField(max_length=100)
-    publications = models.ManyToManyField(Publication)
-
-    def __str__(self):
-        return self.headline
-
-    class Meta:
-        ordering = (&#39;headline&#39;,)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;For the &lt;code&gt;Publication&lt;/code&gt; instance, you can convert it to a dictionary by calling the &lt;code&gt;model_to_dict()&lt;/code&gt; function only once. However, when converting an instance of &lt;code&gt;Article&lt;/code&gt; with a member variable of &lt;code&gt;ManyToManyField&lt;/code&gt; to a dictionary, you have to invoke &lt;code&gt;model_to_dict()&lt;/code&gt; or loop around more than once to get their values because &lt;code&gt;ManyToManyField&lt;/code&gt; is a list type.&lt;/p&gt;
-
-&lt;p&gt;Whenever I encountered &lt;code&gt;ManyToManyField&lt;/code&gt;, I used to create a separate method, or loop it, and convert it each by each. Suddenly, every time I write a for statement or a separate function, I thought it would be better to solve it all once.&lt;/p&gt;
-
-&lt;p&gt;For example, let&amp;rsquo;s say you have a property in the &lt;code&gt;Article&lt;/code&gt; class, a member function, and several &lt;code&gt;ManyToManyField&lt;/code&gt;s like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Article(models.Model):
-    headline = models.CharField(max_length=100)
-    publications = models.ManyToManyField(Publication)
-    tags = models.ManyToManyField(Tag)
-
-    def convert_cover_img(self):
-        ...
-
-    @property
-    def count(self):
-        ...
-
-    def __str__(self):
-        return self.headline
-
-    class Meta:
-        ordering = (&#39;headline&#39;,)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;What I want is to specify each values to be transformed, it could be such as member variables, member functions, and properties of the modeling class, as shown below, and the whole instance is converted into a single dictationary chunk in a single call. For example, if you need only one of the member variables of &lt;code&gt;ManyToManyField&lt;/code&gt;, you can convert it to &lt;code&gt;__[field_name]&lt;/code&gt; by specifying the desired field name as follows.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;FIELDS = {&#39;id&#39;, &#39;headline&#39;, &#39;publications__title&#39;, &#39;tags__name&#39;, &#39;convert_cover_img&#39;, &#39;count&#39;]
-result = OrderedDict()
-result[&#39;data&#39;] = [model_to_dict(instance=obj, fields=FIELDS) for obj in page.object_list]
-result[&#39;has_next&#39;] = page.has_next()
-...
-return JsonResponse(format_response(result, RES_OK))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Unfortunately, if you need more than one column for &lt;code&gt;ManyToManyField&lt;/code&gt; to build the response like json form, you have no choice but to define a seperate property or function in a model class. In a specific case, for example, if you are extending all attributes - like id, name and etc - of the tags member variable ManyToManyField while converting the Article instance.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@property
-def tags_to_dict(self):
-    ...
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;However, since the model class describes the process of transforming their member variables, the above manner has the advantage that it is well modularized and reusable. As a result, the entire code is really simple and neat, because it can hide the process of converting an instance to a dictionary.&lt;/p&gt;
-
-&lt;p&gt;Now we no longer have to loop around to handle &lt;code&gt;ManyToManyFields&lt;/code&gt; or write a separate function. It also eliminates the need to worry about member properties or member functions, which is not modeling fields .&lt;/p&gt;
-
-&lt;p&gt;Here is the code for &lt;code&gt;model_to_dict()&lt;/code&gt; that was created. Once the conversion code of the a model is unified into just one line as shown below, repetitive and annoying coding for conversion is no longer needed. Since the parent class is created and the most job in the inherited child class is just to specify only the fields to be converted. As a result, the development speed can be much faster, which can improve the quality of the query set manager or focus on more creative work.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;def model_to_dict(instance, fields=None, exclude=None, date_to_strf=None):
-    from django.db.models.fields.related import ManyToManyField
-    from django.db.models.fields import DateTimeField
-    from django.db.models.fields.files import ImageField, FileField
-    opts = instance._meta
-    data = {}
-
-    &amp;quot;&amp;quot;&amp;quot;
-    Why is `__fields` in here?
-        it holds the list of fields except for the one ends with a suffix &#39;__[field_name]&#39;.
-        When converting a model object to a dictionary using this method,
-        You can use a suffix to point to the field of ManyToManyField in the model instance.
-        The suffix ends with &#39;__[field_name]&#39; like &#39;publications__name&#39;
-    &amp;quot;&amp;quot;&amp;quot;
-    __fields = list(map(lambda a: a.split(&#39;__&#39;)[0], fields or []))
-
-    for f in chain(opts.concrete_fields, opts.virtual_fields, opts.many_to_many):
-        is_edtiable = getattr(f, &#39;editable&#39;, False)
-
-        if fields and f.name not in __fields:
-            continue
-
-        if exclude and f.name in exclude:
-            continue
-
-        if isinstance(f, ManyToManyField):
-            if instance.pk is None:
-                data[f.name] = []
-            else:
-                qs = f.value_from_object(instance)
-                if qs._result_cache is not None:
-                    data[f.name] = [item.pk for item in qs]
-                else:
-                    try:
-                        m2m_field  = list(filter(lambda a: f.name in a and a.find(&#39;__&#39;) != -1, fields))[0]
-                        key = m2m_field[len(f.name) + 2:]
-                        data[f.name] = list(qs.values_list(key, flat=True))
-                    except IndexError:
-                        data[f.name] = list(qs.values_list(&#39;pk&#39;, flat=True))
-
-        elif isinstance(f, DateTimeField):
-            date = f.value_from_object(instance)
-            data[f.name] = date_to_strf(date) if date_to_strf else date_to_timestamp(date)
-
-        elif isinstance(f, ImageField):
-            image = f.value_from_object(instance)
-            data[f.name] = image.url if image else None
-
-        elif isinstance(f, FileField):
-            file = f.value_from_object(instance)
-            data[f.name] = file.url if file  else None
-
-        elif is_edtiable:
-            data[f.name] = f.value_from_object(instance)
-
-    &amp;quot;&amp;quot;&amp;quot;
-    Just call an instance&#39;s function or property from a string with the function name in `__fields` arguments.
-    &amp;quot;&amp;quot;&amp;quot;
-    funcs = set(__fields) - set(list(data.keys()))
-    for func in funcs:
-        obj = getattr(instance, func)
-        if inspect.ismethod(obj):
-            data[func] = obj()
-        else:
-            data[func] = obj
-    return data
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You might have performance problems, but if you have a lot of cost to convert an instance, you might be able to run 10 simultaneously using a coroutine, etc. Of course, if the order is important, when you collect the results, there may be a hassle, such as having to rearrange them in order.&lt;/p&gt;
-</description>
+      <description>In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object.</description>
     </item>
     
   </channel>
