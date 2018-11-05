@@ -52,12 +52,6 @@
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/post/18-11-04/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://ziwon.github.io/tags/api/</loc>
     <lastmod>2015-09-04T00:27:35+09:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -65,14 +59,14 @@
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/tags/calculus/</loc>
+    <loc>https://ziwon.github.io/categories/calculus/</loc>
     <lastmod>2013-10-22T13:03:05+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/categories/calculus/</loc>
+    <loc>https://ziwon.github.io/tags/calculus/</loc>
     <lastmod>2013-10-22T13:03:05+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -142,15 +136,15 @@
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/tags/programming/</loc>
-    <lastmod>2014-08-30T17:23:11+09:00</lastmod>
+    <loc>https://ziwon.github.io/categories/programming/</loc>
+    <lastmod>2017-01-30T03:37:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/categories/programming/</loc>
-    <lastmod>2017-01-30T03:37:00+00:00</lastmod>
+    <loc>https://ziwon.github.io/tags/programming/</loc>
+    <lastmod>2014-08-30T17:23:11+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -170,14 +164,14 @@
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/tags/scala/</loc>
+    <loc>https://ziwon.github.io/categories/scala/</loc>
     <lastmod>2014-08-30T17:23:11+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://ziwon.github.io/categories/scala/</loc>
+    <loc>https://ziwon.github.io/tags/scala/</loc>
     <lastmod>2014-08-30T17:23:11+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
