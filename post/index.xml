@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 人生は儚く短い。</title>
+    <link>https://ziwon.github.io/post/</link>
+    <description>Recent content in Posts on 人生は儚く短い。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
+    <lastBuildDate>Mon, 30 Jan 2017 03:37:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</title>
+      <link>https://ziwon.github.io/post/python_magic_methods/</link>
+      <pubDate>Mon, 30 Jan 2017 03:37:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/post/python_magic_methods/</guid>
+      <description>A guide to Python&amp;rsquo;s magic methods를 번역한 문서입니다. 서론 이 가이드는 몇 달 간의 블로그 게시물의 정점입니다. 주제는 매직 메소드(magic methods) 입니다. 매직 메소드</description>
+    </item>
+    
+    <item>
+      <title>Using custom model_to_dict() in Django</title>
+      <link>https://ziwon.github.io/post/using_custom_model_to_dict_in_django/</link>
+      <pubDate>Fri, 09 Dec 2016 11:00:25 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/using_custom_model_to_dict_in_django/</guid>
+      <description>In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object.</description>
+    </item>
+    
+    <item>
+      <title>[번역] Effective Go: Concurrency</title>
+      <link>https://ziwon.github.io/post/effective-go-concurrency/</link>
+      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/effective-go-concurrency/</guid>
+      <description>2016.10.04 - Effective Go의 한글화 작업이완료되었습니다. 아래 동시성 번역 역시 번역팀의 도움으로 갱신되었습니다. Effective Go 의 한글화 문서를 보던 중, Concurrency에</description>
+    </item>
+    
+    <item>
+      <title>Falcon REST API</title>
+      <link>https://ziwon.github.io/post/falcon-rest-template/</link>
+      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/falcon-rest-template/</guid>
+      <description>Cloud API와 백엔드 개발에 경량화된 파이썬 프레임워크인 Falcon를 이용해 간단한 REST API 템플릿을 만들어 보았다. https://github.com/patriz/falcon-rest-api 개발하는 느낌은 Flask와 비슷한데 (음</description>
+    </item>
+    
+    <item>
+      <title>Generics of a Higher Kind</title>
+      <link>https://ziwon.github.io/post/generics-of-a-higher-kind/</link>
+      <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/generics-of-a-higher-kind/</guid>
+      <description>1. Introduction 일차 매개변수적 다형성과 고차 타입 생성자 다형성 일차 매개변수적 다형성은 정적 타입 프로그래밍 언어의 표준 요소임 일차 매개변수적 다형성은 제네릭(gene</description>
+    </item>
+    
+    <item>
+      <title>Principles of Reactive Programming</title>
+      <link>https://ziwon.github.io/post/principles-of-reactive-programming/</link>
+      <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/principles-of-reactive-programming/</guid>
+      <description>Finally got my certificate for the Coursera &amp;ldquo;Principles of Reactive Programming&amp;rdquo; course. :) It was rather easy in the beginning, but became more challenging as it went on. Now where to go?</description>
+    </item>
+    
+    <item>
+      <title>Lambda Calculus</title>
+      <link>https://ziwon.github.io/post/lambda-calculus/</link>
+      <pubDate>Tue, 22 Oct 2013 13:03:05 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/lambda-calculus/</guid>
+      <description>람다 대수는 결정문제(decision problem)를 풀기 위해, 계산가능성(computability)의 개념을 정의한 수학적 모델로 1936년</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://ziwon.github.io/post/18-11-04/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/post/18-11-04/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

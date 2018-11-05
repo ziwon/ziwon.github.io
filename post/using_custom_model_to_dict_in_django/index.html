@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Using custom model_to_dict() in Django - 人生は儚く短い。</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Philbert Yoon" />
+  <meta name="description" content="In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object." />
+
+  <meta name="keywords" content="Kubernetes, Pythonist, Gopher" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.50" />
+
+
+<link rel="canonical" href="https://ziwon.github.io/post/using_custom_model_to_dict_in_django/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="Using custom model_to_dict() in Django" />
+<meta property="og:description" content="In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://ziwon.github.io/post/using_custom_model_to_dict_in_django/" /><meta property="article:published_time" content="2016-12-09T11:00:25&#43;09:00"/>
+<meta property="article:modified_time" content="2016-12-09T11:00:25&#43;09:00"/>
+
+<meta itemprop="name" content="Using custom model_to_dict() in Django">
+<meta itemprop="description" content="In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object.">
+
+
+<meta itemprop="datePublished" content="2016-12-09T11:00:25&#43;09:00" />
+<meta itemprop="dateModified" content="2016-12-09T11:00:25&#43;09:00" />
+<meta itemprop="wordCount" content="923">
+
+
+
+<meta itemprop="keywords" content="python,django," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using custom model_to_dict() in Django"/>
+<meta name="twitter:description" content="In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Ziwon</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Ziwon</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Using custom model_to_dict() in Django</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-12-09 </span>
+        <div class="post-category">
+            
+              <a href="/categories/programming/"> Programming </a>
+            
+          </div>
+        <span class="more-meta"> 923 words </span>
+        <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content">
+    
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      <p>In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type <code>ManyToManyField</code>, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the <code>ManyToManyField</code> in a model object.</p>
+
+<p>For example, suppose you have a modeling class of <code>Publication</code>, <code>Article</code> as follows.</p>
+
+<pre><code>from django.db import models
+
+class Publication(models.Model):
+    title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
+
+    def __str__(self):
+        return self.headline
+
+    class Meta:
+        ordering = ('headline',)
+</code></pre>
+
+<p>For the <code>Publication</code> instance, you can convert it to a dictionary by calling the <code>model_to_dict()</code> function only once. However, when converting an instance of <code>Article</code> with a member variable of <code>ManyToManyField</code> to a dictionary, you have to invoke <code>model_to_dict()</code> or loop around more than once to get their values because <code>ManyToManyField</code> is a list type.</p>
+
+<p>Whenever I encountered <code>ManyToManyField</code>, I used to create a separate method, or loop it, and convert it each by each. Suddenly, every time I write a for statement or a separate function, I thought it would be better to solve it all once.</p>
+
+<p>For example, let&rsquo;s say you have a property in the <code>Article</code> class, a member function, and several <code>ManyToManyField</code>s like this:</p>
+
+<pre><code>class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
+    tags = models.ManyToManyField(Tag)
+
+    def convert_cover_img(self):
+        ...
+
+    @property
+    def count(self):
+        ...
+
+    def __str__(self):
+        return self.headline
+
+    class Meta:
+        ordering = ('headline',)
+</code></pre>
+
+<p>What I want is to specify each values to be transformed, it could be such as member variables, member functions, and properties of the modeling class, as shown below, and the whole instance is converted into a single dictationary chunk in a single call. For example, if you need only one of the member variables of <code>ManyToManyField</code>, you can convert it to <code>__[field_name]</code> by specifying the desired field name as follows.</p>
+
+<pre><code>FIELDS = {'id', 'headline', 'publications__title', 'tags__name', 'convert_cover_img', 'count']
+result = OrderedDict()
+result['data'] = [model_to_dict(instance=obj, fields=FIELDS) for obj in page.object_list]
+result['has_next'] = page.has_next()
+...
+return JsonResponse(format_response(result, RES_OK))
+</code></pre>
+
+<p>Unfortunately, if you need more than one column for <code>ManyToManyField</code> to build the response like json form, you have no choice but to define a seperate property or function in a model class. In a specific case, for example, if you are extending all attributes - like id, name and etc - of the tags member variable ManyToManyField while converting the Article instance.</p>
+
+<pre><code>@property
+def tags_to_dict(self):
+    ...
+</code></pre>
+
+<p>However, since the model class describes the process of transforming their member variables, the above manner has the advantage that it is well modularized and reusable. As a result, the entire code is really simple and neat, because it can hide the process of converting an instance to a dictionary.</p>
+
+<p>Now we no longer have to loop around to handle <code>ManyToManyFields</code> or write a separate function. It also eliminates the need to worry about member properties or member functions, which is not modeling fields .</p>
+
+<p>Here is the code for <code>model_to_dict()</code> that was created. Once the conversion code of the a model is unified into just one line as shown below, repetitive and annoying coding for conversion is no longer needed. Since the parent class is created and the most job in the inherited child class is just to specify only the fields to be converted. As a result, the development speed can be much faster, which can improve the quality of the query set manager or focus on more creative work.</p>
+
+<pre><code>def model_to_dict(instance, fields=None, exclude=None, date_to_strf=None):
+    from django.db.models.fields.related import ManyToManyField
+    from django.db.models.fields import DateTimeField
+    from django.db.models.fields.files import ImageField, FileField
+    opts = instance._meta
+    data = {}
+
+    &quot;&quot;&quot;
+    Why is `__fields` in here?
+        it holds the list of fields except for the one ends with a suffix '__[field_name]'.
+        When converting a model object to a dictionary using this method,
+        You can use a suffix to point to the field of ManyToManyField in the model instance.
+        The suffix ends with '__[field_name]' like 'publications__name'
+    &quot;&quot;&quot;
+    __fields = list(map(lambda a: a.split('__')[0], fields or []))
+
+    for f in chain(opts.concrete_fields, opts.virtual_fields, opts.many_to_many):
+        is_edtiable = getattr(f, 'editable', False)
+
+        if fields and f.name not in __fields:
+            continue
+
+        if exclude and f.name in exclude:
+            continue
+
+        if isinstance(f, ManyToManyField):
+            if instance.pk is None:
+                data[f.name] = []
+            else:
+                qs = f.value_from_object(instance)
+                if qs._result_cache is not None:
+                    data[f.name] = [item.pk for item in qs]
+                else:
+                    try:
+                        m2m_field  = list(filter(lambda a: f.name in a and a.find('__') != -1, fields))[0]
+                        key = m2m_field[len(f.name) + 2:]
+                        data[f.name] = list(qs.values_list(key, flat=True))
+                    except IndexError:
+                        data[f.name] = list(qs.values_list('pk', flat=True))
+
+        elif isinstance(f, DateTimeField):
+            date = f.value_from_object(instance)
+            data[f.name] = date_to_strf(date) if date_to_strf else date_to_timestamp(date)
+
+        elif isinstance(f, ImageField):
+            image = f.value_from_object(instance)
+            data[f.name] = image.url if image else None
+
+        elif isinstance(f, FileField):
+            file = f.value_from_object(instance)
+            data[f.name] = file.url if file  else None
+
+        elif is_edtiable:
+            data[f.name] = f.value_from_object(instance)
+
+    &quot;&quot;&quot;
+    Just call an instance's function or property from a string with the function name in `__fields` arguments.
+    &quot;&quot;&quot;
+    funcs = set(__fields) - set(list(data.keys()))
+    for func in funcs:
+        obj = getattr(instance, func)
+        if inspect.ismethod(obj):
+            data[func] = obj()
+        else:
+            data[func] = obj
+    return data
+</code></pre>
+
+<p>You might have performance problems, but if you have a lot of cost to convert an instance, you might be able to run 10 simultaneously using a coroutine, etc. Of course, if the order is important, when you collect the results, there may be a hassle, such as having to rearrange them in order.</p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/python/">python</a>
+          
+          <a href="/tags/django/">django</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/python_magic_methods/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/effective-go-concurrency/">
+            <span class="next-text nav-default">[번역] Effective Go: Concurrency</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'ziwon';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://github.com/ziwon" class="iconfont icon-github" title="github"></a>
+      <a href="https://instagram.com/ziwon.y" class="iconfont icon-instagram" title="instagram"></a>
+  <a href="https://ziwon.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2014 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author"><a href="https://github.com/ziwon">Philbert Yoon</a></span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+<script></script>
+<script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script><script></script>
+<script src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/snapsvg@0.5.1/dist/snap.svg-min.js" integrity="sha256-oI+elz+sIm+jpn8F/qEspKoKveTc5uKeFHNNVexe6d8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.js" integrity="sha384-8748Vn52gHJYJI0XEuPB2QlPVNUkJlJn9tHqKec6J3q2r9l8fvRxrgn/E5ZHV0sP" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.css" integrity="sha384-6QbLKJMz5dS3adWSeINZe74uSydBGFbnzaAYmp+tKyq60S7H2p6V7g1TysM5lAaF" crossorigin="anonymous">
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+      showProcessingMessages: false,
+      messageStyle: 'none'
+    };
+  </script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-61678624-3', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>
