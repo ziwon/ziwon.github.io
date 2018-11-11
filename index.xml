@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 30 Jan 2017 03:37:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Nov 2018 02:37:00 +0000</lastBuildDate>
     
 	<atom:link href="https://ziwon.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</title>
+      <link>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</link>
+      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</guid>
+      <description>Istio에 대한 동영상 자료를 찾던 중 Envoy Creator인 Matt Klein의 Envoy 소개 동영상을 보고 적절한 감동을 받아 이 분의 포스트 하나를 번역해 보았습니다. 원본</description>
+    </item>
     
     <item>
       <title>[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</title>

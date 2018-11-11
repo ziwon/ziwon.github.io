@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</loc>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/post/python_magic_methods/</loc>
     <lastmod>2017-01-30T03:37:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -101,6 +108,20 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/devops/</loc>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ziwon.github.io/categories/devops/</loc>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/django/</loc>
     <lastmod>2016-12-09T11:00:25+09:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -129,8 +150,22 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/load-balancing/</loc>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ziwon.github.io/tags/microservice/</loc>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/post/</loc>
-    <lastmod>2017-01-30T03:37:00+00:00</lastmod>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -186,7 +221,7 @@
   
   <url>
     <loc>https://ziwon.github.io/</loc>
-    <lastmod>2017-01-30T03:37:00+00:00</lastmod>
+    <lastmod>2018-11-05T02:37:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
