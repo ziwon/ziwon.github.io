@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 02 Jan 2019 12:12:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 02 Jan 2019 12:12:00 +0000</lastBuildDate>
     
 	<atom:link href="https://ziwon.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Kops에서 AWS Bastion 제대로 사용하기</title>
       <link>https://ziwon.github.io/post/bastion-in-kops/</link>
-      <pubDate>Wed, 02 Jan 2019 12:12:00 +0900</pubDate>
+      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
       
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
       <description>바스티온(Bastion)은 보루, 요새라는 뜻으로 중세 시대에 영주나 왕이 살고 있는 성곽을 둘러싸고 있는 외부 방벽에 대한 강화된 돌출부로 가장 중요한 수비 부분</description>
