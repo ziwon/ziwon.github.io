@@ -192,7 +192,7 @@ Host k8s-prod
 	
 Host ip-10-1-*
 	User core
-	ProxyCommand ssh -q -W %h:%p prod-k8s
+	ProxyCommand ssh -q -W %h:%p k8s-prod
 	IdentityFile ~/.ssh/prod.k8s.id_rsa
 ...
 </code></pre>
