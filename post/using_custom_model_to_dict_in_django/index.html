@@ -30,7 +30,7 @@
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 
 
-<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css"/>
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atelier-lakeside-dark.min.css"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
@@ -124,130 +124,130 @@
       <p>In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type <code>ManyToManyField</code>, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the <code>ManyToManyField</code> in a model object.</p>
 
 <p>For example, suppose you have a modeling class of <code>Publication</code>, <code>Article</code> as follows.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Publication</span>(models<span style="color:#f92672">.</span>Model):
-    title <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+<span class="k">class</span> <span class="nc">Publication</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 
-    <span style="color:#66d9ef">def</span> __str__(self):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>title
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
 
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
-        ordering <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;title&#39;</span>,)
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,)</span>
 
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span>(models<span style="color:#f92672">.</span>Model):
-    headline <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
-    publications <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ManyToManyField(Publication)
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Publication</span><span class="p">)</span>
 
-    <span style="color:#66d9ef">def</span> __str__(self):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>headline
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headline</span>
 
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
-        ordering <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;headline&#39;</span>,)</code></pre></div>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;headline&#39;</span><span class="p">,)</span></code></pre></div>
 <p>For the <code>Publication</code> instance, you can convert it to a dictionary by calling the <code>model_to_dict()</code> function only once. However, when converting an instance of <code>Article</code> with a member variable of <code>ManyToManyField</code> to a dictionary, you have to invoke <code>model_to_dict()</code> or loop around more than once to get their values because <code>ManyToManyField</code> is a list type.</p>
 
 <p>Whenever I encountered <code>ManyToManyField</code>, I used to create a separate method, or loop it, and convert it each by each. Suddenly, every time I write a for statement or a separate function, I thought it would be better to solve it all once.</p>
 
 <p>For example, let&rsquo;s say you have a property in the <code>Article</code> class, a member function, and several <code>ManyToManyField</code>s like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span>(models<span style="color:#f92672">.</span>Model):
-    headline <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
-    publications <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ManyToManyField(Publication)
-    tags <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ManyToManyField(Tag)
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Publication</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Tag</span><span class="p">)</span>
 
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert_cover_img</span>(self):
-        <span style="color:#f92672">...</span>
+    <span class="k">def</span> <span class="nf">convert_cover_img</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
 
-    <span style="color:#a6e22e">@property</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count</span>(self):
-        <span style="color:#f92672">...</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
 
-    <span style="color:#66d9ef">def</span> __str__(self):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>headline
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headline</span>
 
-    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
-        ordering <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;headline&#39;</span>,)</code></pre></div>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;headline&#39;</span><span class="p">,)</span></code></pre></div>
 <p>What I want is to specify each values to be transformed, it could be such as member variables, member functions, and properties of the modeling class, as shown below, and the whole instance is converted into a single dictationary chunk in a single call. For example, if you need only one of the member variables of <code>ManyToManyField</code>, you can convert it to <code>__[field_name]</code> by specifying the desired field name as follows.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">FIELDS <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;id&#39;</span>, <span style="color:#e6db74">&#39;headline&#39;</span>, <span style="color:#e6db74">&#39;publications__title&#39;</span>, <span style="color:#e6db74">&#39;tags__name&#39;</span>, <span style="color:#e6db74">&#39;convert_cover_img&#39;</span>, <span style="color:#e6db74">&#39;count&#39;</span>]
-result <span style="color:#f92672">=</span> OrderedDict()
-result[<span style="color:#e6db74">&#39;data&#39;</span>] <span style="color:#f92672">=</span> [model_to_dict(instance<span style="color:#f92672">=</span>obj, fields<span style="color:#f92672">=</span>FIELDS) <span style="color:#66d9ef">for</span> obj <span style="color:#f92672">in</span> page<span style="color:#f92672">.</span>object_list]
-result[<span style="color:#e6db74">&#39;has_next&#39;</span>] <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>has_next()
-<span style="color:#f92672">...</span>
-<span style="color:#66d9ef">return</span> JsonResponse(format_response(result, RES_OK))</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;headline&#39;</span><span class="p">,</span> <span class="s1">&#39;publications__title&#39;</span><span class="p">,</span> <span class="s1">&#39;tags__name&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_cover_img&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">result</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">model_to_dict</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="n">FIELDS</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">object_list</span><span class="p">]</span>
+<span class="n">result</span><span class="p">[</span><span class="s1">&#39;has_next&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">has_next</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="n">format_response</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">RES_OK</span><span class="p">))</span></code></pre></div>
 <p>Unfortunately, if you need more than one column for <code>ManyToManyField</code> to build the response like json form, you have no choice but to define a seperate property or function in a model class. In a specific case, for example, if you are extending all attributes - like id, name and etc - of the tags member variable ManyToManyField while converting the Article instance.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@property</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">tags_to_dict</span>(self):
-    <span style="color:#f92672">...</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@property</span>
+<span class="k">def</span> <span class="nf">tags_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span></code></pre></div>
 <p>However, since the model class describes the process of transforming their member variables, the above manner has the advantage that it is well modularized and reusable. As a result, the entire code is really simple and neat, because it can hide the process of converting an instance to a dictionary.</p>
 
 <p>Now we no longer have to loop around to handle <code>ManyToManyFields</code> or write a separate function. It also eliminates the need to worry about member properties or member functions, which is not modeling fields .</p>
 
 <p>Here is the code for <code>model_to_dict()</code> that was created. Once the conversion code of the a model is unified into just one line as shown below, repetitive and annoying coding for conversion is no longer needed. Since the parent class is created and the most job in the inherited child class is just to specify only the fields to be converted. As a result, the development speed can be much faster, which can improve the quality of the query set manager or focus on more creative work.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">model_to_dict</span>(instance, fields<span style="color:#f92672">=</span>None, exclude<span style="color:#f92672">=</span>None, date_to_strf<span style="color:#f92672">=</span>None):
-    <span style="color:#f92672">from</span> django.db.models.fields.related <span style="color:#f92672">import</span> ManyToManyField
-    <span style="color:#f92672">from</span> django.db.models.fields <span style="color:#f92672">import</span> DateTimeField
-    <span style="color:#f92672">from</span> django.db.models.fields.files <span style="color:#f92672">import</span> ImageField, FileField
-    opts <span style="color:#f92672">=</span> instance<span style="color:#f92672">.</span>_meta
-    data <span style="color:#f92672">=</span> {}
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">model_to_dict</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">date_to_strf</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">django.db.models.fields.related</span> <span class="kn">import</span> <span class="n">ManyToManyField</span>
+    <span class="kn">from</span> <span class="nn">django.db.models.fields</span> <span class="kn">import</span> <span class="n">DateTimeField</span>
+    <span class="kn">from</span> <span class="nn">django.db.models.fields.files</span> <span class="kn">import</span> <span class="n">ImageField</span><span class="p">,</span> <span class="n">FileField</span>
+    <span class="n">opts</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="n">_meta</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    Why is `__fields` in here?
-</span><span style="color:#e6db74">        it holds the list of fields except for the one ends with a suffix &#39;__[field_name]&#39;.
-</span><span style="color:#e6db74">        When converting a model object to a dictionary using this method,
-</span><span style="color:#e6db74">        You can use a suffix to point to the field of ManyToManyField in the model instance.
-</span><span style="color:#e6db74">        The suffix ends with &#39;__[field_name]&#39; like &#39;publications__name&#39;
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-    __fields <span style="color:#f92672">=</span> list(map(<span style="color:#66d9ef">lambda</span> a: a<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;__&#39;</span>)[<span style="color:#ae81ff">0</span>], fields <span style="color:#f92672">or</span> []))
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Why is `__fields` in here?
+</span><span class="s2">        it holds the list of fields except for the one ends with a suffix &#39;__[field_name]&#39;.
+</span><span class="s2">        When converting a model object to a dictionary using this method,
+</span><span class="s2">        You can use a suffix to point to the field of ManyToManyField in the model instance.
+</span><span class="s2">        The suffix ends with &#39;__[field_name]&#39; like &#39;publications__name&#39;
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">__fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fields</span> <span class="ow">or</span> <span class="p">[]))</span>
 
-    <span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> chain(opts<span style="color:#f92672">.</span>concrete_fields, opts<span style="color:#f92672">.</span>virtual_fields, opts<span style="color:#f92672">.</span>many_to_many):
-        is_edtiable <span style="color:#f92672">=</span> getattr(f, <span style="color:#e6db74">&#39;editable&#39;</span>, False)
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">concrete_fields</span><span class="p">,</span> <span class="n">opts</span><span class="o">.</span><span class="n">virtual_fields</span><span class="p">,</span> <span class="n">opts</span><span class="o">.</span><span class="n">many_to_many</span><span class="p">):</span>
+        <span class="n">is_edtiable</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;editable&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
-        <span style="color:#66d9ef">if</span> fields <span style="color:#f92672">and</span> f<span style="color:#f92672">.</span>name <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> __fields:
-            <span style="color:#66d9ef">continue</span>
+        <span class="k">if</span> <span class="n">fields</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">__fields</span><span class="p">:</span>
+            <span class="k">continue</span>
 
-        <span style="color:#66d9ef">if</span> exclude <span style="color:#f92672">and</span> f<span style="color:#f92672">.</span>name <span style="color:#f92672">in</span> exclude:
-            <span style="color:#66d9ef">continue</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="k">continue</span>
 
-        <span style="color:#66d9ef">if</span> isinstance(f, ManyToManyField):
-            <span style="color:#66d9ef">if</span> instance<span style="color:#f92672">.</span>pk <span style="color:#f92672">is</span> None:
-                data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> []
-            <span style="color:#66d9ef">else</span>:
-                qs <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>value_from_object(instance)
-                <span style="color:#66d9ef">if</span> qs<span style="color:#f92672">.</span>_result_cache <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
-                    data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> [item<span style="color:#f92672">.</span>pk <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> qs]
-                <span style="color:#66d9ef">else</span>:
-                    <span style="color:#66d9ef">try</span>:
-                        m2m_field  <span style="color:#f92672">=</span> list(filter(<span style="color:#66d9ef">lambda</span> a: f<span style="color:#f92672">.</span>name <span style="color:#f92672">in</span> a <span style="color:#f92672">and</span> a<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;__&#39;</span>) <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, fields))[<span style="color:#ae81ff">0</span>]
-                        key <span style="color:#f92672">=</span> m2m_field[len(f<span style="color:#f92672">.</span>name) <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>:]
-                        data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> list(qs<span style="color:#f92672">.</span>values_list(key, flat<span style="color:#f92672">=</span>True))
-                    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">IndexError</span>:
-                        data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> list(qs<span style="color:#f92672">.</span>values_list(<span style="color:#e6db74">&#39;pk&#39;</span>, flat<span style="color:#f92672">=</span>True))
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ManyToManyField</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">instance</span><span class="o">.</span><span class="n">pk</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">qs</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value_from_object</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">qs</span><span class="o">.</span><span class="n">_result_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">pk</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">qs</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">m2m_field</span>  <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">a</span> <span class="ow">and</span> <span class="n">a</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fields</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">key</span> <span class="o">=</span> <span class="n">m2m_field</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:]</span>
+                        <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                        <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">qs</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
 
-        <span style="color:#66d9ef">elif</span> isinstance(f, DateTimeField):
-            date <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>value_from_object(instance)
-            data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> date_to_strf(date) <span style="color:#66d9ef">if</span> date_to_strf <span style="color:#66d9ef">else</span> date_to_timestamp(date)
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">DateTimeField</span><span class="p">):</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value_from_object</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">date_to_strf</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="k">if</span> <span class="n">date_to_strf</span> <span class="k">else</span> <span class="n">date_to_timestamp</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
 
-        <span style="color:#66d9ef">elif</span> isinstance(f, ImageField):
-            image <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>value_from_object(instance)
-            data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> image<span style="color:#f92672">.</span>url <span style="color:#66d9ef">if</span> image <span style="color:#66d9ef">else</span> None
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ImageField</span><span class="p">):</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value_from_object</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">url</span> <span class="k">if</span> <span class="n">image</span> <span class="k">else</span> <span class="bp">None</span>
 
-        <span style="color:#66d9ef">elif</span> isinstance(f, FileField):
-            file <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>value_from_object(instance)
-            data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span>url <span style="color:#66d9ef">if</span> file  <span style="color:#66d9ef">else</span> None
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">FileField</span><span class="p">):</span>
+            <span class="nb">file</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value_from_object</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">url</span> <span class="k">if</span> <span class="nb">file</span>  <span class="k">else</span> <span class="bp">None</span>
 
-        <span style="color:#66d9ef">elif</span> is_edtiable:
-            data[f<span style="color:#f92672">.</span>name] <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>value_from_object(instance)
+        <span class="k">elif</span> <span class="n">is_edtiable</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">value_from_object</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
 
-    <span style="color:#e6db74">&#34;&#34;&#34;
-</span><span style="color:#e6db74">    Just call an instance&#39;s function or property from a string with the function name in `__fields` arguments.
-</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-    funcs <span style="color:#f92672">=</span> set(__fields) <span style="color:#f92672">-</span> set(list(data<span style="color:#f92672">.</span>keys()))
-    <span style="color:#66d9ef">for</span> func <span style="color:#f92672">in</span> funcs:
-        obj <span style="color:#f92672">=</span> getattr(instance, func)
-        <span style="color:#66d9ef">if</span> inspect<span style="color:#f92672">.</span>ismethod(obj):
-            data[func] <span style="color:#f92672">=</span> obj()
-        <span style="color:#66d9ef">else</span>:
-            data[func] <span style="color:#f92672">=</span> obj
-    <span style="color:#66d9ef">return</span> data</code></pre></div>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    Just call an instance&#39;s function or property from a string with the function name in `__fields` arguments.
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="n">funcs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">__fields</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">funcs</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">func</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">func</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+    <span class="k">return</span> <span class="n">data</span></code></pre></div>
 <p>You might have performance problems, but if you have a lot of cost to convert an instance, you might be able to run 10 simultaneously using a coroutine, etc. Of course, if the order is important, when you collect the results, there may be a hassle, such as having to rearrange them in order.</p>
 
       
@@ -287,8 +287,6 @@ result[<span style="color:#e6db74">&#39;has_next&#39;</span>] <span style="color
   <div class="container">
     <aside><div id="disqus_thread"></div></aside>
   
-    <div id="show_comments"><a id="load_comments" class="button is-link">Load comments</a></div>
-  
     <script type="text/javascript">
       var disqus_shortname = 'ziwon';
       function disqus() {
@@ -297,17 +295,7 @@ result[<span style="color:#e6db74">&#39;has_next&#39;</span>] <span style="color
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
       }
   
-      
-      var hash = window.location.hash.substr(1);
-      if ((hash.length > 8) && (hash.substring(0, 8) === "comment-")) {
-        disqus();
-        document.getElementById("show_comments").style.display = "none";
-      } else {
-        document.getElementById('load_comments').onclick = function() {
-          disqus();
-          document.getElementById("show_comments").style.display = "none";
-        };
-      }
+      disqus();
   
 
     </script>

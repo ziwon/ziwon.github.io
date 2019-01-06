@@ -30,7 +30,7 @@
 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 
 
-<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css"/>
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atelier-lakeside-dark.min.css"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
@@ -162,7 +162,7 @@
 <li>가상 타입이나 가상 클래스를 지닌 언어는 추상 타입 멤버를 통해 타입 생성자 다형성을 코드화할 수 있음, Scala가 이런 부류의 언어에 속함</li>
 <li>예) Scala에서는 타입 매개변수화된 클래스 대신 추상 타입 멤버를 지닌 클래스로 <code>List</code>를 정의할 수 있음</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">List</span> <span style="color:#f92672">{</span> <span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Elem</span> <span style="color:#f92672">}</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">abstract</span> <span class="k">class</span> <span class="nc">List</span> <span class="o">{</span> <span class="k">type</span> <span class="kt">Elem</span> <span class="o">}</span></code></pre></div>
 <ul>
 <li><code>List</code>의 구체적인 구현은 <code>List { type Elem - String }</code> 처럼 타입 재정의를 통해 모델링할 수 있음</li>
 <li>결정적인 것은 이렇게 코드화된 <code>List</code>가 타입 생성자가 아닌 타입이라는 점. 따라서, <code>List</code>를 일차 다형성의 타입 인자나 추상 타입 인스턴스로 전달할 수 있음</li>
@@ -184,15 +184,15 @@
 <ul>
 <li>다음은 Scala의 <code>Iterable[T]</code> 트레이트의 구현체로 혼합 구성(mixin composition)을 지원하는 추상 클래스임</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> filter<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">def</span> remove<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> filter <span style="color:#f92672">(</span>x <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">!</span>p<span style="color:#f92672">(</span>x<span style="color:#f92672">))</span>
-<span style="color:#f92672">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+	<span class="k">def</span> <span class="n">filter</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Iterable</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+	<span class="k">def</span> <span class="n">remove</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Iterable</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="n">filter</span> <span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="n">p</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+<span class="o">}</span>
 
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">extends</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> filter<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">List</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">def</span> remove<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">List</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> filter <span style="color:#f92672">(</span>x <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">!</span>p<span style="color:#f92672">(</span>x<span style="color:#f92672">))</span>
-<span style="color:#f92672">}</span></code></pre></div>
+<span class="k">trait</span> <span class="nc">List</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="nc">extends</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+	<span class="k">def</span> <span class="n">filter</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+	<span class="k">override</span> <span class="k">def</span> <span class="n">remove</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="n">filter</span> <span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="n">p</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+<span class="o">}</span></code></pre></div>
 <ul>
 <li><code>Iterable</code>은 추상 메소드 <code>filter</code>와 편의 메소드 <code>remove</code>를 포함</li>
 <li>하위 클래스는 <code>filter</code>를 구현해야 현재 콜렉션의 술부 <code>p</code>를 만족하는 요소를 지닌 콜렉션를 생성할 수 있음</li>
@@ -208,12 +208,12 @@
 <ul>
 <li>해법은 <code>filter</code>와 <code>remove</code>의 결과 컨테이너를 나타내는 타입 생성자로 추상화하는 것임</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span>, <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> filter<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">def</span> remove<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> filter <span style="color:#f92672">(</span>x <span style="color:#66d9ef">=&gt;</span> <span style="color:#f92672">!</span>p<span style="color:#f92672">(</span>x<span style="color:#f92672">))</span>
-<span style="color:#f92672">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">iterable</span><span class="o">[</span><span class="kt">T</span>, <span class="kt">Container</span><span class="o">[</span><span class="kt">X</span><span class="o">]]</span> <span class="o">{</span>
+	<span class="k">def</span> <span class="n">filter</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+	<span class="k">def</span> <span class="n">remove</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="n">filter</span> <span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="n">p</span><span class="o">(</span><span class="n">x</span><span class="o">))</span>
+<span class="o">}</span>
 
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#a6e22e">extends</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span>, <span style="color:#66d9ef">List</span><span style="color:#f92672">]</span></code></pre></div>
+<span class="k">trait</span> <span class="nc">List</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="nc">extends</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">T</span>, <span class="kt">List</span><span class="o">]</span></code></pre></div>
 <ul>
 <li>개선된 <code>Iterable</code>은 두 개의 타입 매개변수를 취함: <code>[T, Container[X]]</code></li>
 <li>첫 번째 <code>T</code>는 자신의 요소 타입을 나타내고, 두 번째 <code>Container</code>는 <code>filter</code>와 <code>remove</code> 메소드의 결과 타입을 결정하는 타입 생성자임</li>
@@ -241,7 +241,7 @@
 
 <li><p>카인드 레벨의 초기 모델은 다음과 같은 문법으로 기술됨</p></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">K <span style="color:#66d9ef">:</span><span style="color:#66d9ef">:=</span> <span style="color:#66d9ef">*</span> <span style="color:#66d9ef">|</span> <span style="color:#66d9ef">K</span>  <span style="color:#66d9ef">→</span> <span style="color:#66d9ef">K</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="n">K</span> <span class="k">:</span><span class="kt">:=</span> <span class="kt">*</span> <span class="kt">|</span> <span class="kt">K</span>  <span class="kt">→</span> <span class="kt">K</span></code></pre></div>
 <ul>
 <li>타입 생성자 다형성없이 언어 타입의 정형성(well-formedness)을 정의하는 규칙은 타입에 할당하는 카인드 규칙과 일치함</li>
 <li>이 규칙을 타입이 변수와 표현식에 타입 체킹을 하는 것처럼 카인드 체킹으로 일반화하여 확장시킴</li>
@@ -258,11 +258,11 @@
 <li>클래스와 타입 알리어스만 형식적인 타입 매개변수를 선언할 수 있었으나 타입 매개변수와 추상 멤버 타입을 포함하기 위해 확장됨</li>
 <li>다음은 추상 타입 생성자 멤버를 사용한 선택적인 형태임</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]</span>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+	<span class="k">type</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">X</span><span class="o">]</span>
 	
-	<span style="color:#66d9ef">def</span> filter<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span></code></pre></div>
+	<span class="k">def</span> <span class="n">filter</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+<span class="o">}</span></code></pre></div>
 <h3 id="2-2-improving-iterable">2.2 Improving Iterable</h3>
 
 <ul>
@@ -279,17 +279,17 @@
 
 <li><p>다음은 콜렉션의 반복을 캡슐화한 잘 알려진 Iterator 추상과 쌍으로 고려되는 Builder 추상임</p></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Builder</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]</span>, <span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> <span style="color:#f92672">+=(</span>el<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Unit</span>
-	<span style="color:#66d9ef">def</span> finalise<span style="color:#f92672">()</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">Builder</span><span class="o">[</span><span class="kt">Container</span><span class="o">[</span><span class="kt">X</span><span class="o">]</span>, <span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+	<span class="k">def</span> <span class="o">+=(</span><span class="n">el</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span>
+	<span class="k">def</span> <span class="n">finalise</span><span class="o">()</span><span class="k">:</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+<span class="o">}</span>
 
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Iterator</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> next<span style="color:#f92672">()</span> <span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span>
-	<span style="color:#66d9ef">def</span> hasNext<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Boolean</span>
+<span class="k">trait</span> <span class="nc">Iterator</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+	<span class="k">def</span> <span class="n">next</span><span class="o">()</span> <span class="k">:</span> <span class="kt">T</span>
+	<span class="k">def</span> <span class="n">hasNext</span><span class="k">:</span> <span class="kt">Boolean</span>
 	
-	<span style="color:#66d9ef">def</span> foreach<span style="color:#f92672">(</span>op<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Unit</span><span style="color:#f92672">)</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Unit</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>hasNext<span style="color:#f92672">)</span> op<span style="color:#f92672">(</span>next<span style="color:#f92672">())</span>
-<span style="color:#f92672">}</span></code></pre></div>
+	<span class="k">def</span> <span class="n">foreach</span><span class="o">(</span><span class="n">op</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">)</span><span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="k">while</span><span class="o">(</span><span class="n">hasNext</span><span class="o">)</span> <span class="n">op</span><span class="o">(</span><span class="n">next</span><span class="o">())</span>
+<span class="o">}</span></code></pre></div>
 <ul>
 <li>Builder는 빌드하는 콜렉션을 나타내는 타입 생성자를 추상화함</li>
 <li><code>+=</code>  메소드는 콜렉션에 나타나야 하는 순서로 요소를 공급하는데 사용됨</li>
@@ -299,58 +299,58 @@
 
 <li><p>다음은 mapTo/fiilterTo/flatMapTo가 어떻게 좀 더 유연하게 구현될 수 있는지 나타냄</p></li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Context</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">def</span> build<span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Builder</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Container</span>, <span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-scala" data-lang="scala"><span class="k">trait</span> <span class="nc">Buildable</span><span class="o">[</span><span class="kt">Context</span><span class="o">[</span><span class="kt">X</span><span class="o">]]</span> <span class="o">{</span>
+	<span class="k">def</span> <span class="n">build</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span><span class="k">:</span> <span class="kt">Builder</span><span class="o">[</span><span class="kt">Container</span>, <span class="kt">T</span><span class="o">]</span>
+<span class="o">}</span>
 
-<span style="color:#66d9ef">trait</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">&lt;:</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]</span>
+<span class="k">trait</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="o">{</span>
+	<span class="k">type</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">X</span><span class="o">]</span> <span class="k">&lt;:</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">X</span><span class="o">]</span>
 	
-	<span style="color:#66d9ef">def</span> elements<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Iterator</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
+	<span class="k">def</span> <span class="n">elements</span><span class="k">:</span> <span class="kt">Iterator</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
 	
-	<span style="color:#66d9ef">def</span> mapTo<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span>, <span style="color:#66d9ef">C</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]](</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> U<span style="color:#f92672">)(</span>b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">C</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">C</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
-		<span style="color:#66d9ef">val</span> buff <span style="color:#66d9ef">=</span> b<span style="color:#f92672">.</span>build<span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-		<span style="color:#66d9ef">val</span> elems <span style="color:#66d9ef">=</span> elements
+	<span class="k">def</span> <span class="n">mapTo</span><span class="o">[</span><span class="kt">U</span>, <span class="kt">C</span><span class="o">[</span><span class="kt">X</span><span class="o">]](</span><span class="n">f</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="n">U</span><span class="o">)(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Buildable</span><span class="o">[</span><span class="kt">C</span><span class="o">])</span><span class="k">:</span> <span class="kt">C</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+		<span class="k">val</span> <span class="n">buff</span> <span class="k">=</span> <span class="n">b</span><span class="o">.</span><span class="n">build</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+		<span class="k">val</span> <span class="n">elems</span> <span class="k">=</span> <span class="n">elements</span>
 		
-		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>elems<span style="color:#f92672">.</span>hasNext<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-			<span style="color:#66d9ef">val</span> el <span style="color:#66d9ef">=</span> elems<span style="color:#f92672">.</span>next
-			<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>p<span style="color:#f92672">(</span>el<span style="color:#f92672">))</span> buff <span style="color:#f92672">+=</span> el
-		<span style="color:#f92672">}</span>
+		<span class="k">while</span><span class="o">(</span><span class="n">elems</span><span class="o">.</span><span class="n">hasNext</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">val</span> <span class="n">el</span> <span class="k">=</span> <span class="n">elems</span><span class="o">.</span><span class="n">next</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">p</span><span class="o">(</span><span class="n">el</span><span class="o">))</span> <span class="n">buff</span> <span class="o">+=</span> <span class="n">el</span>
+		<span class="o">}</span>
 		
-		buff<span style="color:#f92672">.</span>finalise<span style="color:#f92672">()</span>
-	<span style="color:#f92672">}</span>
+		<span class="n">buff</span><span class="o">.</span><span class="n">finalise</span><span class="o">()</span>
+	<span class="o">}</span>
 	
-	<span style="color:#66d9ef">def</span> filterTo<span style="color:#f92672">[</span><span style="color:#66d9ef">C</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]](</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)(</span>b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">C</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">C</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
-		<span style="color:#66d9ef">val</span> buff <span style="color:#66d9ef">=</span> b<span style="color:#f92672">.</span>build<span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span>
-		<span style="color:#66d9ef">val</span> elems <span style="color:#66d9ef">=</span> elements
+	<span class="k">def</span> <span class="n">filterTo</span><span class="o">[</span><span class="kt">C</span><span class="o">[</span><span class="kt">X</span><span class="o">]](</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Buildable</span><span class="o">[</span><span class="kt">C</span><span class="o">])</span><span class="k">:</span> <span class="kt">C</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+		<span class="k">val</span> <span class="n">buff</span> <span class="k">=</span> <span class="n">b</span><span class="o">.</span><span class="n">build</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
+		<span class="k">val</span> <span class="n">elems</span> <span class="k">=</span> <span class="n">elements</span>
 		
-		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>elems<span style="color:#f92672">.</span>hasNext<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-			<span style="color:#66d9ef">val</span> el <span style="color:#66d9ef">=</span> elems<span style="color:#f92672">.</span>next
-			<span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>p<span style="color:#f92672">(</span>el<span style="color:#f92672">))</span> buff <span style="color:#f92672">+=</span> el
-		<span style="color:#f92672">}</span>
+		<span class="k">while</span><span class="o">(</span><span class="n">elems</span><span class="o">.</span><span class="n">hasNext</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">val</span> <span class="n">el</span> <span class="k">=</span> <span class="n">elems</span><span class="o">.</span><span class="n">next</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">p</span><span class="o">(</span><span class="n">el</span><span class="o">))</span> <span class="n">buff</span> <span class="o">+=</span> <span class="n">el</span>
+		<span class="o">}</span>
 		
-		buff<span style="color:#f92672">.</span>finalize<span style="color:#f92672">()</span>
-	<span style="color:#f92672">}</span>
+		<span class="n">buff</span><span class="o">.</span><span class="n">finalize</span><span class="o">()</span>
+	<span class="o">}</span>
 	
-	<span style="color:#66d9ef">def</span> flatMapTo<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span>, <span style="color:#66d9ef">C</span><span style="color:#f92672">[</span><span style="color:#66d9ef">X</span><span style="color:#f92672">]]</span> <span style="color:#f92672">(</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Iterable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">])(</span>b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">C</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">C</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> <span style="color:#f92672">{</span>
-		<span style="color:#66d9ef">val</span> buff <span style="color:#66d9ef">=</span> b<span style="color:#f92672">.</span>build<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">]</span>
-		<span style="color:#66d9ef">val</span> elems <span style="color:#66d9ef">=</span> elements
+	<span class="k">def</span> <span class="n">flatMapTo</span><span class="o">[</span><span class="kt">U</span>, <span class="kt">C</span><span class="o">[</span><span class="kt">X</span><span class="o">]]</span> <span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Iterable</span><span class="o">[</span><span class="kt">U</span><span class="o">])(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Buildable</span><span class="o">[</span><span class="kt">C</span><span class="o">])</span><span class="k">:</span> <span class="kt">C</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+		<span class="k">val</span> <span class="n">buff</span> <span class="k">=</span> <span class="n">b</span><span class="o">.</span><span class="n">build</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span>
+		<span class="k">val</span> <span class="n">elems</span> <span class="k">=</span> <span class="n">elements</span>
 		
-		<span style="color:#66d9ef">while</span><span style="color:#f92672">(</span>elems<span style="color:#f92672">.</span>hasNext<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-			f<span style="color:#f92672">(</span>elems<span style="color:#f92672">.</span>next<span style="color:#f92672">).</span>elements<span style="color:#f92672">.</span>foreach<span style="color:#f92672">{</span> el <span style="color:#66d9ef">=&gt;</span> buff <span style="color:#f92672">+=</span> el <span style="color:#f92672">}</span>
-		<span style="color:#f92672">}</span>
+		<span class="k">while</span><span class="o">(</span><span class="n">elems</span><span class="o">.</span><span class="n">hasNext</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">f</span><span class="o">(</span><span class="n">elems</span><span class="o">.</span><span class="n">next</span><span class="o">).</span><span class="n">elements</span><span class="o">.</span><span class="n">foreach</span><span class="o">{</span> <span class="n">el</span> <span class="k">=&gt;</span> <span class="n">buff</span> <span class="o">+=</span> <span class="n">el</span> <span class="o">}</span>
+		<span class="o">}</span>
 		
-		buff<span style="color:#f92672">.</span>finalize<span style="color:#f92672">()</span>
-	<span style="color:#f92672">}</span>
+		<span class="n">buff</span><span class="o">.</span><span class="n">finalize</span><span class="o">()</span>
+	<span class="o">}</span>
 	
-	<span style="color:#66d9ef">def</span> map<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">](</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> U<span style="color:#f92672">)(</span>b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Container</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> 
-		mapTo<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span>, <span style="color:#66d9ef">Container</span><span style="color:#f92672">](</span>f<span style="color:#f92672">)(</span>b<span style="color:#f92672">)</span>
+	<span class="k">def</span> <span class="n">map</span><span class="o">[</span><span class="kt">U</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="n">U</span><span class="o">)(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Buildable</span><span class="o">[</span><span class="kt">Container</span><span class="o">])</span><span class="k">:</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span> <span class="k">=</span> 
+		<span class="n">mapTo</span><span class="o">[</span><span class="kt">U</span>, <span class="kt">Container</span><span class="o">](</span><span class="n">f</span><span class="o">)(</span><span class="n">b</span><span class="o">)</span>
 		
-	<span style="color:#66d9ef">def</span> filter<span style="color:#f92672">(</span>p<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Boolean</span><span style="color:#f92672">)(</span>b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Container</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span><span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">T</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> 
-		filterTo<span style="color:#f92672">[</span><span style="color:#66d9ef">Container</span><span style="color:#f92672">](</span>p<span style="color:#f92672">)(</span>b<span style="color:#f92672">)</span>
+	<span class="k">def</span> <span class="n">filter</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span><span class="o">)(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Buildable</span><span class="o">[</span><span class="kt">Container</span><span class="o">])</span><span class="k">:</span><span class="kt">Container</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span> <span class="k">=</span> 
+		<span class="n">filterTo</span><span class="o">[</span><span class="kt">Container</span><span class="o">](</span><span class="n">p</span><span class="o">)(</span><span class="n">b</span><span class="o">)</span>
 		
-	<span style="color:#66d9ef">def</span> flatMap<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">](</span>f<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">T</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">])(</span>b<span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Buildable</span><span style="color:#f92672">[</span><span style="color:#66d9ef">Container</span><span style="color:#f92672">])</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">Container</span><span style="color:#f92672">[</span><span style="color:#66d9ef">U</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span> 
-		flatMapTo<span style="color:#f92672">[</span><span style="color:#66d9ef">U</span>, <span style="color:#66d9ef">Container</span><span style="color:#f92672">](</span>f<span style="color:#f92672">)(</span>b<span style="color:#f92672">)</span></code></pre></div>
+	<span class="k">def</span> <span class="n">flatMap</span><span class="o">[</span><span class="kt">U</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=&gt;</span> <span class="nc">Container</span><span class="o">[</span><span class="kt">U</span><span class="o">])(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Buildable</span><span class="o">[</span><span class="kt">Container</span><span class="o">])</span><span class="k">:</span> <span class="kt">Container</span><span class="o">[</span><span class="kt">U</span><span class="o">]</span> <span class="k">=</span> 
+		<span class="n">flatMapTo</span><span class="o">[</span><span class="kt">U</span>, <span class="kt">Container</span><span class="o">](</span><span class="n">f</span><span class="o">)(</span><span class="n">b</span><span class="o">)</span></code></pre></div>
 <ul>
 <li>만들어진 콜렉션과 원본 콜렉션을 디커플링하는 것으로 제네릭화 함 - 이들은 같을 필요가 없음</li>
 <li>콜렉션을 반복하는 것과 콜렉션을 만드는 것은 서로 직교함 (의역: 연관성이 없음)</li>
@@ -451,8 +451,6 @@
   <div class="container">
     <aside><div id="disqus_thread"></div></aside>
   
-    <div id="show_comments"><a id="load_comments" class="button is-link">Load comments</a></div>
-  
     <script type="text/javascript">
       var disqus_shortname = 'ziwon';
       function disqus() {
@@ -461,17 +459,7 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
       }
   
-      
-      var hash = window.location.hash.substr(1);
-      if ((hash.length > 8) && (hash.substring(0, 8) === "comment-")) {
-        disqus();
-        document.getElementById("show_comments").style.display = "none";
-      } else {
-        document.getElementById('load_comments').onclick = function() {
-          disqus();
-          document.getElementById("show_comments").style.display = "none";
-        };
-      }
+      disqus();
   
 
     </script>
