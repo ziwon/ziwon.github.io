@@ -1,225 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개 - 人生は儚く短い。</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="Philbert Yoon" />
-  <meta name="description" content="Envoy Creator인 Matt Klein의 Envoy 소개 동영상을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 Introduction to modern network load" />
-
-  <meta name="keywords" content="Kubernetes, Pythonist, Gopher" />
+<title>[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개 | 人生は儚く短い。</title>
 
 
 
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は儚く短い。" />
 
-
-
-<meta name="generator" content="Hugo 0.50" />
-
-
-<link rel="canonical" href="https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/" />
-
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/style.css"/><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax.css'><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-
-
-<meta property="og:title" content="[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개" />
-<meta property="og:description" content="Envoy Creator인 Matt Klein의 Envoy 소개 동영상을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 Introduction to modern network load" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/" /><meta property="article:published_time" content="2018-11-05T02:37:00&#43;00:00"/>
-<meta property="article:modified_time" content="2018-11-05T02:37:00&#43;00:00"/>
-
-<meta itemprop="name" content="[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개">
-<meta itemprop="description" content="Envoy Creator인 Matt Klein의 Envoy 소개 동영상을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 Introduction to modern network load">
-
-
-<meta itemprop="datePublished" content="2018-11-05T02:37:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-11-05T02:37:00&#43;00:00" />
-<meta itemprop="wordCount" content="16669">
-
-
-
-<meta itemprop="keywords" content="Microservice,Load Balancing,DevOps," />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개"/>
-<meta name="twitter:description" content="Envoy Creator인 Matt Klein의 Envoy 소개 동영상을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 Introduction to modern network load"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
 </head>
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">Ziwon</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">Ziwon</a>
-</div>
 
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2018-11-05 </span>
-        <div class="post-category">
-            
-              <a href="/categories/devops/"> DevOps </a>
-            
-          </div>
-        <span class="more-meta"> 16669 words </span>
-        <span class="more-meta"> 34 mins read </span>
-        
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://ziwon.github.io/">
+          <h1 class="title is-4">人生は儚く短い。</h1>
+        </a>
       </div>
-    </header>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
 
-    
-    
-<div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  
-  <div class="post-toc-content">
-    <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#네트워크-로드-밸런싱과-프록싱이-무엇인가요">네트워크 로드 밸런싱과 프록싱이 무엇인가요?</a>
-<ul>
-<li><a href="#로드-밸런서-대-프록시">로드 밸런서 대 프록시</a></li>
-<li><a href="#l4-연결-세션-로드-밸런싱">L4 (연결/세션) 로드 밸런싱</a></li>
-<li><a href="#l7-어플리케이션-로드-밸런싱">L7 (어플리케이션) 로드 밸런싱</a></li>
-<li><a href="#l7-로드-밸런싱-그리고-osi-모델">L7 로드 밸런싱 그리고 OSI 모델</a></li>
-</ul></li>
-<li><a href="#로드-밸런서-기능">로드 밸런서 기능</a>
-<ul>
-<li><a href="#서비스-디스커버리-service-discovery">서비스 디스커버리 (Service discovery)</a></li>
-<li><a href="#헬스-체킹-health-checking">헬스 체킹 (Health checking)</a></li>
-<li><a href="#부하-분산-load-balancing">부하 분산 (Load balancing)</a></li>
-<li><a href="#고정-세션-sticky-sessions">고정 세션 (Sticky sessions)</a></li>
-<li><a href="#tls-종료-tls-termination">TLS 종료 (TLS termination)</a></li>
-<li><a href="#관측성-observability">관측성 (Observability)</a></li>
-<li><a href="#보안-및-dos-완화-security-and-dos-mitigation">보안 및 DoS 완화 (Security and DoS mitigation)</a></li>
-<li><a href="#환경-설정-및-컨트롤-플레인-configuration-and-control-plane">환경 설정 및 컨트롤 플레인 (Configuration and control plane)</a></li>
-<li><a href="#그-외-정말-다양한-기능들-and-a-whole-lot-more">그 외 정말 다양한 기능들 (And a whole lot more)</a></li>
-</ul></li>
-<li><a href="#로드-밸런서-토폴로지-종류">로드 밸런서 토폴로지 종류</a>
-<ul>
-<li><a href="#미들-프록시">미들 프록시</a></li>
-<li><a href="#에지-프록시">에지 프록시</a></li>
-<li><a href="#내장형-클라이언트-라이브러리">내장형 클라이언트 라이브러리</a></li>
-<li><a href="#사이드카-프록시">사이드카 프록시</a></li>
-<li><a href="#다른-로드-밸런서-토폴로지-장단점-요약">다른 로드 밸런서 토폴로지 장단점 요약</a></li>
-</ul></li>
-<li><a href="#l4-로드-밸런싱의-기술-현황">L4 로드 밸런싱의 기술 현황</a>
-<ul>
-<li><a href="#l4-로드-밸런서는-여전히-관련이-있을까요">L4 로드 밸런서는 여전히 관련이 있을까요?</a></li>
-<li><a href="#tcp-udp-종료-termination-로드-밸런서">TCP/UDP 종료 (termination) 로드 밸런서</a></li>
-<li><a href="#tcp-udp-패스스루-passthrough-로드-밸런서">TCP/UDP 패스스루 (passthrough) 로드 밸런서</a></li>
-<li><a href="#dsr-direct-server-return">DSR (direct server return)</a></li>
-<li><a href="#고가용성-페어를-통한-장애-허용">고가용성 페어를 통한 장애 허용</a></li>
-<li><a href="#분산-컨시스턴트-해싱이-있는-클러스터를-통한-장애-허용-및-확장">분산 컨시스턴트 해싱이 있는 클러스터를 통한 장애 허용 및 확장</a></li>
-</ul></li>
-<li><a href="#l7-로드-밸런싱의-기술-현황">L7 로드 밸런싱의 기술 현황</a>
-<ul>
-<li><a href="#프로토콜-지원">프로토콜 지원</a></li>
-<li><a href="#동적-구성">동적 구성</a></li>
-<li><a href="#고급-로드-밸런싱">고급 로드 밸런싱</a></li>
-<li><a href="#관측성">관측성</a></li>
-<li><a href="#확장성">확장성</a></li>
-<li><a href="#장애-허용">장애 허용</a></li>
-<li><a href="#그-외의-것들">그 외의 것들</a></li>
-</ul></li>
-<li><a href="#글로벌-로드-밸런싱-및-중앙형-컨트롤-플레인">글로벌 로드 밸런싱 및 중앙형 컨트롤 플레인</a></li>
-<li><a href="#하드웨어에서-소프트웨어로의-진화">하드웨어에서 소프트웨어로의 진화</a></li>
-<li><a href="#결론-및-로드-밸런싱의-미래">결론 및 로드 밸런싱의 미래</a></li>
-</ul></li>
-</ul>
-</nav>
+    <nav class="nav">
+      
+
+      
+    </nav>
+
   </div>
-</div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="subtitle tags is-6 is-pulled-right">
+      
+      
+<a class="subtitle is-6" href="/tags/microservice">#Microservice</a>
 
-    
-    
 
+
+  
+  | <a class="subtitle is-6" href="/tags/load-balancing">#Load Balancing</a>
+  
+  | <a class="subtitle is-6" href="/tags/devops">#DevOps</a>
+  
+
+      
+    </div>
+    <h2 class="subtitle is-6">November 5, 2018</h2>
+    <h1 class="title">[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</h1>
     
-    <div class="post-content">
+    <div class="content">
       
 
 <blockquote>
-<p><a href="https://www.envoyproxy.io/">Envoy</a> Creator인 <a href="https://twitter.com/mattklein123">Matt Klein</a>의 <a href="https://youtu.be/RVZX4CwKhGE">Envoy 소개 동영상</a>을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 <a href="https://blog.envoyproxy.io/introduction-to-modern-network-load-balancing-and-proxying-a57f6ff80236">Introduction to modern network load balancing and proxying</a>입니다.</p>
+<p><a href="https://www.envoyproxy.io/" target="_blank">Envoy</a> Creator인 <a href="https://twitter.com/mattklein123" target="_blank">Matt Klein</a>의 <a href="https://youtu.be/RVZX4CwKhGE" target="_blank">Envoy 소개 동영상</a>을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 <a href="https://blog.envoyproxy.io/introduction-to-modern-network-load-balancing-and-proxying-a57f6ff80236" target="_blank">Introduction to modern network load balancing and proxying</a>입니다.</p>
 </blockquote>
 
 <p>최근 네트워크 로드 밸런싱과 프록시에 관한 입문 교육 자료가 부족하다는 사실이 관심을 끌었습니다. 어떻게 이게 가능하지? 라고 속으로 생각했습니다. 로드 밸런싱은 안정적인 분산 시스템 구축에 필요한 핵심 개념 중 하나입니다. 당연히 쓸만한 고급진 정보들이 있어야 합니다. 검색을 해보았으나 사실 쓸만한 것들이 별로 없다는 것을 알게 되었습니다. 위키피디아 기사에는 일부 개념에 대한 개요가 포함되어 있긴 하나, 우아한 내용들은 아니었습니다. 특히, 최신 마이크로 서비스 아키텍처에 관해서 말이죠. 로드 밸런싱을 대한 구글 검색은 주로 버즈 워드가 많고 내용은 없는 벤더 페이지들입니다.</p>
@@ -317,8 +210,8 @@
 <ul>
 <li>정적 환경설정 파일.</li>
 <li>DNS.</li>
-<li><a href="https://zookeeper.apache.org/">Zookeeper</a>, <a href="https://coreos.com/etcd/">Etcd</a>, <a href="https://www.consul.io/">Consul</a> 등.</li>
-<li>Envoy의 <a href="https://medium.com/@mattklein123/the-universal-data-plane-api-d15cec7a">범용 데이터 플레인 API</a>.</li>
+<li><a href="https://zookeeper.apache.org/" target="_blank">Zookeeper</a>, <a href="https://coreos.com/etcd/" target="_blank">Etcd</a>, <a href="https://www.consul.io/" target="_blank">Consul</a> 등.</li>
+<li>Envoy의 <a href="https://medium.com/@mattklein123/the-universal-data-plane-api-d15cec7a" target="_blank">범용 데이터 플레인 API</a>.</li>
 </ul>
 
 <h3 id="헬스-체킹-health-checking">헬스 체킹 (Health checking)</h3>
@@ -332,7 +225,7 @@
 
 <h3 id="부하-분산-load-balancing">부하 분산 (Load balancing)</h3>
 
-<p>그렇죠. 로드 밸런서는 실제로 부하 분산을 해야합니다! 정상적인 백엔드 셋이 주어질 때, 연결이나 요청에 적합한 백엔드는 어떻게 선택될까요? 로드 밸런싱 알고리즘은 활발한 리서치 영역이며 랜덤 선택 및 라운드 로빈과 같은 단순한 영역에서 다양한 레이턴시 및 백엔드 부하를 계산하는 복잡한 알고리즘에 이르기까지 다양합니다. 성능과 단순성을 고려할 때 가장 널리 사용되는 로드 밸런싱 알고리즘 중 하나는 <a href="https://brooker.co.za/blog/2012/01/17/two-random.html">두 가지 최소 요청 로드 밸런싱의 힘</a>으로 알려져 있습니다. (역자 주, 링크 제목은 &lsquo;두 가지 무작위 선택의 힘&rsquo;)</p>
+<p>그렇죠. 로드 밸런서는 실제로 부하 분산을 해야합니다! 정상적인 백엔드 셋이 주어질 때, 연결이나 요청에 적합한 백엔드는 어떻게 선택될까요? 로드 밸런싱 알고리즘은 활발한 리서치 영역이며 랜덤 선택 및 라운드 로빈과 같은 단순한 영역에서 다양한 레이턴시 및 백엔드 부하를 계산하는 복잡한 알고리즘에 이르기까지 다양합니다. 성능과 단순성을 고려할 때 가장 널리 사용되는 로드 밸런싱 알고리즘 중 하나는 <a href="https://brooker.co.za/blog/2012/01/17/two-random.html" target="_blank">두 가지 최소 요청 로드 밸런싱의 힘</a>으로 알려져 있습니다. (역자 주, 링크 제목은 &lsquo;두 가지 무작위 선택의 힘&rsquo;)</p>
 
 <h3 id="고정-세션-sticky-sessions">고정 세션 (Sticky sessions)</h3>
 
@@ -352,7 +245,7 @@
 
 <h3 id="환경-설정-및-컨트롤-플레인-configuration-and-control-plane">환경 설정 및 컨트롤 플레인 (Configuration and control plane)</h3>
 
-<p>로드 밸런서는 환경 설정을 해주어야 합니다. 대규모 배포에서 이는 상당한 작업이 될 수 있습니다. 일반적으로, 로드 밸런서를 구성하는 시스템은 &ldquo;컨트롤 플레인(control plane)&ldquo;으로 알려져 있으며 구현이 매우 다양합니다. 이 항목에 대한 자세한 내용은 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc">데이터 플레인 대 제어 플레인 서비스 메쉬</a>에 대한 저의 포스트를 참조하세요.</p>
+<p>로드 밸런서는 환경 설정을 해주어야 합니다. 대규모 배포에서 이는 상당한 작업이 될 수 있습니다. 일반적으로, 로드 밸런서를 구성하는 시스템은 &ldquo;컨트롤 플레인(control plane)&ldquo;으로 알려져 있으며 구현이 매우 다양합니다. 이 항목에 대한 자세한 내용은 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc" target="_blank">데이터 플레인 대 제어 플레인 서비스 메쉬</a>에 대한 저의 포스트를 참조하세요.</p>
 
 <h3 id="그-외-정말-다양한-기능들-and-a-whole-lot-more">그 외 정말 다양한 기능들 (And a whole lot more)</h3>
 
@@ -367,7 +260,7 @@
 <p><center><img src="https://cdn-images-1.medium.com/max/1600/1*cCV-7Q-DDw87xNnTIVIhEg.png"/>
 <small>그림 4. 미들 프록시 로드 밸런싱 토폴로지</center></small></p>
 
-<p>그림 4에 표시된 미들 프록시 토폴로지는 대부분의 독자들이 로드 밸런싱을 확보하는 가장 익숙한 방법입니다. 이 범주에는 Cisco, Juniper, F5 등의 하드웨어 장치, Amazon의 <a href="https://aws.amazon.com/elasticloadbalancing/">ALB 및 NLB</a>와 Google의 <a href="https://cloud.google.com/load-balancing/">클라우드 로드 밸런서</a> 같은 클라우드 소프트웨어 솔루션 및 <a href="https://www.haproxy.com/">HAProxy</a>, <a href="https://www.nginx.com/">NGINX</a>, 그리고 <a href="https://www.envoyproxy.io/">Envoy</a>와 같은 순수 소프트웨어 자체 호스팅 솔루션이 포함됩니다. 미들 프록시 솔루션의 핵심은 사용자 단순성입니다. 일반적으로 사용자는 DNS를 통해 로드 밸런서에 연결되므로 다른 어떤 것도 걱정할 필요가 없습니다. 미들 프록시 솔루션의 핵심은 프록시(클러스터된 경우에도)가 단일 장애 지점이며 병목 현상도 증가한다는 점입니다. 미들 프록시도 운영을 어렵게 만드는 블랙박스입니다. 클라이언트에서 보여지는 문제가 있나요? 물리적 네트워크에서? 중간 프록시에서? 백엔드에서? 매우 알기 어려울 수 있습니다.</p>
+<p>그림 4에 표시된 미들 프록시 토폴로지는 대부분의 독자들이 로드 밸런싱을 확보하는 가장 익숙한 방법입니다. 이 범주에는 Cisco, Juniper, F5 등의 하드웨어 장치, Amazon의 <a href="https://aws.amazon.com/elasticloadbalancing/" target="_blank">ALB 및 NLB</a>와 Google의 <a href="https://cloud.google.com/load-balancing/" target="_blank">클라우드 로드 밸런서</a> 같은 클라우드 소프트웨어 솔루션 및 <a href="https://www.haproxy.com/" target="_blank">HAProxy</a>, <a href="https://www.nginx.com/" target="_blank">NGINX</a>, 그리고 <a href="https://www.envoyproxy.io/" target="_blank">Envoy</a>와 같은 순수 소프트웨어 자체 호스팅 솔루션이 포함됩니다. 미들 프록시 솔루션의 핵심은 사용자 단순성입니다. 일반적으로 사용자는 DNS를 통해 로드 밸런서에 연결되므로 다른 어떤 것도 걱정할 필요가 없습니다. 미들 프록시 솔루션의 핵심은 프록시(클러스터된 경우에도)가 단일 장애 지점이며 병목 현상도 증가한다는 점입니다. 미들 프록시도 운영을 어렵게 만드는 블랙박스입니다. 클라이언트에서 보여지는 문제가 있나요? 물리적 네트워크에서? 중간 프록시에서? 백엔드에서? 매우 알기 어려울 수 있습니다.</p>
 
 <h3 id="에지-프록시">에지 프록시</h3>
 
@@ -381,7 +274,7 @@
 <p><center><img src="https://cdn-images-1.medium.com/max/1600/1*nuqZiYoFEkDe2cUgMh0aQw.png"/>
 <small>그림 6. 내장형 클라이언트 라이브러리를 통한 로드 밸런싱</center></small></p>
 
-<p>미들 프록시 토폴로지에 내재된 단일 장애 지점과 확장 문제를 피하기 위해, 보다 정교한 인프라는 그림 6에서 보는 것처럼 라이브러리를 통해 로드 밸런서를 서비스에 직접 내장하는 쪽으로 이동했으며, 대부분의 라이브러리들은 다양한 기능을 지원하고 있습니다. <a href="https://twitter.github.io/finagle/">Finagle</a>, <a href="https://netflix.github.io/">Eureka/Ribbon/Hystrix</a> 및 <a href="https://grpc.io/">gRPC</a>(Stougy라고 하는 내부 Google 시스템을 기반으로 함) 라이브러리 기반 솔루션의 주요 장점은 로드 밸런서의 모든 기능을 각 클라이언트에 완전히 분산하여 단일 장애 지점(single point of failure)과 앞서 설명한 확장성 이슈를 제거한다는 것입니다. 라이브러리 기반 솔루션의 주된 단점은 라이브러리가 조직에서 사용하는 모든 언어로 구현되어야 한다는 점입니다. 분산형 아키텍처는 점점 더 &ldquo;폴리글랏(다중 언어)&ldquo;이 증가하고 있습니다. 이러한 환경에서는 여러 언어로 매우 정교한 네트워킹 라이브러리를 다시 구축하는 비용이 엄청나게 들 수 있습니다. 마지막으로, 대규모 서비스 아키텍처에 걸쳐 라이브러리 업그레이드를 배포하는 것은 매우 고통스러울 수 있으며, 다양한 버전의 라이브러리가 운영 환경에서 동시에 실행되게 함으로써 운영 인지 부하(operational cognitive load)가 증가할 가능성이 매우 높습니다.</p>
+<p>미들 프록시 토폴로지에 내재된 단일 장애 지점과 확장 문제를 피하기 위해, 보다 정교한 인프라는 그림 6에서 보는 것처럼 라이브러리를 통해 로드 밸런서를 서비스에 직접 내장하는 쪽으로 이동했으며, 대부분의 라이브러리들은 다양한 기능을 지원하고 있습니다. <a href="https://twitter.github.io/finagle/" target="_blank">Finagle</a>, <a href="https://netflix.github.io/" target="_blank">Eureka/Ribbon/Hystrix</a> 및 <a href="https://grpc.io/" target="_blank">gRPC</a>(Stougy라고 하는 내부 Google 시스템을 기반으로 함) 라이브러리 기반 솔루션의 주요 장점은 로드 밸런서의 모든 기능을 각 클라이언트에 완전히 분산하여 단일 장애 지점(single point of failure)과 앞서 설명한 확장성 이슈를 제거한다는 것입니다. 라이브러리 기반 솔루션의 주된 단점은 라이브러리가 조직에서 사용하는 모든 언어로 구현되어야 한다는 점입니다. 분산형 아키텍처는 점점 더 &ldquo;폴리글랏(다중 언어)&ldquo;이 증가하고 있습니다. 이러한 환경에서는 여러 언어로 매우 정교한 네트워킹 라이브러리를 다시 구축하는 비용이 엄청나게 들 수 있습니다. 마지막으로, 대규모 서비스 아키텍처에 걸쳐 라이브러리 업그레이드를 배포하는 것은 매우 고통스러울 수 있으며, 다양한 버전의 라이브러리가 운영 환경에서 동시에 실행되게 함으로써 운영 인지 부하(operational cognitive load)가 증가할 가능성이 매우 높습니다.</p>
 
 <p>모두 그렇다고 해도, 위에서 언급한 라이브러리들은 프로그래밍 언어의 확산을 제한하고 라이브러리 업그레이드 고통을 극복한 회사들에게는 성공적이었습니다.</p>
 
@@ -390,7 +283,7 @@
 <p><center><img src="https://cdn-images-1.medium.com/max/1600/1*wPoZoz6cKAo0HBi1wmNZtA.png"/>
 <small>그림 7. 사이드카를 통한 로드 밸런싱</center></small></p>
 
-<p>내장형 클라이언트 라이브러리 로드 밸런서 토폴로지의 변형은 그림 7에 표시된 사이드카 프록시 토폴로지입니다. 최근 몇 년간 이 토폴로지는 &ldquo;서비스 메시&rdquo;로 대중화되었습니다. 사이드카 프록시 이면의 아이디어는 다른 프로세스에 뛰어들어 약간의 지연 시간 페널티를 지불하는 비용으로 내장된 라이브러리 접근 방식의 모든 장점을 프로그래밍 언어를 락(제한)하지 않아도 얻을 수 있다는 것입니다. 이 글을 작성할 때, 가장 인기 있는 사이드카 프록시 로드 밸런서는 <a href="https://www.envoyproxy.io/">Envoy</a>, <a href="https://www.nginx.com/">NGINX</a>, <a href="https://www.haproxy.com/">HAProxy</a> 및 <a href="https://linkerd.io/">Linkerd</a>입니다. 사이드카 프록시 접근 방식에 대한 보다 자세한 처리에 대해서는 <a href="https://eng.lyft.com/announcing-envoy-c-l7-proxy-and-communication-bus-92520b6c8191">Envoy를 소개하는 블로그 포스트</a>와 또한 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc">서비스 메시 데이터 플레인 대 컨트롤 플레인</a>에 대한 저의 포스트를 참조하시길 바랍니다.</p>
+<p>내장형 클라이언트 라이브러리 로드 밸런서 토폴로지의 변형은 그림 7에 표시된 사이드카 프록시 토폴로지입니다. 최근 몇 년간 이 토폴로지는 &ldquo;서비스 메시&rdquo;로 대중화되었습니다. 사이드카 프록시 이면의 아이디어는 다른 프로세스에 뛰어들어 약간의 지연 시간 페널티를 지불하는 비용으로 내장된 라이브러리 접근 방식의 모든 장점을 프로그래밍 언어를 락(제한)하지 않아도 얻을 수 있다는 것입니다. 이 글을 작성할 때, 가장 인기 있는 사이드카 프록시 로드 밸런서는 <a href="https://www.envoyproxy.io/" target="_blank">Envoy</a>, <a href="https://www.nginx.com/" target="_blank">NGINX</a>, <a href="https://www.haproxy.com/" target="_blank">HAProxy</a> 및 <a href="https://linkerd.io/" target="_blank">Linkerd</a>입니다. 사이드카 프록시 접근 방식에 대한 보다 자세한 처리에 대해서는 <a href="https://eng.lyft.com/announcing-envoy-c-l7-proxy-and-communication-bus-92520b6c8191" target="_blank">Envoy를 소개하는 블로그 포스트</a>와 또한 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc" target="_blank">서비스 메시 데이터 플레인 대 컨트롤 플레인</a>에 대한 저의 포스트를 참조하시길 바랍니다.</p>
 
 <h3 id="다른-로드-밸런서-토폴로지-장단점-요약">다른 로드 밸런서 토폴로지 장단점 요약</h3>
 
@@ -436,7 +329,7 @@
 <p><center><img src="https://cdn-images-1.medium.com/max/1600/1*mf0S8BrWjxSBU-mP4ZpC9A.png"/>
 <small>그림 9. L4 패스스루 로드 밸런서</center></small></p>
 
-<p>두 번째 유형의 L4 로드 밸런서는 그림 9에 표시된 패스스루 로드 밸런서입니다. 이 유형의 로드 밸런서에서는 TCP 연결이 로드 밸런서에 의해 종료되지 않습니다. 대신 연결 추적 및 NAT(<a href="https://en.wikipedia.org/wiki/Network_address_translation">네트워크 주소 변환</a>)이 수행된 후 각 연결에 대한 패킷이 선택된 백엔드로 전달됩니다. 먼저 연결 추적과 NAT을 정의하겠습니다.</p>
+<p>두 번째 유형의 L4 로드 밸런서는 그림 9에 표시된 패스스루 로드 밸런서입니다. 이 유형의 로드 밸런서에서는 TCP 연결이 로드 밸런서에 의해 종료되지 않습니다. 대신 연결 추적 및 NAT(<a href="https://en.wikipedia.org/wiki/Network_address_translation" target="_blank">네트워크 주소 변환</a>)이 수행된 후 각 연결에 대한 패킷이 선택된 백엔드로 전달됩니다. 먼저 연결 추적과 NAT을 정의하겠습니다.</p>
 
 <ul>
 <li><p><strong>연결 추적</strong>: 모든 활성 TCP 연결의 상태를 추적하는 프로세스입니다. 여기에는 핸드셰이크가 완료되었는지 여부, FIN이 수신되었는지 여부, 연결 유휴 상태가 얼마나 오래되었는지, 연결에 대해 어떤 백엔드를 선택했는지에 대한 데이터가 포함됩니다.</p></li>
@@ -451,7 +344,7 @@
 <ul>
 <li><p><strong>성능 및 리소스 사용</strong>: 패스스루 로드 밸런서는 TCP 연결을 종료하지 않으므로 TCP 연결 윈도우를 버퍼링할 필요가 없습니다. 연결당 저장된 상태의 양은 매우 작고 일반적으로 효율적인 해시 테이블 검색을 통해 액세스됩니다. 이 때문에 패스스루 로드 밸런서는 일반적으로 종료 로드 밸런서보다 훨씬 많은 수의 액티브 연결 및 초당 패킷(PPS)을 처리할 수 있습니다.</p></li>
 
-<li><p><strong>백엔드가 사용자 지정 혼잡 제어(congestion control)를 할 수 있게 합니다.</strong>: <a href="https://en.wikipedia.org/wiki/TCP_congestion_control">TCP 정체 제어</a>는 어느 인터넷 엔드포인트가 사용 가능한 대역폭과 버퍼를 초과하지 않도록 전송되는 데이터를 제어하는 메커니즘입니다. 패스스루 로드 밸런서는 TCP 연결을 종료하지 않으므로 혼잡 제어에 참여하지 않습니다. 이 사실은 백엔드가 애플리케이션 유즈 케이스에 따라 다양한 혼잡 제어 알고리즘을 사용할 수 있게 해준다는 것입니다. 또한 혼잡 제어 변경(예: 최근 <a href="https://queue.acm.org/detail.cfm?id=3022184">BBR</a> 롤아웃)에 대한 실험도 보다 쉽게 할 수 있습니다.</p></li>
+<li><p><strong>백엔드가 사용자 지정 혼잡 제어(congestion control)를 할 수 있게 합니다.</strong>: <a href="https://en.wikipedia.org/wiki/TCP_congestion_control" target="_blank">TCP 정체 제어</a>는 어느 인터넷 엔드포인트가 사용 가능한 대역폭과 버퍼를 초과하지 않도록 전송되는 데이터를 제어하는 메커니즘입니다. 패스스루 로드 밸런서는 TCP 연결을 종료하지 않으므로 혼잡 제어에 참여하지 않습니다. 이 사실은 백엔드가 애플리케이션 유즈 케이스에 따라 다양한 혼잡 제어 알고리즘을 사용할 수 있게 해준다는 것입니다. 또한 혼잡 제어 변경(예: 최근 <a href="https://queue.acm.org/detail.cfm?id=3022184" target="_blank">BBR</a> 롤아웃)에 대한 실험도 보다 쉽게 할 수 있습니다.</p></li>
 
 <li><p><strong>DSR(Direct Server Return) 및 클러스터 L4 로드 밸런싱의 기준을 구성합니다.</strong>: DSR 및 분산 컨시스턴트 해싱을 사용한 클러스터링과 같은 고급 L4 로드 밸런싱 기법에는 패스스루 로드 밸런싱이 필요합니다(다음 섹션에서 설명함).</p></li>
 </ul>
@@ -465,7 +358,7 @@
 
 <ul>
 <li>로드 밸런서는 여전히 부분적인 연결 추적을 일반적으로 수행합니다. 응답 패킷은 로드 밸런서를 이동하지 않으므로 로드 밸런서는 전체 TCP 연결 상태를 인식하지 못합니다. 그러나 로드 밸런서는 클라이언트 패킷을 보고 다양한 유형의 유휴 시간 타임아웃을 사용하여 상태를 견고히 추론할 수 있습니다.</li>
-<li>NAT 대신 로드 밸런서는 일반적으로 <a href="https://en.wikipedia.org/wiki/Generic_Routing_Encapsulation">GRE(Generic Routing Encapsulation)</a>를 사용하여 로드 밸런서에서 백엔드로 전송되는 IP 패킷을 캡슐화합니다. 따라서 백엔드가 캡슐화된 패킷을 받으면 패킷을 분해해서 클라이언트의 원래 IP 주소와 TCP 포트를 알 수 있습니다. 이렇게 하면 응답 패킷이 로드 밸런서를 통과하지 않고 백엔드가 클라이언트에 직접 응답할 수 있습니다.</li>
+<li>NAT 대신 로드 밸런서는 일반적으로 <a href="https://en.wikipedia.org/wiki/Generic_Routing_Encapsulation" target="_blank">GRE(Generic Routing Encapsulation)</a>를 사용하여 로드 밸런서에서 백엔드로 전송되는 IP 패킷을 캡슐화합니다. 따라서 백엔드가 캡슐화된 패킷을 받으면 패킷을 분해해서 클라이언트의 원래 IP 주소와 TCP 포트를 알 수 있습니다. 이렇게 하면 응답 패킷이 로드 밸런서를 통과하지 않고 백엔드가 클라이언트에 직접 응답할 수 있습니다.</li>
 <li>DSR 로드 밸런서의 중요한 부분은 *백엔드가 로드 밸런싱에 참여한다*는 것입니다. 백엔드에 GRE 터널이 올바르게 구성되어 있어야 하며 네트워크 설정의 하위 레벨 세부 정보에 따라 자체 연결 추적, NAT 등이 필요할 수 있습니다.</li>
 </ul>
 
@@ -531,7 +424,7 @@
 
 <p>이 디자인에 대해 일반적으로 묻는 한 가지 질문은 &ldquo;에지 라우터가 ECMP를 통해 백엔드와 바로 연결되지 않는 이유는 무엇인가요? 대체 왜 로드 밸런서가 필요한가요?&ldquo;입니다. 그 이유는 주로 DoS 완화 및 백엔드 운영 편의성과 관련이 있습니다. 로드 밸런서가 없으면 각 백엔드가 BGP에 참여해야 하며 롤링 배포를 수행하는 데 훨씬 더 많은 시간이 걸립니다.</p>
 
-<p>모든 최신 L4 로드 밸런싱 시스템은 이 디자인(또는 그 변형)으로 이동하고 있습니다. 가장 널리 알려진 두 가지 예는 Google의 <a href="https://research.google.com/pubs/pub44824.html">Maglev</a>와 Amazon의 <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html">NLB(Network Load Balancer)</a>입니다. 현재 이 디자인을 구현한 OSS 로드 밸런서는 없지만 2018년 OSS 하나를 출시할 계획 중인 것으로 알고 있는 한 회사가 있습니다. 최신 L4 로드 밸런서는 네트워킹 영역의 OSS가 놓치고 있는 가장 중요한 부분이므로 이번 릴리스에 대해 저는 매우 기쁘게 생각합니다.</p>
+<p>모든 최신 L4 로드 밸런싱 시스템은 이 디자인(또는 그 변형)으로 이동하고 있습니다. 가장 널리 알려진 두 가지 예는 Google의 <a href="https://research.google.com/pubs/pub44824.html" target="_blank">Maglev</a>와 Amazon의 <a href="http://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html" target="_blank">NLB(Network Load Balancer)</a>입니다. 현재 이 디자인을 구현한 OSS 로드 밸런서는 없지만 2018년 OSS 하나를 출시할 계획 중인 것으로 알고 있는 한 회사가 있습니다. 최신 L4 로드 밸런서는 네트워킹 영역의 OSS가 놓치고 있는 가장 중요한 부분이므로 이번 릴리스에 대해 저는 매우 기쁘게 생각합니다.</p>
 
 <h2 id="l7-로드-밸런싱의-기술-현황">L7 로드 밸런싱의 기술 현황</h2>
 
@@ -557,7 +450,7 @@
 
 <h3 id="동적-구성">동적 구성</h3>
 
-<p>위에서 설명한 것처럼, 분산형 시스템의 점진적 동적 특성은 동적 및 반응형 제어 시스템을 만드는 데 병렬 투자를 필요로 합니다. <a href="https://istio.io/">Istio</a>는 그러한 시스템의 한 예입니다. 이 주제에 대한 자세한 내용은 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc">서비스 메시 데이터 플레인 대 컨트롤 플레인</a>에 있는 저의 포스트를 참조하세요.</p>
+<p>위에서 설명한 것처럼, 분산형 시스템의 점진적 동적 특성은 동적 및 반응형 제어 시스템을 만드는 데 병렬 투자를 필요로 합니다. <a href="https://istio.io/" target="_blank">Istio</a>는 그러한 시스템의 한 예입니다. 이 주제에 대한 자세한 내용은 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc" target="_blank">서비스 메시 데이터 플레인 대 컨트롤 플레인</a>에 있는 저의 포스트를 참조하세요.</p>
 
 <h3 id="고급-로드-밸런싱">고급 로드 밸런싱</h3>
 
@@ -569,7 +462,7 @@
 
 <h3 id="확장성">확장성</h3>
 
-<p>최신 L7 로드 밸런서 사용자는 사용자 지정 기능을 추가하기 위해 쉽게 로드 밸런서를 확장하고자 하는 경우가 많습니다. 이 작업은 로드 밸런서에 로드되는 플러그형 필터를 작성하여 수행할 수 있습니다. 대부분의 로드 밸런서는 일반적으로 <a href="https://www.lua.org/">Lua</a>를 통해 스크립팅을 지원합니다.</p>
+<p>최신 L7 로드 밸런서 사용자는 사용자 지정 기능을 추가하기 위해 쉽게 로드 밸런서를 확장하고자 하는 경우가 많습니다. 이 작업은 로드 밸런서에 로드되는 플러그형 필터를 작성하여 수행할 수 있습니다. 대부분의 로드 밸런서는 일반적으로 <a href="https://www.lua.org/" target="_blank">Lua</a>를 통해 스크립팅을 지원합니다.</p>
 
 <h3 id="장애-허용">장애 허용</h3>
 
@@ -579,7 +472,7 @@
 
 <h3 id="그-외의-것들">그 외의 것들</h3>
 
-<p>L7 로드 밸런서는 엄청난 속도로 진화하고 있습니다. Envoy가 제공하는 예를 보려면 Envoy의 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/arch_overview">아키텍처 개요</a>를 참조하세요.</p>
+<p>L7 로드 밸런서는 엄청난 속도로 진화하고 있습니다. Envoy가 제공하는 예를 보려면 Envoy의 <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/arch_overview" target="_blank">아키텍처 개요</a>를 참조하세요.</p>
 
 <h2 id="글로벌-로드-밸런싱-및-중앙형-컨트롤-플레인">글로벌 로드 밸런싱 및 중앙형 컨트롤 플레인</h2>
 
@@ -604,7 +497,7 @@
 <li>엔지니어가 전체 분산 시스템을 이해하고 작동할 수 있도록 중앙 집중식 UI 및 시각화를 제공합니다.</li>
 </ul>
 
-<p>글로벌 로드 밸런싱을 가능하게 하려면 데이터 플레인으로 사용되는 로드 밸런서가 정교한 동적 구성 기능을 가지고 있어야 합니다. 이 항목에 대한 자세한 내용은 <a href="https://medium.com/@mattklein123/the-universal-data-plane-api-d15cec7a">Envoy의 범용 데이터 플레인 API</a> 및 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc">서비스 메시 데이터 플레인 대 컨트롤 플레인</a>에 있는 저의 포스트를 참조하세요.</p>
+<p>글로벌 로드 밸런싱을 가능하게 하려면 데이터 플레인으로 사용되는 로드 밸런서가 정교한 동적 구성 기능을 가지고 있어야 합니다. 이 항목에 대한 자세한 내용은 <a href="https://medium.com/@mattklein123/the-universal-data-plane-api-d15cec7a" target="_blank">Envoy의 범용 데이터 플레인 API</a> 및 <a href="https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc" target="_blank">서비스 메시 데이터 플레인 대 컨트롤 플레인</a>에 있는 저의 포스트를 참조하세요.</p>
 
 <h2 id="하드웨어에서-소프트웨어로의-진화">하드웨어에서 소프트웨어로의 진화</h2>
 
@@ -623,7 +516,7 @@
 
 <ul>
 <li>역사적으로, 라우터와 로드 밸런싱 장치는 매우 비싼 독점 하드웨어로 제공되어 왔습니다.</li>
-<li>점차적으로 대부분의 독점적인 L3/L4 네트워킹 장치가 <a href="http://www.linuxvirtualserver.org/software/ipvs.html">IPVS</a>, <a href="http://dpdk.org/">DPDK</a> 및 <a href="https://fd.io/">fd.io</a>와 같은 프레임워크를 기반으로 구축된 범용 서버 하드웨어, 범용 NIC 및 특수 소프트웨어 솔루션으로 대체되고 있습니다. 5K 미만의 비용이 드는 최신 데이터 센터 시스템은 Linux를 사용하여 매우 작은 패킷과 DPDK를 사용하여 작성된 커스텀 유저스페이스 애플리케이션으로 80Gbps NIC를 쉽게 포화시킬 수 있습니다. 한편, 놀랄만한 총 대역폭과 패킷 전송 속도로 ECMP 라우팅을 수행할 수 있는 저렴하고 기본적인 라우터/스위치 ASIC는 범용 라우터로 패키지화되고 있습니다.</li>
+<li>점차적으로 대부분의 독점적인 L3/L4 네트워킹 장치가 <a href="http://www.linuxvirtualserver.org/software/ipvs.html" target="_blank">IPVS</a>, <a href="http://dpdk.org/" target="_blank">DPDK</a> 및 <a href="https://fd.io/" target="_blank">fd.io</a>와 같은 프레임워크를 기반으로 구축된 범용 서버 하드웨어, 범용 NIC 및 특수 소프트웨어 솔루션으로 대체되고 있습니다. 5K 미만의 비용이 드는 최신 데이터 센터 시스템은 Linux를 사용하여 매우 작은 패킷과 DPDK를 사용하여 작성된 커스텀 유저스페이스 애플리케이션으로 80Gbps NIC를 쉽게 포화시킬 수 있습니다. 한편, 놀랄만한 총 대역폭과 패킷 전송 속도로 ECMP 라우팅을 수행할 수 있는 저렴하고 기본적인 라우터/스위치 ASIC는 범용 라우터로 패키지화되고 있습니다.</li>
 <li>NGINX, HAProxy, Envoy와 같은 정교한 L7 소프트웨어 로드 밸런싱 장치도 F5와 같은 벤더의 영역을 빠르게 이터레이션하며 잠식하고 있습니다. 따라서 L7 로드 밸런서도 범용 소프트웨어 솔루션을 향해 적극적으로 이동하고 있습니다.</li>
 <li>동시에, 업계 전반의 IaaS, CaaS 및 FaaS를 향한 움직임과 주요 클라우드 프로바이더에 의한 확산은 점점 더 소수의 엔지니어들만이 물리적 네트워크의 작동 방식을 이해하면 된다는 것을 의미합니다 (이들은 위의 &ldquo;블랙매직&rdquo;과 &ldquo;더 이상 우리가 힘들게 알 필요가 없는 어떤 것&rdquo;입니다).</li>
 </ul>
@@ -644,124 +537,73 @@
 
 <p>종합적으로 저는 지금이 컴퓨터 네트워킹에 있어 매력적인 시기라고 생각합니다! 대부분의 시스템에서 OSS와 소프트웨어를 개발하려는 움직임은 이터레이션 속도를 몇 배의 규모로 높이고 있습니다. 뿐만 아니라, 분산 시스템이 &ldquo;서버리스(serverless)&rdquo; 패러다임을 통해 역동적인 발전을 계속함에 따라, 기본 네트워크와 로드 밸런싱 시스템의 정교함도 그만큼 발전해야할 필요가 있습니다.</p>
 
-    </div>
-
-    
-    
-
-    
-    
-
-    <footer class="post-footer">
-      <div class="post-tags">
-          
-          <a href="/tags/microservice/">Microservice</a>
-          
-          <a href="/tags/load-balancing/">Load Balancing</a>
-          
-          <a href="/tags/devops/">DevOps</a>
-          
-        </div>
-
       
-      <nav class="post-nav">
+      <div class="related">
+</div>
+      
+    </div>
+    
+
+    
+    <nav class="post-nav">
         
-          <a class="prev" href="/post/bastion-in-kops/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Kops에서 AWS Bastion 제대로 사용하기</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
+        <a class="prev" href="/post/bastion-in-kops/">
+            &lt; <span class="prev-text nav-default">Kops에서 AWS Bastion 제대로 사용하기</span>
+                <span class="prev-text nav-mobile"></span>
+        </a>
         
-          <a class="next" href="/post/python_magic_methods/">
+        <a class="next" href="/post/python_magic_methods/">
             <span class="next-text nav-default">[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-  <div id="disqus_thread"></div>
-    <script type="text/javascript">
-    (function() {
-      
-      
-      if (window.location.hostname === 'localhost') return;
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
 
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      var disqus_shortname = 'ziwon';
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:yngpil.yoon@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://github.com/ziwon" class="iconfont icon-github" title="github"></a>
-      <a href="https://instagram.com/ziwon.y" class="iconfont icon-instagram" title="instagram"></a>
-  <a href="https://ziwon.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    
-      2013 - 
-    2019
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author"><a href="https://github.com/ziwon">Philbert Yoon</a></span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+ 
+</section>
 
-<script></script>
-<script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script><script></script>
-<script src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/snapsvg@0.5.1/dist/snap.svg-min.js" integrity="sha256-oI+elz+sIm+jpn8F/qEspKoKveTc5uKeFHNNVexe6d8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/underscore@1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.js" integrity="sha384-8748Vn52gHJYJI0XEuPB2QlPVNUkJlJn9tHqKec6J3q2r9l8fvRxrgn/E5ZHV0sP" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.css" integrity="sha384-6QbLKJMz5dS3adWSeINZe74uSydBGFbnzaAYmp+tKyq60S7H2p6V7g1TysM5lAaF" crossorigin="anonymous">
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-      showProcessingMessages: false,
-      messageStyle: 'none'
-    };
-  </script>
-  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <div id="show_comments"><a id="load_comments" class="button is-link">Load comments</a></div>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      
+      var hash = window.location.hash.substr(1);
+      if ((hash.length > 8) && (hash.substring(0, 8) === "comment-")) {
+        disqus();
+        document.getElementById("show_comments").style.display = "none";
+      } else {
+        document.getElementById('load_comments').onclick = function() {
+          disqus();
+          document.getElementById("show_comments").style.display = "none";
+        };
+      }
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Philbert Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
 
 
 <script type="application/javascript">
@@ -778,8 +620,6 @@ if (!doNotTrack) {
 
 
 
-
-
-
 </body>
 </html>
+
