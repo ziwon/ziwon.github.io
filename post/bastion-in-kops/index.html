@@ -114,8 +114,7 @@
 <p>AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 <sup><a href="https://en.wikipedia.org/wiki/Bastion_host" target="_blank">2</a></sup>, Kops에서는 바스티온 호스트를 프로비저닝하고 <sup><a href="https://github.com/kubernetes/kops/blob/master/docs/bastion.md" target="_blank">3</a></sup>, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 <sup><a href="https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html" target="_blank">4</a></sup>)</p>
 
 <p>이를 테면, 다음과 같이 쿠버네티스 마스터 노드와 워커 노드가 구성되어 있다고 하자. 이들 인스턴스들은 내부 네트워크에 존재하므로 바스티온 호스트를 통해 접속해야 한다.</p>
-
-<pre><code>$ kubectl get node
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl get node
 NAME                                            STATUS   ROLES    AGE   VERSION
 ip-10-1-117-65.ap-northeast-1.compute.internal  Ready    master   49d   v1.10.11
 ip-10-1-157-17.ap-northeast-1.compute.internal  Ready    master   49d   v1.10.11
@@ -125,12 +124,9 @@ ip-10-1-82-30.ap-northeast-1.compute.internal   Ready    node     44d   v1.10.11
 ip-10-1-96-13.ap-northeast-1.compute.internal   Ready    node     44d   v1.10.11
 ip-10-1-199-22.ap-northeast-1.compute.internal  Ready    node     45d   v1.10.11
 ip-10-1-135-94.ap-northeast-1.compute.internal  Ready    node     45d   v1.10.11
-...
-</code></pre>
-
+...</code></pre></div>
 <p>이 때, 바스티온 호스트에 프라이빗 키를 복사해서 바스티온에 로그인하여 내부 서브넷 인스턴스로 접속할 수도 있지만, 다음과 같이 ssh 프락싱을 사용하고 <sup><a href="https://ekartco.com/2017/12/using-aws-bastion-hosts-correctly/" target="_blank">5</a></sup>, 접속하려는 호스트 네임을 동적으로 구성해서 좀 더 쉽게 접속할 수도 있따.</p>
-
-<pre><code>$ vi ~/.ssh/config
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ vi ~/.ssh/config
 Host k8s-prod
 	HostName bastion.prod.k8s.example.net
 	User core
@@ -140,22 +136,17 @@ Host ip-10-1-*
 	User core
 	ProxyCommand ssh -q -W %h:%p k8s-prod
 	IdentityFile ~/.ssh/prod.k8s.id_rsa
-...
-</code></pre>
-
+...</code></pre></div>
 <p>위의 구성이 끝나면, 다음과 같이 한번에 로컬에서 내부 서브넷 호스트에 접속할 수 있게 된다.</p>
-
-<pre><code>$ ssh k8s-prod
-Last login: Wed Jan  2 12:20:25 UTC 2019 from 10.x.x.xx on ssh
-Container Linux by CoreOS stable (1911.5.0)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ssh k8s-prod
+Last login: Wed Jan  <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">12</span>:20:25 UTC <span style="color:#ae81ff">2019</span> from <span style="color:#ae81ff">10</span>.x.x.xx on ssh
+Container Linux by CoreOS stable <span style="color:#f92672">(</span><span style="color:#ae81ff">1911</span>.5.0<span style="color:#f92672">)</span>
 core@ip-10-x-x-x ~ $
 
 $ ssh ip-10-1-178-52.ap-northeast-1.compute.internal
-Last login: Wed Jan  2 12:47:40 UTC 2019 from 10.1.178.52 on pts/0
-Container Linux by CoreOS stable (1911.5.0)
-core@ip-10-1-178-52 ~ $
-</code></pre>
-
+Last login: Wed Jan  <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">12</span>:47:40 UTC <span style="color:#ae81ff">2019</span> from <span style="color:#ae81ff">10</span>.1.178.52 on pts/0
+Container Linux by CoreOS stable <span style="color:#f92672">(</span><span style="color:#ae81ff">1911</span>.5.0<span style="color:#f92672">)</span>
+core@ip-10-1-178-52 ~ $</code></pre></div>
       
       <div class="related">
 </div>
