@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on 人生は儚く短い。</title>
-    <link>https://ziwon.github.io/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on 人生は儚く短い。</description>
+    <title>Ssh on 人生は儚く短い。</title>
+    <link>https://ziwon.github.io/tags/ssh/</link>
+    <description>Recent content in Ssh on 人生は儚く短い。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 13 Jan 2019 17:12:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 Jan 2019 12:12:00 +0000</lastBuildDate>
     
-	<atom:link href="https://ziwon.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ziwon.github.io/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>[TGIK-001] A Quick Tour 리뷰</title>
-      <link>https://ziwon.github.io/post/tgik-001/</link>
-      <pubDate>Sun, 13 Jan 2019 17:12:00 +0000</pubDate>
-      
-      <guid>https://ziwon.github.io/post/tgik-001/</guid>
-      <description>지난 2017년부터 Kubernetes라는 주제로 Heptio에서 매주 금요일마다 라이브 스트리밍을 하고 있다는 것을 알게 되었다. 아무래도 제한적인 실무 경험이나 개인적인 스터디만으로는 한계가 있기 때문에, 하나씩 팔로우업 해보고자 한다.
- TGIK 깃헙 리포지토리 TGIK 유트브 공식채널 TGIK 전체 목록, recollir&amp;rsquo;s Playlist  A Quick Tour 첫 번째 에피소드의 내용은 다음 링크를 참고한다.
- https://github.com/heptio/tgik/tree/master/episodes/001  내용은 kubeadm을 기반으로 AWS에 Kubernetes 클러스터를 구동해보는 것이다. 이 내용은 APN(AWS Partner Network)의 기술 파트너인 Heptio가 AWS에 작성한 쿠버네티스 가이드 문서인 Quick Start for Kubernetes by Heptio에 소개되어 있다.</description>
-    </item>
     
     <item>
       <title>Kops에서 Bastion 호스트 SSH로 접속하기</title>

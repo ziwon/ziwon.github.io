@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>[TGIK-001] A Quick Tour 리뷰 | 人生は儚く短い。</title>
+
+
+
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は儚く短い。" />
+
+<link rel="stylesheet" href="/css/style.css"/><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-hybrid.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://ziwon.github.io/">
+          <h1 class="title is-4">人生は儚く短い。</h1>
+        </a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+
+    <nav class="nav">
+      
+
+      
+    </nav>
+
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-001/">[TGIK-001] A Quick Tour 리뷰</a></h1>
+      <h2 class="subtitle is-6">2019-01-13 </h2>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+        
+<a class="subtitle is-6" href="/tags/kubernetes">#Kubernetes</a>
+
+
+
+        
+      </div>
+      <div class="content">
+        
+
+<p>지난 2017년부터 Kubernetes라는 주제로 Heptio에서 매주 금요일마다 라이브 스트리밍을 하고 있다는 것을 알게 되었다. 아무래도 제한적인 실무 경험이나 개인적인 스터디만으로는 한계가 있기 때문에, 하나씩 팔로우업 해보고자 한다.</p>
+
+<ul>
+<li><a href="https://github.com/heptio/tgik" target="_blank">TGIK 깃헙 리포지토리</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLvmPtYZtoXOENHJiAQc6HmV2jmuexKfrJ" target="_blank">TGIK 유트브 공식채널</a></li>
+<li><a href="https://github.com/heptio/tgik/blob/master/playlist.md" target="_blank">TGIK 전체 목록</a>, <a href="https://github.com/recollir/tgik-playlist/blob/master/playlist.md" target="_blank">recollir&rsquo;s Playlist</a></li>
+</ul>
+
+<h1 id="a-quick-tour">A Quick Tour</h1>
+
+<p>첫 번째 에피소드의 내용은 다음 링크를 참고한다.</p>
+
+<ul>
+<li><a href="https://github.com/heptio/tgik/tree/master/episodes/001" target="_blank">https://github.com/heptio/tgik/tree/master/episodes/001</a></li>
+</ul>
+
+<p>내용은 kubeadm을 기반으로 AWS에 Kubernetes 클러스터를 구동해보는 것이다. 이 내용은 APN(AWS Partner Network)의 기술 파트너인 Heptio가 AWS에 작성한 쿠버네티스 가이드 문서인 <a href="https://aws.amazon.com/quickstart/architecture/heptio-kubernetes/" target="_blank">Quick Start for Kubernetes by Heptio</a>에 소개되어 있다.</p>
+
+<p>영상에서 진행하는 데모의 깃헙 저장소와 단계별 상세 디플로이 문서의 링크는 다음과 같다.</p>
+
+<ul>
+<li><a href="https://github.com/heptio/aws-quickstart" target="_blank">GitHub - aws-quickstart</a></li>
+<li><a href="https://aws-quickstart.s3.amazonaws.com/quickstart-heptio/doc/heptio-kubernetes-on-the-aws-cloud.pdf" target="_blank">Step by Step Guide - heptio-kubernetes-on-the-aws-cloud</a></li>
+</ul>
+
+<p>전체적인 아키텍처는 다음과 같다. AWS의 베스트 프랙티스를 따라, Public Network와 Private Network로 디자인하고 있다. Kubernets API를 외부에서 접속할 수 있도록 마스터 노드에 ELB를 연결한 것이 특이하다.</p>
+
+<p><center>
+  <img src="https://d1.awsstatic.com/partner-network/QuickStart/datasheets/heptio-kubernetes-architecture.4ce06fe6b45b290e2b46ddf5dc7a664d45d7aae2.png" alt="" />
+</center></p>
+
+<p>데모에서는 CloudFormation을 사용해 다음의 컴포넌트들을 AWS에 구성하게 된다. (이상, <a href="https://github.com/heptio/aws-quickstart/blob/master/templates/kubernetes-cluster-with-new-vpc.template" target="_blank">kubernetes-cluster-with-new-vpc.template 참조</a>)</p>
+
+<ul>
+<li>단일 가용영 영역에 가상 프라이빗 클라우드 (VPC)</li>
+<li>서브넷 2개, 퍼블릭 1개 및 프라이빗 1개</li>
+<li>퍼브릭서브넷에서 바스티온 호스트로 작동하는 EC2 인스턴스 하나</li>
+<li>프라이빗 서브넷의 마스터 노드에 대한 자동 복구가 가능한 EC2 인스턴스 하나</li>
+<li>프라이빗 서브넷의 추가 노드에 대한 자동 스케일링 그룹의 EC2 인스턴스 1-20개</li>
+<li>Kubernetes API에 대한 HTTPS 액세스를 위한 Elastic Load Balancing(ELB) 로드 밸런싱 장치 1개</li>
+<li>모든 노드에 Ubuntu 16.04 LTS</li>
+<li>Linux에서 Kubernetes를 부트스트래핑하기 위한 Kubeadm</li>
+<li>Kubernetes가 의존하는 컨테이너 런타임에 대한 도커</li>
+<li>Pod 네트워킹을 위한 Calico 또는 Weave. 디폴트는 Calico이다.</li>
+<li>클러스터 DNS에 대한 CoreDNS 또는 KubeDNS 기본값은 CoreDNS이며, CoreDNS는 CoreDNS로 대체되며, CoreDNS를 지원할 수 없는 환경에만 제공.</li>
+<li>SSH 액세스를 위해 포트 22를 허용하는 스택 전용 security group, HTTPS 액세스를 위한 포트 6443 및 모든 포트의 노드 간 연결을 허용하는 단일 security group.</li>
+</ul>
+
+<p>깃헙에 공개된 <a href="https://github.com/aws-quickstart/quickstart-heptio/blob/master/bin/boot-master-branch.sh" target="_blank">아래 스크립트</a>를 이용하면 CloudFormation을 이용해 바로 디플로이 할 수 있다.</p>
+
+<blockquote>
+<p>실제로 따라 해보지는 않았다. 테스트 클러스터라고 해도 Kops나 EKS를 사용할 것 같다. 영상에서도 CloudFormation과 Kops 중 어떤 게 더 좋냐고 물어보고 있는데, 이 예제는 익숙한 툴을 이용해 Kubernetes를 재빨리 디플로이 하기 위해 만든 것이며, (보안적인 어떤 면에서는 이 예제의 방식보다 덜 안전할 수도 있지만) Kops가 프로덕션에서 적절하게 튜닝할 수 있는 부가 기능이 많다고 한다. 또한, HA 클러스터 등 좀 더 안정적이기 때문에 프로덕션 레벨에서는 Kops를 사용할 수 있다고 한다. <a href="https://youtu.be/9YYeE-bMWv8?t=670" target="_blank">11:10</a></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/usr/bin/env bash
+</span><span class="cp"></span>
+<span class="c1"># This is where Heptio stores templates/scripts for the master branch of this repository
+</span><span class="c1"></span><span class="nv">S3_BUCKET</span><span class="o">=</span>heptio-aws-quickstart-test
+<span class="nv">S3_PREFIX</span><span class="o">=</span>heptio/kubernetes/master/
+
+<span class="c1"># Where to place your cluster
+</span><span class="c1"></span><span class="nv">REGION</span><span class="o">=</span>us-west-2
+<span class="nv">AZ</span><span class="o">=</span>us-west-2b
+
+<span class="c1"># What to name your CloudFormation stack
+</span><span class="c1"></span><span class="nv">STACK</span><span class="o">=</span>Heptio-Kubernetes
+
+<span class="c1"># What SSH key you want to allow access to the cluster (must be created ahead of time in your AWS EC2 account)
+</span><span class="c1"></span><span class="nv">KEYNAME</span><span class="o">=</span>mykey
+
+<span class="c1"># What IP addresses should be able to connect over SSH and over the Kubernetes API
+</span><span class="c1"></span><span class="nv">INGRESS</span><span class="o">=</span><span class="m">0</span>.0.0.0/0
+
+aws cloudformation create-stack <span class="se">\
+</span><span class="se"></span>  --region <span class="nv">$REGION</span> <span class="se">\
+</span><span class="se"></span>  --stack-name <span class="nv">$STACK</span> <span class="se">\
+</span><span class="se"></span>  --template-url <span class="s2">&#34;https://</span><span class="si">${</span><span class="nv">S3_BUCKET</span><span class="si">}</span><span class="s2">.s3.amazonaws.com/</span><span class="si">${</span><span class="nv">S3_PREFIX</span><span class="si">}</span><span class="s2">templates/kubernetes-cluster-with-new-vpc.template&#34;</span> <span class="se">\
+</span><span class="se"></span>  --parameters <span class="se">\
+</span><span class="se"></span>    <span class="nv">ParameterKey</span><span class="o">=</span>AvailabilityZone,ParameterValue<span class="o">=</span><span class="nv">$AZ</span> <span class="se">\
+</span><span class="se"></span>    <span class="nv">ParameterKey</span><span class="o">=</span>KeyName,ParameterValue<span class="o">=</span><span class="nv">$KEYNAME</span> <span class="se">\
+</span><span class="se"></span>    <span class="nv">ParameterKey</span><span class="o">=</span>AdminIngressLocation,ParameterValue<span class="o">=</span><span class="nv">$INGRESS</span> <span class="se">\
+</span><span class="se"></span>    <span class="nv">ParameterKey</span><span class="o">=</span>QSS3BucketName,ParameterValue<span class="o">=</span><span class="si">${</span><span class="nv">S3_BUCKET</span><span class="si">}</span> <span class="se">\
+</span><span class="se"></span>    <span class="nv">ParameterKey</span><span class="o">=</span>QSS3KeyPrefix,ParameterValue<span class="o">=</span><span class="si">${</span><span class="nv">S3_PREFIX</span><span class="si">}</span> <span class="se">\
+</span><span class="se"></span>  --capabilities<span class="o">=</span>CAPABILITY_IAM</code></pre></div>
+<p>Kubernetes 클러스터가 구성된 후에는 Pod 등을 설명하고 스케쥴링하는 Kubernetes 관리자라면 비교적 익숙한 기본 명령어들을 다루고 있다.</p>
+
+<ul>
+<li><a href="https://gist.github.com/jbeda/9a2097c726584560fa13f6c1ae13abfb" target="_blank">command line snippets</a></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># This tells kubecfg to read its config from the local directory
+</span><span class="c1"></span><span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>./kubeconfig
+
+<span class="c1"># Looking at the cluster
+</span><span class="c1"></span>kubectl get nodes
+kubectl get pods --namespace<span class="o">=</span>kube-system
+
+<span class="c1"># Running a single pod
+</span><span class="c1"></span>kubectl run --generator<span class="o">=</span>run-pod/v1 --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard
+kubectl get pods
+kubectl run --generator<span class="o">=</span>run-pod/v1 --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard --dry-run -o yaml
+kubectl get pods kuard -o yaml
+kubectl port-forward kuard <span class="m">8080</span>:8080
+kubectl delete pod kuard
+
+<span class="c1"># Running a deployment
+</span><span class="c1"></span>kubectl run --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard --replicas<span class="o">=</span><span class="m">5</span> --dry-run -o yaml
+kubectl run --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard --replicas<span class="o">=</span><span class="m">5</span>
+kubectl get pods
+
+<span class="c1"># Running a service
+</span><span class="c1"></span>kubectl expose deployment kuard --type<span class="o">=</span>LoadBalancer --port<span class="o">=</span><span class="m">80</span> --target-port<span class="o">=</span><span class="m">8080</span> --dry-run -o yaml
+kubectl get service kuard -o wide
+
+<span class="c1"># Wait a while for the ELB to be ready
+</span><span class="c1"></span><span class="nv">KUARD_LB</span><span class="o">=</span><span class="k">$(</span>kubectl get service kuard -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.loadBalancer.ingress[*].hostname}&#39;</span><span class="k">)</span>
+
+---
+<span class="c1"># Doing a deployment
+</span><span class="c1">## Window 1
+</span><span class="c1">## On the mac, install with `brew install watch`
+</span><span class="c1"></span>watch -n <span class="m">0</span>.1 kubectl get pods
+
+<span class="c1">## Window 2
+</span><span class="c1">## On the mac, install with `brew install jq`
+</span><span class="c1"></span><span class="k">while</span> <span class="nb">true</span> <span class="p">;</span> <span class="k">do</span> curl -s http://<span class="si">${</span><span class="nv">KUARD_LB</span><span class="si">}</span>/env/api <span class="p">|</span> jq <span class="s1">&#39;.env.HOSTNAME&#39;</span><span class="p">;</span> <span class="k">done</span>
+
+<span class="c1">## Window 3
+</span><span class="c1"></span>kubectl scale deployment kuard --replicas<span class="o">=</span><span class="m">10</span>
+kubectl <span class="nb">set</span> image deployment kuard <span class="nv">kuard</span><span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:2
+kubectl rollout undo deployment kuard
+
+---
+<span class="c1"># Clean up
+</span><span class="c1"></span>kubectl delete deployment,service kuard</code></pre></div>
+<p>개인적으로 Pod 스케쥴링과 스케일링에 간단한 node앱들을 사용했었는데 데모에서처럼 &ldquo;Request 상세, Server 환경변수, Liveness Probe, Readiness Probe, DNS 쿼리, KeyGen Workload, MemQ 서버, 파일 시스템 브라우저&rdquo; 등 여러가지를 살펴볼 수 있는 kuard를 이용하는 것도 괜찮아 보인다.</p>
+
+<ul>
+<li><a href="https://github.com/kubernetes-up-and-running/kuard" target="_blank">kuard</a></li>
+</ul>
+
+<h2 id="sig-scalability">sig-scalability</h2>
+
+<p>2000대 워커 노드 제한에 대한 병목은 무엇인가라는 질문이 있었는데, 5000대까지 테스트해보았으며, etcd의 확장성 가장 중요하다고 한다. 즉, 노드 간의 일관된 코디네이션을 할 수 있는 양이 관건이라고 한다. etcd의 클러스터 크기별 하드웨어 구성의 예는 다음 문서를 참고한다. 50개 노드의 소규모, 250개 노드의 중규모, 1000개 노드의 대규모, 3000개 노드의 초대규모 클러스터 구성에 따른 하드웨어 구성을 참고할 수 있다.</p>
+
+<ul>
+<li><a href="https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/hardware.md" target="_blank">Hardware recommendations</a></li>
+</ul>
+
+<p>Kubernetes의 확장성에 관한 자세한 내용은 <a href="https://github.com/kubernetes/community/blob/master/sig-scalability/goals.md" target="_blank">Kubernetes Scaling and Performance Goals</a>를 참고하라고 한다. 간단히 살펴보면, 주 메트릭과 파생 메트릭으로 나뉜다.</p>
+
+<p>주 메트릭의 경우, 클러스터별 최대 코어 수는 20만이, 코어별 최대 Pod 수는 10개가 목표이다. 코어 비율은 1:1에서 4:1(GB/코어)라고 가정한다. 경험상 평균적으로 많은 Pod/프로세스가 코어별 1~4GB RAM이 필요한 것으로 나타났다고 한다. 노드별 관리 오버헤드는 최소 0.5코어, 1GB RAM으로 5% 미만이 목표이며,  Docker, KubeProxy, Kubelet, 메트릭 수집, 커널 제외한 수치이다. (예: 32개 코어, 64GB 머신, 1.6개 코어, 노드 관리를 위한 3.2GB RAM), 그리고 클러스터별 오버헤드는 1% 미만, 코어 2개 이상, 4GB RAM가 목표이며, apiserver, 스케줄러, 컨트롤러 등을 포함한 모든 비노드별 구성 요소 포함하고 DNS, 힙스터 등, HA 제외한 수치이다.</p>
+
+<p>파생 메트릭의 경우, 노드별 최대 코어수는 현재 64개, 향후 수백개가 목표이고, 머신별 최대 Pod 수는 500개라고 한다. 클러스터별 최대 머신수는 5000개이고, 클러스터별 최대 Pod의 수는 50만개이다. Pod의 엔드투엔드 스타트업 시간은 5초 이하가 목표이고, 스케쥴링의 스루풋은 초당 100개의 Pod이 목표라고 한다. 최대 클러스터 포화 시간은 90 분이 목표이다.</p>
+
+<p>또한, 클라우드 프로바이더별로 Kubernetes 확장성의 테스팅 환경은 다음 문서를 참고한다.</p>
+
+<ul>
+<li><a href="https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/provider-configs.md" target="_blank">Scalability Testing/Analysis Environment and Goals</a></li>
+</ul>
+
+<h2 id="kubernetes-1-7">Kubernetes 1.7</h2>
+
+<p>그리고 <a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.7.md#major-themes" target="_blank">Kubernetes 1.7 릴리즈 노트</a>를 간략히 설명해준다. 1.7의 내용은 확장성과 보안이 두가지 주요 주제였다고 한다. 시스템의 커널, 즉 시스템의 핵심을 변경하지 않고, 각 컴포넌트를 플러그인하고 서로 빌드해가는 확장성을 계속해서 개선해 나갔으며, 또한 처음부터 여러 컴포넌트, 여러 어플리케이션, 여러 팀들이 개발을 해왔기 때문에 보안 이슈가 다른 컴포넌트 등으로 전파되지 않도록 해왔다고 한다. 이상, 다소 오래된 내용이라 넘어가기로 한다.</p>
+
+<blockquote>
+<p>Kubernetes 1.7은 Kubernetes의 광범위한 생산 사용에 의해 동기화된 보안, 뛰어난 애플리케이션 및 확장성 기능을 추가하는 릴리스다. 이 릴리스의 보안 강화에는 암호화된 시크릿(alpha), Pod간 통신을 위한 네트워크 정책, API 리소스에 대한 Kubelet 액세스를 제한하는 노드 작성자, Kubelet 클라이언트/서버 TLS 인증서 로테이션(alpha)이 포함된다. 상태 저장 애플리케이션의 주요 기능에는 StatefulSet 자동 업데이트, DaemonSet의 향상된 업데이트, 보다 빠른 StatefulSet 확장을 위한 버스트 모드,  (alpha) 로컬 스토리지에 대한 지원이 포함된다. 확장성 기능에는 API 집계(beta), ThirdPartyResources를 위한 CustomResourceDefinitions(beta), 확장 가능한 Admission controller(alpha), 플러그형 cloud provider(alpha) 및 CRI(컨테이너 런타임 인터페이스) 개선이 포함된다.</p>
+</blockquote>
+
+<p>1.7 릴리즈에 대한 좀 자세한 내용은 <a href="https://www.itworld.co.kr/news/105494" target="_blank">쿠버네티스 1.7의 새로운 기능 : 로컬 스토리지, 암호화 등</a> 참고한다.</p>
+
+<h2 id="ksonnet">ksonnet</h2>
+
+<p>시간 관계상 다루지 못한 것 같다. 홈페이지에 소개된 것처럼, 다양한 클러스터 및 환경에서 설정을 관리하는 cli 툴인 것으로 보인다.</p>
+
+<blockquote>
+<p>Built on the JSON templating language Jsonnet, ksonnet provides an organizational structure and specialized features for managing configurations across different clusters and environments.</p>
+</blockquote>
+
+<ul>
+<li><a href="https://github.com/ksonnet/ksonnet" target="_blank">https://github.com/ksonnet/ksonnet</a></li>
+</ul>
+
+<p>이상으로, 간략히 TGIK 에피소드 1을 살펴보았다.</p>
+
+        
+        <div class="related">
+
+<h3>Similar articles:</h3>
+<ul>
+	
+	<li><a href="/post/bastion-in-kops/">Kops에서 Bastion 호스트 SSH로 접속하기</a></li>
+	
+</ul>
+</div>
+        
+      </div>
+    </article>
+    
+
+    
+    <nav class="post-nav">
+        
+        
+        <a class="next" href="/post/bastion-in-kops/">
+            <span class="next-text nav-default">Kops에서 Bastion 호스트 SSH로 접속하기</span>
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
+
+  </div>
+ 
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      disqus();
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Philbert Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-129419926-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
+

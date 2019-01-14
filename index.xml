@@ -13,16 +13,210 @@
     
     
     <item>
-      <title>Kops에서 AWS Bastion 제대로 사용하기</title>
+      <title>[TGIK-001] A Quick Tour 리뷰</title>
+      <link>https://ziwon.github.io/post/tgik-001/</link>
+      <pubDate>Sun, 13 Jan 2019 17:12:00 +0000</pubDate>
+      <author>Philbert Yoon</author>
+      <guid>https://ziwon.github.io/post/tgik-001/</guid>
+      <description></description>
+      
+      <content>
+
+&lt;p&gt;지난 2017년부터 Kubernetes라는 주제로 Heptio에서 매주 금요일마다 라이브 스트리밍을 하고 있다는 것을 알게 되었다. 아무래도 제한적인 실무 경험이나 개인적인 스터디만으로는 한계가 있기 때문에, 하나씩 팔로우업 해보고자 한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/heptio/tgik&#34; target=&#34;_blank&#34;&gt;TGIK 깃헙 리포지토리&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/playlist?list=PLvmPtYZtoXOENHJiAQc6HmV2jmuexKfrJ&#34; target=&#34;_blank&#34;&gt;TGIK 유트브 공식채널&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/heptio/tgik/blob/master/playlist.md&#34; target=&#34;_blank&#34;&gt;TGIK 전체 목록&lt;/a&gt;, &lt;a href=&#34;https://github.com/recollir/tgik-playlist/blob/master/playlist.md&#34; target=&#34;_blank&#34;&gt;recollir&amp;rsquo;s Playlist&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;a-quick-tour&#34;&gt;A Quick Tour&lt;/h1&gt;
+
+&lt;p&gt;첫 번째 에피소드의 내용은 다음 링크를 참고한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/heptio/tgik/tree/master/episodes/001&#34; target=&#34;_blank&#34;&gt;https://github.com/heptio/tgik/tree/master/episodes/001&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;내용은 kubeadm을 기반으로 AWS에 Kubernetes 클러스터를 구동해보는 것이다. 이 내용은 APN(AWS Partner Network)의 기술 파트너인 Heptio가 AWS에 작성한 쿠버네티스 가이드 문서인 &lt;a href=&#34;https://aws.amazon.com/quickstart/architecture/heptio-kubernetes/&#34; target=&#34;_blank&#34;&gt;Quick Start for Kubernetes by Heptio&lt;/a&gt;에 소개되어 있다.&lt;/p&gt;
+
+&lt;p&gt;영상에서 진행하는 데모의 깃헙 저장소와 단계별 상세 디플로이 문서의 링크는 다음과 같다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/heptio/aws-quickstart&#34; target=&#34;_blank&#34;&gt;GitHub - aws-quickstart&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://aws-quickstart.s3.amazonaws.com/quickstart-heptio/doc/heptio-kubernetes-on-the-aws-cloud.pdf&#34; target=&#34;_blank&#34;&gt;Step by Step Guide - heptio-kubernetes-on-the-aws-cloud&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;전체적인 아키텍처는 다음과 같다. AWS의 베스트 프랙티스를 따라, Public Network와 Private Network로 디자인하고 있다. Kubernets API를 외부에서 접속할 수 있도록 마스터 노드에 ELB를 연결한 것이 특이하다.&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;
+  &lt;img src=&#34;https://d1.awsstatic.com/partner-network/QuickStart/datasheets/heptio-kubernetes-architecture.4ce06fe6b45b290e2b46ddf5dc7a664d45d7aae2.png&#34; alt=&#34;&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;
+
+&lt;p&gt;데모에서는 CloudFormation을 사용해 다음의 컴포넌트들을 AWS에 구성하게 된다. (이상, &lt;a href=&#34;https://github.com/heptio/aws-quickstart/blob/master/templates/kubernetes-cluster-with-new-vpc.template&#34; target=&#34;_blank&#34;&gt;kubernetes-cluster-with-new-vpc.template 참조&lt;/a&gt;)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;단일 가용영 영역에 가상 프라이빗 클라우드 (VPC)&lt;/li&gt;
+&lt;li&gt;서브넷 2개, 퍼블릭 1개 및 프라이빗 1개&lt;/li&gt;
+&lt;li&gt;퍼브릭서브넷에서 바스티온 호스트로 작동하는 EC2 인스턴스 하나&lt;/li&gt;
+&lt;li&gt;프라이빗 서브넷의 마스터 노드에 대한 자동 복구가 가능한 EC2 인스턴스 하나&lt;/li&gt;
+&lt;li&gt;프라이빗 서브넷의 추가 노드에 대한 자동 스케일링 그룹의 EC2 인스턴스 1-20개&lt;/li&gt;
+&lt;li&gt;Kubernetes API에 대한 HTTPS 액세스를 위한 Elastic Load Balancing(ELB) 로드 밸런싱 장치 1개&lt;/li&gt;
+&lt;li&gt;모든 노드에 Ubuntu 16.04 LTS&lt;/li&gt;
+&lt;li&gt;Linux에서 Kubernetes를 부트스트래핑하기 위한 Kubeadm&lt;/li&gt;
+&lt;li&gt;Kubernetes가 의존하는 컨테이너 런타임에 대한 도커&lt;/li&gt;
+&lt;li&gt;Pod 네트워킹을 위한 Calico 또는 Weave. 디폴트는 Calico이다.&lt;/li&gt;
+&lt;li&gt;클러스터 DNS에 대한 CoreDNS 또는 KubeDNS 기본값은 CoreDNS이며, CoreDNS는 CoreDNS로 대체되며, CoreDNS를 지원할 수 없는 환경에만 제공.&lt;/li&gt;
+&lt;li&gt;SSH 액세스를 위해 포트 22를 허용하는 스택 전용 security group, HTTPS 액세스를 위한 포트 6443 및 모든 포트의 노드 간 연결을 허용하는 단일 security group.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;깃헙에 공개된 &lt;a href=&#34;https://github.com/aws-quickstart/quickstart-heptio/blob/master/bin/boot-master-branch.sh&#34; target=&#34;_blank&#34;&gt;아래 스크립트&lt;/a&gt;를 이용하면 CloudFormation을 이용해 바로 디플로이 할 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;실제로 따라 해보지는 않았다. 테스트 클러스터라고 해도 Kops나 EKS를 사용할 것 같다. 영상에서도 CloudFormation과 Kops 중 어떤 게 더 좋냐고 물어보고 있는데, 이 예제는 익숙한 툴을 이용해 Kubernetes를 재빨리 디플로이 하기 위해 만든 것이며, (보안적인 어떤 면에서는 이 예제의 방식보다 덜 안전할 수도 있지만) Kops가 프로덕션에서 적절하게 튜닝할 수 있는 부가 기능이 많다고 한다. 또한, HA 클러스터 등 좀 더 안정적이기 때문에 프로덕션 레벨에서는 Kops를 사용할 수 있다고 한다. &lt;a href=&#34;https://youtu.be/9YYeE-bMWv8?t=670&#34; target=&#34;_blank&#34;&gt;11:10&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#!/usr/bin/env bash
+&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# This is where Heptio stores templates/scripts for the master branch of this repository
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;S3_BUCKET&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;heptio-aws-quickstart-test
+&lt;span class=&#34;nv&#34;&gt;S3_PREFIX&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;heptio/kubernetes/master/
+
+&lt;span class=&#34;c1&#34;&gt;# Where to place your cluster
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;REGION&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;us-west-2
+&lt;span class=&#34;nv&#34;&gt;AZ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;us-west-2b
+
+&lt;span class=&#34;c1&#34;&gt;# What to name your CloudFormation stack
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;STACK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Heptio-Kubernetes
+
+&lt;span class=&#34;c1&#34;&gt;# What SSH key you want to allow access to the cluster (must be created ahead of time in your AWS EC2 account)
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;KEYNAME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;mykey
+
+&lt;span class=&#34;c1&#34;&gt;# What IP addresses should be able to connect over SSH and over the Kubernetes API
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;INGRESS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;.0.0.0/0
+
+aws cloudformation create-stack &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --region &lt;span class=&#34;nv&#34;&gt;$REGION&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --stack-name &lt;span class=&#34;nv&#34;&gt;$STACK&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --template-url &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;S3_BUCKET&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;.s3.amazonaws.com/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;S3_PREFIX&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;templates/kubernetes-cluster-with-new-vpc.template&amp;#34;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --parameters &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;ParameterKey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;AvailabilityZone,ParameterValue&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$AZ&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;ParameterKey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;KeyName,ParameterValue&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$KEYNAME&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;ParameterKey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;AdminIngressLocation,ParameterValue&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$INGRESS&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;ParameterKey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;QSS3BucketName,ParameterValue&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;S3_BUCKET&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nv&#34;&gt;ParameterKey&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;QSS3KeyPrefix,ParameterValue&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;S3_PREFIX&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\
+&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;&lt;/span&gt;  --capabilities&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;CAPABILITY_IAM&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Kubernetes 클러스터가 구성된 후에는 Pod 등을 설명하고 스케쥴링하는 Kubernetes 관리자라면 비교적 익숙한 기본 명령어들을 다루고 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://gist.github.com/jbeda/9a2097c726584560fa13f6c1ae13abfb&#34; target=&#34;_blank&#34;&gt;command line snippets&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# This tells kubecfg to read its config from the local directory
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;./kubeconfig
+
+&lt;span class=&#34;c1&#34;&gt;# Looking at the cluster
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;kubectl get nodes
+kubectl get pods --namespace&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;kube-system
+
+&lt;span class=&#34;c1&#34;&gt;# Running a single pod
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;kubectl run --generator&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;run-pod/v1 --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:1 kuard
+kubectl get pods
+kubectl run --generator&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;run-pod/v1 --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:1 kuard --dry-run -o yaml
+kubectl get pods kuard -o yaml
+kubectl port-forward kuard &lt;span class=&#34;m&#34;&gt;8080&lt;/span&gt;:8080
+kubectl delete pod kuard
+
+&lt;span class=&#34;c1&#34;&gt;# Running a deployment
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;kubectl run --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:1 kuard --replicas&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; --dry-run -o yaml
+kubectl run --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:1 kuard --replicas&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;
+kubectl get pods
+
+&lt;span class=&#34;c1&#34;&gt;# Running a service
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;kubectl expose deployment kuard --type&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;LoadBalancer --port&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;80&lt;/span&gt; --target-port&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;8080&lt;/span&gt; --dry-run -o yaml
+kubectl get service kuard -o wide
+
+&lt;span class=&#34;c1&#34;&gt;# Wait a while for the ELB to be ready
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;KUARD_LB&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;kubectl get service kuard -o &lt;span class=&#34;nv&#34;&gt;jsonpath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;{.status.loadBalancer.ingress[*].hostname}&amp;#39;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+
+---
+&lt;span class=&#34;c1&#34;&gt;# Doing a deployment
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;## Window 1
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;## On the mac, install with `brew install watch`
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;watch -n &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;.1 kubectl get pods
+
+&lt;span class=&#34;c1&#34;&gt;## Window 2
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;## On the mac, install with `brew install jq`
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -s http://&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;KUARD_LB&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/env/api &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.env.HOSTNAME&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;## Window 3
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;kubectl scale deployment kuard --replicas&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;
+kubectl &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; image deployment kuard &lt;span class=&#34;nv&#34;&gt;kuard&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:2
+kubectl rollout undo deployment kuard
+
+---
+&lt;span class=&#34;c1&#34;&gt;# Clean up
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;kubectl delete deployment,service kuard&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;개인적으로 Pod 스케쥴링과 스케일링에 간단한 node앱들을 사용했었는데 데모에서처럼 &amp;ldquo;Request 상세, Server 환경변수, Liveness Probe, Readiness Probe, DNS 쿼리, KeyGen Workload, MemQ 서버, 파일 시스템 브라우저&amp;rdquo; 등 여러가지를 살펴볼 수 있는 kuard를 이용하는 것도 괜찮아 보인다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes-up-and-running/kuard&#34; target=&#34;_blank&#34;&gt;kuard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;sig-scalability&#34;&gt;sig-scalability&lt;/h2&gt;
+
+&lt;p&gt;2000대 워커 노드 제한에 대한 병목은 무엇인가라는 질문이 있었는데, 5000대까지 테스트해보았으며, etcd의 확장성 가장 중요하다고 한다. 즉, 노드 간의 일관된 코디네이션을 할 수 있는 양이 관건이라고 한다. etcd의 클러스터 크기별 하드웨어 구성의 예는 다음 문서를 참고한다. 50개 노드의 소규모, 250개 노드의 중규모, 1000개 노드의 대규모, 3000개 노드의 초대규모 클러스터 구성에 따른 하드웨어 구성을 참고할 수 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/hardware.md&#34; target=&#34;_blank&#34;&gt;Hardware recommendations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Kubernetes의 확장성에 관한 자세한 내용은 &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/sig-scalability/goals.md&#34; target=&#34;_blank&#34;&gt;Kubernetes Scaling and Performance Goals&lt;/a&gt;를 참고하라고 한다. 간단히 살펴보면, 주 메트릭과 파생 메트릭으로 나뉜다.&lt;/p&gt;
+
+&lt;p&gt;주 메트릭의 경우, 클러스터별 최대 코어 수는 20만이, 코어별 최대 Pod 수는 10개가 목표이다. 코어 비율은 1:1에서 4:1(GB/코어)라고 가정한다. 경험상 평균적으로 많은 Pod/프로세스가 코어별 1~4GB RAM이 필요한 것으로 나타났다고 한다. 노드별 관리 오버헤드는 최소 0.5코어, 1GB RAM으로 5% 미만이 목표이며,  Docker, KubeProxy, Kubelet, 메트릭 수집, 커널 제외한 수치이다. (예: 32개 코어, 64GB 머신, 1.6개 코어, 노드 관리를 위한 3.2GB RAM), 그리고 클러스터별 오버헤드는 1% 미만, 코어 2개 이상, 4GB RAM가 목표이며, apiserver, 스케줄러, 컨트롤러 등을 포함한 모든 비노드별 구성 요소 포함하고 DNS, 힙스터 등, HA 제외한 수치이다.&lt;/p&gt;
+
+&lt;p&gt;파생 메트릭의 경우, 노드별 최대 코어수는 현재 64개, 향후 수백개가 목표이고, 머신별 최대 Pod 수는 500개라고 한다. 클러스터별 최대 머신수는 5000개이고, 클러스터별 최대 Pod의 수는 50만개이다. Pod의 엔드투엔드 스타트업 시간은 5초 이하가 목표이고, 스케쥴링의 스루풋은 초당 100개의 Pod이 목표라고 한다. 최대 클러스터 포화 시간은 90 분이 목표이다.&lt;/p&gt;
+
+&lt;p&gt;또한, 클라우드 프로바이더별로 Kubernetes 확장성의 테스팅 환경은 다음 문서를 참고한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/kubernetes/community/blob/master/sig-scalability/configs-and-limits/provider-configs.md&#34; target=&#34;_blank&#34;&gt;Scalability Testing/Analysis Environment and Goals&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;kubernetes-1-7&#34;&gt;Kubernetes 1.7&lt;/h2&gt;
+
+&lt;p&gt;그리고 &lt;a href=&#34;https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.7.md#major-themes&#34; target=&#34;_blank&#34;&gt;Kubernetes 1.7 릴리즈 노트&lt;/a&gt;를 간략히 설명해준다. 1.7의 내용은 확장성과 보안이 두가지 주요 주제였다고 한다. 시스템의 커널, 즉 시스템의 핵심을 변경하지 않고, 각 컴포넌트를 플러그인하고 서로 빌드해가는 확장성을 계속해서 개선해 나갔으며, 또한 처음부터 여러 컴포넌트, 여러 어플리케이션, 여러 팀들이 개발을 해왔기 때문에 보안 이슈가 다른 컴포넌트 등으로 전파되지 않도록 해왔다고 한다. 이상, 다소 오래된 내용이라 넘어가기로 한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Kubernetes 1.7은 Kubernetes의 광범위한 생산 사용에 의해 동기화된 보안, 뛰어난 애플리케이션 및 확장성 기능을 추가하는 릴리스다. 이 릴리스의 보안 강화에는 암호화된 시크릿(alpha), Pod간 통신을 위한 네트워크 정책, API 리소스에 대한 Kubelet 액세스를 제한하는 노드 작성자, Kubelet 클라이언트/서버 TLS 인증서 로테이션(alpha)이 포함된다. 상태 저장 애플리케이션의 주요 기능에는 StatefulSet 자동 업데이트, DaemonSet의 향상된 업데이트, 보다 빠른 StatefulSet 확장을 위한 버스트 모드,  (alpha) 로컬 스토리지에 대한 지원이 포함된다. 확장성 기능에는 API 집계(beta), ThirdPartyResources를 위한 CustomResourceDefinitions(beta), 확장 가능한 Admission controller(alpha), 플러그형 cloud provider(alpha) 및 CRI(컨테이너 런타임 인터페이스) 개선이 포함된다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;1.7 릴리즈에 대한 좀 자세한 내용은 &lt;a href=&#34;https://www.itworld.co.kr/news/105494&#34; target=&#34;_blank&#34;&gt;쿠버네티스 1.7의 새로운 기능 : 로컬 스토리지, 암호화 등&lt;/a&gt; 참고한다.&lt;/p&gt;
+
+&lt;h2 id=&#34;ksonnet&#34;&gt;ksonnet&lt;/h2&gt;
+
+&lt;p&gt;시간 관계상 다루지 못한 것 같다. 홈페이지에 소개된 것처럼, 다양한 클러스터 및 환경에서 설정을 관리하는 cli 툴인 것으로 보인다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Built on the JSON templating language Jsonnet, ksonnet provides an organizational structure and specialized features for managing configurations across different clusters and environments.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ksonnet/ksonnet&#34; target=&#34;_blank&#34;&gt;https://github.com/ksonnet/ksonnet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이상으로, 간략히 TGIK 에피소드 1을 살펴보았다.&lt;/p&gt;
+</content>
+      
+    </item>
+    
+    <item>
+      <title>Kops에서 Bastion 호스트 SSH로 접속하기</title>
       <link>https://ziwon.github.io/post/bastion-in-kops/</link>
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
       <author>Philbert Yoon</author>
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
       <description></description>
       
-      <content>&lt;p&gt;바스티온(Bastion)은 보루, 요새라는 뜻으로 중세 시대에 영주나 왕이 살고 있는 성곽을 둘러싸고 있는 외부 방벽에 대한 강화된 돌출부로 가장 중요한 수비 부분을 의미한다.&lt;/p&gt;
-
-&lt;p&gt;네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.&lt;sup&gt;&lt;a href=&#34;http://blog.pentasecurity.com/221034903499&#34; target=&#34;_blank&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+      <content>&lt;p&gt;네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.&lt;sup&gt;&lt;a href=&#34;http://blog.pentasecurity.com/221034903499&#34; target=&#34;_blank&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;p&gt;AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 &lt;sup&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Bastion_host&#34; target=&#34;_blank&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;, Kops에서는 바스티온 호스트를 프로비저닝하고 &lt;sup&gt;&lt;a href=&#34;https://github.com/kubernetes/kops/blob/master/docs/bastion.md&#34; target=&#34;_blank&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 &lt;sup&gt;&lt;a href=&#34;https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html&#34; target=&#34;_blank&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;)&lt;/p&gt;
 
@@ -38,7 +232,7 @@ ip-10-1-96-13.ap-northeast-1.compute.internal   Ready    node     44d   v1.10.11
 ip-10-1-199-22.ap-northeast-1.compute.internal  Ready    node     45d   v1.10.11
 ip-10-1-135-94.ap-northeast-1.compute.internal  Ready    node     45d   v1.10.11
 ...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;이 때, 바스티온 호스트에 프라이빗 키를 복사해서 바스티온에 로그인하여 내부 서브넷 인스턴스로 접속할 수도 있지만, 다음과 같이 ssh 프락싱을 사용하고 &lt;sup&gt;&lt;a href=&#34;https://ekartco.com/2017/12/using-aws-bastion-hosts-correctly/&#34; target=&#34;_blank&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;, 접속하려는 호스트 네임을 동적으로 구성해서 좀 더 쉽게 접속할 수도 있따.&lt;/p&gt;
+&lt;p&gt;이 때, 바스티온 호스트에 프라이빗 키를 복사해서 바스티온에 로그인하여 내부 서브넷 인스턴스로 접속할 수도 있지만, 다음과 같이 ssh 프락싱을 사용하고 &lt;sup&gt;&lt;a href=&#34;https://ekartco.com/2017/12/using-aws-bastion-hosts-correctly/&#34; target=&#34;_blank&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;, 접속하려는 호스트 네임을 동적으로 구성해서 좀 더 쉽게 접속할 수도 있다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ vi ~/.ssh/config
 Host k8s-prod
 	HostName bastion.prod.k8s.example.net

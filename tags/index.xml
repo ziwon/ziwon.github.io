@@ -22,6 +22,15 @@
     </item>
     
     <item>
+      <title>Bastion</title>
+      <link>https://ziwon.github.io/tags/bastion/</link>
+      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/bastion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Calculus</title>
       <link>https://ziwon.github.io/tags/calculus/</link>
       <pubDate>Tue, 22 Oct 2013 13:03:05 +0900</pubDate>
@@ -114,7 +123,7 @@
     <item>
       <title>Kubernetes</title>
       <link>https://ziwon.github.io/tags/kubernetes/</link>
-      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
+      <pubDate>Sun, 13 Jan 2019 17:12:00 +0000</pubDate>
       
       <guid>https://ziwon.github.io/tags/kubernetes/</guid>
       <description></description>
@@ -171,6 +180,15 @@
       <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/scala/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ssh</title>
+      <link>https://ziwon.github.io/tags/ssh/</link>
+      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/ssh/</guid>
       <description></description>
     </item>
     

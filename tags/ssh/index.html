@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.50" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title></title>
+<title>Ssh | 人生は儚く短い。</title>
 
 
 
@@ -111,20 +110,6 @@
     
     
     <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-001/">[TGIK-001] A Quick Tour 리뷰</a></h1>
-      <div class="content">
-        지난 2017년부터 Kubernetes라는 주제로 Heptio에서 매주 금요일마다 라이브 스트리밍을 하고 있다는 것을 알게 되었다. 아무래도 제한적인 실무 경험이나 개인적인 스터디만으로는 한계가 있기 때문에, 하나씩 팔로우업 해보고자 한다.
- TGIK 깃헙 리포지토리 TGIK 유트브 공식채널 TGIK 전체 목록, recollir&rsquo;s Playlist  A Quick Tour 첫 번째 에피소드의 내용은 다음 링크를 참고한다.
- https://github.com/heptio/tgik/tree/master/episodes/001  내용은 kubeadm을 기반으로 AWS에 Kubernetes 클러스터를 구동해보는 것이다. 이 내용은 APN(AWS Partner Network)의 기술 파트너인 Heptio가 AWS에 작성한 쿠버네티스 가이드 문서인 Quick Start for Kubernetes by Heptio에 소개되어 있다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-001/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
       <h1 class="title"><a href="https://ziwon.github.io/post/bastion-in-kops/">Kops에서 Bastion 호스트 SSH로 접속하기</a></h1>
       <div class="content">
         네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1
@@ -134,45 +119,6 @@ AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접�
         
       </div>
       <a class="button" href="https://ziwon.github.io/post/bastion-in-kops/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/">[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</a></h1>
-      <div class="content">
-        Envoy Creator인 Matt Klein의 Envoy 소개 동영상을 보고 Envoy에 완전히 매료되어 좀 더 자세한 배경지식을 알고자 번역해 보았습니다. 원본 출처는 Introduction to modern network load balancing and proxying입니다.
- 최근 네트워크 로드 밸런싱과 프록시에 관한 입문 교육 자료가 부족하다는 사실이 관심을 끌었습니다. 어떻게 이게 가능하지? 라고 속으로 생각했습니다. 로드 밸런싱은 안정적인 분산 시스템 구축에 필요한 핵심 개념 중 하나입니다. 당연히 쓸만한 고급진 정보들이 있어야 합니다. 검색을 해보았으나 사실 쓸만한 것들이 별로 없다는 것을 알게 되었습니다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/python_magic_methods/">[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</a></h1>
-      <div class="content">
-        A guide to Python&rsquo;s magic methods를 번역한 문서입니다.
- 서론 이 가이드는 몇 달 간의 블로그 게시물의 정점입니다. 주제는 매직 메소드(magic methods) 입니다.
-매직 메소드가 뭘까요? 이들은 객체지향 파이썬의 모든 것입니다. 클래스에 &ldquo;마법&rdquo;을 추가하기 위해 정의할 수 있는 특수한 메소드입니다. 항상 두 개의 밑줄로 둘러싸입니다. (예: __init__ 또는 __lt__) 또한 필요한 만큼 문서화되지 않았습니다. 파이썬에 대한 모든 매직 메소드가 파이썬 문서의 동일한 섹션에 있지만, 흩어져 있고, 느슨하게 구성되어 있습니다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/python_magic_methods/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/using_custom_model_to_dict_in_django/">Using custom model_to_dict() in Django</a></h1>
-      <div class="content">
-        In Django, when converting a database model to a dictionary, I usually used to convert only the member variables corresponding to the column of the table to handle the response to the request in the form of Json and so on. But, whenever you encounter a member variable of type ManyToManyField, it would be too cumbersome to write three or four lines of code each time to loop around to get their values from the member variables of the ManyToManyField in a model object.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/using_custom_model_to_dict_in_django/" style="height:28px">
         Read more
       </a>
     </article>
@@ -189,17 +135,6 @@ AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접�
       </div>
       <div class="level-right is-marginless">
         <div class="level-item">
-          
-          <a class="button" href="/page/2/">
-            Older
-            <span class="icon is-small is-marginless">
-              <svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <polyline points="14 6 20 12 14 18"/>
-    
-  </svg>
-            </span>
-          </a>
           
         </div>
       </div>
@@ -233,4 +168,5 @@ if (!doNotTrack) {
 
 </body>
 </html>
+
 
