@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>[번역] 확장성 있는 포터블 도커 컨테이너 네트워크 설계</title>
+      <title>[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</title>
       <link>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</link>
       <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
       

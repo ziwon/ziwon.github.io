@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>[번역] 확장성 있는 포터블 도커 컨테이너 네트워크 설계</title>
+      <title>[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</title>
       <link>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</link>
       <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
       <author>Philbert Yoon</author>
@@ -27,6 +27,8 @@
 
 &lt;p&gt;참고로, Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 &lt;a href=&#34;#기타&#34;&gt;기타&lt;/a&gt; 아티클을 참조하세요.&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;hr /&gt;
 
 &lt;h1 id=&#34;배우게-될-것&#34;&gt;배우게 될 것&lt;/h1&gt;
 
