@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>[번역] 확장 가능한 포터블 도커 컨테이너 네트워크 설계</title>
+      <title>[번역] 확장성 있는 포터블 도커 컨테이너 네트워크 설계</title>
       <link>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</link>
       <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
       <author>Philbert Yoon</author>
@@ -23,7 +23,9 @@
       <content>
 
 &lt;blockquote&gt;
-&lt;p&gt;원문: &lt;a href=&#34;https://success.docker.com/article/networking&#34; target=&#34;_blank&#34;&gt;Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks&lt;/a&gt; (오역 및 오타는 댓글로 알려주세요.)&lt;/p&gt;
+&lt;p&gt;원문: &lt;a href=&#34;https://success.docker.com/article/networking&#34; target=&#34;_blank&#34;&gt;Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks&lt;/a&gt; (오역 및 오타는 댓글로 알려주세요)&lt;/p&gt;
+
+&lt;p&gt;참고로, Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 &lt;a href=&#34;#기타&#34;&gt;기타&lt;/a&gt; 아티클을 참조하세요.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h1 id=&#34;배우게-될-것&#34;&gt;배우게 될 것&lt;/h1&gt;
@@ -257,7 +259,7 @@ c97909a4b198        none                null                local&lt;/code&gt;&l
 
 &lt;h2 id=&#34;iptables&#34;&gt;iptables&lt;/h2&gt;
 
-&lt;p&gt;&lt;code&gt;iptables&lt;/code&gt;는 네이티브 패킷 필터링 시스템으로 버전 2.4 이후 리눅스 커널의 일부였다. 이는 패킷 마킹, 매스쿼레이딩(masquerading, 위장) 및 드라핑(dropping, 삭제)에 대한 룰체인을 제공하는 기능이 풍부한 L3/L4 방화벽이다. 네이티브 도커 네트워크 드라이버는 iptables를 광범위하게 활용하여 네트워크 트래픽을 세분화하고, 호스트 포트 매핑을 제공하며, 로드 밸런싱 결정을 위해 트래픽을 마킹한다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;iptables&lt;/code&gt;는 네이티브 패킷 필터링 시스템으로 버전 2.4 이후 리눅스 커널의 일부였다. 이는 패킷 마킹, 매스쿼레이딩(masquerading) 및 드라핑(dropping)에 대한 룰체인을 제공하는 기능이 풍부한 L3/L4 방화벽이다. 네이티브 도커 네트워크 드라이버는 iptables를 광범위하게 활용하여 네트워크 트래픽을 세분화하고, 호스트 포트 매핑을 제공하며, 로드 밸런싱 결정을 위해 트래픽을 마킹한다. (역자: &lt;a href=&#34;https://www.linux.com/blog/what-ip-masquerading-and-when-it-use&#34; target=&#34;_blank&#34;&gt;What is IP masquerading and when is it of use?&lt;/a&gt;)&lt;/p&gt;
 
 &lt;h1 id=&#34;도커-네트워크-컨트롤-플레인&#34;&gt;도커 네트워크 컨트롤 플레인&lt;/h1&gt;
 
@@ -980,6 +982,17 @@ host-B $ docker network create -d macvlan --subnet &lt;span class=&#34;m&#34;&gt
 &lt;p&gt;도커는 빠르게 진화하는 기술이며, 네트워킹 옵션은 매일 점점 더 많은 유즈케이스를 충족시키기 위해 증가하고 있다. 현존 네트워킹 벤더, 순수 SDN 벤더 및 도커 모두 이 분야의 공헌자이다. 물리적 네트워크, 네트워크 모니터링 및 암호화와의 보다 긴밀한 통합은 모두 상당한 관심과 혁신의 영역이다.&lt;/p&gt;
 
 &lt;p&gt;이 문서는 자세한 내용을 설명하지만, 존재하는 CNM 네트워크 드라이버와 가능한 모든 배치를 모두 다루진 않았다. 개별 드라이버와 이러한 드라이버를 구성하는 더 많은 방법이 있지만 일상적으로 배포되는 공통 모델은 몇 가지 뿐임을 알 수 있었으면 한다. 각 모델의 장단점을 이해하는 것이 장기적인 성공의 열쇠이다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;기타&#34;&gt;기타&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://arisu1000.tistory.com/27850&#34; target=&#34;_blank&#34;&gt;Kubernetes 네트워킹: Pod 네트워킹&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/&#34; target=&#34;_blank&#34;&gt;A Guide to the Kubernetes Networking Model&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://supergiant.io/blog/kubernetes-networking-explained-introduction/&#34; target=&#34;_blank&#34;&gt;Kubernetes Networking Explained: Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd28727&#34; target=&#34;_blank&#34;&gt;Understanding kubernetes networking: pods&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </content>
       
     </item>
