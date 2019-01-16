@@ -25,7 +25,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;원문: &lt;a href=&#34;https://success.docker.com/article/networking&#34; target=&#34;_blank&#34;&gt;Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks&lt;/a&gt; (오역 및 오타는 댓글로 알려주세요)&lt;/p&gt;
 
-&lt;p&gt;참고로, Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 &lt;a href=&#34;#기타&#34;&gt;기타&lt;/a&gt; 아티클을 참조하세요.&lt;/p&gt;
+&lt;p&gt;※ 컨테이너가 아닌 Pod간의 Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 &lt;a href=&#34;#기타&#34;&gt;기타&lt;/a&gt; 아티클을 참조하세요.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;hr /&gt;
