@@ -128,7 +128,7 @@ kuard-dbdd7955d-wzcf4   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1       Run
 &lt;li&gt;/etc/kubernetes/admin.config&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;데모 영상에 나온 질문에 답변을 다음과 같이 같단히 요약하였다.&lt;/p&gt;
+&lt;p&gt;데모 영상에 나온 질문에 답변을 다음과 같이 간단히 요약하였다.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;AWS 네이티브 라우팅을 이용해서 Kubernetes 클러스터의 노드가 아니어도 클러스터 네트워크에 조인하여 연결될 수 있다.&lt;/li&gt;
@@ -191,7 +191,7 @@ contexts:
     cluster: &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;
     user: calico
 current-context: calico-context&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;컨테이너로 해야할 어떤 작업이 있을 때마다 플러그인이 호출된다고 한다. 컨테이너의 여러 인터페이스에 대해 여러 개의 플러그인을 구성할 수 있다. 예를 들면, 컨테이너를 런칭할 때, 도커는 내부에 네트워크 네임스페이스를 셋업하는데, CNI는 도커의 모든 네트워크 설정을 가져와 도커와 마찬가지로 네임스페이스 설정을 한 뒤에 Kubernetes의 플러그형 시스템으로 확장하는 역할을 한다고 한다. (매우 간략하게 설명하게 넘어간다.)&lt;/p&gt;
+&lt;p&gt;컨테이너로 해야할 어떤 작업이 있을 때마다 플러그인이 호출된다고 한다. 컨테이너의 여러 인터페이스에 대해 여러 개의 플러그인을 구성할 수 있다. 예를 들면, 컨테이너를 런칭할 때, 도커는 내부에 네트워크 네임스페이스를 셋업하는데, CNI는 도커의 모든 네트워크 설정을 가져와 도커와 마찬가지로 네임스페이스 설정을 한 뒤에 Kubernetes의 플러그형 시스템으로 확장하는 역할을 한다고 한다. (CNI에 대해 좀 더 기대했으나 위와 같이 간략하게 설명하고 있다.)&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;/opt/cni/bin&lt;/code&gt;으로 이동하면, 여러가지 CNI 배포 패키지들을 볼 수 있다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;ubuntu@ip-10-0-23-3: &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; /opt/cni/bin
@@ -224,7 +224,7 @@ CNI_COMMAND env variable missing
 
 &lt;h2 id=&#34;externalname&#34;&gt;ExternalName&lt;/h2&gt;
 
-&lt;p&gt;&lt;code&gt;ExternalName&lt;/code&gt; 타입은 Kubernetes의 자체 서비스 디스커버리을 사용하되, Kubernetes 외부의 이름을 가리키는 Service를 생성한다. Kubernetes 내부와 외부를 매핑시켜줄 때 사용한다. (알다시피, [external-dns[(&lt;a href=&#34;https://github.com/kubernetes-incubator/external-dns)를&#34; target=&#34;_blank&#34;&gt;https://github.com/kubernetes-incubator/external-dns)를&lt;/a&gt; 애드온을 연동하게 되면, AWS, GCP 등의 DNS와 매핑된다.)&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ExternalName&lt;/code&gt; 타입은 Kubernetes의 자체 서비스 디스커버리을 사용하되, Kubernetes 외부의 이름을 가리키는 Service를 생성한다. Kubernetes 내부와 외부를 매핑시켜줄 때 사용한다. (알다시피, &lt;a href=&#34;https://github.com/kubernetes-incubator/external-dns&#34; target=&#34;_blank&#34;&gt;external-dns&lt;/a&gt;를 애드온을 연동하게 되면, AWS, GCP 등의 DNS와 매핑된다.)&lt;/p&gt;
 
 &lt;h2 id=&#34;none&#34;&gt;None&lt;/h2&gt;
 
