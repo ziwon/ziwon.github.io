@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloudformation on 人生は儚く短い。</title>
+    <link>https://ziwon.github.io/tags/cloudformation/</link>
+    <description>Recent content in Cloudformation on 人生は儚く短い。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 19 Jan 2019 08:12:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/tags/cloudformation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TGI Kubernetes 002: Networking and Services</title>
+      <link>https://ziwon.github.io/post/tgik-002/</link>
+      <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/tgik-002/</guid>
+      <description>TGIK: Thanks God It&amp;rsquo;s Kubernetes 두 번째 에피소드는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.
+결국, heptio-quickstart를 AWS에 올리고 따라해보았다. GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. CloudFormation 기반으로 Kubernetes 컴포넌트들을 하나씩 설치해가는 내용도 충분히 살펴볼만하다.
+•••
+Networking 먼저, 10개의 kuard Pod를 띄운다.
+kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deployment.apps &amp;#34;kuard&amp;#34; created $ kubectl get pods NAME READY STATUS RESTARTS AGE kuard-dbdd7955d-4kdbr 1/1 Running 0 13s kuard-dbdd7955d-5r757 1/1 Running 0 13s kuard-dbdd7955d-dhts5 1/1 Running 0 13s kuard-dbdd7955d-hsl87 1/1 Running 0 13s kuard-dbdd7955d-k8x7l 1/1 Running 0 13s kuard-dbdd7955d-ms8hb 1/1 Running 0 13s kuard-dbdd7955d-qfjbk 1/1 Running 0 13s kuard-dbdd7955d-tfgdl 1/1 Running 0 13s kuard-dbdd7955d-v8lj2 1/1 Running 0 13s kuard-dbdd7955d-wzcf4 1/1 Running 0 13s port-forward으로 실행 중인 kuard에 접속해본다.</description>
+    </item>
+    
+  </channel>
+</rss>

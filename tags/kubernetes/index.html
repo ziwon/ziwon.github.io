@@ -110,9 +110,25 @@
     
     
     <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-001/">[TGIK-001] A Quick Tour 리뷰</a></h1>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-002/">TGI Kubernetes 002: Networking and Services</a></h1>
       <div class="content">
-        유튜브를 검색하다, 지난 2017년부터 Kubernetes라는 주제로 Heptio에서 매주 금요일마다 라이브 스트리밍을 하고 있다는 것을 알게 되었다. 아무래도 제한적인 실무 경험이나 개인적인 스터디만으로는 한계가 있기 때문에, 하나씩 팔로우업 해보고자 한다.
+        TGIK: Thanks God It&rsquo;s Kubernetes 두 번째 에피소드는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.
+결국, heptio-quickstart를 AWS에 올리고 따라해보았다. GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. CloudFormation 기반으로 Kubernetes 컴포넌트들을 하나씩 설치해가는 내용도 충분히 살펴볼만하다.
+•••
+Networking 먼저, 10개의 kuard Pod를 띄운다.
+kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deployment.apps &#34;kuard&#34; created $ kubectl get pods NAME READY STATUS RESTARTS AGE kuard-dbdd7955d-4kdbr 1/1 Running 0 13s kuard-dbdd7955d-5r757 1/1 Running 0 13s kuard-dbdd7955d-dhts5 1/1 Running 0 13s kuard-dbdd7955d-hsl87 1/1 Running 0 13s kuard-dbdd7955d-k8x7l 1/1 Running 0 13s kuard-dbdd7955d-ms8hb 1/1 Running 0 13s kuard-dbdd7955d-qfjbk 1/1 Running 0 13s kuard-dbdd7955d-tfgdl 1/1 Running 0 13s kuard-dbdd7955d-v8lj2 1/1 Running 0 13s kuard-dbdd7955d-wzcf4 1/1 Running 0 13s port-forward으로 실행 중인 kuard에 접속해본다.
+        
+        
+      </div>
+      <a class="button" href="https://ziwon.github.io/post/tgik-002/" style="height:28px">
+        Read more
+      </a>
+    </article>
+    
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-001/">TGI Kubernetes:001 A Quick Tour</a></h1>
+      <div class="content">
+        TGIK: Thanks God It&rsquo;s Kubernetes 유튜브를 검색하다, 지난 2017년부터 Kubernetes라는 주제로 Heptio에서 매주 금요일마다 라이브 스트리밍을 하고 있다는 것을 알게 되었다. 아무래도 제한적인 실무 경험이나 개인적인 스터디만으로는 한계가 있기 때문에, 하나씩 팔로우업 해보고자 한다.
  TGIK 깃헙 리포지토리 TGIK 유트브 공식채널 TGIK 전체 목록, recollir&rsquo;s Playlist  A Quick Tour 첫 번째 에피소드의 내용은 다음 링크를 참고한다.
  https://github.com/heptio/tgik/tree/master/episodes/001  내용은 kubeadm을 기반으로 AWS에 Kubernetes 클러스터를 구동해보는 것이다. 이 내용은 APN(AWS Partner Network)의 기술 파트너인 Heptio가 AWS에 작성한 쿠버네티스 가이드 문서인 Quick Start for Kubernetes by Heptio에 소개되어 있다.
         
