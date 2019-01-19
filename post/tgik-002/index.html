@@ -132,7 +132,9 @@
 
 <p><a href="https://github.com/heptio/tgik/tree/master/episodes/002" target="_blank">두 번째 에피소드</a>는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.</p>
 
-<p>결국, heptio-quickstart를 AWS에 올리고 따라해보았다. GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. CloudFormation 기반으로 Kubernetes 컴포넌트들을 하나씩 설치해가는 내용도 충분히 살펴볼만하다.</p>
+<blockquote>
+<p>결국, heptio-quickstart를 AWS에 올리고 따라해보았다. 아무래도 GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. QuickStart이긴 하나, CloudFormation 기반으로 Kubernetes 컴포넌트들을 설치해가는 스크립트를 하나하나씩 살펴보는 것도 유의미해보인다.</p>
+</blockquote>
 
 <p><center>•••</center></p>
 
@@ -210,27 +212,21 @@ Connecting to <span class="m">192</span>.168.49.6:8080 <span class="o">(</span><
 <h2 id="node와-pod간의-연결">Node와 Pod간의 연결</h2>
 
 <p>다음으로, 마스터 노드에 SSH 접속하여 <code>kubectl</code> 명령의 동작 여부를 살펴본다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">SH_KEY</span><span class="o">=</span><span class="s2">&#34;~/.ssh/id_rsa&#34;</span><span class="p">;</span> ssh -i <span class="nv">$SSH_KEY</span> -o <span class="nv">ProxyCommand</span><span class="o">=</span><span class="s2">&#34;ssh -i \&#34;</span><span class="si">${</span><span class="nv">SSH_KEY</span><span class="si">}</span><span class="s2">\&#34; ubuntu@13.209.11.49 nc %h %p&#34;</span> ubuntu@10.0.23.3</code></pre></div>
-<pre><code>$ kubectl get po -o wide
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">SSH_KEY</span><span class="o">=</span><span class="s2">&#34;~/.ssh/id_rsa&#34;</span><span class="p">;</span> ssh -i <span class="nv">$SSH_KEY</span> -o <span class="nv">ProxyCommand</span><span class="o">=</span><span class="s2">&#34;ssh -i \&#34;</span><span class="si">${</span><span class="nv">SSH_KEY</span><span class="si">}</span><span class="s2">\&#34; ubuntu@13.209.11.49 nc %h %p&#34;</span> ubuntu@10.0.23.3</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get po -o wide
 NAME                    READY     STATUS    RESTARTS   AGE       IP              NODE                                            NOMINATED NODE
-kuard-dbdd7955d-4kdbr   1/1       Running   0          25m       192.168.3.140   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-5r757   1/1       Running   0          25m       192.168.49.6    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-dhts5   1/1       Running   0          25m       192.168.49.9    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-hsl87   1/1       Running   0          25m       192.168.49.10   ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-k8x7l   1/1       Running   0          25m       192.168.49.8    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-ms8hb   1/1       Running   0          25m       192.168.3.137   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-qfjbk   1/1       Running   0          25m       192.168.3.138   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-tfgdl   1/1       Running   0          25m       192.168.3.136   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-v8lj2   1/1       Running   0          25m       192.168.3.139   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
-kuard-dbdd7955d-wzcf4   1/1       Running   0          25m       192.168.49.7    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
-</code></pre>
-
+kuard-dbdd7955d-4kdbr   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.3.140   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-5r757   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.49.6    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-dhts5   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.49.9    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-hsl87   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.49.10   ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-k8x7l   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.49.8    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-ms8hb   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.3.137   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-qfjbk   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.3.138   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-tfgdl   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.3.136   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-v8lj2   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.3.139   ip-10-0-8-254.ap-northeast-2.compute.internal   &lt;none&gt;
+kuard-dbdd7955d-wzcf4   <span class="m">1</span>/1       Running   <span class="m">0</span>          25m       <span class="m">192</span>.168.49.7    ip-10-0-8-176.ap-northeast-2.compute.internal   &lt;none&gt;</code></pre></div>
 <p>다음과 같이 Node 인스턴스에서 Pod에 접속이 되는 것을 확인할 수 있다.</p>
-
-<pre><code>ubuntu@ip-10-0-23-3:~/.kube$ curl 192.168.3.140:8080/env/api
-{&quot;commandLine&quot;:[&quot;/kuard&quot;],&quot;env&quot;:{&quot;HOME&quot;:&quot;/&quot;,&quot;HOSTNAME&quot;:&quot;kuard-dbdd7955d-4kdbr&quot;,&quot;KUBERNETES_PORT&quot;:&quot;tcp://10.96.0.1:443&quot;,&quot;KUBERNETES_PORT_443_TCP&quot;:&quot;tcp://10.96.0.1:443&quot;,&quot;KUBERNETES_PORT_443_TCP_ADDR&quot;:&quot;10.96.0.1&quot;,&quot;KUBERNETES_PORT_443_TCP_PORT&quot;:&quot;443&quot;,&quot;KUBERNETES_PORT_443_TCP_PROTO&quot;:&quot;tcp&quot;,&quot;KUBERNETES_SERVICE_HOST&quot;:&quot;10.96.0.1&quot;,&quot;KUBERNETES_SERVICE_PORT&quot;:&quot;443&quot;,&quot;KUBERNETES_SERVICE_PORT_HTTPS&quot;:&quot;443&quot;,&quot;PATH&quot;:&quot;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&quot;}}
-</code></pre>
-
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">ubuntu@ip-10-0-23-3:~/.kube$ curl <span class="m">192</span>.168.3.140:8080/env/api
+<span class="o">{</span><span class="s2">&#34;commandLine&#34;</span>:<span class="o">[</span><span class="s2">&#34;/kuard&#34;</span><span class="o">]</span>,<span class="s2">&#34;env&#34;</span>:<span class="o">{</span><span class="s2">&#34;HOME&#34;</span>:<span class="s2">&#34;/&#34;</span>,<span class="s2">&#34;HOSTNAME&#34;</span>:<span class="s2">&#34;kuard-dbdd7955d-4kdbr&#34;</span>,<span class="s2">&#34;KUBERNETES_PORT&#34;</span>:<span class="s2">&#34;tcp://10.96.0.1:443&#34;</span>,<span class="s2">&#34;KUBERNETES_PORT_443_TCP&#34;</span>:<span class="s2">&#34;tcp://10.96.0.1:443&#34;</span>,<span class="s2">&#34;KUBERNETES_PORT_443_TCP_ADDR&#34;</span>:<span class="s2">&#34;10.96.0.1&#34;</span>,<span class="s2">&#34;KUBERNETES_PORT_443_TCP_PORT&#34;</span>:<span class="s2">&#34;443&#34;</span>,<span class="s2">&#34;KUBERNETES_PORT_443_TCP_PROTO&#34;</span>:<span class="s2">&#34;tcp&#34;</span>,<span class="s2">&#34;KUBERNETES_SERVICE_HOST&#34;</span>:<span class="s2">&#34;10.96.0.1&#34;</span>,<span class="s2">&#34;KUBERNETES_SERVICE_PORT&#34;</span>:<span class="s2">&#34;443&#34;</span>,<span class="s2">&#34;KUBERNETES_SERVICE_PORT_HTTPS&#34;</span>:<span class="s2">&#34;443&#34;</span>,<span class="s2">&#34;PATH&#34;</span>:<span class="s2">&#34;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;</span><span class="o">}}</span></code></pre></div>
 <p><strong>Note</strong>: 2017년 데모에서는 <code>KUBECONFIG</code> 파일의 명시해주고 있는데, 현재 버전에서는 마스터 노드 홈디렉토리에 <code>~/.kube/config</code> 파일이 존재한다.  <code>kubeadm</code> v1.8.0부터 kubeadm은 클러스터 구성을 kube-system 네임 스페이스의 kubeadm-config라는 ConfigMap에 업로드하고 나중에 업그레이드 할 때 ConfigMap을 읽는다. 그리고 어드민 설정 정보는 <code>/etc/kubernetes/admin.confg</code> 파일에 기록된다.</p>
 
 <ul>
@@ -550,7 +546,8 @@ kubernetes-dashboard-84fff45879-cmmtp                                    <span c
 <p><code>kube-proxy</code>의 메커니즘은 다음과 같다. <code>kube-proxy</code>는 ClusterIP를 지닌 모든 <code>Service</code>를 모니터링한다. 그리고 연관된 <code>EndPoint</code> 변경을 따라 iptable을 구성하고, 해당 iptable을 사용해서 ClusterIP를 통하는 모든 트래픽이 해당하는 엔드포인트에 랜덤하게 로드 밸런싱되게 한다.</p>
 
 <p>iptable을 살펴보자. calico가 관리하는 iptable은 <code>cali</code>라고 주석이 달려 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">Chain INPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ iptables -L
+Chain INPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
 target     prot opt <span class="nb">source</span>               destination         
 cali-INPUT  all  --  anywhere             anywhere             /* cali:Cz_u1IQiXIMmKD4c */
 KUBE-EXTERNAL-SERVICES  all  --  anywhere             anywhere             ctstate NEW /* kubernetes externally-visible service portals */
@@ -792,9 +789,9 @@ ACCEPT     all  --  anywhere             anywhere             /* cali:nSZbcOoG1x
 -A KUBE-SERVICES -d <span class="m">10</span>.96.0.10/32 -p udp -m comment --comment <span class="s2">&#34;kube-system/kube-dns:dns cluster IP&#34;</span> -m udp --dport <span class="m">53</span> -j KUBE-SVC-TCOU7JCQXEZGVUNU
 -A KUBE-SERVICES -m comment --comment <span class="s2">&#34;kubernetes service nodeports; NOTE: this must be the last rule in this chain&#34;</span> -m addrtype --dst-type LOCAL -j KUBE-NODEPORTS
 ...</code></pre></div>
-<p>다음과 같이 ip <code>10.97.169.67</code>은 <code>KUBE-SVC-CUXC5A3HHHVSSN62</code> 체인으로 점프한다.</p>
+<p>다음과 같이 ip <code>10.97.169.67</code>은 <code>KUBE-SVC-CUXC5A3HHHVSSN62</code>으로 점프한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">-A KUBE-SERVICES -d <span class="m">10</span>.97.169.67/32 -p tcp -m comment --comment <span class="s2">&#34;default/kuard: cluster IP&#34;</span> -m tcp --dport <span class="m">80</span> -j KUBE-SVC-CUXC5A3HHHVSSN62</code></pre></div>
-<p><code>KUBE-SVC-CUXC5A3HHHVSSN62</code> 체인을 살펴보면, 랜덤 확률별로 각각의 체인으로 점프하는 것을 알 수 있다.</p>
+<p><code>KUBE-SVC-CUXC5A3HHHVSSN62</code>을 살펴보면, 랜덤 확률별로 각각의 규칙으로 점프하는 것을 알 수 있다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">-A KUBE-SVC-CUXC5A3HHHVSSN62 -m comment --comment <span class="s2">&#34;default/kuard:&#34;</span> -m statistic --mode random --probability <span class="m">0</span>.10000000009 -j KUBE-SEP-IY5EMZGCCC7HUEGX
 -A KUBE-SVC-CUXC5A3HHHVSSN62 -m comment --comment <span class="s2">&#34;default/kuard:&#34;</span> -m statistic --mode random --probability <span class="m">0</span>.11110999994 -j KUBE-SEP-JBD3W2H2CSU7KYVR
 -A KUBE-SVC-CUXC5A3HHHVSSN62 -m comment --comment <span class="s2">&#34;default/kuard:&#34;</span> -m statistic --mode random --probability <span class="m">0</span>.12500000000 -j KUBE-SEP-FM3234RRJZPD4GZX
@@ -965,7 +962,7 @@ status:
 <h3>Similar articles:</h3>
 <ul>
 	
-	<li><a href="/post/tgik-001/">TGI Kubernetes:001 A Quick Tour</a></li>
+	<li><a href="/post/tgik-001/">TGI Kubernetes 001: A Quick Tour</a></li>
 	
 	<li><a href="/post/bastion-in-kops/">Kops에서 Bastion 호스트 SSH로 접속하기</a></li>
 	
