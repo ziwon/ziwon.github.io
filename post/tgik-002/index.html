@@ -141,7 +141,7 @@
 <h1 id="networking">Networking</h1>
 
 <p>먼저, 10개의 <code>kuard</code> <code>Pod</code>를 띄운다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">kubectl run --replicas<span class="o">=</span><span class="m">10</span> --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl run --replicas<span class="o">=</span><span class="m">10</span> --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard
 deployment.apps <span class="s2">&#34;kuard&#34;</span> created
 
 $ kubectl get pods
@@ -546,6 +546,9 @@ kubernetes-dashboard-84fff45879-cmmtp                                    <span c
 <p><code>kube-proxy</code>의 메커니즘은 다음과 같다. <code>kube-proxy</code>는 ClusterIP를 지닌 모든 <code>Service</code>를 모니터링한다. 그리고 연관된 <code>EndPoint</code> 변경을 따라 iptable을 구성하고, 해당 iptable을 사용해서 ClusterIP를 통하는 모든 트래픽이 해당하는 엔드포인트에 랜덤하게 로드 밸런싱되게 한다.</p>
 
 <p>iptable을 살펴보자. calico가 관리하는 iptable은 <code>cali</code>라고 주석이 달려 있다.</p>
+
+<p><details>
+<summary><code>iptables -L</code></summary></p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ iptables -L
 Chain INPUT <span class="o">(</span>policy ACCEPT<span class="o">)</span>
 target     prot opt <span class="nb">source</span>               destination         
@@ -772,6 +775,8 @@ Chain cali-wl-to-host <span class="o">(</span><span class="m">1</span> reference
 target     prot opt <span class="nb">source</span>               destination         
 cali-from-wl-dispatch  all  --  anywhere             anywhere             /* cali:Ee9Sbo10IpVujdIY */
 ACCEPT     all  --  anywhere             anywhere             /* cali:nSZbcOoG1xPONxb8 */ /* Configured DefaultEndpointToHostAction */</code></pre></div>
+<p></details></p>
+
 <p>다음으로, 포워딩 테이블을 살펴보자.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ iptables-save <span class="p">|</span> less
 ...

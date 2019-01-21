@@ -35,7 +35,7 @@
 &lt;h1 id=&#34;networking&#34;&gt;Networking&lt;/h1&gt;
 
 &lt;p&gt;먼저, 10개의 &lt;code&gt;kuard&lt;/code&gt; &lt;code&gt;Pod&lt;/code&gt;를 띄운다.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl run --replicas&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:1 kuard
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl run --replicas&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:1 kuard
 deployment.apps &lt;span class=&#34;s2&#34;&gt;&amp;#34;kuard&amp;#34;&lt;/span&gt; created
 
 $ kubectl get pods
@@ -440,6 +440,9 @@ kubernetes-dashboard-84fff45879-cmmtp                                    &lt;spa
 &lt;p&gt;&lt;code&gt;kube-proxy&lt;/code&gt;의 메커니즘은 다음과 같다. &lt;code&gt;kube-proxy&lt;/code&gt;는 ClusterIP를 지닌 모든 &lt;code&gt;Service&lt;/code&gt;를 모니터링한다. 그리고 연관된 &lt;code&gt;EndPoint&lt;/code&gt; 변경을 따라 iptable을 구성하고, 해당 iptable을 사용해서 ClusterIP를 통하는 모든 트래픽이 해당하는 엔드포인트에 랜덤하게 로드 밸런싱되게 한다.&lt;/p&gt;
 
 &lt;p&gt;iptable을 살펴보자. calico가 관리하는 iptable은 &lt;code&gt;cali&lt;/code&gt;라고 주석이 달려 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;details&gt;
+&lt;summary&gt;&lt;code&gt;iptables -L&lt;/code&gt;&lt;/summary&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ iptables -L
 Chain INPUT &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;policy ACCEPT&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 target     prot opt &lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt;               destination         
@@ -666,6 +669,8 @@ Chain cali-wl-to-host &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class
 target     prot opt &lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt;               destination         
 cali-from-wl-dispatch  all  --  anywhere             anywhere             /* cali:Ee9Sbo10IpVujdIY */
 ACCEPT     all  --  anywhere             anywhere             /* cali:nSZbcOoG1xPONxb8 */ /* Configured DefaultEndpointToHostAction */&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+
 &lt;p&gt;다음으로, 포워딩 테이블을 살펴보자.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ iptables-save &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; less
 ...
