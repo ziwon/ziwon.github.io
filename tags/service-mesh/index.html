@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Posts | 人生は儚く短い。</title>
+<title>Service Mesh | 人生は儚く短い。</title>
 
 
 
@@ -110,39 +110,17 @@
     
     
     <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/generics-of-a-higher-kind/">Generics of a Higher Kind</a></h1>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-003/">TGI Kubernetes 003: Istio</a></h1>
       <div class="content">
-        1. Introduction 일차 매개변수적 다형성과 고차 타입 생성자 다형성  일차 매개변수적 다형성은 정적 타입 프로그래밍 언어의 표준 요소임 일차 매개변수적 다형성은 제네릭(generic)이라고 부름 제네릭의 한 가지 응용 분야는 콜렉션(collection)  예) List[A] 타입은 주어진 요소 A 타입의 리스트를 표현, A는 자유롭게 선택됨  일차 매개변수적 다형성은 List와 같은 타입 생성자를 도출하며 타입을 추상화 함 그러나 결과로 나온 타입 생성자는 그들 자신을 추상화할 수 없음  예) List와 같은 타입 생성자를 다른 타입 생성자의 타입 인자로 전달할 수 없음  이런 제한은 자연스러운 추상를 정형화하는데 방해가 되며 불필요한 중복 코드로 이어짐  고차 타입 생성자 다형성와 카인드  고차 타입 생성자 다형성을 통해 더 많은 제네럴티를 확보할 수 있음 이 논문에서는 Scala 프로그래밍 언어의 타입 생성자 다형성의 설계와 구현에 대해 살펴봄 Scala 2.
+        TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
+•••
+ 아래의 배포 작업 작업처럼, 여러 클러스터와 네임스페이스를 빠르게 스위칭할 필요가 있는데, 다음의 툴을 사용하면 좀 더 편하게 작업할 수 잇다.
+  alias k=kubectl kubectx, kubens kns  •••
+Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.
         
         
       </div>
-      <a class="button" href="https://ziwon.github.io/post/generics-of-a-higher-kind/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/principles-of-reactive-programming/">Principles of Reactive Programming</a></h1>
-      <div class="content">
-        Finally got my certificate for the Coursera &ldquo;Principles of Reactive Programming&rdquo; course. :) It was rather easy in the beginning, but became more challenging as it went on. Now where to go?
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/principles-of-reactive-programming/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/lambda-calculus/">Lambda Calculus</a></h1>
-      <div class="content">
-        람다 대수는 결정문제(decision problem)를 풀기 위해, 계산가능성(computability)의 개념을 정의한 수학적 모델로 1936년 알로존 처치(Alonzo Church)가 고안하였다.
-좀 더 구체적으로는 소프트웨어에서 &lsquo;알고리즘이란 무엇인가?&lsquo;를 정의한 클래스(class)나 객체(object)가 아닌 값(function) 중심 언어, 즉 함수형 언어의 계산 모델이다. (같은 해에 처치의 제자였던, 앨런 튜닝은 튜링 머신의 개념으로 계산 모델을 정의했다. Lisp를 만든 존 매카시
-람다 대수는 그 자체가 이미 하나의 언어로 많은 함수형 프로그래밍 언어가 람다대수에 기초하고 있다.
- functional language = lambda calcus + sugars (ex.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/lambda-calculus/" style="height:28px">
+      <a class="button" href="https://ziwon.github.io/post/tgik-003/" style="height:28px">
         Read more
       </a>
     </article>
@@ -154,17 +132,6 @@
     <nav class="level is-mobile">
       <div class="level-left">
         <div class="level-item">
-          
-          <a class="button" href="/post/page/2/">
-            <span class="icon is-small is-marginless">
-              <svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <polyline points="15 18 9 12 15 6"/>
-    
-  </svg>
-            </span>
-            Newer
-          </a>
           
         </div>
       </div>

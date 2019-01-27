@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ziwon.github.io/post/tgik-003/</loc>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/post/tgik-002/</loc>
     <lastmod>2019-01-19T08:12:00+09:00</lastmod>
   </url>
@@ -147,6 +152,12 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/istio/</loc>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/kops/</loc>
     <lastmod>2019-01-02T12:12:00+00:00</lastmod>
     <priority>0</priority>
@@ -154,7 +165,7 @@
   
   <url>
     <loc>https://ziwon.github.io/tags/kubernetes/</loc>
-    <lastmod>2019-01-19T08:12:00+09:00</lastmod>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -178,7 +189,7 @@
   
   <url>
     <loc>https://ziwon.github.io/post/</loc>
-    <lastmod>2019-01-19T08:12:00+09:00</lastmod>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -207,6 +218,18 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/service-mesh/</loc>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ziwon.github.io/tags/service-network/</loc>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/ssh/</loc>
     <lastmod>2019-01-02T12:12:00+00:00</lastmod>
     <priority>0</priority>
@@ -220,7 +243,7 @@
   
   <url>
     <loc>https://ziwon.github.io/</loc>
-    <lastmod>2019-01-19T08:12:00+09:00</lastmod>
+    <lastmod>2019-01-27T01:12:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   

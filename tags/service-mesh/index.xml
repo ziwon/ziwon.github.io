@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Service Mesh on 人生は儚く短い。</title>
+    <link>https://ziwon.github.io/tags/service-mesh/</link>
+    <description>Recent content in Service Mesh on 人生は儚く短い。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 27 Jan 2019 01:12:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/tags/service-mesh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TGI Kubernetes 003: Istio</title>
+      <link>https://ziwon.github.io/post/tgik-003/</link>
+      <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/tgik-003/</guid>
+      <description>TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
+•••
+ 아래의 배포 작업 작업처럼, 여러 클러스터와 네임스페이스를 빠르게 스위칭할 필요가 있는데, 다음의 툴을 사용하면 좀 더 편하게 작업할 수 잇다.
+  alias k=kubectl kubectx, kubens kns  •••
+Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.</description>
+    </item>
+    
+  </channel>
+</rss>

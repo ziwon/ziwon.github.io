@@ -13,6 +13,489 @@
     
     
     <item>
+      <title>TGI Kubernetes 003: Istio</title>
+      <link>https://ziwon.github.io/post/tgik-003/</link>
+      <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
+      <author>Philbert Yoon</author>
+      <guid>https://ziwon.github.io/post/tgik-003/</guid>
+      <description></description>
+      
+      <content>
+
+&lt;h1 id=&#34;tgik-003-istio&#34;&gt;TGIK 003: Istio&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/heptio/tgik/tree/master/episodes/003&#34; target=&#34;_blank&#34;&gt;세번째 에피소드&lt;/a&gt;는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;•••&lt;/center&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;아래의 배포 작업 작업처럼, 여러 클러스터와 네임스페이스를 빠르게 스위칭할 필요가 있는데, 다음의 툴을 사용하면 좀 더 편하게 작업할 수 잇다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;alias k=kubectl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ahmetb/kubectx&#34; target=&#34;_blank&#34;&gt;kubectx, kubens&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/blendle/kns&#34; target=&#34;_blank&#34;&gt;kns&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;center&gt;•••&lt;/center&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;service-network&#34;&gt;Service Network&lt;/h1&gt;
+
+&lt;p&gt;앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 &lt;a href=&#34;http://slides.eightypercent.net/linuxcon-ops-dividend/index.html&#34; target=&#34;_blank&#34;&gt;The Operations Dividend - Joe Beda (LinuxCon North America 2016)&lt;/a&gt;를 참고한다.&lt;/p&gt;
+
+&lt;p&gt;여러 가지 타입의 마이크로 서비스가 있을 수 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Implementation Detail&lt;/strong&gt; (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 세부 구현된 서비스 )&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Shared Artificat, Priavete Instance&lt;/strong&gt; (MySQL 데이터베이스,  개인 인스턴스를 하나씩 가지고 개발)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Shared Instance&lt;/strong&gt; (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Big-S Servie&lt;/strong&gt; (회사 외부로 확장된 완전히 구현된 Saas 모델, 예. SendGrid)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이러한 것들을 서비스 네트워크라고 부를 수 있고, &lt;strong&gt;Istio&lt;/strong&gt;가 등장한 배경이라고 볼 수 있다. 서비스 네트워크 또는 서비스 메쉬에서는 서비스 과부하 발생 시에 다른 서비스나 네트워크로 처리하는 것도 중요하지만, 사용자를 가장한 공격자나 침입 탐지 등의 누가 이 서비스를 호출했는지에 대한 보안이나 신원확인도 중요하다고 한다.&lt;/p&gt;
+
+&lt;h1 id=&#34;demo&#34;&gt;Demo&lt;/h1&gt;
+
+&lt;p&gt;데모 영상은 Istio 설치와 배포 과정 중에 발생한 서비스 계정과 관련된 오류의 원인을 파악하고 수정하는데 많은 시간을 할애하고 있고, 또한 2017년도의 지난 내용이라 아래와 같이, Istio 공식 문서를 참고하며 따로 정리하였다. (그러나 크게 바뀌진 않고 세부 내용만 조금 다를 뿐이다.)&lt;/p&gt;
+
+&lt;h2 id=&#34;istio-demo&#34;&gt;Istio Demo&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;QuickStart Heptio&lt;/code&gt;를 사용해서 쿠버네티스 클러스터를 준비한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;개인적인 학습을 목적으로 기존 템플릿을 조금 수정하였다. 5대의 워커 노드(t2.small) 등 사소한 몇 가지를 변경하였다. (참고로, 원래 저장소의 CloudFormation 템플릿은 burstable EC2 인스턴스 타입을 지원하지 않는다.) - &lt;a href=&#34;https://github.com/ziwon/quickstart-heptio&#34; target=&#34;_blank&#34;&gt;https://github.com/ziwon/quickstart-heptio&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;최신 설치 방법 및 가이드는 다음 문서를 참조한다. (공식 문서가 워낙 잘되어 있어서 사실 따로 정리하는 게 큰 의미가 없어 보인다.)&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://istio.io/docs/setup/&#34; target=&#34;_blank&#34;&gt;https://istio.io/docs/setup/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://istio.io/docs/setup/kubernetes/quick-start/&#34; target=&#34;_blank&#34;&gt;https://istio.io/docs/setup/kubernetes/quick-start/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Istio를 적당한 디렉토리에 다운 받는다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;mkdir -p ~/Workspace/TGIK/003
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; ~/Workspace/TGIK/003
+curl -L https://git.io/getLatestIstio &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sh -&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다운 받은 후에는 Path를 잡아줘야 하는데, &lt;code&gt;kubectl&lt;/code&gt;, &lt;code&gt;helm&lt;/code&gt; 등과 마찬가지로 다음과 같이 그냥 &lt;code&gt;/usr/local/bin&lt;/code&gt;에 복사한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;cp ./bin/istioctl /usr/local/bin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;먼저, Istio의 CRD(Custom Resource Definition)을 생성한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;details&gt;
+&lt;summary&gt;
+    &lt;code&gt;shell
+    kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+&lt;/code&gt;
+&lt;/summary&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+customresourcedefinition.apiextensions.k8s.io/virtualservices.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/destinationrules.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/serviceentries.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/gateways.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/envoyfilters.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/policies.authentication.istio.io created
+customresourcedefinition.apiextensions.k8s.io/meshpolicies.authentication.istio.io created
+customresourcedefinition.apiextensions.k8s.io/httpapispecbindings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/httpapispecs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/quotaspecbindings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/quotaspecs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/rules.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/attributemanifests.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/bypasses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/circonuses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/deniers.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/fluentds.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/kubernetesenvs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/listcheckers.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/memquotas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/noops.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/opas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/prometheuses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/rbacs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/redisquotas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/servicecontrols.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/signalfxs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/solarwindses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/stackdrivers.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/statsds.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/stdios.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/apikeys.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/authorizations.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/checknothings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/kuberneteses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/listentries.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/logentries.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/edges.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/metrics.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/quotas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/reportnothings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/servicecontrolreports.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/tracespans.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/rbacconfigs.rbac.istio.io created
+customresourcedefinition.apiextensions.k8s.io/serviceroles.rbac.istio.io created
+customresourcedefinition.apiextensions.k8s.io/servicerolebindings.rbac.istio.io created
+customresourcedefinition.apiextensions.k8s.io/adapters.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/instances.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/templates.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/handlers.config.istio.io created&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+
+&lt;p&gt;다음으로, 데모 리소스를 설치한다. &lt;code&gt;install&lt;/code&gt; 디렉토리에는 상호 TLS 인증용(&lt;code&gt;istio-demo-auth.yaml&lt;/code&gt;)과 비인증용(&lt;code&gt;istio-demo.yaml&lt;/code&gt;) 두 가지 파일이 있는데, &lt;code&gt;istio-demo-auth.yaml&lt;/code&gt;를 사용한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;덧붙여서 학습용 목적의 개인 클러스터의 경우, 워커 노드의 리소스가 매우 작기 때문에, 기본 요구 사항에 맞는 노드를 찾지 못해 Pod의 스케쥴링 &lt;code&gt;Pending&lt;/code&gt; 이 발생할 수 있다. 일단, 데모이니 생략하기로 한다. &lt;code&gt;install/kubernetes/istio-demo.yaml&lt;/code&gt; 파일의 13565 라인에서 13568 라인까지를 삭제한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;name&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;PILOT_CACHE_SQUASH&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;value&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;5&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;name&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;GODEBUG&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;value&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;gctrace=2&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;name&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;PILOT_PUSH_THROTTLE_COUNT&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;value&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;100&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;-&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;name&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;PILOT_TRACE_SAMPLING&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;value&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;100&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;13565&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;     &lt;/span&gt;resources&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;requests&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;cpu&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;500m&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;13568&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;           &lt;/span&gt;memory&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;2048Mi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음과 같이, Istio 컴포넌트를 설치한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;details&gt;
+&lt;summary&gt;kubectl apply -f install/kubernetes/istio-demo-auth.yaml&lt;/summary&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
+namespace/istio-system created
+configmap/istio-galley-configuration created
+configmap/istio-grafana-custom-resources created
+configmap/istio-grafana-configuration-dashboards created
+configmap/istio-grafana created
+configmap/istio-statsd-prom-bridge created
+configmap/prometheus created
+configmap/istio-security-custom-resources created
+configmap/istio created
+configmap/istio-sidecar-injector created
+serviceaccount/istio-galley-service-account created
+serviceaccount/istio-egressgateway-service-account created
+serviceaccount/istio-ingressgateway-service-account created
+serviceaccount/istio-grafana-post-install-account created
+clusterrole.rbac.authorization.k8s.io/istio-grafana-post-install-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-grafana-post-install-role-binding-istio-system created
+job.batch/istio-grafana-post-install created
+serviceaccount/istio-mixer-service-account created
+serviceaccount/istio-pilot-service-account created
+serviceaccount/prometheus created
+serviceaccount/istio-cleanup-secrets-service-account created
+clusterrole.rbac.authorization.k8s.io/istio-cleanup-secrets-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-cleanup-secrets-istio-system created
+job.batch/istio-cleanup-secrets created
+serviceaccount/istio-security-post-install-account created
+clusterrole.rbac.authorization.k8s.io/istio-security-post-install-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-security-post-install-role-binding-istio-system created
+job.batch/istio-security-post-install created
+serviceaccount/istio-citadel-service-account created
+serviceaccount/istio-sidecar-injector-service-account created
+customresourcedefinition.apiextensions.k8s.io/virtualservices.networking.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/destinationrules.networking.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/serviceentries.networking.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/gateways.networking.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/envoyfilters.networking.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/httpapispecbindings.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/httpapispecs.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/quotaspecbindings.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/quotaspecs.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/rules.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/attributemanifests.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/bypasses.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/circonuses.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/deniers.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/fluentds.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/kubernetesenvs.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/listcheckers.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/memquotas.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/noops.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/opas.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/prometheuses.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/rbacs.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/redisquotas.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/servicecontrols.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/signalfxs.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/solarwindses.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/stackdrivers.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/statsds.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/stdios.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/apikeys.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/authorizations.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/checknothings.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/kuberneteses.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/listentries.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/logentries.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/edges.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/metrics.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/quotas.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/reportnothings.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/servicecontrolreports.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/tracespans.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/rbacconfigs.rbac.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/serviceroles.rbac.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/servicerolebindings.rbac.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/adapters.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/instances.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/templates.config.istio.io unchanged
+customresourcedefinition.apiextensions.k8s.io/handlers.config.istio.io unchanged
+clusterrole.rbac.authorization.k8s.io/istio-galley-istio-system created
+clusterrole.rbac.authorization.k8s.io/istio-egressgateway-istio-system created
+clusterrole.rbac.authorization.k8s.io/istio-ingressgateway-istio-system created
+clusterrole.rbac.authorization.k8s.io/istio-mixer-istio-system created
+clusterrole.rbac.authorization.k8s.io/istio-pilot-istio-system created
+clusterrole.rbac.authorization.k8s.io/prometheus-istio-system created
+clusterrole.rbac.authorization.k8s.io/istio-citadel-istio-system created
+clusterrole.rbac.authorization.k8s.io/istio-sidecar-injector-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-galley-admin-role-binding-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-egressgateway-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-ingressgateway-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-mixer-admin-role-binding-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-pilot-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-citadel-istio-system created
+clusterrolebinding.rbac.authorization.k8s.io/istio-sidecar-injector-admin-role-binding-istio-system created
+service/istio-galley created
+service/istio-egressgateway created
+service/istio-ingressgateway created
+service/grafana created
+service/istio-policy created
+service/istio-telemetry created
+service/istio-pilot created
+service/prometheus created
+service/istio-citadel created
+service/servicegraph created
+service/istio-sidecar-injector created
+deployment.extensions/istio-galley created
+deployment.extensions/istio-egressgateway created
+deployment.extensions/istio-ingressgateway created
+deployment.extensions/grafana created
+deployment.extensions/istio-policy created
+deployment.extensions/istio-telemetry created
+deployment.extensions/istio-pilot created
+deployment.extensions/prometheus created
+deployment.extensions/istio-citadel created
+deployment.extensions/servicegraph created
+deployment.extensions/istio-sidecar-injector created
+deployment.extensions/istio-tracing created
+gateway.networking.istio.io/istio-autogenerated-k8s-ingress created
+horizontalpodautoscaler.autoscaling/istio-egressgateway created
+horizontalpodautoscaler.autoscaling/istio-ingressgateway created
+horizontalpodautoscaler.autoscaling/istio-policy created
+horizontalpodautoscaler.autoscaling/istio-telemetry created
+horizontalpodautoscaler.autoscaling/istio-pilot created
+service/jaeger-query created
+service/jaeger-collector created
+service/jaeger-agent created
+service/zipkin created
+service/tracing created
+mutatingwebhookconfiguration.admissionregistration.k8s.io/istio-sidecar-injector created
+attributemanifest.config.istio.io/istioproxy created
+attributemanifest.config.istio.io/kubernetes created
+stdio.config.istio.io/handler created
+logentry.config.istio.io/accesslog created
+logentry.config.istio.io/tcpaccesslog created
+rule.config.istio.io/stdio created
+rule.config.istio.io/stdiotcp created
+metric.config.istio.io/requestcount created
+metric.config.istio.io/requestduration created
+metric.config.istio.io/requestsize created
+metric.config.istio.io/responsesize created
+metric.config.istio.io/tcpbytesent created
+metric.config.istio.io/tcpbytereceived created
+prometheus.config.istio.io/handler created
+rule.config.istio.io/promhttp created
+rule.config.istio.io/promtcp created
+kubernetesenv.config.istio.io/handler created
+rule.config.istio.io/kubeattrgenrulerule created
+rule.config.istio.io/tcpkubeattrgenrulerule created
+kubernetes.config.istio.io/attributes created
+destinationrule.networking.istio.io/istio-policy created
+destinationrule.networking.istio.io/istio-telemetry created&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/details&gt;&lt;/p&gt;
+
+&lt;p&gt;설치 후에는 서비스 목록을 확인한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ k get svc -n istio-system
+NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP                                                                    PORT&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;S&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;                                                                                                                   AGE
+grafana                  ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.103.36.168    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;3000&lt;/span&gt;/TCP                                                                                                                  1m
+istio-citadel            ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.105.126.133   &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;8060&lt;/span&gt;/TCP,9093/TCP                                                                                                         1m
+istio-egressgateway      ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.96.167.111    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;80&lt;/span&gt;/TCP,443/TCP                                                                                                            1m
+istio-galley             ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.101.13.252    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;443&lt;/span&gt;/TCP,9093/TCP                                                                                                          1m
+istio-ingressgateway     LoadBalancer   &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.110.86.12     a9ea060f3215111e98ff402da3f66b58-1123416063.ap-northeast-2.elb.amazonaws.com   &lt;span class=&#34;m&#34;&gt;80&lt;/span&gt;:31380/TCP,443:31390/TCP,31400:31400/TCP,15011:32529/TCP,8060:32743/TCP,853:32409/TCP,15030:32031/TCP,15031:30142/TCP   1m
+istio-pilot              ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.100.252.232   &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;15010&lt;/span&gt;/TCP,15011/TCP,8080/TCP,9093/TCP                                                                                     1m
+istio-policy             ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.105.64.250    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9091&lt;/span&gt;/TCP,15004/TCP,9093/TCP                                                                                               1m
+istio-sidecar-injector   ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.97.255.80     &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;443&lt;/span&gt;/TCP                                                                                                                   1m
+istio-telemetry          ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.100.243.108   &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9091&lt;/span&gt;/TCP,15004/TCP,9093/TCP,42422/TCP                                                                                     1m
+jaeger-agent             ClusterIP      None             &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;5775&lt;/span&gt;/UDP,6831/UDP,6832/UDP                                                                                                1m
+jaeger-collector         ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.96.82.132     &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;14267&lt;/span&gt;/TCP,14268/TCP                                                                                                       1m
+jaeger-query             ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.97.191.144    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;16686&lt;/span&gt;/TCP                                                                                                                 1m
+prometheus               ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.104.183.23    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9090&lt;/span&gt;/TCP                                                                                                                  1m
+servicegraph             ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.102.175.176   &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;8088&lt;/span&gt;/TCP                                                                                                                  1m
+tracing                  ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.103.166.96    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;80&lt;/span&gt;/TCP                                                                                                                    1m
+zipkin                   ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.108.3.146     &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9411&lt;/span&gt;/TCP                                                                                              &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;몇몇의 Pod은 다음과 같이 &lt;code&gt;Completed&lt;/code&gt; 상태에서 계류 중일 수 있는데, 개의치 않고 하나씩 삭제하면 정상적으로 스켈쥴된다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ k get po -n istio-system
+NAME                                     READY   STATUS      RESTARTS   AGE
+grafana-7f6cd4bf56-lqgck                 &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-citadel-7dd558dcf-m2qjf            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-cleanup-secrets-shkfz              &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;/1     Completed   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-egressgateway-8666f9bdcc-s5xpv     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-galley-787758f7b8-lc97g            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-grafana-post-install-2n6zv         &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;/1     Completed   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-ingressgateway-645bbdc9db-znhnx    &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-pilot-86b6679ddf-7k795             &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;/2     Pending     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-policy-6b59f7bdfd-9xgw6            &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-security-post-install-vpbh4        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;/1     Completed   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-sidecar-injector-d7f98d9cb-ght2x   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-telemetry-f94b484cd-wsd72          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+istio-tracing-7596597bd7-wh57j           &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+prometheus-76db5fddd5-w5zrl              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
+servicegraph-56dddff777-q66jx            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음과 같이 모든 pod이 정상적으로 실행 중인 것을 확인한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ k get po -n istio-system
+NAME                                     READY   STATUS    RESTARTS   AGE
+grafana-7f6cd4bf56-rwrjc                 &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-citadel-7dd558dcf-knfdq            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-egressgateway-8666f9bdcc-skkvq     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-galley-787758f7b8-wmzrf            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-ingressgateway-645bbdc9db-xfz8v    &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-pilot-778f8f466f-7vvtx             &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-policy-6b59f7bdfd-7rdx4            &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-sidecar-injector-d7f98d9cb-p495w   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-telemetry-f94b484cd-ht6d8          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+istio-tracing-7596597bd7-vtfsz           &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+prometheus-76db5fddd5-mvk2r              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
+servicegraph-56dddff777-kkxkp            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;          2h&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;envoy-컨테이너-주입&#34;&gt;Envoy 컨테이너 주입&lt;/h2&gt;
+
+&lt;p&gt;Instio Sidecar Injector는 Envoy 컨테이너를 주입하는 역할을 하는데, 두 가지 방법이 있다.&lt;/p&gt;
+
+&lt;p&gt;특정 네임스페이스를 라벨링하여 자동으로 주입한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl label namespace &amp;lt;namespace&amp;gt; istio-injection&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;enabled
+$ kubectl create -n &amp;lt;namespace&amp;gt; -f &amp;lt;your-app-spec&amp;gt;.yaml&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;또는 다음과 같이 &lt;code&gt;istioctl&lt;/code&gt;을 사용하여 수동으로 주입할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ istioctl kube-inject -f &amp;lt;your-app-spec&amp;gt;.yaml &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; kubectl apply -f -&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이하, 아래 예제 서비스는 모두 &lt;code&gt;istioctl&lt;/code&gt;을 사용해서 배포한다.&lt;/p&gt;
+
+&lt;h3 id=&#34;helloworld-예제&#34;&gt;HelloWorld 예제&lt;/h3&gt;
+
+&lt;p&gt;먼저, 다운 받아 놓은 Istio의 &lt;code&gt;sample&lt;/code&gt; 폴더 밑에 있는 &lt;code&gt;hello-world&lt;/code&gt; 서비스를 배포해보자.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f &amp;lt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;istioctl kube-inject -f helloworld.yaml&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Istio 인그레스 컨트롤러에서 획득한 ELB 주소와 포트로 접속하면, 다음과 같이 Hello version 1과 Hello version 2로 로드밸런싱 되는 것을 볼 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ curl http://af4e1ca06216211e9bc6d02f1aa55be0-1809927191.ap-northeast-2.elb.amazonaws.com/hello
+Hello version: v1, instance: helloworld-v1-67f4b97db-ldzhl
+
+$ curl http://af4e1ca06216211e9bc6d02f1aa55be0-1809927191.ap-northeast-2.elb.amazonaws.com/hello
+Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd
+
+$ curl http://af4e1ca06216211e9bc6d02f1aa55be0-1809927191.ap-northeast-2.elb.amazonaws.com/hello
+Hello version: v1, instance: helloworld-v1-67f4b97db-ldzhl
+
+$ curl http://af4e1ca06216211e9bc6d02f1aa55be0-1809927191.ap-northeast-2.elb.amazonaws.com/hello
+Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;bookinfo-예제&#34;&gt;BookInfo 예제&lt;/h3&gt;
+
+&lt;p&gt;BookInfo 예제의 배포도 HelloWorld와 동일하다.&lt;/p&gt;
+
+&lt;p&gt;자세한 것은 다음 문서를 참고한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://istio.io/docs/examples/bookinfo/&#34; target=&#34;_blank&#34;&gt;https://istio.io/docs/examples/bookinfo/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;BookInfo 예제도 접속할 때마다, Istio 서비스 메쉬로 화면이 갱신되는 것을 확인할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;../../tgik-003/bookinfo.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;모니터링&#34;&gt;모니터링&lt;/h2&gt;
+
+&lt;h3 id=&#34;service-graph&#34;&gt;Service Graph&lt;/h3&gt;
+
+&lt;p&gt;서비스 그래프는 포트 포워딩 후에, &lt;code&gt;http://localhost:8088/dotviz&lt;/code&gt;에 접속하게 되면 서비스 그래프를 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n istio-system port-forward &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;kubectl -n istio-system get pod -l &lt;span class=&#34;nv&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;servicegraph -o &lt;span class=&#34;nv&#34;&gt;jsonpath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;{.items[0].metadata.name}&amp;#39;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;8088&lt;/span&gt;:8080 &lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;../../tgik-003/service-graph.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;그 외에도 다양한 방법의 시각화를 제공하고 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;/force/forcegraph.html (D3.js 시각화 그래프)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;/dotviz (정적 시각화 그래프)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;/dotgraph (DOT 직렬화 데이터)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;/d3graph (D3 visualization JSON 직렬화 데이터)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;/graph (JSON 직렬화 데이터)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이상, 자세한 내용은 다음 링크를 참고한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://istio.io/docs/tasks/telemetry/using-istio-dashboard/&#34; target=&#34;_blank&#34;&gt;https://istio.io/docs/tasks/telemetry/using-istio-dashboard/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;graphana&#34;&gt;Graphana&lt;/h3&gt;
+
+&lt;p&gt;또한 Istio 메쉬 대시보드, 서비스 대시보드, 워크 로드 대시보드 등을 비릇해 다양한 대시보드를 통해 메트릭을 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n istio-system port-forward &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;kubectl -n istio-system get pod -l &lt;span class=&#34;nv&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;grafana -o &lt;span class=&#34;nv&#34;&gt;jsonpath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;{.items[0].metadata.name}&amp;#39;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;3000&lt;/span&gt;:3000 &lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;../../tgik-003/grafana.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;자세한 내용은 다음 링크를 참고한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://istio.io/docs/tasks/telemetry/using-istio-dashboard/&#34; target=&#34;_blank&#34;&gt;https://istio.io/docs/tasks/telemetry/using-istio-dashboard/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;jaeger&#34;&gt;Jaeger&lt;/h3&gt;
+
+&lt;p&gt;예거라는 분산 로그 추적 시스템을 통해 마이크로 서비스의 API 하나하나를 추적할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl port-forward -n istio-system &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;kubectl get pod -n istio-system -l &lt;span class=&#34;nv&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;jaeger -o &lt;span class=&#34;nv&#34;&gt;jsonpath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;{.items[0].metadata.name}&amp;#39;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;16686&lt;/span&gt;:16686 &lt;span class=&#34;p&#34;&gt;&amp;amp;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;../../tgik-003/jaeger-001.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;../../tgik-003/jaeger-002.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;../../tgik-003/jaeger-003.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이상, 자세한 내용은 다음 링크를 참고한다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://istio.io/docs/tasks/telemetry/distributed-tracing/&#34; target=&#34;_blank&#34;&gt;https://istio.io/docs/tasks/telemetry/distributed-tracing/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.jaegertracing.io&#34; target=&#34;_blank&#34;&gt;https://www.jaegertracing.io&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;center&gt;•••&lt;/center&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;service-account-오류-수정&#34;&gt;Service Account 오류 수정&lt;/h2&gt;
+
+&lt;p&gt;2017년 데모 당시에는 Istio RBAC 활성화시에 제대로 배포되지 않는 버그가 있었다. 그 과정이 흥미진진하고 마지막에 해결하는 모습이 멋있는데(?) 다음과 같다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=2491&#34; target=&#34;_blank&#34;&gt;Ingress/Engress 에러 확인&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=2540&#34; target=&#34;_blank&#34;&gt;일단, Ingress/Engress 컨테이너 로그를 확인해 봄&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=2644&#34; target=&#34;_blank&#34;&gt;Pilot Pod에서 api-server 컨테이너 로그 확인&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;* failed to register Third-Party Resources. User &lt;span class=&#34;s2&#34;&gt;&amp;#34;system:serviceaccount:default:istio-pilot-service-account&amp;#34;&lt;/span&gt; cannot get thirdpartyresources.exentions at the cluster scope. &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;get thirdpartyresources.extensions istio-config.istio.io&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+* failed to register Thrid-Party REsources. Failed to create all TPRs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=3230&#34; target=&#34;_blank&#34;&gt;Istio 네임스페이스가 디폴트가 아닌 경우에 ClusterRoleBinding을 변경해줘야 하는 이슈 PR(333)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Istio mixer가 뭔가 하는 작업이 있는데, RBAC 롤을 제대로 안 주고 있는 것 같다고 추측. 이에 누군가가 mixer가 pilot 애셋을 가지고 있는지 확인해보라고 함&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=3230&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;istio-pilot-service-account&lt;/code&gt; 서비스 계정 추가&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;k edit deployment istio-mixer
+serviceAccount: istio-pilot-service-account&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;추후 RBAC이 활성화 되었을 때 k8s TPR이 생성되지 않는 동일한 &lt;a href=&#34;https://github.com/istio/istio/issues/327&#34; target=&#34;_blank&#34;&gt;327번 이슈&lt;/a&gt; 확인&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+      
+    </item>
+    
+    <item>
       <title>TGI Kubernetes 002: Networking and Services</title>
       <link>https://ziwon.github.io/post/tgik-002/</link>
       <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
