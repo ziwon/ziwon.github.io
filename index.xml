@@ -29,7 +29,7 @@
 &lt;p&gt;&lt;center&gt;•••&lt;/center&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;아래의 배포 작업 작업처럼, 여러 클러스터와 네임스페이스를 빠르게 스위칭할 필요가 있는데, 다음의 툴을 사용하면 좀 더 편하게 작업할 수 잇다.&lt;/p&gt;
+&lt;p&gt;아래의 배포 작업 작업처럼, 여러 클러스터와 네임스페이스를 빠르게 스위칭할 필요가 있는데, 다음의 툴을 사용하면 좀 더 편하게 진행할 수 있다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;ul&gt;
@@ -37,6 +37,12 @@
 &lt;li&gt;&lt;a href=&#34;https://github.com/ahmetb/kubectx&#34; target=&#34;_blank&#34;&gt;kubectx, kubens&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/blendle/kns&#34; target=&#34;_blank&#34;&gt;kns&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;kubectl-aliases[https://github.com/ahmetb/kubectl-aliases]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;center&gt;•••&lt;/center&gt;&lt;/p&gt;
 
@@ -47,8 +53,8 @@
 &lt;p&gt;여러 가지 타입의 마이크로 서비스가 있을 수 있다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Implementation Detail&lt;/strong&gt; (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 세부 구현된 서비스 )&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Shared Artificat, Priavete Instance&lt;/strong&gt; (MySQL 데이터베이스,  개인 인스턴스를 하나씩 가지고 개발)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Implementation Detail&lt;/strong&gt; (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각가의 모듈로 세부 구현된 서비스 )&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Shared Artificat, Priavete Instance&lt;/strong&gt; (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Shared Instance&lt;/strong&gt; (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스)&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Big-S Servie&lt;/strong&gt; (회사 외부로 확장된 완전히 구현된 Saas 모델, 예. SendGrid)&lt;/li&gt;
 &lt;/ul&gt;
@@ -334,8 +340,8 @@ jaeger-query             ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/spa
 prometheus               ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.104.183.23    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9090&lt;/span&gt;/TCP                                                                                                                  1m
 servicegraph             ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.102.175.176   &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;8088&lt;/span&gt;/TCP                                                                                                                  1m
 tracing                  ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.103.166.96    &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;80&lt;/span&gt;/TCP                                                                                                                    1m
-zipkin                   ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.108.3.146     &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9411&lt;/span&gt;/TCP                                                                                              &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;몇몇의 Pod은 다음과 같이 &lt;code&gt;Completed&lt;/code&gt; 상태에서 계류 중일 수 있는데, 개의치 않고 하나씩 삭제하면 정상적으로 스켈쥴된다.&lt;/p&gt;
+zipkin                   ClusterIP      &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;.108.3.146     &amp;lt;none&amp;gt;                                                                         &lt;span class=&#34;m&#34;&gt;9411&lt;/span&gt;/TCP&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음과 같이, Istio 설치가 완료되었다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ k get po -n istio-system
 NAME                                     READY   STATUS      RESTARTS   AGE
 grafana-7f6cd4bf56-lqgck                 &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
@@ -353,21 +359,6 @@ istio-telemetry-f94b484cd-wsd72          &lt;span class=&#34;m&#34;&gt;2&lt;/spa
 istio-tracing-7596597bd7-wh57j           &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
 prometheus-76db5fddd5-w5zrl              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m
 servicegraph-56dddff777-q66jx            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2m&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;다음과 같이 모든 pod이 정상적으로 실행 중인 것을 확인한다.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ k get po -n istio-system
-NAME                                     READY   STATUS    RESTARTS   AGE
-grafana-7f6cd4bf56-rwrjc                 &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-citadel-7dd558dcf-knfdq            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-egressgateway-8666f9bdcc-skkvq     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-galley-787758f7b8-wmzrf            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-ingressgateway-645bbdc9db-xfz8v    &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-pilot-778f8f466f-7vvtx             &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-policy-6b59f7bdfd-7rdx4            &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-sidecar-injector-d7f98d9cb-p495w   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-telemetry-f94b484cd-ht6d8          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-istio-tracing-7596597bd7-vtfsz           &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-prometheus-76db5fddd5-mvk2r              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          2h
-servicegraph-56dddff777-kkxkp            &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;/1     Running   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;          2h&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&#34;envoy-컨테이너-주입&#34;&gt;Envoy 컨테이너 주입&lt;/h2&gt;
 
 &lt;p&gt;Instio Sidecar Injector는 Envoy 컨테이너를 주입하는 역할을 하는데, 두 가지 방법이 있다.&lt;/p&gt;
@@ -468,7 +459,7 @@ Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd&lt;/code&gt;&lt;/pre&
 
 &lt;h2 id=&#34;service-account-오류-수정&#34;&gt;Service Account 오류 수정&lt;/h2&gt;
 
-&lt;p&gt;2017년 데모 당시에는 Istio RBAC 활성화시에 제대로 배포되지 않는 버그가 있었다. 그 과정이 흥미진진하고 마지막에 해결하는 모습이 멋있는데(?) 다음과 같다.&lt;/p&gt;
+&lt;p&gt;2017년 데모 당시에는 Istio RBAC 활성화시에 제대로 배포되지 않는 버그가 있었다. 그 과정이 흥미진진하고 마지막에 해결하는 모습이 멋있어서 그 과정을 간략히 요약해보았다.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=2491&#34; target=&#34;_blank&#34;&gt;Ingress/Engress 에러 확인&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
@@ -482,7 +473,7 @@ Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd&lt;/code&gt;&lt;/pre&
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=3230&#34; target=&#34;_blank&#34;&gt;Istio 네임스페이스가 디폴트가 아닌 경우에 ClusterRoleBinding을 변경해줘야 하는 이슈 PR(333)&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Istio mixer가 뭔가 하는 작업이 있는데, RBAC 롤을 제대로 안 주고 있는 것 같다고 추측. 이에 누군가가 mixer가 pilot 애셋을 가지고 있는지 확인해보라고 함&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Istio mixer가 뭔가 하는 게 있는데, RBAC 롤을 제대로 안 주고 있는 것 같다고 추측. 이에 누군가가 mixer가 pilot 애셋을 가지고 있는지 확인해보라고 함.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=WnDG-5cvEew&amp;amp;feature=youtu.be&amp;amp;t=3230&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;istio-pilot-service-account&lt;/code&gt; 서비스 계정 추가&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -490,6 +481,13 @@ Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd&lt;/code&gt;&lt;/pre&
 serviceAccount: istio-pilot-service-account&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;추후 RBAC이 활성화 되었을 때 k8s TPR이 생성되지 않는 동일한 &lt;a href=&#34;https://github.com/istio/istio/issues/327&#34; target=&#34;_blank&#34;&gt;327번 이슈&lt;/a&gt; 확인&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;기타-자료&#34;&gt;기타 자료&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/subicura/istio-demo&#34; target=&#34;_blank&#34;&gt;https://github.com/subicura/istio-demo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.katacoda.com/courses/istio/deploy-istio-on-kubernetes&#34; target=&#34;_blank&#34;&gt;https://www.katacoda.com/courses/istio/deploy-istio-on-kubernetes&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
       
