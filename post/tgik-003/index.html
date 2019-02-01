@@ -136,24 +136,6 @@
 
 <p><center>•••</center></p>
 
-<blockquote>
-<p>아래의 배포 작업 작업처럼, 여러 클러스터와 네임스페이스를 빠르게 스위칭할 필요가 있는데, 다음의 툴을 사용하면 좀 더 편하게 진행할 수 있다.</p>
-</blockquote>
-
-<ul>
-<li><code>alias k=kubectl</code></li>
-<li><a href="https://github.com/ahmetb/kubectx" target="_blank">kubectx, kubens</a></li>
-<li><a href="https://github.com/blendle/kns" target="_blank">kns</a></li>
-</ul>
-
-<blockquote>
-<ul>
-<li><code>kubectl-aliases[https://github.com/ahmetb/kubectl-aliases]</code></li>
-</ul>
-</blockquote>
-
-<p><center>•••</center></p>
-
 <h1 id="service-network">Service Network</h1>
 
 <p>앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 <a href="http://slides.eightypercent.net/linuxcon-ops-dividend/index.html" target="_blank">The Operations Dividend - Joe Beda (LinuxCon North America 2016)</a>를 참고한다.</p>
@@ -161,7 +143,7 @@
 <p>여러 가지 타입의 마이크로 서비스가 있을 수 있다.</p>
 
 <ul>
-<li><strong>Implementation Detail</strong> (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각가의 모듈로 세부 구현된 서비스 )</li>
+<li><strong>Implementation Detail</strong> (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각각의 모듈로 세부 구현된 서비스 )</li>
 <li><strong>Shared Artificat, Priavete Instance</strong> (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발)</li>
 <li><strong>Shared Instance</strong> (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스)</li>
 <li><strong>Big-S Servie</strong> (회사 외부로 확장된 완전히 구현된 Saas 모델, 예. SendGrid)</li>
@@ -189,11 +171,11 @@
 </ul>
 
 <p>Istio를 적당한 디렉토리에 다운 받는다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">mkdir -p ~/Workspace/TGIK/003
-<span class="nb">cd</span> ~/Workspace/TGIK/003
-curl -L https://git.io/getLatestIstio <span class="p">|</span> sh -</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ mkdir -p ~/Workspace/TGIK/003
+$ <span class="nb">cd</span> ~/Workspace/TGIK/003
+$ curl -L https://git.io/getLatestIstio <span class="p">|</span> sh -</code></pre></div>
 <p>다운 받은 후에는 Path를 잡아줘야 하는데, <code>kubectl</code>, <code>helm</code> 등과 마찬가지로 다음과 같이 그냥 <code>/usr/local/bin</code>에 복사한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cp ./bin/istioctl /usr/local/bin</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cp ./bin/istioctl /usr/local/bin</code></pre></div>
 <p>먼저, Istio의 CRD(Custom Resource Definition)을 생성한다.</p>
 
 <p><details>
@@ -258,7 +240,7 @@ customresourcedefinition.apiextensions.k8s.io/handlers.config.istio.io created</
 <p>다음으로, 데모 리소스를 설치한다. <code>install</code> 디렉토리에는 상호 TLS 인증용(<code>istio-demo-auth.yaml</code>)과 비인증용(<code>istio-demo.yaml</code>) 두 가지 파일이 있는데, <code>istio-demo-auth.yaml</code>를 사용한다.</p>
 
 <blockquote>
-<p>덧붙여서 학습용 목적의 개인 클러스터의 경우, 워커 노드의 리소스가 매우 작기 때문에, 기본 요구 사항에 맞는 노드를 찾지 못해 Pod의 스케쥴링 <code>Pending</code> 이 발생할 수 있다. 일단, 데모이니 생략하기로 한다. <code>install/kubernetes/istio-demo.yaml</code> 파일의 13565 라인에서 13568 라인까지를 삭제한다.</p>
+<p>덧붙여서 학습용 목적의 개인 클러스터의 경우, 워커 노드의 리소스가 매우 작기 때문에, 기본 요구 사항에 맞는 노드를 찾지 못해 Pod의 스케쥴링 <code>Pending</code> 이 발생할 수 있다. 일단, 데모이니 생략하기로 한다. (또는 리밋을 걸어도 무방) <code>install/kubernetes/istio-demo.yaml</code> 파일의 13565 라인에서 13568 라인까지를 삭제한다.</p>
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">          </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>PILOT_CACHE_SQUASH<span class="w">
 </span><span class="w">            </span>value<span class="p">:</span><span class="w"> </span><span class="s2">&#34;5&#34;</span><span class="w">
@@ -431,7 +413,7 @@ destinationrule.networking.istio.io/istio-telemetry created</code></pre></div>
 <p></details></p>
 
 <p>설치 후에는 서비스 목록을 확인한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ k get svc -n istio-system
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get svc -n istio-system
 NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP                                                                    PORT<span class="o">(</span>S<span class="o">)</span>                                                                                                                   AGE
 grafana                  ClusterIP      <span class="m">10</span>.103.36.168    &lt;none&gt;                                                                         <span class="m">3000</span>/TCP                                                                                                                  1m
 istio-citadel            ClusterIP      <span class="m">10</span>.105.126.133   &lt;none&gt;                                                                         <span class="m">8060</span>/TCP,9093/TCP                                                                                                         1m
@@ -450,7 +432,7 @@ servicegraph             ClusterIP      <span class="m">10</span>.102.175.176   
 tracing                  ClusterIP      <span class="m">10</span>.103.166.96    &lt;none&gt;                                                                         <span class="m">80</span>/TCP                                                                                                                    1m
 zipkin                   ClusterIP      <span class="m">10</span>.108.3.146     &lt;none&gt;                                                                         <span class="m">9411</span>/TCP</code></pre></div>
 <p>다음과 같이, Istio 설치가 완료되었다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ k get po -n istio-system
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get po -n istio-system
 NAME                                     READY   STATUS      RESTARTS   AGE
 grafana-7f6cd4bf56-lqgck                 <span class="m">1</span>/1     Running     <span class="m">0</span>          2m
 istio-citadel-7dd558dcf-m2qjf            <span class="m">1</span>/1     Running     <span class="m">0</span>          2m
@@ -585,13 +567,13 @@ Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd</code></pre></div>
 
 <li><p><a href="https://www.youtube.com/watch?v=WnDG-5cvEew&amp;feature=youtu.be&amp;t=3230" target="_blank"><code>istio-pilot-service-account</code> 서비스 계정 추가</a></p></li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">k edit deployment istio-mixer
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl edit deployment istio-mixer
 serviceAccount: istio-pilot-service-account</code></pre></div>
 <ul>
 <li>추후 RBAC이 활성화 되었을 때 k8s TPR이 생성되지 않는 동일한 <a href="https://github.com/istio/istio/issues/327" target="_blank">327번 이슈</a> 확인</li>
 </ul>
 
-<h2 id="기타-자료">기타 자료</h2>
+<h2 id="기타-링크">기타 링크</h2>
 
 <ul>
 <li><a href="https://github.com/subicura/istio-demo" target="_blank">https://github.com/subicura/istio-demo</a></li>
