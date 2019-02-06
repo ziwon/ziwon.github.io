@@ -673,7 +673,7 @@ Error from server &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;Forbidden&lt;span 
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get pod
 Error from server &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;Forbidden&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;: pods is forbidden: User &lt;span class=&#34;s2&#34;&gt;&amp;#34;users:ziwon&amp;#34;&lt;/span&gt; cannot list resource &lt;span class=&#34;s2&#34;&gt;&amp;#34;pods&amp;#34;&lt;/span&gt; in API group &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; in the namespace &lt;span class=&#34;s2&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2 id=&#34;authorization&#34;&gt;Authorization&lt;/h2&gt;
+&lt;h2 id=&#34;권한-authorization&#34;&gt;권한 (Authorization)&lt;/h2&gt;
 
 &lt;p&gt;모든 쿠버네티스트 리소스는 다음과 같이 클러스터 객체와 네임스페이스 객체로 구분할 수 있다.&lt;/p&gt;
 
@@ -738,7 +738,7 @@ rolebindings                             rbac.authorization.k8s.io   &lt;span cl
 roles                                    rbac.authorization.k8s.io   &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;         Role&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;다음과 같이 RBAC에 의한 리소스 접근시에 권한과 관련된 네임스페이스 객체와 클러스터 객체가 있다.&lt;/p&gt;
 
-&lt;h3 id=&#34;네임스페이스&#34;&gt;네임스페이스&lt;/h3&gt;
+&lt;h3 id=&#34;네임스페이스-role-rolebinding&#34;&gt;네임스페이스 Role &amp;amp; RoleBinding&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Role&lt;/li&gt;
@@ -760,7 +760,7 @@ kube-system   system:controller:bootstrap-signer               8h
 kube-system   system:controller:cloud-provider                 8h
 kube-system   system:controller:token-cleaner                  8h
 kube-system   weave-net                                        8h&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3 id=&#34;클러스터&#34;&gt;클러스터&lt;/h3&gt;
+&lt;h3 id=&#34;클러스터-role-rolebinding&#34;&gt;클러스터 Role &amp;amp; RoleBinding&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ClusterRole&lt;/li&gt;
@@ -1184,10 +1184,32 @@ kube-system   weave-net-6t7tw                                 &lt;span class=&#3
 kube-system   weave-net-hqlw6                                 &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          9h
 kube-system   weave-net-m2dn4                                 &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          9h
 kube-system   weave-net-nrsvs                                 &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          9h&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;service-account&#34;&gt;Service Account&lt;/h2&gt;
+
+&lt;p&gt;다음과 같이 모든 네임스페이스에는 기본적으로 &lt;code&gt;default&lt;/code&gt; 서비스 계정이 존재한다. 쿠버네티스에 RBAC이 있기 전에 클러스터에 접근하는 방법이 Service Account였기 때문이다. 프로그램&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get sa --all-namespaces
+NAMESPACE     NAME                                 SECRETS   AGE
+default       default                              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;         2d1h
+foo           default                              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;         39h
+kube-public   default                              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;         2d1h
+kube-system   default                              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;         2d1h
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;즉, 어플리케이션을 실행시키고 싶으면, 일종의 봇 아이텐티티를 지닌 어플리케이션 고유의 개별 서비스 계정을 주어서 클러스터의 다른 리소스들과 통신하게 할 수 있었다. 그러나 RBAC이 추가되고 베스트 프랙티스로써 알려지게 되면서 문제가 되는 것이, RBAC 측면에서 기존의 &lt;code&gt;default&lt;/code&gt; 계정은 zero 인증과 권한을 가지게 된다는 것이다. 그 대표적인 예가 helm이다. 설치한 후에 RBAC 인증으로 인해 제대로 동작하지 않아 다음과 같은 서비스 계정을 만들고 RBAC 정책을 설정해주어야 한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;cluster-admin --serviceaccount&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p &lt;span class=&#34;s1&#34;&gt;&amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;template&amp;#34;:{&amp;#34;spec&amp;#34;:{&amp;#34;serviceAccount&amp;#34;:&amp;#34;tiller&amp;#34;}}}}&amp;#39;&lt;/span&gt;
+helm init --service-account tiller --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그래서 기존의 &lt;code&gt;default&lt;/code&gt; 서비스 계정 등, 서비스 계정에 관한 RBAC 정책이 이슈가 될 수 있는데, 다음 문서는 서비스 계정에 대한 Heptio사의 베스트 프랙티스이다. 기본적으로 개별 서비스 계정을 만들어 권한을 부여할 것을 권하고 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://docs.heptio.com/content/tutorials/rbac.html&#34; target=&#34;_blank&#34;&gt;How to: RBAC best practices and workarounds&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;h2 id=&#34;관련-링크&#34;&gt;관련 링크&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://rsec.kr/?p=426&#34; target=&#34;_blank&#34;&gt;RSA 인증서 (Certification) 와 전자서명 (Digital Sign)의 원리&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/access-authn-authz/rbac/&#34; target=&#34;_blank&#34;&gt;Using RBAC Authorization&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.linkedin.com/pulse/adding-users-quick-start-kubernetes-aws-jakub-scholz&#34; target=&#34;_blank&#34;&gt;Adding users on &amp;ldquo;Quick Start for Kubernetes on AWS&amp;rdquo;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://docs.heptio.com/content/tutorials/rbac.html&#34; target=&#34;_blank&#34;&gt;How to: RBAC best practices and workarounds&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://jvns.ca/blog/2017/08/05/how-kubernetes-certificates-work/&#34; target=&#34;_blank&#34;&gt;How Kubernetes certificate authorities work&lt;/a&gt;&lt;/li&gt;
