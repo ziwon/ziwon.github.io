@@ -1186,7 +1186,7 @@ kube-system   weave-net-m2dn4                                 &lt;span class=&#3
 kube-system   weave-net-nrsvs                                 &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;/2     Running   &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;          9h&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&#34;service-account&#34;&gt;Service Account&lt;/h2&gt;
 
-&lt;p&gt;다음과 같이 모든 네임스페이스에는 기본적으로 &lt;code&gt;default&lt;/code&gt; 서비스 계정이 존재한다. 쿠버네티스에 RBAC이 있기 전에 클러스터에 접근하는 방법이 Service Account였기 때문이다. 프로그램&lt;/p&gt;
+&lt;p&gt;다음과 같이 모든 네임스페이스에는 기본적으로 &lt;code&gt;default&lt;/code&gt; 서비스 계정이 존재한다. 쿠버네티스에 RBAC이 있기 전에 클러스터에 접근하는 방법이 Service Account였기 때문이다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get sa --all-namespaces
 NAMESPACE     NAME                                 SECRETS   AGE
 default       default                              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;         2d1h
@@ -1199,11 +1199,7 @@ kube-system   default                              &lt;span class=&#34;m&#34;&gt
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;cluster-admin --serviceaccount&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;kube-system:tiller
 kubectl patch deploy --namespace kube-system tiller-deploy -p &lt;span class=&#34;s1&#34;&gt;&amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;template&amp;#34;:{&amp;#34;spec&amp;#34;:{&amp;#34;serviceAccount&amp;#34;:&amp;#34;tiller&amp;#34;}}}}&amp;#39;&lt;/span&gt;
 helm init --service-account tiller --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;그래서 기존의 &lt;code&gt;default&lt;/code&gt; 서비스 계정 등, 서비스 계정에 관한 RBAC 정책이 이슈가 될 수 있는데, 다음 문서는 서비스 계정에 대한 Heptio사의 베스트 프랙티스이다. 기본적으로 개별 서비스 계정을 만들어 권한을 부여할 것을 권하고 있다.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://docs.heptio.com/content/tutorials/rbac.html&#34; target=&#34;_blank&#34;&gt;How to: RBAC best practices and workarounds&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;그래서 기존의 &lt;code&gt;default&lt;/code&gt; 서비스 계정 등 서비스 계정에 관한 RBAC 정책이 이슈가 될 수 있는데, 다음 문서는 서비스 계정에 대한 &lt;a href=&#34;[How to: RBAC best practices and workarounds](http://docs.heptio.com/content/tutorials/rbac.html)&#34; target=&#34;_blank&#34;&gt;Heptio사의 RBAC 베스트 프랙티스&lt;/a&gt;에서는 개별 서비스 계정을 만들어 권한을 부여하는 것을 좀 더 안전한 프랙티스로 권하고 있다.&lt;/p&gt;
 
 &lt;h2 id=&#34;관련-링크&#34;&gt;관련 링크&lt;/h2&gt;
 
