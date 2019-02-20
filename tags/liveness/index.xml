@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Liveness on 人生は儚く短い。</title>
+    <link>https://ziwon.github.io/tags/liveness/</link>
+    <description>Recent content in Liveness on 人生は儚く短い。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
+    <lastBuildDate>Mon, 11 Feb 2019 11:55:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://ziwon.github.io/tags/liveness/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TGI Kubernetes 005: Pod Params and Probes</title>
+      <link>https://ziwon.github.io/post/tgik-005/</link>
+      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/tgik-005/</guid>
+      <description>다섯 번 째 TGIK 에피소드는 특별한 내용이 없는 것 같네요. TGIK 진행된 분량이 많은 관계로 핵심만 추려서 빨리빨리 정리해야되지 않을까 싶네요.
+ 다섯 번 째 에피소드는 Pod을 실행하는 모든 매개변수에 대해 설명한다. 구체적으로 readinessProbe, livenessProve, restart 등 매개변수에 대해 설명한다.
+kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다.</description>
+    </item>
+    
+  </channel>
+</rss>
