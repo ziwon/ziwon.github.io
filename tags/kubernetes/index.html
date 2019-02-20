@@ -110,6 +110,20 @@
     
     
     <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-005/">TGI Kubernetes 005: Pod Params and Probes</a></h1>
+      <div class="content">
+        다섯 번 째 TGIK 에피소드는 특별한 내용이 없는 것 같네요. TGIK 진행된 분량이 많은 관계로 핵심만 추려서 빨리빨리 정리해야되지 않을까 싶네요.
+ 다섯 번 째 에피소드는 Pod을 실행하는 모든 매개변수에 대해 설명한다. 구체적으로 readinessProbe, livenessProve, restart 등 매개변수에 대해 설명한다.
+kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다.
+        
+        
+      </div>
+      <a class="button" href="https://ziwon.github.io/post/tgik-005/" style="height:28px">
+        Read more
+      </a>
+    </article>
+    
+    <article>
       <h1 class="title"><a href="https://ziwon.github.io/post/tgik-004/">TGI Kubernetes 004: RBAC</a></h1>
       <div class="content">
         네번째 에피소드는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo; 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다. RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 Role based access control (RBAC) policies in Kubernetes 웨비나를 추천한다.
@@ -169,20 +183,6 @@ $ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deploym
       </a>
     </article>
     
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/bastion-in-kops/">Kops에서 Bastion 호스트 SSH로 접속하기</a></h1>
-      <div class="content">
-        네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1
-AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
-이를 테면, 다음과 같이 쿠버네티스 마스터 노드와 워커 노드가 구성되어 있다고 하자. 이들 인스턴스들은 내부 네트워크에 존재하므로 바스티온 호스트를 통해 접속해야 한다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/bastion-in-kops/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
   </div>
 </section>
 <section class="section">
@@ -195,6 +195,17 @@ AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접�
       </div>
       <div class="level-right is-marginless">
         <div class="level-item">
+          
+          <a class="button" href="/tags/kubernetes/page/2/">
+            Older
+            <span class="icon is-small is-marginless">
+              <svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <polyline points="14 6 20 12 14 18"/>
+    
+  </svg>
+            </span>
+          </a>
           
         </div>
       </div>

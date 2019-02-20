@@ -724,29 +724,26 @@ Unable to connect to the server: x509: certificate signed by unknown authority</
 <p>그리고 생성된 CSR을 쿠버테스트에 등록하기 위해 base64로 인코딩한 값을 추출한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat ziwon.csr <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span></code></pre></div>
 <p>생성된 쿠버네티스 csr을 등록한다.</p>
-
-<pre><code>$ cat &lt;&lt; EOF | kubectl apply -f -
-apiVersion: certificates.k8s.io/v1beta1
-kind: CertificateSigningRequest
-metadata:
-  name: user-request-ziwon
-spec:
-  groups:
-  - system:authenticated
-  request: ...
-  usages:
-  - digital signature
-  - key encipherment
-  - client auth
-EOF
-</code></pre>
-
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt; EOF | kubectl apply -f -
+</span><span class="s">apiVersion: certificates.k8s.io/v1beta1
+</span><span class="s">kind: CertificateSigningRequest
+</span><span class="s">metadata:
+</span><span class="s">  name: user-request-ziwon
+</span><span class="s">spec:
+</span><span class="s">  groups:
+</span><span class="s">  - system:authenticated
+</span><span class="s">  request: &lt;base64-encoded-csr&gt;
+</span><span class="s">  usages:
+</span><span class="s">  - digital signature
+</span><span class="s">  - key encipherment
+</span><span class="s">  - client auth
+</span><span class="s">EOF</span></code></pre></div>
 <p>등록 후, <code>pending</code> 상태에 있는 <code>user-request-ziwon</code>의 값을 승인한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl certificate approve user-request-ziwon</code></pre></div>
 <p>승인된 <code>user-request-ziwon</code> CSR로부터 공개키를 생성한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get csr user-request-ziwon -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.certificate}&#39;</span> <span class="p">|</span> base64 -d &gt; ziwon.crt</code></pre></div>
 <p>쿠버네티스 API 서버의 Root CA, 그리고 클라이언트의 공개키와 개인키를 이용해, 클라이언트 <code>kubeconfig</code> 파일을 생성한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">cat ziwon.crt <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat ziwon.crt <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
 </span><span class="w"></span>clusters<span class="p">:</span><span class="w">
 </span><span class="w"></span>-<span class="w"> </span>cluster<span class="p">:</span><span class="w">
 </span><span class="w">    </span>certificate-authority-data<span class="p">:</span><span class="w"> </span>&lt;base64-encoded-ca-cert<span class="sd">&gt;
@@ -1340,6 +1337,10 @@ helm init --service-account tiller --upgrade</code></pre></div>
     
     <nav class="post-nav">
         
+        <a class="prev" href="/post/tgik-005/">
+            &lt; <span class="prev-text nav-default">TGI Kubernetes 005: Pod Params and Probes</span>
+                <span class="prev-text nav-mobile"></span>
+        </a>
         
         <a class="next" href="/post/tgik-003/">
             <span class="next-text nav-default">TGI Kubernetes 003: Istio</span>
