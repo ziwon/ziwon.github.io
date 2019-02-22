@@ -110,6 +110,22 @@
     
     
     <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-002/">TGI Kubernetes 002: Networking and Services</a></h1>
+      <div class="content">
+        TGIK: Thanks God It&rsquo;s Kubernetes 두 번째 에피소드는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.
+ 결국, heptio-quickstart를 AWS에 올리고 따라해보았다. 아무래도 GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. QuickStart이긴 하나, CloudFormation 기반으로 Kubernetes 컴포넌트들을 설치해가는 스크립트를 하나하나씩 살펴보는 것도 유의미해보인다.
+ •••
+Networking 먼저, 10개의 kuard Pod를 띄운다.
+$ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deployment.apps &#34;kuard&#34; created $ kubectl get pods NAME READY STATUS RESTARTS AGE kuard-dbdd7955d-4kdbr 1/1 Running 0 13s kuard-dbdd7955d-5r757 1/1 Running 0 13s kuard-dbdd7955d-dhts5 1/1 Running 0 13s kuard-dbdd7955d-hsl87 1/1 Running 0 13s kuard-dbdd7955d-k8x7l 1/1 Running 0 13s kuard-dbdd7955d-ms8hb 1/1 Running 0 13s kuard-dbdd7955d-qfjbk 1/1 Running 0 13s kuard-dbdd7955d-tfgdl 1/1 Running 0 13s kuard-dbdd7955d-v8lj2 1/1 Running 0 13s kuard-dbdd7955d-wzcf4 1/1 Running 0 13s port-forward으로 실행 중인 kuard에 접속해본다.
+        
+        
+      </div>
+      <a class="button" href="https://ziwon.github.io/post/tgik-002/" style="height:28px">
+        Read more
+      </a>
+    </article>
+    
+    <article>
       <h1 class="title"><a href="https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/">[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</a></h1>
       <div class="content">
         원문: Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks (오역 및 오타는 댓글로 알려주세요)
@@ -160,20 +176,6 @@ AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접�
         
       </div>
       <a class="button" href="https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/python_magic_methods/">[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</a></h1>
-      <div class="content">
-        A guide to Python&rsquo;s magic methods를 번역한 문서입니다.
- 서론 이 가이드는 몇 달 간의 블로그 게시물의 정점입니다. 주제는 매직 메소드(magic methods) 입니다.
-매직 메소드가 뭘까요? 이들은 객체지향 파이썬의 모든 것입니다. 클래스에 &ldquo;마법&rdquo;을 추가하기 위해 정의할 수 있는 특수한 메소드입니다. 항상 두 개의 밑줄로 둘러싸입니다. (예: __init__ 또는 __lt__) 또한 필요한 만큼 문서화되지 않았습니다. 파이썬에 대한 모든 매직 메소드가 파이썬 문서의 동일한 섹션에 있지만, 흩어져 있고, 느슨하게 구성되어 있습니다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/python_magic_methods/" style="height:28px">
         Read more
       </a>
     </article>

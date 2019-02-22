@@ -127,6 +127,21 @@
     </article>
     
     <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/docker-storage-overview/">[번역] 도커 스토리지 소개</a></h1>
+      <div class="content">
+        도커상에서 어플리케이션 데이터관리는 중요한 주제이므로 도커 공식 문서를 하나씩 번역해보며 그 내용을 집중적으로 살펴보고자 한다. 원글의 출처는 Storage overview이다.
+ •••
+도커에서 데이터 관리 기본적으로 컨테이너 내부에서 생성된 모든 파일은 쓰기 가능한 컨테이너 레이어에 저장된다. 이는 다음을 의미한다.
+ 데이터는 컨테이너가 더 이상 존재하지 않을 때 지속되지 않으며, 다른 프로세스가 필요할 때에 컨테이너에서 데이터를 꺼내는 것이 어려울 수 있다. 컨테이너의 쓰기 가능한 레이어는 컨테이너가 실행 중인 호스트 머신과 밀접하게 결합된다.
+        
+        
+      </div>
+      <a class="button" href="https://ziwon.github.io/post/docker-storage-overview/" style="height:28px">
+        Read more
+      </a>
+    </article>
+    
+    <article>
       <h1 class="title"><a href="https://ziwon.github.io/post/tgik-005/">TGI Kubernetes 005: Pod Params and Probes</a></h1>
       <div class="content">
         다섯 번 째 TGIK 에피소드는 특별한 내용이 없는 것 같네요. TGIK 진행된 분량이 많은 관계로 핵심만 추려서 빨리빨리 정리해야되지 않을까 싶네요.
@@ -166,22 +181,6 @@ Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네
         
       </div>
       <a class="button" href="https://ziwon.github.io/post/tgik-003/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-002/">TGI Kubernetes 002: Networking and Services</a></h1>
-      <div class="content">
-        TGIK: Thanks God It&rsquo;s Kubernetes 두 번째 에피소드는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.
- 결국, heptio-quickstart를 AWS에 올리고 따라해보았다. 아무래도 GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. QuickStart이긴 하나, CloudFormation 기반으로 Kubernetes 컴포넌트들을 설치해가는 스크립트를 하나하나씩 살펴보는 것도 유의미해보인다.
- •••
-Networking 먼저, 10개의 kuard Pod를 띄운다.
-$ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deployment.apps &#34;kuard&#34; created $ kubectl get pods NAME READY STATUS RESTARTS AGE kuard-dbdd7955d-4kdbr 1/1 Running 0 13s kuard-dbdd7955d-5r757 1/1 Running 0 13s kuard-dbdd7955d-dhts5 1/1 Running 0 13s kuard-dbdd7955d-hsl87 1/1 Running 0 13s kuard-dbdd7955d-k8x7l 1/1 Running 0 13s kuard-dbdd7955d-ms8hb 1/1 Running 0 13s kuard-dbdd7955d-qfjbk 1/1 Running 0 13s kuard-dbdd7955d-tfgdl 1/1 Running 0 13s kuard-dbdd7955d-v8lj2 1/1 Running 0 13s kuard-dbdd7955d-wzcf4 1/1 Running 0 13s port-forward으로 실행 중인 kuard에 접속해본다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-002/" style="height:28px">
         Read more
       </a>
     </article>

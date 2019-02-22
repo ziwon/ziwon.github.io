@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Posts | 人生は儚く短い。</title>
+<title>Data Persistence | 人生は儚く短い。</title>
 
 
 
@@ -110,22 +110,6 @@
     
     
     <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-006/">TGI Kubernetes 006: kubeadm</a></h1>
-      <div class="content">
-        여섯 번째 에피소드는 kubeadm을 이용해서 싱글 마스터 쿠버네티스 클러스터를 설치하는 내용이다. 말할 필요도 없이, 실제 프로덕션 수준의 고가용성 쿠버네티스 클러스터 셋업은 아래처럼 단순하지 않으니 어디까지나 참고만 하도록 한다.
-•••
-오픈소스 릴리즈 - Velero (aka. Ark) &amp; Sonobuoy 앞서, Heptio가 릴리즈한 오픈소스에 대해 간략히 설명하는데, 해당 깃헙 저장소의 README 파일을 내용을 요약하면 아래와 같다.
- Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
- 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제  Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-006/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
       <h1 class="title"><a href="https://ziwon.github.io/post/docker-storage-overview/">[번역] 도커 스토리지 소개</a></h1>
       <div class="content">
         도커상에서 어플리케이션 데이터관리는 중요한 주제이므로 도커 공식 문서를 하나씩 번역해보며 그 내용을 집중적으로 살펴보고자 한다. 원글의 출처는 Storage overview이다.
@@ -136,50 +120,6 @@
         
       </div>
       <a class="button" href="https://ziwon.github.io/post/docker-storage-overview/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-005/">TGI Kubernetes 005: Pod Params and Probes</a></h1>
-      <div class="content">
-        다섯 번 째 TGIK 에피소드는 특별한 내용이 없는 것 같네요. TGIK 진행된 분량이 많은 관계로 핵심만 추려서 빨리빨리 정리해야되지 않을까 싶네요.
- 다섯 번 째 에피소드는 Pod을 실행하는 모든 매개변수에 대해 설명한다. 구체적으로 readinessProbe, livenessProve, restart 등 매개변수에 대해 설명한다.
-kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-005/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-004/">TGI Kubernetes 004: RBAC</a></h1>
-      <div class="content">
-        네번째 에피소드는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo; 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다. RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 Role based access control (RBAC) policies in Kubernetes 웨비나를 추천한다.
-•••
-KubeConfig kubeconfig 파일의 기본 위치는 $HOME/.kube/config이며, KUBECONFIG 환경변수 또는 --kubeconfig 옵션으로 지정할 수 있다.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-004/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-003/">TGI Kubernetes 003: Istio</a></h1>
-      <div class="content">
-        TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
-•••
-Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.
-여러 가지 타입의 마이크로 서비스가 있을 수 있다.
- Implementation Detail (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각각의 모듈로 세부 구현된 서비스 ) Shared Artificat, Priavete Instance (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발) Shared Instance (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스) Big-S Servie (회사 외부로 확장된 완전히 구현된 Saas 모델, 예.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-003/" style="height:28px">
         Read more
       </a>
     </article>
@@ -196,17 +136,6 @@ Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네
       </div>
       <div class="level-right is-marginless">
         <div class="level-item">
-          
-          <a class="button" href="/post/page/2/">
-            Older
-            <span class="icon is-small is-marginless">
-              <svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-    
-    <polyline points="14 6 20 12 14 18"/>
-    
-  </svg>
-            </span>
-          </a>
           
         </div>
       </div>

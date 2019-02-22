@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/post/docker-storage-overview/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/post/tgik-005/</loc>
     <lastmod>2019-02-11T11:55:00+09:00</lastmod>
   </url>
@@ -95,6 +100,12 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/bind-mounts/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/calculus/</loc>
     <lastmod>2013-10-22T13:03:05+09:00</lastmod>
     <priority>0</priority>
@@ -125,6 +136,12 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/data-persistence/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/devops/</loc>
     <lastmod>2018-11-05T02:37:00+00:00</lastmod>
     <priority>0</priority>
@@ -138,7 +155,7 @@
   
   <url>
     <loc>https://ziwon.github.io/tags/docker/</loc>
-    <lastmod>2019-01-16T08:23:00+09:00</lastmod>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -209,8 +226,20 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/mounts/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/networking/</loc>
     <lastmod>2019-01-16T08:23:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ziwon.github.io/tags/persistence/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -287,6 +316,12 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/storage/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/</loc>
     <lastmod>2015-09-04T00:27:35+09:00</lastmod>
     <priority>0</priority>
@@ -295,6 +330,12 @@
   <url>
     <loc>https://ziwon.github.io/tags/tgik/</loc>
     <lastmod>2019-02-11T11:55:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://ziwon.github.io/tags/volumes/</loc>
+    <lastmod>2019-02-20T11:55:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
