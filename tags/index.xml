@@ -157,9 +157,18 @@
     </item>
     
     <item>
+      <title>Kubeadm</title>
+      <link>https://ziwon.github.io/tags/kubeadm/</link>
+      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/kubeadm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kubernetes</title>
       <link>https://ziwon.github.io/tags/kubernetes/</link>
-      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
+      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/kubernetes/</guid>
       <description></description>
@@ -279,6 +288,15 @@
       <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/service-network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Single Master</title>
+      <link>https://ziwon.github.io/tags/single-master/</link>
+      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/single-master/</guid>
       <description></description>
     </item>
     

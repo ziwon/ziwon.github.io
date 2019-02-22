@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>TGI Kubernetes 006: kubeadm | 人生は儚く短い。</title>
+
+
+
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は儚く短い。" />
+
+<link rel="stylesheet" href="/css/style.css"/><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-hybrid.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://ziwon.github.io/">
+          <h1 class="title is-4">人生は儚く短い。</h1>
+        </a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+
+    <nav class="nav">
+      
+
+      
+    </nav>
+
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-006/">TGI Kubernetes 006: kubeadm</a></h1>
+      <h2 class="subtitle is-6">2019-02-22 </h2>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+        
+<a class="subtitle is-6" href="/tags/kubernetes">#Kubernetes</a>
+
+
+
+  
+  | <a class="subtitle is-6" href="/tags/kubeadm">#kubeadm</a>
+  
+  | <a class="subtitle is-6" href="/tags/single-master">#single master</a>
+  
+
+        
+      </div>
+      <div class="content">
+        
+
+<p><a href="https://github.com/heptio/tgik/blob/master/episodes/006/README.md" target="_blank">여섯 번째 에피소드</a>는 <code>kubeadm</code>을 이용해서 쿠버네티스 클러스터를 설치하는 내용이다.</p>
+
+<p><center>•••</center></p>
+
+<h2 id="오픈소스-릴리즈-velero-aka-ark-sonobuoy">오픈소스 릴리즈 - Velero (aka. Ark) &amp; Sonobuoy</h2>
+
+<p>앞서, Heptio가 릴리즈한 오픈소스에 대해 간략히 설명하는데, 해당 깃헙 저장소의 README 파일을 내용을 요약하면 아래와 같다.</p>
+
+<ul>
+<li><p><strong><a href="https://github.com/heptio/velero" target="_blank">Velero</a></strong>: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구</p>
+
+<ul>
+<li>클러스터의 백업본을 가져오고 손실된 경우 복원</li>
+<li>클러스터 자원을 다른 클러스터에 복사,</li>
+<li>개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제</li>
+</ul></li>
+
+<li><p><strong><a href="https://github.com/heptio/sonobuoy" target="_blank">Sonobuoy</a></strong>: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</p>
+
+<ul>
+<li>클러스터에 대한 명확한 이해를 위한 보고서 생성</li>
+<li>통합 end-to-end 적합성 테스트</li>
+<li>사용자 정의 가능하고 확장 가능한 플러그인을 통해 사용자 정의 데이터 수집</li>
+<li>Kubernetes 버전 1.11, 1.12 및 1.13을 지원</li>
+</ul></li>
+</ul>
+
+<h2 id="kubeadm으로-클러스터-설치">kubeadm으로 클러스터 설치</h2>
+
+<h3 id="vm-인스턴스-준비">VM 인스턴스 준비</h3>
+
+<p>먼저, ssh 접속이 가능한 VM 인스턴스를 2~3개 정도 준비한다. <a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#before-you-begin" target="_blank">설치 문서</a>에서도 다음과 같이 명시하였지만, <code>kubeadm</code>의 경우 cpu 개수가 2개 이하일 경우 마스터 노드 초기화가 되지 않는다.</p>
+
+<blockquote>
+<p>One or more machines running a deb/rpm-compatible OS, for example Ubuntu or CentOS
+2 GB or more of RAM per machine. Any less leaves little room for your apps.
+2 CPUs or more on the master
+Full network connectivity among all machines in the cluster. A public or private network is fine.</p>
+</blockquote>
+
+<p>IAM 롤은 인스턴스 생성 후에 추가 또는 변경할 수 있는데, 이 단계에서는 생략한다. 시큐리티 설정 화면에서 모든 VM들이 서로 연결될 수 있도록 AWS 기본 시큐리티 그룹과 SSH 접속을 위한 시큐리티 그룹을 각각 생성하여 추가한다. 이상, AWS 상에서 일반적인 EC2 인스턴스를 셋업하는 과정이다.</p>
+
+<h2 id="마스터-노드-셋업">마스터 노드 셋업</h2>
+
+<p>생성된 인스턴스 하나를 마스터 노드로 셋업하고, 나머지는 워커 노드로 셋업한다. 마스터 노드의 셋업 과정은 다음과 같다.</p>
+
+<h3 id="ssh-접속">SSH 접속</h3>
+
+<p>마스터 노드로 사용할 인스턴스에 ssh 접속한다.</p>
+
+<p><code>ssh -i ~/.ssh/id_rsa ubuntu@ec2-52-78-150-83.ap-northeast-2.compute.amazonaws.com</code></p>
+
+<h3 id="도커-설치">도커 설치</h3>
+
+<p>다음으로 사용자 (<code>ubuntu</code>) 계정으로 도커를 설치한다. (참고로 도커 버전이 <code>18.06</code>이 아닌 최신 버전일 경우, <code>kubeadm init</code> 실행 시에 경고 메세지를 볼 수 있는데, 단순 테스트 클러스터이므로 무시하고 넘어간다.)</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"> sudo apt update
+ sudo apt install -y apt-transport-https ca-certificates software-properties-common curl
+ curl -fsSL https://download.docker.com/linux/ubuntu/gpg <span class="p">|</span> sudo apt-key add -
+ sudo add-apt-repository <span class="s2">&#34;deb [arch=amd64] https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release -cs<span class="k">)</span><span class="s2"> stable&#34;</span>
+ sudo apt update
+ sudo apt install -y linux-image-extra-<span class="k">$(</span>uname -r<span class="k">)</span>
+ sudo apt purge lxc-docker docker-engine docker.io
+ sudo rm -rf /etc/default/docker
+ sudo apt install -y docker-ce
+ sudo service docker start
+ sudo usermod -aG docker <span class="si">${</span><span class="nv">USER</span><span class="si">}</span></code></pre></div>
+<p>설치된 도커가 정상적으로 구동 중인지 확인해본다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+   Loaded: loaded <span class="o">(</span>/lib/systemd/system/docker.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+   Active: active <span class="o">(</span>running<span class="o">)</span> since Thu <span class="m">2019</span>-02-21 <span class="m">10</span>:59:36 UTC<span class="p">;</span> 9min ago
+     Docs: https://docs.docker.com
+ Main PID: <span class="m">3967</span> <span class="o">(</span>dockerd<span class="o">)</span>
+    Tasks: <span class="m">8</span>
+   CGroup: /system.slice/docker.service
+           └─3967 /usr/bin/dockerd -H fd://
+
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.367726467Z&#34;</span> <span class="nv">level</span><span class="o">=</span>warning <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Your kernel does not support swap memory limit&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.367918689Z&#34;</span> <span class="nv">level</span><span class="o">=</span>warning <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Your kernel does not support cgroup rt period&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.368057290Z&#34;</span> <span class="nv">level</span><span class="o">=</span>warning <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Your kernel does not support cgroup rt runtime&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.373962370Z&#34;</span> <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Loading containers: start.&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.495068635Z&#34;</span> <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.550642079Z&#34;</span> <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Loading containers: done.&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.617021161Z&#34;</span> <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Docker daemon&#34;</span> <span class="nv">commit</span><span class="o">=</span><span class="m">6247962</span> graphdriver<span class="o">(</span>s<span class="o">)=</span>overlay2 <span class="nv">version</span><span class="o">=</span><span class="m">18</span>.09.2
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.617452962Z&#34;</span> <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;Daemon has completed initialization&#34;</span>
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 systemd<span class="o">[</span><span class="m">1</span><span class="o">]</span>: Started Docker Application Container Engine.
+Feb <span class="m">21</span> <span class="m">10</span>:59:36 ip-172-31-12-57 dockerd<span class="o">[</span><span class="m">3967</span><span class="o">]</span>: <span class="nv">time</span><span class="o">=</span><span class="s2">&#34;2019-02-21T10:59:36.647031257Z&#34;</span> <span class="nv">level</span><span class="o">=</span>info <span class="nv">msg</span><span class="o">=</span><span class="s2">&#34;API listen on /var/run/docker.sock&#34;</span></code></pre></div>
+<h3 id="kubeadm-kubectl-설치">kubeadm, kubectl 설치</h3>
+
+<p>다음으로 <code>root</code> 계정으로 전환하여, <code>kubeadm</code>과 <code>kubectl</code>을 설치한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ apt-get update <span class="o">&amp;&amp;</span> apt-get install -y apt-transport-https curl
+$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg <span class="p">|</span> apt-key add -
+$ cat <span class="s">&lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
+</span><span class="s">deb https://apt.kubernetes.io/ kubernetes-xenial main
+</span><span class="s">EOF</span>
+$ apt-get update
+$ apt-get install -y kubelet kubeadm kubectl
+$ apt-mark hold kubelet kubeadm kubectl</code></pre></div>
+<p>그리고 설치된 <code>kubelet</code> 서비스의 상태를 확인해보자.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ systemctl status kubelet.service
+● kubelet.service - kubelet: The Kubernetes Node Agent
+   Loaded: loaded <span class="o">(</span>/lib/systemd/system/kubelet.service<span class="p">;</span> enabled<span class="p">;</span> vendor preset: enabled<span class="o">)</span>
+  Drop-In: /etc/systemd/system/kubelet.service.d
+           └─10-kubeadm.conf
+   Active: active <span class="o">(</span>running<span class="o">)</span> since Thu <span class="m">2019</span>-02-21 <span class="m">11</span>:25:38 UTC<span class="p">;</span> 6min ago
+     Docs: https://kubernetes.io/docs/home/
+ Main PID: <span class="m">8119</span> <span class="o">(</span>kubelet<span class="o">)</span>
+    Tasks: <span class="m">16</span> <span class="o">(</span>limit: <span class="m">4704</span><span class="o">)</span>
+   CGroup: /system.slice/kubelet.service
+           └─8119 /usr/bin/kubelet --bootstrap-kubeconfig<span class="o">=</span>/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig<span class="o">=</span>/etc/kubernetes/kubelet.conf --config<span class="o">=</span>/var/lib/kubelet/config.yaml --cgroup-driver<span class="o">=</span>cgroupfs --network-plugin<span class="o">=</span>cni --pod-infra-con
+
+Feb <span class="m">21</span> <span class="m">11</span>:31:49 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: W0221 <span class="m">11</span>:31:49.001095    <span class="m">8119</span> cni.go:203<span class="o">]</span> Unable to update cni config: No networks found in /etc/cni/net.d
+Feb <span class="m">21</span> <span class="m">11</span>:31:49 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: E0221 <span class="m">11</span>:31:49.001212    <span class="m">8119</span> kubelet.go:2192<span class="o">]</span> Container runtime network not ready: <span class="nv">NetworkReady</span><span class="o">=</span><span class="nb">false</span> reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config unin
+Feb <span class="m">21</span> <span class="m">11</span>:31:54 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: W0221 <span class="m">11</span>:31:54.002280    <span class="m">8119</span> cni.go:203<span class="o">]</span> Unable to update cni config: No networks found in /etc/cni/net.d
+Feb <span class="m">21</span> <span class="m">11</span>:31:54 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: E0221 <span class="m">11</span>:31:54.002852    <span class="m">8119</span> kubelet.go:2192<span class="o">]</span> Container runtime network not ready: <span class="nv">NetworkReady</span><span class="o">=</span><span class="nb">false</span> reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config unin
+Feb <span class="m">21</span> <span class="m">11</span>:31:59 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: W0221 <span class="m">11</span>:31:59.003915    <span class="m">8119</span> cni.go:203<span class="o">]</span> Unable to update cni config: No networks found in /etc/cni/net.d
+Feb <span class="m">21</span> <span class="m">11</span>:31:59 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: E0221 <span class="m">11</span>:31:59.004424    <span class="m">8119</span> kubelet.go:2192<span class="o">]</span> Container runtime network not ready: <span class="nv">NetworkReady</span><span class="o">=</span><span class="nb">false</span> reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config unin
+Feb <span class="m">21</span> <span class="m">11</span>:32:04 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: W0221 <span class="m">11</span>:32:04.005500    <span class="m">8119</span> cni.go:203<span class="o">]</span> Unable to update cni config: No networks found in /etc/cni/net.d
+Feb <span class="m">21</span> <span class="m">11</span>:32:04 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: E0221 <span class="m">11</span>:32:04.005984    <span class="m">8119</span> kubelet.go:2192<span class="o">]</span> Container runtime network not ready: <span class="nv">NetworkReady</span><span class="o">=</span><span class="nb">false</span> reason:NetworkPluginNotReady message:docker: network plugin is not ready: cni config unin
+Feb <span class="m">21</span> <span class="m">11</span>:32:09 ip-172-31-31-2 kubelet<span class="o">[</span><span class="m">8119</span><span class="o">]</span>: W0221 <span class="m">11</span>:32:09.007029    <span class="m">8119</span> cni.go:203<span class="o">]</span> Unable to update cni config: No networks found in /etc/cni/net.d</code></pre></div>
+<h3 id="kubeadm-초기화">kubeadm 초기화</h3>
+
+<p>정상적으로 설치가 되었으면, <code>kubeadm init</code> 명령을 이용해 현재 노드를 마스터 노드로 초기화한다. 이 때, 호스트 네트워크와 Pod 네트워크가 중복되는 경우 <code>--pod-network-cidr</code> 옵션으로 Pod 네트워크를 위한 별도의 CIDR 값 (예. <code>10.10.0.0/16</code>) 등을 지정할 수 있다. <code>kubeadm init</code> 외에 다른 명령어들은 <a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm/" target="_blank">여기</a>를 참고한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubeadm init 
+<span class="o">[</span>init<span class="o">]</span> Using Kubernetes version: v1.13.3
+<span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+        <span class="o">[</span>WARNING SystemVerification<span class="o">]</span>: this Docker version is not on the list of validated versions: <span class="m">18</span>.09.2. Latest validated version: <span class="m">18</span>.06
+<span class="o">[</span>preflight<span class="o">]</span> Pulling images required <span class="k">for</span> setting up a Kubernetes cluster
+<span class="o">[</span>preflight<span class="o">]</span> This might take a minute or two, depending on the speed of your internet connection
+<span class="o">[</span>preflight<span class="o">]</span> You can also perform this action in beforehand using <span class="s1">&#39;kubeadm config images pull&#39;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet environment file with flags to file <span class="s2">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet configuration to file <span class="s2">&#34;/var/lib/kubelet/config.yaml&#34;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Activating the kubelet service
+<span class="o">[</span>certs<span class="o">]</span> Using certificateDir folder <span class="s2">&#34;/etc/kubernetes/pki&#34;</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/ca&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/healthcheck-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;apiserver-etcd-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/server&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> etcd/server serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span>ip-172-31-31-2 localhost<span class="o">]</span> and IPs <span class="o">[</span><span class="m">172</span>.31.31.2 <span class="m">127</span>.0.0.1 ::1<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/peer&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> etcd/peer serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span>ip-172-31-31-2 localhost<span class="o">]</span> and IPs <span class="o">[</span><span class="m">172</span>.31.31.2 <span class="m">127</span>.0.0.1 ::1<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;ca&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;apiserver&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> apiserver serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span>ip-172-31-31-2 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local<span class="o">]</span> and IPs <span class="o">[</span><span class="m">10</span>.96.0.1 <span class="m">172</span>.31.31.2<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;apiserver-kubelet-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;front-proxy-ca&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;front-proxy-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;sa&#34;</span> key and public key
+<span class="o">[</span>kubeconfig<span class="o">]</span> Using kubeconfig folder <span class="s2">&#34;/etc/kubernetes&#34;</span>
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;admin.conf&#34;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;kubelet.conf&#34;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;controller-manager.conf&#34;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;scheduler.conf&#34;</span> kubeconfig file
+<span class="o">[</span>control-plane<span class="o">]</span> Using manifest folder <span class="s2">&#34;/etc/kubernetes/manifests&#34;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&#34;kube-apiserver&#34;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&#34;kube-controller-manager&#34;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&#34;kube-scheduler&#34;</span>
+<span class="o">[</span>etcd<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="nb">local</span> etcd in <span class="s2">&#34;/etc/kubernetes/manifests&#34;</span>
+<span class="o">[</span>wait-control-plane<span class="o">]</span> Waiting <span class="k">for</span> the kubelet to boot up the control plane as static Pods from directory <span class="s2">&#34;/etc/kubernetes/manifests&#34;</span>. This can take up to 4m0s
+<span class="o">[</span>apiclient<span class="o">]</span> All control plane components are healthy after <span class="m">23</span>.502070 seconds
+<span class="o">[</span>uploadconfig<span class="o">]</span> storing the configuration used in ConfigMap <span class="s2">&#34;kubeadm-config&#34;</span> in the <span class="s2">&#34;kube-system&#34;</span> Namespace
+<span class="o">[</span>kubelet<span class="o">]</span> Creating a ConfigMap <span class="s2">&#34;kubelet-config-1.13&#34;</span> in namespace kube-system with the configuration <span class="k">for</span> the kubelets in the cluster
+<span class="o">[</span>patchnode<span class="o">]</span> Uploading the CRI Socket information <span class="s2">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span class="s2">&#34;ip-172-31-31-2&#34;</span> as an annotation
+<span class="o">[</span>mark-control-plane<span class="o">]</span> Marking the node ip-172-31-31-2 as control-plane by adding the label <span class="s2">&#34;node-role.kubernetes.io/master=&#39;&#39;&#34;</span>
+<span class="o">[</span>mark-control-plane<span class="o">]</span> Marking the node ip-172-31-31-2 as control-plane by adding the taints <span class="o">[</span>node-role.kubernetes.io/master:NoSchedule<span class="o">]</span>
+<span class="o">[</span>bootstrap-token<span class="o">]</span> Using token: 0kgx7r.fd4z6rmq6me24e5f
+<span class="o">[</span>bootstrap-token<span class="o">]</span> Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+<span class="o">[</span>bootstraptoken<span class="o">]</span> configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order <span class="k">for</span> nodes to get long term certificate credentials
+<span class="o">[</span>bootstraptoken<span class="o">]</span> configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+<span class="o">[</span>bootstraptoken<span class="o">]</span> configured RBAC rules to allow certificate rotation <span class="k">for</span> all node client certificates in the cluster
+<span class="o">[</span>bootstraptoken<span class="o">]</span> creating the <span class="s2">&#34;cluster-info&#34;</span> ConfigMap in the <span class="s2">&#34;kube-public&#34;</span> namespace
+<span class="o">[</span>addons<span class="o">]</span> Applied essential addon: CoreDNS
+<span class="o">[</span>addons<span class="o">]</span> Applied essential addon: kube-proxy
+
+Your Kubernetes master has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p <span class="nv">$HOME</span>/.kube
+  sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+  sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run <span class="s2">&#34;kubectl apply -f [podnetwork].yaml&#34;</span> with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of machines by running the following on each node
+as root:
+
+  kubeadm join <span class="m">172</span>.31.31.2:6443 --token 0kgx7r.fd4z6rmq6me24e5f --discovery-token-ca-cert-hash sha256:d7b433408e75b50b0722e7b0cdef9d0199fa8079de51e6def9c2effb763c72bb</code></pre></div>
+<p>초기화 과정의 로그 메세지들을 간략히 살펴보자.</p>
+
+<h4 id="쿠버네티스-버전">쿠버네티스 버전</h4>
+
+<p>먼저 설치되는 쿠버네티스의 버전은 <code>v1.13.3</code>이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>init<span class="o">]</span> Using Kubernetes version: v1.13.3</code></pre></div>
+<h4 id="도커-버전">도커 버전</h4>
+
+<p>유효한 도커 버전은 <code>18.06</code> 인데, 버전이 맞지 않다는 경고 메세지를 볼 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+        <span class="o">[</span>WARNING SystemVerification<span class="o">]</span>: this Docker version is not on the list of validated versions: <span class="m">18</span>.09.2. Latest validated version: <span class="m">18</span>.06</code></pre></div>
+<h4 id="kubelet-서비스-활성화">kubelet 서비스 활성화</h4>
+
+<p><code>kubelet</code> 환경변수와 설정파일을 기록하고 <code>kubelet</code> 서비스를 시작한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet environment file with flags to file <span class="s2">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet configuration to file <span class="s2">&#34;/var/lib/kubelet/config.yaml&#34;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Activating the kubelet service</code></pre></div>
+<h4 id="인증서-생성">인증서 생성</h4>
+
+<p>다음으로 쿠버네티스 컴포넌트들이 시큐한 방식으로 통신하기 위한 인증서를 만든다. 보다시피, <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way" target="_blank">Kubernetes the Hardway</a>에서는 컴포넌트마다 일일히 인증서를 만들어주고 등록해줘야 하는 번거로운 작업이 <code>kubeadm</code>에서는 간단하게 완료된다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>certs<span class="o">]</span> Using certificateDir folder <span class="s2">&#34;/etc/kubernetes/pki&#34;</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/ca&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/healthcheck-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;apiserver-etcd-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/server&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> etcd/server serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span>ip-172-31-31-2 localhost<span class="o">]</span> and IPs <span class="o">[</span><span class="m">172</span>.31.31.2 <span class="m">127</span>.0.0.1 ::1<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;etcd/peer&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> etcd/peer serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span>ip-172-31-31-2 localhost<span class="o">]</span> and IPs <span class="o">[</span><span class="m">172</span>.31.31.2 <span class="m">127</span>.0.0.1 ::1<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;ca&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;apiserver&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> apiserver serving cert is signed <span class="k">for</span> DNS names <span class="o">[</span>ip-172-31-31-2 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local<span class="o">]</span> and IPs <span class="o">[</span><span class="m">10</span>.96.0.1 <span class="m">172</span>.31.31.2<span class="o">]</span>
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;apiserver-kubelet-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;front-proxy-ca&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;front-proxy-client&#34;</span> certificate and key
+<span class="o">[</span>certs<span class="o">]</span> Generating <span class="s2">&#34;sa&#34;</span> key and public key</code></pre></div>
+<h4 id="kubeconfig-생성">kubeconfig 생성</h4>
+
+<p>그리고 API 서버와 통신하기 위한 <code>kubeconfig</code> 들을 생성한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>kubeconfig<span class="o">]</span> Using kubeconfig folder <span class="s2">&#34;/etc/kubernetes&#34;</span>
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;admin.conf&#34;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;kubelet.conf&#34;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;controller-manager.conf&#34;</span> kubeconfig file
+<span class="o">[</span>kubeconfig<span class="o">]</span> Writing <span class="s2">&#34;scheduler.conf&#34;</span> kubeconfig file</code></pre></div>
+<h4 id="정적-pod-실행">정적 Pod 실행</h4>
+
+<p>컨트롤 플레인의 모든 컴포넌트들의 시작점인 <code>/etc/kubernetes/manifests</code>를 기준으로 정적 Pod를 실행한다. <code>kubectl</code> 은 두 가지 모드로 동작하는데, 한 가지는 Kubernetes API 서버에 대한 원격 에이전트 모드이고, 다른 하나는 정적 Pod 모드로 다른 원격 서버의 파일 시스템이 아닌 로컬디스크의 파일시스템으로 정비된 Pod을 실행되는 모드이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>control-plane<span class="o">]</span> Using manifest folder <span class="s2">&#34;/etc/kubernetes/manifests&#34;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&#34;kube-apiserver&#34;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&#34;kube-controller-manager&#34;</span>
+<span class="o">[</span>control-plane<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="s2">&#34;kube-scheduler&#34;</span>
+<span class="o">[</span>etcd<span class="o">]</span> Creating static Pod manifest <span class="k">for</span> <span class="nb">local</span> etcd in <span class="s2">&#34;/etc/kubernetes/manifests&#34;</span></code></pre></div>
+<p>참고로 <code>kube-apiserver</code>의 yaml 파일의 내용은 다음과 같이 단순한 하나의 Pod로 구성되어 있다. 즉, 쿠버네티스 컨트롤 플레인 역시도 일반 애플리케이션들처럼 쿠버네티스 컴포넌트로 생성되고 관리되고 있다는 점을 알 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w"></span>kind<span class="p">:</span><span class="w"> </span>Pod<span class="w">
+</span><span class="w"></span>metadata<span class="p">:</span><span class="w">
+</span><span class="w">  </span>annotations<span class="p">:</span><span class="w">
+</span><span class="w">    </span>scheduler.alpha.kubernetes.io/critical-pod<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">  </span>creationTimestamp<span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="w">  </span>labels<span class="p">:</span><span class="w">
+</span><span class="w">    </span>component<span class="p">:</span><span class="w"> </span>kube-apiserver<span class="w">
+</span><span class="w">    </span>tier<span class="p">:</span><span class="w"> </span>control-plane<span class="w">
+</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>kube-apiserver<span class="w">
+</span><span class="w">  </span>namespace<span class="p">:</span><span class="w"> </span>kube-system<span class="w">
+</span><span class="w"></span>spec<span class="p">:</span><span class="w">
+</span><span class="w">  </span>containers<span class="p">:</span><span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>command<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>kube-apiserver<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--authorization-mode=Node<span class="p">,</span>RBAC<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--advertise-address=<span class="m">172.31</span>.<span class="m">31.2</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--allow-privileged=<span class="kc">true</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--client-ca-file=/etc/kubernetes/pki/ca.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--enable-admission-plugins=NodeRestriction<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--enable-bootstrap-token-auth=<span class="kc">true</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--etcd-servers=https<span class="p">:</span>//<span class="m">127.0</span>.<span class="m">0.1</span><span class="p">:</span><span class="m">2379</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--insecure-port=<span class="m">0</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--kubelet-preferred-address-types=InternalIP<span class="p">,</span>ExternalIP<span class="p">,</span>Hostname<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--requestheader-allowed-names=front-proxy-client<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--requestheader-extra-headers-prefix=X-Remote-Extra-<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--requestheader-group-headers=X-Remote-Group<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--requestheader-username-headers=X-Remote-User<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--secure-port=<span class="m">6443</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--service-account-key-file=/etc/kubernetes/pki/sa.pub<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--service-cluster-ip-range=<span class="m">10.96</span>.<span class="m">0.0</span>/<span class="m">12</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--tls-cert-file=/etc/kubernetes/pki/apiserver.crt<span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>--tls-private-key-file=/etc/kubernetes/pki/apiserver.key<span class="w">
+</span><span class="w">    </span>image<span class="p">:</span><span class="w"> </span>k8s.gcr.io/kube-apiserver<span class="p">:</span>v1.<span class="m">13.3</span><span class="w">
+</span><span class="w">    </span>imagePullPolicy<span class="p">:</span><span class="w"> </span>IfNotPresent<span class="w">
+</span><span class="w">    </span>livenessProbe<span class="p">:</span><span class="w">
+</span><span class="w">      </span>failureThreshold<span class="p">:</span><span class="w"> </span><span class="m">8</span><span class="w">
+</span><span class="w">      </span>httpGet<span class="p">:</span><span class="w">
+</span><span class="w">        </span>host<span class="p">:</span><span class="w"> </span><span class="m">172.31</span>.<span class="m">31.2</span><span class="w">
+</span><span class="w">        </span>path<span class="p">:</span><span class="w"> </span>/healthz<span class="w">
+</span><span class="w">        </span>port<span class="p">:</span><span class="w"> </span><span class="m">6443</span><span class="w">
+</span><span class="w">        </span>scheme<span class="p">:</span><span class="w"> </span>HTTPS<span class="w">
+</span><span class="w">      </span>initialDelaySeconds<span class="p">:</span><span class="w"> </span><span class="m">15</span><span class="w">
+</span><span class="w">      </span>timeoutSeconds<span class="p">:</span><span class="w"> </span><span class="m">15</span><span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>kube-apiserver<span class="w">
+</span><span class="w">    </span>resources<span class="p">:</span><span class="w">
+</span><span class="w">      </span>requests<span class="p">:</span><span class="w">
+</span><span class="w">        </span>cpu<span class="p">:</span><span class="w"> </span>250m<span class="w">
+</span><span class="w">    </span>volumeMounts<span class="p">:</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/etc/ssl/certs<span class="w">
+</span><span class="w">      </span>name<span class="p">:</span><span class="w"> </span>ca-certs<span class="w">
+</span><span class="w">      </span>readOnly<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/etc/ca-certificates<span class="w">
+</span><span class="w">      </span>name<span class="p">:</span><span class="w"> </span>etc-ca-certificates<span class="w">
+</span><span class="w">      </span>readOnly<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/etc/kubernetes/pki<span class="w">
+</span><span class="w">      </span>name<span class="p">:</span><span class="w"> </span>k8s-certs<span class="w">
+</span><span class="w">      </span>readOnly<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/usr/local/share/ca-certificates<span class="w">
+</span><span class="w">      </span>name<span class="p">:</span><span class="w"> </span>usr-local-share-ca-certificates<span class="w">
+</span><span class="w">      </span>readOnly<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">    </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/usr/share/ca-certificates<span class="w">
+</span><span class="w">      </span>name<span class="p">:</span><span class="w"> </span>usr-share-ca-certificates<span class="w">
+</span><span class="w">      </span>readOnly<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span>hostNetwork<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span>priorityClassName<span class="p">:</span><span class="w"> </span>system-cluster-critical<span class="w">
+</span><span class="w">  </span>volumes<span class="p">:</span><span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">      </span>path<span class="p">:</span><span class="w"> </span>/etc/ssl/certs<span class="w">
+</span><span class="w">      </span>type<span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>ca-certs<span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">      </span>path<span class="p">:</span><span class="w"> </span>/etc/ca-certificates<span class="w">
+</span><span class="w">      </span>type<span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>etc-ca-certificates<span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">      </span>path<span class="p">:</span><span class="w"> </span>/etc/kubernetes/pki<span class="w">
+</span><span class="w">      </span>type<span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>k8s-certs<span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">      </span>path<span class="p">:</span><span class="w"> </span>/usr/local/share/ca-certificates<span class="w">
+</span><span class="w">      </span>type<span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>usr-local-share-ca-certificates<span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">      </span>path<span class="p">:</span><span class="w"> </span>/usr/share/ca-certificates<span class="w">
+</span><span class="w">      </span>type<span class="p">:</span><span class="w"> </span>DirectoryOrCreate<span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>usr-share-ca-certificates<span class="w">
+</span><span class="w"></span>status<span class="p">:</span><span class="w"> </span>{}</code></pre></div>
+<h3 id="컨트롤-플레인-셋업-완료">컨트롤 플레인 셋업 완료</h3>
+
+<p>컨트롤 플레인의 헬스체크가 끝나고, 클러스터 설정 정보인 <code>kubeadm-config</code> ConfigMap을 <code>kube-system</code> 네임스페이스에 저장한다. <code>/var/run/dockershim.sock</code> CRI 소켓 정보를 주석으로 등록하고 컨트롤 플레인 노드를 마킹하여 마스터 노드 셋업을 완료된다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>apiclient<span class="o">]</span> All control plane components are healthy after <span class="m">23</span>.502070 seconds
+<span class="o">[</span>uploadconfig<span class="o">]</span> storing the configuration used in ConfigMap <span class="s2">&#34;kubeadm-config&#34;</span> in the <span class="s2">&#34;kube-system&#34;</span> Namespace
+<span class="o">[</span>kubelet<span class="o">]</span> Creating a ConfigMap <span class="s2">&#34;kubelet-config-1.13&#34;</span> in namespace kube-system with the configuration <span class="k">for</span> the kubelets in the cluster
+<span class="o">[</span>patchnode<span class="o">]</span> Uploading the CRI Socket information <span class="s2">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span class="s2">&#34;ip-172-31-31-2&#34;</span> as an annotation
+<span class="o">[</span>mark-control-plane<span class="o">]</span> Marking the node ip-172-31-31-2 as control-plane by adding the label <span class="s2">&#34;node-role.kubernetes.io/master=&#39;&#39;&#34;</span>
+<span class="o">[</span>mark-control-plane<span class="o">]</span> Marking the node ip-172-31-31-2 as control-plane by adding the taints <span class="o">[</span>node-role.kubernetes.io/master:NoSchedule<span class="o">]</span></code></pre></div>
+<h3 id="rbac-및-기타">RBAC 및 기타</h3>
+
+<p>그리고 부트스트랩 토큰을 생성하고, 생성된 토큰으로 RBAC 룰을 구성한다. 그리고 클러스터 정보를 <code>kube-public</code> 네임스페이스에 ConfigMap 컴포넌트로 등록한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>bootstrap-token<span class="o">]</span> Using token: 0kgx7r.fd4z6rmq6me24e5f
+<span class="o">[</span>bootstrap-token<span class="o">]</span> Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+<span class="o">[</span>bootstraptoken<span class="o">]</span> configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order <span class="k">for</span> nodes to get long term certificate credentials
+<span class="o">[</span>bootstraptoken<span class="o">]</span> configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+<span class="o">[</span>bootstraptoken<span class="o">]</span> configured RBAC rules to allow certificate rotation <span class="k">for</span> all node client certificates in the cluster
+<span class="o">[</span>bootstraptoken<span class="o">]</span> creating the <span class="s2">&#34;cluster-info&#34;</span> ConfigMap in the <span class="s2">&#34;kube-public&#34;</span> namespace</code></pre></div>
+<p>이후, EC2 다른 워커 노드에서 위 ConfigMap의 컴포넌트를 다음과 같이 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ curl --insecure  https://172.31.31.2:6443/api/v1/namespaces/kube-public/configmaps/cluster-info
+<span class="o">{</span>
+  <span class="s2">&#34;kind&#34;</span>: <span class="s2">&#34;ConfigMap&#34;</span>,
+  <span class="s2">&#34;apiVersion&#34;</span>: <span class="s2">&#34;v1&#34;</span>,
+  <span class="s2">&#34;metadata&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;name&#34;</span>: <span class="s2">&#34;cluster-info&#34;</span>,
+    <span class="s2">&#34;namespace&#34;</span>: <span class="s2">&#34;kube-public&#34;</span>,
+    <span class="s2">&#34;selfLink&#34;</span>: <span class="s2">&#34;/api/v1/namespaces/kube-public/configmaps/cluster-info&#34;</span>,
+    <span class="s2">&#34;uid&#34;</span>: <span class="s2">&#34;74cce7cf-35cb-11e9-b7a0-0a1483891ff6&#34;</span>,
+    <span class="s2">&#34;resourceVersion&#34;</span>: <span class="s2">&#34;324&#34;</span>,
+    <span class="s2">&#34;creationTimestamp&#34;</span>: <span class="s2">&#34;2019-02-21T11:25:56Z&#34;</span>
+  <span class="o">}</span>,
+  <span class="s2">&#34;data&#34;</span>: <span class="o">{</span>
+    <span class="s2">&#34;jws-kubeconfig-0kgx7r&#34;</span>: <span class="s2">&#34;eyJhbGciOiJIUzI1NiIsImtpZCI6IjBrZ3g3ciJ9..K6bdmWXxnjfxLXzzRpWMCGdYxmJAyP9fYEfHCDm8N7E&#34;</span>,
+    <span class="s2">&#34;kubeconfig&#34;</span>: <span class="s2">&#34;apiVersion: v1\nclusters:\n- cluster:\n    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRFNU1ESXlNVEV4TWpVeU9Wb1hEVEk1TURJeE9ERXhNalV5T1Zvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS1RjCjJmSWVYS1pyMEJhbS9mUnVRdWpyQ3FUOXlRRTJGckRNcGNvK3pyNi9ZaGJkU3hYM3A4OE1tZUduK2hZVUluOGEKamhEejJ0VTlHMldaQm5PTFd6dmFjZkhqYUw4ZGJya2FUYUo5NjM4SHVuVkhxQmNMR3lySnFLY203Z2xYdm5rRApxazVES1l2NFJObzJHRnRuelFTNEdXdGhhbXk1QlBadiszQzdRWVlsRDRKWWpYaWdhak5GNFpHOU1INENwNlRICnhrbDRJZ1FqTzJ3aTJOeEE5TDNpV2VZRnZEMk0zUmppNzhKSkFuN3lKREZlR0NtRHYycGE3ZHprcUJhdFAzTWEKWUozbWpUcndaOGF1eDNDa0FNNDltamM2ZEJ5WkpkSFY4a2xTSUNtb2NUK0g5REtnUWdTZXV5bitXZm8wNkg0cQpZT3FqOVYvam9peXMzcHZaTXE4Q0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFERmJlbXV1NXhZNVVMNi9EU0VrK1UyU1V0SWwKQ3JLVEJDc2ZiVkFaNVlGQUdHYi96RFFNb0RTc1pQSVJ5aGdHNGhYMVdnZWV1YWo3aXBSNEt1VHNXc2V0Q2ZpeQpiMjZVMjl6SHFsUlZEN2JtYVk0OENpbURLTGdvbWZKczZmY20xTWdSL1FvemM4QUFlUUZOWEpoaG13V2g5alVXCkpBem85eFVRQWwxSW0rNldXcllrRzk3TkNwMkYxdFFGMGZtcEFjTWQ1cXErdXEwcmdQVmt0QkRkMUNieHdidFcKK25Ea1FjZW4wbGZSNUo3U0NkME45SUFWc2l6RTNYYmxiNmRsMTU2S1NNaEZRb1lZTm8xR0djSkpvd3RxL1FXTgpGcHovaDRLSGdxQnhPVjBVb0ZXYThCaHJFcTduRCtlaUhNYU9ycmgxNTdqS01rME94eXZMcDBLWC9FUT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=\n    server: https://172.31.31.2:6443\n  name: \&#34;\&#34;\ncontexts: []\ncurrent-context: \&#34;\&#34;\nkind: Config\npreferences: {}\nusers: []\n&#34;</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h4 id="필수-addon-설치">필수 Addon 설치</h4>
+
+<p>마지막으로 필수 애드온인 <code>CoreDNS</code>와 <code>kube-proxy</code>를 설치한다. 참고로 Pod 네트워크가 셋업되기 전이므로 <code>CoreDNS</code> 서비스 등 클러스터 네트워킹 서비스가 정상적으로 시작되지는 않는다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="o">[</span>addons<span class="o">]</span> Applied essential addon: CoreDNS
+<span class="o">[</span>addons<span class="o">]</span> Applied essential addon: kube-proxy</code></pre></div>
+<h4 id="노드-조인-명령">노드 조인 명령</h4>
+
+<p>그리고 마스터 노드 초기화 완료시에 최종 출력된, 토큰값과 명령어를 기억해 둔다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">You can now join any number of machines by running the following on each node
+as root:
+  kubeadm join <span class="m">172</span>.31.31.2:6443 --token 0kgx7r.fd4z6rmq6me24e5f --discovery-token-ca-cert-hash sha256:d7b433408e75b50b0722e7b0cdef9d0199fa8079de51e6def9c2effb763c72bb</code></pre></div>
+<h3 id="cluster-조회">cluster 조회</h3>
+
+<p>마스터 노드가 생성되었으므로, <code>ubuntu</code> 사용자 계정으로 전환해서 <code>kubelet</code>을 실행해보자. 이를 위해선 사용자 홈디렉토리에 <code>kubeconfig</code> 파일을 다음과 같이 셋업해주어야 한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"> $ mkdir -p <span class="nv">$HOME</span>/.kube
+ $ sudo cp -i /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+ $ sudo chown <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> <span class="nv">$HOME</span>/.kube/config</code></pre></div>
+<p>또는 사용자 계정에서 단순히 <code>KUBECONFIG</code> 환경변수를 설정해주어도 무방하다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>/etc/kubernetes/admin.conf</code></pre></div>
+<p>이제 클러스터 노드 정보를 조회해보자. <code>kubelet</code>이 정상적으로 실행되고 있고, 마스터 노드가 <code>NotReady</code> 상태임을 알 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get node
+NAME             STATUS     ROLES    AGE     VERSION
+ip-172-31-31-2   NotReady   master   9m48s   v1.13.3</code></pre></div>
+<h2 id="워커-노드-추가">워커 노드 추가</h2>
+
+<h3 id="토큰-확인">토큰 확인</h3>
+
+<p>워커 노드를 추가하기 이전에, 마스터 노드에서 토큰 목록을 확인해보자. 보다시피 생성된 <code>0kgx7r.fd4z6rmq6me24e5f</code> 토큰의 만료시간은 24시간이다. 이 토큰을 이용해 워커 노드를 구성할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root@ip-172-31-31-2:~# kubeadm token list
+TOKEN                     TTL       EXPIRES                USAGES                   DESCRIPTION                                                EXTRA GROUPS
+0kgx7r.fd4z6rmq6me24e5f   23h       <span class="m">2019</span>-02-22T11:25:56Z   authentication,signing   The default bootstrap token generated by <span class="s1">&#39;kubeadm init&#39;</span>.   system:bootstrappers:kubeadm:default-node-token</code></pre></div>
+<h3 id="도커-및-kubeadm-kubelet-설치">도커 및 kubeadm, kubelet 설치</h3>
+
+<p>먼저, 워커 노드로 사용할 EC2 인스턴스에 ssh 로그인하여 마스터 노드와 동일하게 도커 및 kubeadm, kubelet을 설치해준다. (동일한 과정이므로 생략)</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ ssh -i ~/.ssh/path/to/pem ubuntu@ec2-54-180-103-119.ap-northeast-2.compute.amazonaws.com</code></pre></div>
+<p>그리고 워커 노드에 kubeadm 설치가 완료되었으면, 마스터 노드 생성시에 출력된 토큰값과 명령어를 이용해 워커 노드에서 마스터 노드로 조인한다. 보다시피, 명령어 자체는 <code>swarn join</code>과 유사하다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">root@ip-172-31-22-155:~# kubeadm join <span class="m">172</span>.31.31.2:6443 --token 0kgx7r.fd4z6rmq6me24e5f --discovery-token-ca-cert-hash sha256:d7b433408e75b50b0722e7b0cdef9d0199fa8079de51e6def9c2effb763c72bb
+<span class="o">[</span>preflight<span class="o">]</span> Running pre-flight checks
+        <span class="o">[</span>WARNING SystemVerification<span class="o">]</span>: this Docker version is not on the list of validated versions: <span class="m">18</span>.09.2. Latest validated version: <span class="m">18</span>.06
+<span class="o">[</span>discovery<span class="o">]</span> Trying to connect to API Server <span class="s2">&#34;172.31.31.2:6443&#34;</span>
+<span class="o">[</span>discovery<span class="o">]</span> Created cluster-info discovery client, requesting info from <span class="s2">&#34;https://172.31.31.2:6443&#34;</span>
+<span class="o">[</span>discovery<span class="o">]</span> Requesting info from <span class="s2">&#34;https://172.31.31.2:6443&#34;</span> again to validate TLS against the pinned public key
+<span class="o">[</span>discovery<span class="o">]</span> Cluster info signature and contents are valid and TLS certificate validates against pinned roots, will use API Server <span class="s2">&#34;172.31.31.2:6443&#34;</span>
+<span class="o">[</span>discovery<span class="o">]</span> Successfully established connection with API Server <span class="s2">&#34;172.31.31.2:6443&#34;</span>
+<span class="o">[</span>join<span class="o">]</span> Reading configuration from the cluster...
+<span class="o">[</span>join<span class="o">]</span> FYI: You can look at this config file with <span class="s1">&#39;kubectl -n kube-system get cm kubeadm-config -oyaml&#39;</span>
+<span class="o">[</span>kubelet<span class="o">]</span> Downloading configuration <span class="k">for</span> the kubelet from the <span class="s2">&#34;kubelet-config-1.13&#34;</span> ConfigMap in the kube-system namespace
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet configuration to file <span class="s2">&#34;/var/lib/kubelet/config.yaml&#34;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Writing kubelet environment file with flags to file <span class="s2">&#34;/var/lib/kubelet/kubeadm-flags.env&#34;</span>
+<span class="o">[</span>kubelet-start<span class="o">]</span> Activating the kubelet service
+<span class="o">[</span>tlsbootstrap<span class="o">]</span> Waiting <span class="k">for</span> the kubelet to perform the TLS Bootstrap...
+<span class="o">[</span>patchnode<span class="o">]</span> Uploading the CRI Socket information <span class="s2">&#34;/var/run/dockershim.sock&#34;</span> to the Node API object <span class="s2">&#34;ip-172-31-22-155&#34;</span> as an annotation
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run <span class="s1">&#39;kubectl get nodes&#39;</span> on the master to see this node join the cluster.</code></pre></div>
+<h3 id="마스터-노드-확인">마스터 노드 확인</h3>
+
+<p>마스터 노드 쉘에서 클러스터 노드 정보를 조회하면 다음과 같이 <code>ip-172-31-22-155</code> 노드 하나가 추가된 것을 확인할 수 있다. 그러나 네트워킹이 셋업되지 않았기 때문에, Pod과 다른 컴포넌트들간의 통신이 불가능한 <code>NotReady</code> 상태이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">ubuntu@ip-172-31-31-2:~$ kubectl get node
+NAME               STATUS     ROLES    AGE     VERSION
+ip-172-31-22-155   NotReady   &lt;none&gt;   3m36s   v1.13.3
+ip-172-31-31-2     NotReady   master   18m     v1.13.3</code></pre></div>
+<h3 id="pod-network-설정">Pod Network 설정</h3>
+
+<p>이제 Pod Network 애드온을 설치해서 Pod가 서로 통신할 수 있도록 한다. 참고로 <code>kubeadm</code>은 CNI (Container Network Interface) 기반 네트워크만 지원하며 kubenet을 지원하지 않는다. <a href="https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network" target="_blank">여기</a>를 참조해서 <code>weave-net</code> 데몬셋을 설치한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"> ubuntu@ip-172-31-31-2:~$ kubectl apply -f <span class="s2">&#34;https://cloud.weave.works/k8s/net?k8s-version=</span><span class="k">$(</span>kubectl version <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span><span class="k">)</span><span class="s2">&#34;</span>
+serviceaccount/weave-net created
+clusterrole.rbac.authorization.k8s.io/weave-net created
+clusterrolebinding.rbac.authorization.k8s.io/weave-net created
+role.rbac.authorization.k8s.io/weave-net created
+rolebinding.rbac.authorization.k8s.io/weave-net created
+daemonset.extensions/weave-net created</code></pre></div>
+<p>설치가 되고 나면, 마스트 노드 쉘에서 다음과 같이 모든 노드가 <code>Ready</code> 상태로 전환됨을 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">ubuntu@ip-172-31-31-2:~$ kubectl get node
+NAME               STATUS   ROLES    AGE   VERSION
+ip-172-31-22-155   Ready    &lt;none&gt;   11m   v1.13.3
+ip-172-31-31-2     Ready    master   26m   v1.13.3</code></pre></div>
+<p>참고로, <code>weave-net</code>의 데몬셋 yaml 파일은 다음과 같다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">ubuntu@ip-<span class="m">172</span>-<span class="m">31</span>-<span class="m">31</span>-<span class="m">2</span><span class="p">:</span>~$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>ds<span class="w"> </span>weave-net<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>--export<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w">
+</span><span class="w"></span>apiVersion<span class="p">:</span><span class="w"> </span>extensions/v1beta1<span class="w">
+</span><span class="w"></span>kind<span class="p">:</span><span class="w"> </span>DaemonSet<span class="w">
+</span><span class="w"></span>metadata<span class="p">:</span><span class="w">
+</span><span class="w">  </span>annotations<span class="p">:</span><span class="w">
+</span><span class="w">    </span>cloud.weave.works/launcher-info<span class="p">:</span><span class="w"> </span>|-<span class="w">
+</span><span class="w">      </span>{<span class="w">
+</span><span class="w">        </span><span class="s2">&#34;original-request&#34;</span><span class="p">:</span><span class="w"> </span>{<span class="w">
+</span><span class="w">          </span><span class="s2">&#34;url&#34;</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/k8s/v1.10/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIxMyIsIEdpdFZlcnNpb246InYxLjEzLjMiLCBHaXRDb21taXQ6IjcyMWJmYTc1MTkyNGRhOGQxNjgwNzg3NDkwYzU0YjkxNzliMWZlZDAiLCBHaXRUcmVlU3RhdGU6ImNsZWFuIiwgQnVpbGREYXRlOiIyMDE5LTAyLTAxVDIwOjA4OjEyWiIsIEdvVmVyc2lvbjoiZ28xLjExLjUiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjEzIiwgR2l0VmVyc2lvbjoidjEuMTMuMyIsIEdpdENvbW1pdDoiNzIxYmZhNzUxOTI0ZGE4ZDE2ODA3ODc0OTBjNTRiOTE3OWIxZmVkMCIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMTktMDItMDFUMjA6MDA6NTdaIiwgR29WZXJzaW9uOiJnbzEuMTEuNSIsIENvbXBpbGVyOiJnYyIsIFBsYXRmb3JtOiJsaW51eC9hbWQ2NCJ9Cg==&#34;</span><span class="p">,</span><span class="w">
+</span><span class="w">          </span><span class="s2">&#34;date&#34;</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Thu Feb 21 2019 11:51:45 GMT+0000 (UTC)&#34;</span><span class="w">
+</span><span class="w">        </span>}<span class="p">,</span><span class="w">
+</span><span class="w">        </span><span class="s2">&#34;email-address&#34;</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;support@weave.works&#34;</span><span class="w">
+</span><span class="w">      </span>}<span class="w">
+</span><span class="w">    </span>kubectl.kubernetes.io/last-applied-configuration<span class="p">:</span><span class="w"> </span><span class="sd">|
+</span><span class="sd">      {&#34;apiVersion&#34;:&#34;extensions/v1beta1&#34;,&#34;kind&#34;:&#34;DaemonSet&#34;,&#34;metadata&#34;:{&#34;annotations&#34;:{&#34;cloud.weave.works/launcher-info&#34;:&#34;{\n  \&#34;original-request\&#34;: {\n    \&#34;url\&#34;: \&#34;/k8s/v1.10/net.yaml?k8s-version=Q2xpZW50IFZlcnNpb246IHZlcnNpb24uSW5mb3tNYWpvcjoiMSIsIE1pbm9yOiIxMyIsIEdpdFZlcnNpb246InYxLjEzLjMiLCBHaXRDb21taXQ6IjcyMWJmYTc1MTkyNGRhOGQxNjgwNzg3NDkwYzU0YjkxNzliMWZlZDAiLCBHaXRUcmVlU3RhdGU6ImNsZWFuIiwgQnVpbGREYXRlOiIyMDE5LTAyLTAxVDIwOjA4OjEyWiIsIEdvVmVyc2lvbjoiZ28xLjExLjUiLCBDb21waWxlcjoiZ2MiLCBQbGF0Zm9ybToibGludXgvYW1kNjQifQpTZXJ2ZXIgVmVyc2lvbjogdmVyc2lvbi5JbmZve01ham9yOiIxIiwgTWlub3I6IjEzIiwgR2l0VmVyc2lvbjoidjEuMTMuMyIsIEdpdENvbW1pdDoiNzIxYmZhNzUxOTI0ZGE4ZDE2ODA3ODc0OTBjNTRiOTE3OWIxZmVkMCIsIEdpdFRyZWVTdGF0ZToiY2xlYW4iLCBCdWlsZERhdGU6IjIwMTktMDItMDFUMjA6MDA6NTdaIiwgR29WZXJzaW9uOiJnbzEuMTEuNSIsIENvbXBpbGVyOiJnYyIsIFBsYXRmb3JtOiJsaW51eC9hbWQ2NCJ9Cg==\&#34;,\n    \&#34;date\&#34;: \&#34;Thu Feb 21 2019 11:51:45 GMT+0000 (UTC)\&#34;\n  },\n  \&#34;email-address\&#34;: \&#34;support@weave.works\&#34;\n}&#34;},&#34;labels&#34;:{&#34;name&#34;:&#34;weave-net&#34;},&#34;name&#34;:&#34;weave-net&#34;,&#34;namespace&#34;:&#34;kube-system&#34;},&#34;spec&#34;:{&#34;minReadySeconds&#34;:5,&#34;template&#34;:{&#34;metadata&#34;:{&#34;labels&#34;:{&#34;name&#34;:&#34;weave-net&#34;}},&#34;spec&#34;:{&#34;containers&#34;:[{&#34;command&#34;:[&#34;/home/weave/launch.sh&#34;],&#34;env&#34;:[{&#34;name&#34;:&#34;HOSTNAME&#34;,&#34;valueFrom&#34;:{&#34;fieldRef&#34;:{&#34;apiVersion&#34;:&#34;v1&#34;,&#34;fieldPath&#34;:&#34;spec.nodeName&#34;}}}],&#34;image&#34;:&#34;docker.io/weaveworks/weave-kube:2.5.1&#34;,&#34;name&#34;:&#34;weave&#34;,&#34;readinessProbe&#34;:{&#34;httpGet&#34;:{&#34;host&#34;:&#34;127.0.0.1&#34;,&#34;path&#34;:&#34;/status&#34;,&#34;port&#34;:6784}},&#34;resources&#34;:{&#34;requests&#34;:{&#34;cpu&#34;:&#34;10m&#34;}},&#34;securityContext&#34;:{&#34;privileged&#34;:true},&#34;volumeMounts&#34;:[{&#34;mountPath&#34;:&#34;/weavedb&#34;,&#34;name&#34;:&#34;weavedb&#34;},{&#34;mountPath&#34;:&#34;/host/opt&#34;,&#34;name&#34;:&#34;cni-bin&#34;},{&#34;mountPath&#34;:&#34;/host/home&#34;,&#34;name&#34;:&#34;cni-bin2&#34;},{&#34;mountPath&#34;:&#34;/host/etc&#34;,&#34;name&#34;:&#34;cni-conf&#34;},{&#34;mountPath&#34;:&#34;/host/var/lib/dbus&#34;,&#34;name&#34;:&#34;dbus&#34;},{&#34;mountPath&#34;:&#34;/lib/modules&#34;,&#34;name&#34;:&#34;lib-modules&#34;},{&#34;mountPath&#34;:&#34;/run/xtables.lock&#34;,&#34;name&#34;:&#34;xtables-lock&#34;}]},{&#34;env&#34;:[{&#34;name&#34;:&#34;HOSTNAME&#34;,&#34;valueFrom&#34;:{&#34;fieldRef&#34;:{&#34;apiVersion&#34;:&#34;v1&#34;,&#34;fieldPath&#34;:&#34;spec.nodeName&#34;}}}],&#34;image&#34;:&#34;docker.io/weaveworks/weave-npc:2.5.1&#34;,&#34;name&#34;:&#34;weave-npc&#34;,&#34;resources&#34;:{&#34;requests&#34;:{&#34;cpu&#34;:&#34;10m&#34;}},&#34;securityContext&#34;:{&#34;privileged&#34;:true},&#34;volumeMounts&#34;:[{&#34;mountPath&#34;:&#34;/run/xtables.lock&#34;,&#34;name&#34;:&#34;xtables-lock&#34;}]}],&#34;hostNetwork&#34;:true,&#34;hostPID&#34;:true,&#34;restartPolicy&#34;:&#34;Always&#34;,&#34;securityContext&#34;:{&#34;seLinuxOptions&#34;:{}},&#34;serviceAccountName&#34;:&#34;weave-net&#34;,&#34;tolerations&#34;:[{&#34;effect&#34;:&#34;NoSchedule&#34;,&#34;operator&#34;:&#34;Exists&#34;}],&#34;volumes&#34;:[{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/var/lib/weave&#34;},&#34;name&#34;:&#34;weavedb&#34;},{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/opt&#34;},&#34;name&#34;:&#34;cni-bin&#34;},{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/home&#34;},&#34;name&#34;:&#34;cni-bin2&#34;},{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/etc&#34;},&#34;name&#34;:&#34;cni-conf&#34;},{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/var/lib/dbus&#34;},&#34;name&#34;:&#34;dbus&#34;},{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/lib/modules&#34;},&#34;name&#34;:&#34;lib-modules&#34;},{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/run/xtables.lock&#34;,&#34;type&#34;:&#34;FileOrCreate&#34;},&#34;name&#34;:&#34;xtables-lock&#34;}]}},&#34;updateStrategy&#34;:{&#34;type&#34;:&#34;RollingUpdate&#34;}}}</span><span class="w">
+</span><span class="w">  </span>creationTimestamp<span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="w">  </span>generation<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">  </span>labels<span class="p">:</span><span class="w">
+</span><span class="w">    </span>name<span class="p">:</span><span class="w"> </span>weave-net<span class="w">
+</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>weave-net<span class="w">
+</span><span class="w">  </span>selfLink<span class="p">:</span><span class="w"> </span>/apis/extensions/v1beta1/namespaces/kube-system/daemonsets/weave-net<span class="w">
+</span><span class="w"></span>spec<span class="p">:</span><span class="w">
+</span><span class="w">  </span>minReadySeconds<span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span><span class="w">  </span>revisionHistoryLimit<span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span><span class="w">  </span>selector<span class="p">:</span><span class="w">
+</span><span class="w">    </span>matchLabels<span class="p">:</span><span class="w">
+</span><span class="w">      </span>name<span class="p">:</span><span class="w"> </span>weave-net<span class="w">
+</span><span class="w">  </span>template<span class="p">:</span><span class="w">
+</span><span class="w">    </span>metadata<span class="p">:</span><span class="w">
+</span><span class="w">      </span>creationTimestamp<span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="w">      </span>labels<span class="p">:</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>weave-net<span class="w">
+</span><span class="w">    </span>spec<span class="p">:</span><span class="w">
+</span><span class="w">      </span>containers<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>command<span class="p">:</span><span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>/home/weave/launch.sh<span class="w">
+</span><span class="w">        </span>env<span class="p">:</span><span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>HOSTNAME<span class="w">
+</span><span class="w">          </span>valueFrom<span class="p">:</span><span class="w">
+</span><span class="w">            </span>fieldRef<span class="p">:</span><span class="w">
+</span><span class="w">              </span>apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w">              </span>fieldPath<span class="p">:</span><span class="w"> </span>spec.nodeName<span class="w">
+</span><span class="w">        </span>image<span class="p">:</span><span class="w"> </span>docker.io/weaveworks/weave-kube<span class="p">:</span><span class="m">2.5</span>.<span class="m">1</span><span class="w">
+</span><span class="w">        </span>imagePullPolicy<span class="p">:</span><span class="w"> </span>IfNotPresent<span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>weave<span class="w">
+</span><span class="w">        </span>readinessProbe<span class="p">:</span><span class="w">
+</span><span class="w">          </span>failureThreshold<span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span><span class="w">          </span>httpGet<span class="p">:</span><span class="w">
+</span><span class="w">            </span>host<span class="p">:</span><span class="w"> </span><span class="m">127.0</span>.<span class="m">0.1</span><span class="w">
+</span><span class="w">            </span>path<span class="p">:</span><span class="w"> </span>/status<span class="w">
+</span><span class="w">            </span>port<span class="p">:</span><span class="w"> </span><span class="m">6784</span><span class="w">
+</span><span class="w">            </span>scheme<span class="p">:</span><span class="w"> </span>HTTP<span class="w">
+</span><span class="w">          </span>periodSeconds<span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span><span class="w">          </span>successThreshold<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">          </span>timeoutSeconds<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">        </span>resources<span class="p">:</span><span class="w">
+</span><span class="w">          </span>requests<span class="p">:</span><span class="w">
+</span><span class="w">            </span>cpu<span class="p">:</span><span class="w"> </span>10m<span class="w">
+</span><span class="w">        </span>securityContext<span class="p">:</span><span class="w">
+</span><span class="w">          </span>privileged<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">          </span>procMount<span class="p">:</span><span class="w"> </span>Default<span class="w">
+</span><span class="w">        </span>terminationMessagePath<span class="p">:</span><span class="w"> </span>/dev/termination-log<span class="w">
+</span><span class="w">        </span>terminationMessagePolicy<span class="p">:</span><span class="w"> </span>File<span class="w">
+</span><span class="w">        </span>volumeMounts<span class="p">:</span><span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/weavedb<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>weavedb<span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/host/opt<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>cni-bin<span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/host/home<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>cni-bin2<span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/host/etc<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>cni-conf<span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/host/var/lib/dbus<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>dbus<span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/lib/modules<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>lib-modules<span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/run/xtables.lock<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>xtables-lock<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>env<span class="p">:</span><span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>HOSTNAME<span class="w">
+</span><span class="w">          </span>valueFrom<span class="p">:</span><span class="w">
+</span><span class="w">            </span>fieldRef<span class="p">:</span><span class="w">
+</span><span class="w">              </span>apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w">              </span>fieldPath<span class="p">:</span><span class="w"> </span>spec.nodeName<span class="w">
+</span><span class="w">        </span>image<span class="p">:</span><span class="w"> </span>docker.io/weaveworks/weave-npc<span class="p">:</span><span class="m">2.5</span>.<span class="m">1</span><span class="w">
+</span><span class="w">        </span>imagePullPolicy<span class="p">:</span><span class="w"> </span>IfNotPresent<span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>weave-npc<span class="w">
+</span><span class="w">        </span>resources<span class="p">:</span><span class="w">
+</span><span class="w">          </span>requests<span class="p">:</span><span class="w">
+</span><span class="w">            </span>cpu<span class="p">:</span><span class="w"> </span>10m<span class="w">
+</span><span class="w">        </span>securityContext<span class="p">:</span><span class="w">
+</span><span class="w">          </span>privileged<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">          </span>procMount<span class="p">:</span><span class="w"> </span>Default<span class="w">
+</span><span class="w">        </span>terminationMessagePath<span class="p">:</span><span class="w"> </span>/dev/termination-log<span class="w">
+</span><span class="w">        </span>terminationMessagePolicy<span class="p">:</span><span class="w"> </span>File<span class="w">
+</span><span class="w">        </span>volumeMounts<span class="p">:</span><span class="w">
+</span><span class="w">        </span>-<span class="w"> </span>mountPath<span class="p">:</span><span class="w"> </span>/run/xtables.lock<span class="w">
+</span><span class="w">          </span>name<span class="p">:</span><span class="w"> </span>xtables-lock<span class="w">
+</span><span class="w">      </span>dnsPolicy<span class="p">:</span><span class="w"> </span>ClusterFirst<span class="w">
+</span><span class="w">      </span>hostNetwork<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">      </span>hostPID<span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">      </span>restartPolicy<span class="p">:</span><span class="w"> </span>Always<span class="w">
+</span><span class="w">      </span>schedulerName<span class="p">:</span><span class="w"> </span>default-scheduler<span class="w">
+</span><span class="w">      </span>securityContext<span class="p">:</span><span class="w">
+</span><span class="w">        </span>seLinuxOptions<span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w">      </span>serviceAccount<span class="p">:</span><span class="w"> </span>weave-net<span class="w">
+</span><span class="w">      </span>serviceAccountName<span class="p">:</span><span class="w"> </span>weave-net<span class="w">
+</span><span class="w">      </span>terminationGracePeriodSeconds<span class="p">:</span><span class="w"> </span><span class="m">30</span><span class="w">
+</span><span class="w">      </span>tolerations<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>effect<span class="p">:</span><span class="w"> </span>NoSchedule<span class="w">
+</span><span class="w">        </span>operator<span class="p">:</span><span class="w"> </span>Exists<span class="w">
+</span><span class="w">      </span>volumes<span class="p">:</span><span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/var/lib/weave<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>weavedb<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/opt<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>cni-bin<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/home<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>cni-bin2<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/etc<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>cni-conf<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/var/lib/dbus<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>dbus<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/lib/modules<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>lib-modules<span class="w">
+</span><span class="w">      </span>-<span class="w"> </span>hostPath<span class="p">:</span><span class="w">
+</span><span class="w">          </span>path<span class="p">:</span><span class="w"> </span>/run/xtables.lock<span class="w">
+</span><span class="w">          </span>type<span class="p">:</span><span class="w"> </span>FileOrCreate<span class="w">
+</span><span class="w">        </span>name<span class="p">:</span><span class="w"> </span>xtables-lock<span class="w">
+</span><span class="w">  </span>templateGeneration<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">  </span>updateStrategy<span class="p">:</span><span class="w">
+</span><span class="w">    </span>rollingUpdate<span class="p">:</span><span class="w">
+</span><span class="w">      </span>maxUnavailable<span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span><span class="w">    </span>type<span class="p">:</span><span class="w"> </span>RollingUpdate<span class="w">
+</span><span class="w"></span>status<span class="p">:</span><span class="w">
+</span><span class="w">  </span>currentNumberScheduled<span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="w">  </span>desiredNumberScheduled<span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="w">  </span>numberMisscheduled<span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span><span class="w">  </span>numberReady<span class="p">:</span><span class="w"> </span><span class="m">0</span></code></pre></div>
+<h3 id="로컬-kubeconfig-셋업">로컬 kubeconfig 셋업</h3>
+
+<p>싱글 마스터 노드와 싱글 워커 노드로 구성된 쿠버네티스 클러스터가 준비되었다. 이제 로컬 PC에서 위 클러스터를 사용해보자. 이를 위해서 마스터 노드의 <code>kubeconfig</code> 파일을 로컬에 캐시한다.</p>
+
+<h4 id="kubeconfig-로컬-복사">kubeconfig 로컬 복사</h4>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ scp -i ~/.ssh/path/to/pem ubuntu@ec2-13-209-88-210.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/.kube/config kubeconfig
+$ <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>kubeconfig</code></pre></div>
+<p>다음으로 <code>kubeconfig</code> 파일을 열어서 마스터 API 서버의 주소인 <code>https://172.31.31.2:6443</code>를 <code>https://kubernetes:6443</code>로 변경한다.</p>
+
+<h4 id="kubernetes-호스트-등록">kubernetes 호스트 등록</h4>
+
+<p>그리고 다음과 같이 <code>/etc/hosts</code> 파일을 열어서 kubernetes를 로컬 주소로 등록한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1">##
+</span><span class="c1"># Host Database
+</span><span class="c1">#
+</span><span class="c1"># localhost is used to configure the loopback interface
+</span><span class="c1"># when the system is booting.  Do not change this entry.
+</span><span class="c1">##
+</span><span class="c1"></span><span class="m">127</span>.0.0.1	localhost
+<span class="m">127</span>.0.0.1 kubernetes
+<span class="m">255</span>.255.255.255	broadcasthost
+::1             localhost</code></pre></div>
+<h4 id="6443-로컬-바인딩">6443 로컬 바인딩</h4>
+
+<p>마스터 API 서버의 시큐어 포트 6443을 로컬 포트 6443에 바인딩한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">ssh ubuntu@ec2-13-209-88-210.ap-northeast-2.compute.amazonaws.com -L <span class="m">6443</span>:localhost:6443</code></pre></div>
+<h4 id="로컬에서-kubelet-실행">로컬에서 kubelet 실행</h4>
+
+<p>그리면, 다음과 같이 로컬 PC에서도 동일하게 클러스터 노드 조회 정보를 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get node
+NAME               STATUS   ROLES    AGE   VERSION
+ip-172-31-22-155   Ready    &lt;none&gt;   31m   v1.13.3
+ip-172-31-31-2     Ready    master   36m   v1.13.3</code></pre></div>
+<h2 id="ha-구성">HA 구성</h2>
+
+<p><code>kubeadm</code>을 이용한 고가용성 컨트롤 플레인 HA 구성에 대한 문서와 오픈 소스 예제는 다음을 참고한다.</p>
+
+<ul>
+<li><a href="https://kubernetes.io/docs/setup/independent/ha-topology/" target="_blank">https://kubernetes.io/docs/setup/independent/ha-topology/</a></li>
+<li><a href="https://kubernetes.io/docs/setup/independent/setup-ha-etcd-with-kubeadm/" target="_blank">https://kubernetes.io/docs/setup/independent/setup-ha-etcd-with-kubeadm/</a></li>
+<li><a href="https://github.com/cookeem/kubeadm-ha" target="_blank">https://github.com/cookeem/kubeadm-ha</a></li>
+<li><a href="https://github.com/Lentil1016/kubeadm-ha" target="_blank">https://github.com/Lentil1016/kubeadm-ha</a></li>
+<li><a href="https://github.com/scholzj/terraform-aws-kubernetes" target="_blank">https://github.com/scholzj/terraform-aws-kubernetes</a></li>
+</ul>
+
+        
+        <div class="related">
+
+<h3>Similar articles:</h3>
+<ul>
+	
+	<li><a href="/post/tgik-005/">TGI Kubernetes 005: Pod Params and Probes</a></li>
+	
+	<li><a href="/post/tgik-004/">TGI Kubernetes 004: RBAC</a></li>
+	
+	<li><a href="/post/tgik-003/">TGI Kubernetes 003: Istio</a></li>
+	
+	<li><a href="/post/tgik-002/">TGI Kubernetes 002: Networking and Services</a></li>
+	
+	<li><a href="/post/tgik-001/">TGI Kubernetes 001: A Quick Tour</a></li>
+	
+</ul>
+</div>
+        
+      </div>
+    </article>
+    
+
+    
+    <nav class="post-nav">
+        
+        
+        <a class="next" href="/post/tgik-005/">
+            <span class="next-text nav-default">TGI Kubernetes 005: Pod Params and Probes</span>
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
+
+  </div>
+ 
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      disqus();
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Philbert Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-129419926-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
+
