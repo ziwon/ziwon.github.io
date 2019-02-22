@@ -22,7 +22,7 @@
       
       <content>
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/heptio/tgik/blob/master/episodes/006/README.md&#34; target=&#34;_blank&#34;&gt;여섯 번째 에피소드&lt;/a&gt;는 &lt;code&gt;kubeadm&lt;/code&gt;을 이용해서 쿠버네티스 클러스터를 설치하는 내용이다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/heptio/tgik/blob/master/episodes/006/README.md&#34; target=&#34;_blank&#34;&gt;여섯 번째 에피소드&lt;/a&gt;는 &lt;code&gt;kubeadm&lt;/code&gt;을 이용해서 싱글 마스터 쿠버네티스 클러스터를 설치하는 내용이다. 말할 필요도 없이, 실제 프로덕션 수준의 고가용성 쿠버네티스 클러스터 셋업은 아래처럼 단순하지 않으니 어디까지나 참고만 하도록 한다.&lt;/p&gt;
 
 &lt;p&gt;&lt;center&gt;•••&lt;/center&gt;&lt;/p&gt;
 
@@ -671,6 +671,8 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
 &lt;li&gt;&lt;a href=&#34;https://github.com/Lentil1016/kubeadm-ha&#34; target=&#34;_blank&#34;&gt;https://github.com/Lentil1016/kubeadm-ha&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/scholzj/terraform-aws-kubernetes&#34; target=&#34;_blank&#34;&gt;https://github.com/scholzj/terraform-aws-kubernetes&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;&lt;center&gt;&lt;img src=&#34;https://d33wubrfki0l68.cloudfront.net/d1411cded83856552f37911eb4522d9887ca4e83/b94b2/images/kubeadm/kubeadm-ha-topology-stacked-etcd.svg&#34;/&gt;&lt;/center&gt;&lt;/p&gt;
 </content>
       
     </item>
