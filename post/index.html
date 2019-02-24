@@ -110,6 +110,20 @@
     
     
     <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/docker-storage-volumes/">[번역] 도커 볼륨</a></h1>
+      <div class="content">
+        도커 스토리지 목차는 다음과 같다.
+ 스토리지 소개 * 볼륨 사용 (원문) 바인드 마운트 tmp 마운트 컨테이너에 데이터 저장하기  스토리지 드라이버에 대해 스토리지 드라이버 선택 AUFS 스토리지 드라이버 사용 Btrfs 스토리지 드라이버 사용 디바이스 맵퍼 스토리지 드라이버 사용 OverlayFS 스토리지 드라이버 사용 ZFS 스토리지 드라이버 사용 VFS 스토리지 드라이버 사용   •••
+볼륨 사용 볼륨은 도커 컨테이너에 의해 생성되고 사용되는 데이터를 영속하기 위해 선호되는 메커니즘이다. 바인딩 마운트는 호스트 머신의 디렉토리 구조에 따라 달라지지만, 볼륨은 도커에 의해 완전히 관리된다.
+        
+        
+      </div>
+      <a class="button" href="https://ziwon.github.io/post/docker-storage-volumes/" style="height:28px">
+        Read more
+      </a>
+    </article>
+    
+    <article>
       <h1 class="title"><a href="https://ziwon.github.io/post/tgik-006/">TGI Kubernetes 006: kubeadm</a></h1>
       <div class="content">
         여섯 번째 에피소드는 kubeadm을 이용해서 싱글 마스터 쿠버네티스 클러스터를 설치하는 내용이다. 말할 필요도 없이, 실제 프로덕션 수준의 고가용성 쿠버네티스 클러스터 셋업은 아래처럼 단순하지 않으니 어디까지나 참고만 하도록 한다.
@@ -163,22 +177,6 @@ KubeConfig kubeconfig 파일의 기본 위치는 $HOME/.kube/config이며, KUBEC
         
       </div>
       <a class="button" href="https://ziwon.github.io/post/tgik-004/" style="height:28px">
-        Read more
-      </a>
-    </article>
-    
-    <article>
-      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-003/">TGI Kubernetes 003: Istio</a></h1>
-      <div class="content">
-        TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
-•••
-Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.
-여러 가지 타입의 마이크로 서비스가 있을 수 있다.
- Implementation Detail (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각각의 모듈로 세부 구현된 서비스 ) Shared Artificat, Priavete Instance (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발) Shared Instance (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스) Big-S Servie (회사 외부로 확장된 완전히 구현된 Saas 모델, 예.
-        
-        
-      </div>
-      <a class="button" href="https://ziwon.github.io/post/tgik-003/" style="height:28px">
         Read more
       </a>
     </article>

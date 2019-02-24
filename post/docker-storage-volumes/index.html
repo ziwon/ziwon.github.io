@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>[번역] 도커 볼륨 | 人生は儚く短い。</title>
+
+
+
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は儚く短い。" />
+
+<link rel="stylesheet" href="/css/style.css"/><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-hybrid.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://ziwon.github.io/">
+          <h1 class="title is-4">人生は儚く短い。</h1>
+        </a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+
+    <nav class="nav">
+      
+
+      
+    </nav>
+
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/docker-storage-volumes/">[번역] 도커 볼륨</a></h1>
+      <h2 class="subtitle is-6">2019-02-24 </h2>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+        
+<a class="subtitle is-6" href="/tags/docker">#docker</a>
+
+
+
+  
+  | <a class="subtitle is-6" href="/tags/storage">#storage</a>
+  
+  | <a class="subtitle is-6" href="/tags/persistence">#persistence</a>
+  
+  | <a class="subtitle is-6" href="/tags/volumes">#volumes</a>
+  
+  | <a class="subtitle is-6" href="/tags/mounts">#mounts</a>
+  
+
+        
+      </div>
+      <div class="content">
+        
+
+<p>도커 스토리지 목차는 다음과 같다.</p>
+
+<ul>
+<li><a href="/post/docker-storage-overview/">스토리지 소개</a></li>
+<li><strong><a href="/post/docker-storage-volumes/">* 볼륨 사용</a> (<a href="https://docs.docker.com/storage/volumes/" target="_blank">원문</a>)</strong></li>
+<li>바인드 마운트</li>
+<li>tmp 마운트</li>
+<li>컨테이너에 데이터 저장하기
+
+<ul>
+<li>스토리지 드라이버에 대해</li>
+<li>스토리지 드라이버 선택</li>
+<li>AUFS 스토리지 드라이버 사용</li>
+<li>Btrfs 스토리지 드라이버 사용</li>
+<li>디바이스 맵퍼 스토리지 드라이버 사용</li>
+<li>OverlayFS 스토리지 드라이버 사용</li>
+<li>ZFS 스토리지 드라이버 사용</li>
+<li>VFS 스토리지 드라이버 사용</li>
+</ul></li>
+</ul>
+
+<p><center>•••</center></p>
+
+<h1 id="볼륨-사용">볼륨 사용</h1>
+
+<p>볼륨은 도커 컨테이너에 의해 생성되고 사용되는 데이터를 영속하기 위해 선호되는 메커니즘이다. 바인딩 마운트는 호스트 머신의 디렉토리 구조에 따라 달라지지만, 볼륨은 도커에 의해 완전히 관리된다. 볼륨은 바인딩 마운트에 비해 몇 가지 장점이 있다.</p>
+
+<ul>
+<li>볼륨은 바인딩 마운트보다 백업 또는 마이그레이션이 더 쉽다.</li>
+<li>Docker CLI 명령이나 Docker API를 사용하여 볼륨을 관리할 수 있다.</li>
+<li>볼륨은 Linux 컨테이너와 Windows 컨테이너 모두에서 작동한다.</li>
+<li>볼륨은 여러 컨테이너 사이에서 더 안전하게 공유될 수 있다.</li>
+<li>볼륨 드라이버는 원격 호스트나 클라우드 프로바이더에게 볼륨을 저장하거나, 볼륨의 내용을 암호화하거나, 다른 기능을 추가할 수 있게 해준다.</li>
+<li>새 볼륨은 컨테이너에 의해 그 내용물을 미리 채울 수 있다.</li>
+</ul>
+
+<p>또한, 볼륨은 사용하는 컨테이너의 크기를 증가시키지 않고, 주어진 컨테이너의 라이프사이클 밖에 볼륨의 내용이 존재하기 때문에, 컨테이너의 쓰기 가능한 레이어에서 데이터를 영속하는 것보다 더 나은 선택이라고 할 수 있다.</p>
+
+<p><center><img src="https://docs.docker.com/storage/images/types-of-mounts-volume.png"/></center></p>
+
+<p>컨테이너가 비영속적인 상태 데이터를 생성하는 경우, <code>tmpfs</code> 마운트를 사용하여 데이터를 어디에나 영속적으로 저장하지 않도록 하고, 컨테이너의 쓰기 가능한 레이어에 쓰기를 막아 컨테이너 성능을 향상시키는 것을 고려해볼 수 있다.</p>
+
+<p>볼륨은 <code>rprivate</code> 바인딩 전파를 사용하는데, 볼륨에 대한 바인딩 전파는 설정할 수 없다.</p>
+
+<h2 id="v-또는-mount-플래그-선택">-v 또는 &ndash;mount 플래그 선택</h2>
+
+<p>원래, <code>-v</code> 또는 <code>--volume</code> 플래그는 독립형 컨테이너에 사용되었고 <code>--mount</code> 플래그는 스웜 서비스에 사용되었다. 그러나 도커 17.06부터 독립형 컨테이너와 함께 <code>--mount</code>를 사용할 수도 있다. 일반적으로 <code>--mount</code>가 더 명확하고 장황(verbose)하다. 가장 큰 차이점은 <code>-v</code> 구문이 모든 옵션을 하나의 필드에 함께 결합하는 반면 <code>--mount</code> 구문은 이들을 구분한다는 것이다. 다음은 각 플래그의 구문 비교이다.</p>
+
+<blockquote>
+<p>새 사용자들은 <code>--volume</code> 구분보다 간단한 구문인 <code>--mount</code> 구문을 사용해야 한다.</p>
+</blockquote>
+
+<p>볼륨 드라이버 옵션을 지정해야 한다면, <code>--mount</code>를 사용해야 한다.</p>
+
+<ul>
+<li><code>-v</code> 또는 <code>--volume</code>: 콜론(:)으로 구분된 3개의 필드로 구성된다. 필드의 순서가 정확해야 하고, 각 필드의 의미는 한눈에 알기 어렵다.
+
+<ul>
+<li>이름을 지닌 볼륨의 경우, 첫 번째 필드는 볼륨의 이름이며, 지정된 호스트 머신에서 고유하다. 익명 볼륨의 경우, 첫 번째 필드는 생략한다.</li>
+<li>두 번째 필드는 파일이나 디렉토리가 컨테이너에 마운트되는 경로다.</li>
+<li>세 번째 필드는 선택사항이며, <code>ro</code>와 같이 쉼표로 구분된 옵션 목록이다. 이러한 옵션은 아래에서 논의한다.</li>
+</ul></li>
+<li><code>--mount</code>: 복수 키밸류 쌍으로 구성되고 쉼표로 구분되고 각각은 <code>&lt;key&gt;=&lt;value&gt;</code> 튜퓰로 구성된다. <code>--mount</code> 구문은 <code>-v</code> 또는 <code>--volume</code>보다 장황하지만, 키의 순서는 중요하지 않고, 플래그의 값도 알기 쉽다.
+
+<ul>
+<li><code>bind</code>, <code>volume</code> 또는 <code>tmpfs</code>가 될 수 있는 마운트의 <code>type</code>. 여기 논하는 주제는 볼륨이므로, <code>type</code>은 항상 <code>volume</code>이다.</li>
+<li>마운트의 <code>source</code>. 이름을 지닌 볼륨의 경우, 이는 볼륨의 이름이다. 익명 볼륨의 경우 이 필드는 생략한다. <code>source</code> 또는 <code>src</code>로 지정할 수 있다.</li>
+<li><code>destination</code>는 파일이나 디렉토리가 컨테이너에 마운트되는 경로를 값으로 취한다. <code>destination</code>, <code>dst</code> 또는 <code>target</code>으로 지정할 수 있다.</li>
+<li><code>readonly</code> 옵션이 있는 경우, <a href="https://docs.docker.com/storage/volumes/#use-a-read-only-volume" target="_blank">바인딩 마운트가 읽기 전용으로 컨테이너에 마운트</a>된다.</li>
+<li>한 번 이상 지정할 수 있는 <code>volume-opt</code> 옵션은 옵션 이름과 값으로 구성된 키밸류 쌍을 취한다.</li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p><strong>외부 CSV 파서에서 값을 이스케이프(escape)하기</strong> <br/>
+볼륨 드라이버가 쉼표로 구분된 목록을 옵션으로 받아들이는 경우, 외부 CSV 파서에서 값을 이스케이프해야 한다. <code>volume-opt</code>에서 이스케이프하려면, 큰따옴표(&ldquo;)로 묶고 전체 마운트 매개변수를 작은따옴표(&lsquo;)로 묶는다.</p>
+
+<p>예를 들어, <code>local</code> 드라이버는 마운트 옵션으로 <code>o</code> 매개변수의 쉼표로 구분된 목록을 수용한다. 예제는 목록에서 이스케이프할 수 있는 올바른 방법을 보여준다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker service create <span class="se">\
+</span><span class="se"></span>    --mount <span class="s1">&#39;type=volume,src=&lt;VOLUME-NAME&gt;,dst=&lt;CONTAINER-PATH&gt;,volume-driver=local,volume-opt=type=nfs,volume-opt=device=&lt;nfs-server&gt;:&lt;nfs-path&gt;,&#34;volume-opt=o=addr=&lt;nfs-address&gt;,vers=4,soft,timeo=180,bg,tcp,rw&#34;&#39;</span>
+    --name myservice <span class="se">\
+</span><span class="se"></span>    &lt;IMAGE&gt;</code></pre></div></blockquote>
+
+<p>아래 예제는 가능한 경우 <code>--mount</code> 및 <code>-v</code> 구문을 모두 표시하고 <code>--mount</code>가 먼저 제시된다.</p>
+
+<h3 id="v와-mount-양식의-차이">-v와 &ndash;mount 양식의 차이</h3>
+
+<p>바인딩 마운트와 달리, 볼륨의 모든 옵션은 <code>--mount</code>와 <code>-v</code> 플래그 모두에 대해 사용할 수 있다.</p>
+
+<p>서비스가 포함된 볼륨을 사용할 때는 <code>--mount</code>만 지원된다.</p>
+
+<h2 id="볼륨-생성과-관리">볼륨 생성과 관리</h2>
+
+<p>바인드 마운트와 달리 컨테이너 스코프를 벗어난 볼륨을 생성하고 관리할 수 ​​있다.</p>
+
+<p><strong>볼륨 생성</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker volume create my-vol</code></pre></div>
+<p><strong>볼륨 목록</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker volume ls
+
+<span class="nb">local</span>               my-vol</code></pre></div>
+<p><strong>볼륨 조사</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker volume inspect my-vol
+<span class="o">[</span>
+    <span class="o">{</span>
+        <span class="s2">&#34;Driver&#34;</span>: <span class="s2">&#34;local&#34;</span>,
+        <span class="s2">&#34;Labels&#34;</span>: <span class="o">{}</span>,
+        <span class="s2">&#34;Mountpoint&#34;</span>: <span class="s2">&#34;/var/lib/docker/volumes/my-vol/_data&#34;</span>,
+        <span class="s2">&#34;Name&#34;</span>: <span class="s2">&#34;my-vol&#34;</span>,
+        <span class="s2">&#34;Options&#34;</span>: <span class="o">{}</span>,
+        <span class="s2">&#34;Scope&#34;</span>: <span class="s2">&#34;local&#34;</span>
+    <span class="o">}</span>
+<span class="o">]</span></code></pre></div>
+<p><strong>볼륨 삭제</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker volume rm my-vol</code></pre></div>
+<h2 id="볼륨이-있는-컨테이너-시작">볼륨이 있는 컨테이너 시작</h2>
+
+<p>아직 존재하지 않는 볼륨으로 컨테이너를 시작하면, 도커가 볼륨을 생성한다. 다음 예제는 볼륨 <code>myvol2</code>를 컨테이너의 <code>/app/</code>에 마운트한다.</p>
+
+<p>아래의 <code>-v</code>와 <code>--mount</code> 예는 동일한 결과를 나타낸다. 첫 번째 컨테이너를 실행한 후 <code>devtest</code> 컨테이너와 <code>myvol2</code> 볼륨을 제거하지 않으면 둘 다 실행할 수 없다.</p>
+
+<p><strong>&ndash;mount</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name devtest <span class="se">\
+</span><span class="se"></span>  --mount <span class="nv">source</span><span class="o">=</span>myvol2,target<span class="o">=</span>/app <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p><strong>-v</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name devtest <span class="se">\
+</span><span class="se"></span>  -v myvol2:/app <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p><code>docker inspect devtest</code>를 사용해서 볼륨이 생성되고 정확하게 마운트되었는지 확인한다. <code>Mounts</code> 섹션을 찾아보라.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;Mounts&#34;</span><span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&#34;Type&#34;</span><span class="p">:</span> <span class="s2">&#34;volume&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Name&#34;</span><span class="p">:</span> <span class="s2">&#34;myvol2&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Source&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/lib/docker/volumes/myvol2/_data&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Destination&#34;</span><span class="p">:</span> <span class="s2">&#34;/app&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Driver&#34;</span><span class="p">:</span> <span class="s2">&#34;local&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Mode&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;RW&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nt">&#34;Propagation&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span>
+    <span class="p">}</span>
+<span class="p">]</span><span class="err">,</span></code></pre></div>
+<p>위에서 마운트가 볼륨이고, 정확한 소스와 목적지를 확인할 수 있고, 마운트가 읽기-쓰기임을 알 수 있다.</p>
+
+<p>컨테이너를 멈추고 볼륨을 제거한다. 볼륨 제거는 별도의 단계임을 유의하라.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker container stop devtest
+
+$ docker container rm devtest
+
+$ docker volume rm myvol2</code></pre></div>
+<h2 id="볼륨이-있는-서비스-시작">볼륨이 있는 서비스 시작</h2>
+
+<p>서비스를 시작하고 볼륨을 정의할 때 각 서비스 컨테이너는 자체 로컬 볼륨을 사용한다. 로컬 볼륨 드라이버를 사용한다면 어떤 컨테이너도 이 데이터를 공유할 수 없지만, 일부 볼륨 드라이버는 공유 스토리지를 지원한다. Docker for AWS와 Docker for Azure는 모두 Cloudstor 플러그인을 사용하는 영구 스토리지(persistent storage)를 지원한다.</p>
+
+<p>다음 예는 각각 <code>mysvol2</code>라는 로컬 볼륨을 사용하는 네 개의 복제본으로 <code>nginx</code> 서비스를 시작한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker service create -d <span class="se">\
+</span><span class="se"></span>  --replicas<span class="o">=</span><span class="m">4</span> <span class="se">\
+</span><span class="se"></span>  --name devtest-service <span class="se">\
+</span><span class="se"></span>  --mount <span class="nv">source</span><span class="o">=</span>myvol2,target<span class="o">=</span>/app <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p><code>docker service ps devtest-service</code>를 사용해서 서비스가 실행 중인지 확인하라.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker service ps devtest-service
+
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
+4d7oz1j85wwn        devtest-service.1   nginx:latest        moby                Running             Running <span class="m">14</span> seconds ago</code></pre></div>
+<p>서비스를 제거하면 모든 작업이 중지된다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker service rm devtest-service</code></pre></div>
+<p>서비스를 제거해도 서비스가 생성한 볼륨은 제거되지 않는다. 볼륨 제거는 별도의 단계이다.</p>
+
+<h3 id="서비스에-대한-구문-차이">서비스에 대한 구문 차이</h3>
+
+<p><code>docker service create</code> 명령은 <code>-v</code> 또는 <code>--volume</code> 플래그를 지원하지 않는다. 볼륨을 서비스의 컨테이너에 마운트 할 때 <code>--mount</code> 플래그를 사용해야 한다.</p>
+
+<h3 id="컨테이너를-사용하여-볼륨-채우기">컨테이너를 사용하여 볼륨 채우기</h3>
+
+<p>위와 같이 새 볼륨을 만드는 컨테이너를 시작하고 컨테이너에 마운트할 디렉토리 (예: 위 <code>/app/</code>)에 파일 또는 디렉토리가 있으면 해당 디렉토리의 내용이 볼륨에 복사된다. 그런 다음 컨테이너가 볼륨을 마운트하고 사용하며, 볼륨을 사용하는 다른 컨테이너도 미리 채워진 컨텐츠에 액세스할 수 있다.</p>
+
+<p>이를 설명하기 위해 예제는 <code>nginx</code> 컨테이너를 시작하고 컨테이너의 <code>/usr/share/nginx/html</code> 디렉토리의 내용으로 새 볼륨 <code>nginx-vol</code>를 채운다. 이 디렉토리는 <code>nginx</code>가 기본 HTML 컨텐츠를 저장하는 곳이다.</p>
+
+<p><strong>&ndash;mount</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name<span class="o">=</span>nginxtest <span class="se">\
+</span><span class="se"></span>  --mount <span class="nv">source</span><span class="o">=</span>nginx-vol,destination<span class="o">=</span>/usr/share/nginx/html <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p><strong>-v</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name<span class="o">=</span>nginxtest <span class="se">\
+</span><span class="se"></span>  -v nginx-vol:/usr/share/nginx/html <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p>이 예제 중 하나를 실행한 후 다음 명령을 실행하여 컨테이너와 볼륨을 정리한다. 볼륨 제거는 별도의 단계이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker container stop nginxtest
+
+$ docker container rm nginxtest
+
+$ docker volume rm nginx-vol</code></pre></div>
+<h2 id="읽기-전용-볼륨-사용">읽기 전용 볼륨 사용</h2>
+
+<p>일부 개발 애플리케이션의 경우, 컨테이너가 바인드 마운트에 쓰기 작업을 수행해야 변경 사항이 다시 도커 호스트에 전파된다. 다른 경우에는 컨테이너가 데이터에 대한 읽기 액세스만 요구한다. 여러 컨테이너가 동일한 볼륨을 마운트할 수 있으며 일부 컨테이너는 읽기/ 쓰기로 마운트하고 다른 컨테이너는 읽기 전용으로 마운트 할 수 있음을 기억하라.</p>
+
+<p>이 예제는 위의 것을 수정하지만 컨테이너의 마운트 지점 다음에 옵션 목록 (기본값은 비어 있음)에 <code>ro</code>를 추가하여 디렉토리를 읽기 전용 볼륨으로 마운트한다. 여러 옵션이 있는 경우 쉼표로 구분한다.</p>
+
+<p><code>--mount</code> 및 <code>-v</code> 예제의 결과는 동일하다.</p>
+
+<p><strong>&ndash;mount</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name<span class="o">=</span>nginxtest <span class="se">\
+</span><span class="se"></span>  --mount <span class="nv">source</span><span class="o">=</span>nginx-vol,destination<span class="o">=</span>/usr/share/nginx/html,readonly <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p><strong>-v</strong></p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name<span class="o">=</span>nginxtest <span class="se">\
+</span><span class="se"></span>  -v nginx-vol:/usr/share/nginx/html:ro <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<p><code>docker inspect nginxtest</code>를 사용해서 읽기전용 마운트가 정확하게 생성되었는지 확인한다. <code>Mounts</code> 섹션을 찾아보라.</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;Mounts&#34;</span><span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&#34;Type&#34;</span><span class="p">:</span> <span class="s2">&#34;volume&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Name&#34;</span><span class="p">:</span> <span class="s2">&#34;nginx-vol&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Source&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/lib/docker/volumes/nginx-vol/_data&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Destination&#34;</span><span class="p">:</span> <span class="s2">&#34;/usr/share/nginx/html&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Driver&#34;</span><span class="p">:</span> <span class="s2">&#34;local&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;Mode&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;RW&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nt">&#34;Propagation&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span>
+    <span class="p">}</span>
+<span class="p">]</span><span class="err">,</span></code></pre></div>
+<p>컨테이너를 멈추고 제거한 다음 볼륨을 제거하라. 볼륨 제거는 별도의 단계이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker container stop nginxtest
+
+$ docker container rm nginxtest
+
+$ docker volume rm nginx-vol</code></pre></div>
+<h2 id="머신-간에-데이터-공유">머신 간에 데이터 공유</h2>
+
+<p>내결함성(fault-tolerant) 어플리케이션을 빌드할 때 같은 파일에 액세 할 수 있도록 동일한 서비스의 여러 복제본을 구성해야할 수도 있다.</p>
+
+<p><center><img src="https://docs.docker.com/storage/images/volumes-shared-storage.svg"/></center></p>
+
+<p>애플리케이션을 개발할 때 이를 수행 할 수 있는 몇 가지 방법이 있다. 하나는 애플리케이션에 로직을 추가하여 Amazon S3와 같은 클라우드 객체 저장소 시스템에 파일을 저장하는 것이다. 다른 하나는 NFS 또는 Amazon S3와 같은 외부 스토리지 시스템에 파일 쓰기를 지원하는 드라이버로 볼륨을 생성하는 것이다.</p>
+
+<p>볼륨 드라이버를 사용하면 애플리케이션 로직에서 기본 저장소 시스템을 추상화할 수 있다. 예를 들어, 서비스에서 NFS 드라이버와 함께 볼륨을 사용하는 경우, 애플리케이션 로직을 변경하지 않고 클라우드에 데이터를 저장하는 예와 같이 다른 드라이버를 사용하도록 서비스를 업데이트할 수 있다.</p>
+
+<h2 id="볼륨-드라이버-사용">볼륨 드라이버 사용</h2>
+
+<p><code>docker volume create</code>를 사용하여 볼륨을 만들거나 아직 생성되지 않은 볼륨을 사용하는 컨테이너를 시작할 때 볼륨 드라이버를 지정할 수 있다. 다음 예제는 독립형 볼륨을 만들 때 처음 <code>vieux/sshfs</code> 볼륨 드라이버를 사용하고 새 볼륨을 만드는 컨테이너를 시작할 때 사용한다.</p>
+
+<h3 id="초기-셋업">초기 셋업</h3>
+
+<p>이 예제에서는 두 개의 노드가 있다고 가정한다. 첫 번째 노드는 도커 호스트이고 두 번째 노드는 SSH를 사용하여 연결할 수 있다. 도커 호스트에서 <code>vieux/sshfs</code> 플러그인을 설치한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker plugin install --grant-all-permissions vieux/sshfs</code></pre></div>
+<h3 id="볼륨-드라이버를-사용해서-볼륨-생성">볼륨 드라이버를 사용해서 볼륨 생성</h3>
+
+<p>이 예제는 SSH 암호를 지정하지만 두 호스트에 공유 키가 설정된 경우, 암호를 생략할 수 있다. 각 볼륨 드라이버는 0개 이상의 설정 가능한 옵션이 있을 수 있고, 각 옵션은 <code>-o</code> 플래그를 사용하여 지정된다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker volume create --driver vieux/sshfs <span class="se">\
+</span><span class="se"></span>  -o <span class="nv">sshcmd</span><span class="o">=</span>test@node2:/home/test <span class="se">\
+</span><span class="se"></span>  -o <span class="nv">password</span><span class="o">=</span>testpassword <span class="se">\
+</span><span class="se"></span>  sshvolume</code></pre></div>
+<h3 id="볼륨-드라이버를-사용하여-볼륨을-생성하는-컨테이너-시작">볼륨 드라이버를 사용하여 볼륨을 생성하는 컨테이너 시작</h3>
+
+<p>이 예제는 SSH 암호를 지정하지만 두 호스트에 공유 키가 설정된 경우, 암호를 생략할 수 있다. 각 볼륨 드라이버에는 0개 이상의 설정 가능한 옵션이 있을 수 있다. 볼륨 드라이버에서 옵션을 전달해야하는 경우, <code>-v</code> 대신 <code>-mount</code> 플래그를 사용하여 볼륨을 마운트해야 한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run -d <span class="se">\
+</span><span class="se"></span>  --name sshfs-container <span class="se">\
+</span><span class="se"></span>  --volume-driver vieux/sshfs <span class="se">\
+</span><span class="se"></span>  --mount <span class="nv">src</span><span class="o">=</span>sshvolume,target<span class="o">=</span>/app,volume-opt<span class="o">=</span><span class="nv">sshcmd</span><span class="o">=</span>test@node2:/home/test,volume-opt<span class="o">=</span><span class="nv">password</span><span class="o">=</span>testpassword <span class="se">\
+</span><span class="se"></span>  nginx:latest</code></pre></div>
+<h2 id="데이터-볼륨-백업-복원-마이그레이션">데이터 볼륨 백업, 복원, 마이그레이션</h2>
+
+<p>볼륨은 백업, 복원 및 마이그레이션에 유용하다. 해당 볼륨을 마운트하는 새 컨테이너를 작성하려면 <code>--volumes-from</code> 플래그를 사용하라.</p>
+
+<h3 id="컨테이너-백업">컨테이너 백업</h3>
+
+<p>예를 들어, 다음 명령에서 우리는</p>
+
+<ul>
+<li>새 컨테이너를 시작하고 <code>dbstore</code> 컨테이너에서 볼륨을 마운트한다.</li>
+<li><code>/backup</code>으로 로컬 호스트 디렉토리 마운트한다.</li>
+<li><code>dbdata</code> 볼륨의 내용을 <code>/backup</code> 디렉토리의 <code>backup.tar</code> 파일로 압축하는 명령을 전달한다.</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run --rm --volumes-from dbstore -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/backup ubuntu tar cvf /backup/backup.tar /dbdata</code></pre></div>
+<p>명령이 끝나고 컨테이너가 정지되면, <code>dbdata</code> 볼륨의 백업이 남겨진다.</p>
+
+<h3 id="백업으로부터-데이터-복원">백업으로부터 데이터 복원</h3>
+
+<p>방금 생성된 백업을 동일한 컨테이너 또는 다른 곳에 만든 백업으로 복원할 수 있다. 예를 들어 <code>dbstore2</code>라는 새 컨테이너를 만든다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">docker run -v /dbdata --name dbstore2 ubuntu /bin/bash</code></pre></div>
+<p>그런 다음 새 컨테이너의 데이터 볼륨에서 백업 파일의 압축을 푼다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run --rm --volumes-from dbstore2 -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/backup ubuntu bash -c <span class="s2">&#34;cd /dbdata &amp;&amp; tar xvf /backup/backup.tar --strip 1&#34;</span></code></pre></div>
+<p>위의 기술을 사용하여 원하는 도구로 백업, 마이그레이션 및 복원 테스트를 자동화할 수 있다.</p>
+
+<h2 id="볼륨-제거">볼륨 제거</h2>
+
+<p>도커 데이터 볼륨은 컨테이너가 삭제된 후에도 유지된다. 다음은 고려해 보아야할 두 가지 유형의 볼륨이다.</p>
+
+<ul>
+<li><strong>네임드 볼륨(named volume)</strong>에는 컨테이너 외부의 특정 소스 양식이 있다. (예: <code>awesome:/bar</code>).</li>
+<li><strong>익명 볼륨</strong>에는 특정 소스가 없으므로 컨테이너를 삭제할 때 도커 엔진 데몬에 제거하도록 지시한다.</li>
+</ul>
+
+<h3 id="익명-볼륨-제거">익명 볼륨 제거</h3>
+
+<p>익명 볼륨을 자동으로 제거하려면 <code>--rm</code> 옵션을 사용하라. 예를 들어, 이 명령은 익명 <code>/foo</code> 볼륨을 작성한다. 컨테이너가 제거되면 도커 엔진은 <code>/foo</code> 볼륨을 제거하지만 <code>awesome</code> 볼륨은 제거하지 않는다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker run --rm -v /foo -v awesome:/bar busybox top</code></pre></div>
+<p>다음 명령은 사용하지 않는 볼륨을 모두 제거하고 공간을 확보한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ docker volume prune</code></pre></div>
+        
+        <div class="related">
+
+<h3>Similar articles:</h3>
+<ul>
+	
+	<li><a href="/post/docker-storage-overview/">[번역] 도커 스토리지 소개</a></li>
+	
+</ul>
+</div>
+        
+      </div>
+    </article>
+    
+
+    
+    <nav class="post-nav">
+        
+        
+        <a class="next" href="/post/tgik-006/">
+            <span class="next-text nav-default">TGI Kubernetes 006: kubeadm</span>
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
+
+  </div>
+ 
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      disqus();
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Philbert Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-129419926-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
+

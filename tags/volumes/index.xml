@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 20 Feb 2019 11:55:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 24 Feb 2019 16:59:00 +0900</lastBuildDate>
     
 	<atom:link href="https://ziwon.github.io/tags/volumes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[번역] 도커 볼륨</title>
+      <link>https://ziwon.github.io/post/docker-storage-volumes/</link>
+      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/post/docker-storage-volumes/</guid>
+      <description>도커 스토리지 목차는 다음과 같다.
+ 스토리지 소개 * 볼륨 사용 (원문) 바인드 마운트 tmp 마운트 컨테이너에 데이터 저장하기  스토리지 드라이버에 대해 스토리지 드라이버 선택 AUFS 스토리지 드라이버 사용 Btrfs 스토리지 드라이버 사용 디바이스 맵퍼 스토리지 드라이버 사용 OverlayFS 스토리지 드라이버 사용 ZFS 스토리지 드라이버 사용 VFS 스토리지 드라이버 사용   •••
+볼륨 사용 볼륨은 도커 컨테이너에 의해 생성되고 사용되는 데이터를 영속하기 위해 선호되는 메커니즘이다. 바인딩 마운트는 호스트 머신의 디렉토리 구조에 따라 달라지지만, 볼륨은 도커에 의해 완전히 관리된다.</description>
+    </item>
     
     <item>
       <title>[번역] 도커 스토리지 소개</title>
