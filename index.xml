@@ -3630,7 +3630,7 @@ status:
 
 &lt;p&gt;도커 컨테이너는 실행에 필요한 모든 것, 즉 코드, 런타임, 시스템 도구, 시스템 라이브러리 등 서버에 설치할 수 있는 모든 것을 포함하는 완전한 파일 시스템에 있는 소프트웨어 하나를 래핑한다. 이는 소프트웨어가 환경에 관계없이 항상 동일한 기능을 실행할 것을 보장한다. 기본적으로 컨테이너는 애플리케이션을 서로 격리하고, 애플리케이션을 위한 추가적인 보호 계층을 제공한다.&lt;/p&gt;
 
-&lt;p&gt;애플리케이션이 서로 간에, 또는 호스트와, 혹은 외부 네트워크와 통신해야 한다면 어떻게 해야하는가? 애플리케이션 이식성, 서비스 검색, 로드 밸런싱, 보안, 성능 및 확장성을 유지하면서 적절한 연결성을 위해 네트워크를 설계하는 방법은 무엇인가? 이 문서는 이러한 네트워크 설계 문제와 사용 가능한 도구 및 일반적인 배포 패턴을 다룬다. 물리적 네트워크 설계을 기술하거나 권장하지는 않지만 애플리케이션과 물리적 네트워크의 제약 조건을 고려하면서 도커 네트워크를 설계하는 방법에 대한 선택 사항들을 제공한다.&lt;/p&gt;
+&lt;p&gt;애플리케이션이 서로 간에, 또는 호스트와, 혹은 외부 네트워크와 통신해야 한다면 어떻게 해야하는가? 애플리케이션 이식성, 서비스 검색, 로드 밸런싱, 보안, 성능 및 확장성을 유지하면서 적절한 연결성을 위해 네트워크를 설계하는 방법은 무엇인가? 이 문서는 이러한 네트워크 설계 문제와 사용 가능한 도구 및 일반적인 배포 패턴을 다룬다. 물리적 네트워크 설계를 기술하거나 권장하지는 않지만 애플리케이션과 물리적 네트워크의 제약 조건을 고려하면서 도커 네트워크를 설계하는 방법에 대한 선택 사항들을 제공한다.&lt;/p&gt;
 
 &lt;h2 id=&#34;사전-지식&#34;&gt;사전 지식&lt;/h2&gt;
 
@@ -3643,7 +3643,7 @@ status:
 
 &lt;h1 id=&#34;네트워킹-컨테이너-및-마이크로-서비스의-미션&#34;&gt;네트워킹 컨테이너 및 마이크로 서비스의 미션&lt;/h1&gt;
 
-&lt;p&gt;마이크로서비스는 실전에서 애플리케이션의 스케일을 증가시켰는데, 이러한 애플리케이션들은 제공되는 연결성 및 격리 방법들이 훨씬 더 중시된다. 도커 네트워킹 철학은 애플리케이션 중심이다. 네트워크 운영자에게 옵션과 유연성을 제공하는 것을 목표로 하는 것 뿐만 아니라 애플리케이션 개발자에게 적합한 수준의 추상화를 제공하는 것을 목표로 한다.&lt;/p&gt;
+&lt;p&gt;마이크로서비스는 실무에서 애플리케이션의 스케일을 증가시켰는데, 이러한 애플리케이션들은 제공되는 연결성 및 격리 방법들이 훨씬 더 중시된다. 도커 네트워킹 철학은 애플리케이션 중심이다. 네트워크 운영자에게 옵션과 유연성을 제공하는 것을 목표로 하는 것 뿐만 아니라 애플리케이션 개발자에게 적합한 수준의 추상화를 제공하는 것을 목표로 한다.&lt;/p&gt;
 
 &lt;p&gt;여느 설계처럼, 네트워크 설계은 밸런스를 맞추는 행위이다. 도커 엔터프라이즈 에디션과 도커 생태계는 네트워크 엔지니어들에게 그들의 애플리케이션과 환경에 대한 최상의 밸런스를 달성하기 위해 다양한 도구를 제공한다. 각 옵션은 서로 다른 장점과 트레이드오프를 제공한다. 이 가이드의 나머지 부분에서는 네트워크 엔지니어가 자신의 환경에 가장 적합한 것을 이해할 수 있도록 이러한 각각 선택에 대해 자세히 설명한다.&lt;/p&gt;
 
@@ -3690,19 +3690,19 @@ status:
 
 &lt;h1 id=&#34;컨테이너-네트워킹-모델&#34;&gt;컨테이너 네트워킹 모델&lt;/h1&gt;
 
-&lt;p&gt;도커 네트워킹 아키텍처는 CNM(Container Networking Model)이라고 하는 인터페이스 집합 위에 구축된다. CNM의 철학은 다양한 인프라 구조에서 애플리케이션 이식성을 제공하는 것이다. 이 모델은 애플리케이션 이식성을 이루기 위해 밸런스를 맞추고 인프라의 특징과 기능을 활용한다.&lt;/p&gt;
+&lt;p&gt;도커 네트워킹 아키텍처는 CNM(Container Networking Model)이라고 하는 인터페이스 집합 위에 구축된다. CNM의 철학은 다양한 인프라 구조에서 애플리케이션 이식성을 제공하는 것이다. 이 모델은 애플리케이션 이식성을 달성하기 위해 밸런스를 맞추고 인프라의 특징과 기능을 활용한다.&lt;/p&gt;
 
 &lt;p&gt;&lt;center&gt;
 &lt;img src=&#34;https://success.docker.com/api/images/.%2Frefarch%2Fnetworking%2Fimages%2Fcnm.png&#34; alt=&#34;&#34; /&gt;
 &lt;/center&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;cnm-구성물&#34;&gt;CNM 구성물&lt;/h2&gt;
+&lt;h2 id=&#34;cnm-구성&#34;&gt;CNM 구성&lt;/h2&gt;
 
-&lt;p&gt;CNM에는 몇 가지 상위 레벨의 구성물이 있다. 이들은 모두 OS 및 인프라에 구애받지 않으므로 인프라 스택에 관계없이 애플리케이션이 동일한 환경을 가질 수 있다.&lt;/p&gt;
+&lt;p&gt;CNM에는 몇 가지 상위 레벨의 구성이 있다. 이들은 모두 OS 및 인프라에 구애받지 않으므로 인프라 스택에 관계없이 애플리케이션이 동일한 환경을 가질 수 있다.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;샌드박스&lt;/strong&gt; - 샌드박스는 컨테이너 네트워크 스택의 설정을 포함한다. 여기에는 컨테이너 인터페이스, 라우팅 테이블 및 DNS 설정 관리가 포함된다. 샌드박스의 구현은 Linux 네트워크 네임스페이스, FreeBSD Jail 또는 기타 유사한 개념일 수 있다. 샌드박스는 여러 네트워크의 많은 엔드포인트를 포함할 수 있다.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;엔드포인트&lt;/strong&gt; - 엔드포인트가 샌드박스를 네트워크에 연결한다. 엔드포인트는 네트워크에 대한 실제 연결을 애플리케이션에서 추상화할 수 있도록 존재한다. 이는 서비스가 네트워크에 어떻게 연결되어 있는지에 신경쓰지 않으며 여러 유형의 네트워크 드라이버를 사용할 수 있도록 이식성을 유지하는데 도움을 준다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;엔드포인트&lt;/strong&gt; - 엔드포인트는 샌드박스를 네트워크에 연결한다. 엔드포인트는 네트워크에 대한 실제 연결을 애플리케이션에서 추상화할 수 있도록 존재한다. 이는 서비스가 네트워크에 어떻게 연결되어 있는지에 신경쓰지 않으며 여러 유형의 네트워크 드라이버를 사용할 수 있도록 이식성을 유지하는데 도움을 준다.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;네트워크&lt;/strong&gt; — CNM은 OSI 모델 측면에서 네트워크를 명시하지 않는다. 네트워크의 구현은 리눅스 브리지, VLAN 등이 될 수 있다. 네트워크는 이들 사이에 연결성이 있는 엔드포인트의 모음이다. 네트워크에 연결되지 않은 엔드포인트는 네트워크에 연결되어 있지 않다.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -3745,7 +3745,7 @@ status:
 &lt;/tr&gt;
 
 &lt;tr&gt;
-&lt;td&gt;Brdige&lt;/td&gt;
+&lt;td&gt;Bridge&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;bridge&lt;/code&gt; 드라이버는 도커가 관리하는 호스트에 리눅스 브리지를 생성함. 기본적으로 브리지의 컨테이너는 서로 통신할 수 있음. 또한 브리지 드라이버를 통해 컨테이너에 대한 외부 액세스를 구성할 수 있음.&lt;/td&gt;
 &lt;/tr&gt;
 
@@ -3839,9 +3839,9 @@ c97909a4b198        none                null                local&lt;/code&gt;&l
 
 &lt;p&gt;리눅스 커널은 TCP/IP 스택 (DNS 및 VXLAN과 같은 기타 네이티브 커널 기능과 더불어)을 매우 성숙하고 효율적으로 구현한다. 도커 네트워킹은 커널의 네트워킹 스택을 하위 레벨의 기본 요소로 사용하여 상위 레벨의 네트워크 드라이버를 만든다. 간단히 말해서, &lt;em&gt;도커 네트워킹&lt;/em&gt; 은 &lt;em&gt;리눅스 네트워킹&lt;/em&gt; 이다.&lt;/p&gt;
 
-&lt;p&gt;기존에 구현된 리눅스 커널 기능은 고성능과 견고성을 보장한다. 가장 중요한 점은 여러 배포판과 버전에 걸쳐 이식성을 제공하므로 애플리케이션의 이식성이 향샹된다는 것이다.
-**
-도커가 네이티브 CNM 네트워크 드라이버를 구현하는데 사용하는 몇 가지 리눅스 네트워킹 빌딩 블록이 있다. 이 목록에는 &lt;strong&gt;리눅스 브리지&lt;/strong&gt;, &lt;strong&gt;네트워크 네임스페이스&lt;/strong&gt;, &lt;strong&gt;veth pair&lt;/strong&gt; 및 &lt;strong&gt;iptable&lt;/strong&gt;이 포함된다. 네트워크 드라이버로 구현되는 이러한 도구의 조합은 복잡한 네트워크 정책을 위한 전달 규칙, 네트워크 분할 및 관리 도구를 제공한다.&lt;/p&gt;
+&lt;p&gt;기존에 구현된 리눅스 커널 기능은 고성능과 견고성을 보장한다. 가장 중요한 점은 여러 배포판과 버전에게 이식성을 제공하므로 애플리케이션의 이식성이 향샹된다는 것이다.&lt;/p&gt;
+
+&lt;p&gt;도커가 네이티브 CNM 네트워크 드라이버를 구현하는데 사용하는 몇 가지 리눅스 네트워킹 빌딩 블록이 있다. 이 목록에는 &lt;strong&gt;리눅스 브리지&lt;/strong&gt;, &lt;strong&gt;네트워크 네임스페이스&lt;/strong&gt;, &lt;strong&gt;veth pair&lt;/strong&gt; 및 &lt;strong&gt;iptable&lt;/strong&gt;이 포함된다. 네트워크 드라이버로 구현되는 이러한 도구의 조합은 복잡한 네트워크 정책을 위한 전달 규칙, 네트워크 분할 및 관리 도구를 제공한다.&lt;/p&gt;
 
 &lt;h2 id=&#34;리눅스-브리지&#34;&gt;리눅스 브리지&lt;/h2&gt;
 
@@ -3863,7 +3863,7 @@ c97909a4b198        none                null                local&lt;/code&gt;&l
 
 &lt;p&gt;도커 분산형 네트워크 제어 플레인은 컨트롤 플레인 데이터를 전파하는 것 외에 Swarm 스코프 도커 네트워크의 상태를 관리한다. 도커 Swarm 클러스터의 내장 기능으로 외부 KV 저장소와 같은 추가 구성 요소가 필요하지 않다. 컨트롤 플레인에서는 SWIM에 기반한 가십 프로토콜을 사용하여 도커 컨테이너 클러스터에 네트워크 상태 정보와 토폴로지를 전파한다. 가십 프로토콜은 대규모 클러스터에서 메시지 크기, 오류 감지 시간 및 컨버전스 시간을 일정하게 유지하면서 클러스터 내에서 결과적 일관성(eventual consistency)을 달성하는 데 매우 효율적이다. 이는 네트워크가 느린 컨버전스 또는 잘못된 긍정 노드 오류와 같은 확장 문제를 일으키지 않고 네트워크가 여러 노도로 확장되게 한다.&lt;/p&gt;
 
-&lt;p&gt;컨트롤 플레인은 암호화된 채널을 통해 기밀성, 무결성 및 인증을 제공하며 매우 안전하다. 또한 네트워크 마다 범위가 지정되어 있어 주어진 호스트에서 수신하는 업데이트를 크게 감소시킨다.&lt;/p&gt;
+&lt;p&gt;컨트롤 플레인은 암호화된 채널을 통해 기밀성, 무결성 및 인증을 제공하며 매우 안전하다. 또한 네트워크마다 범위가 지정되어 있어 주어진 호스트에서 수신하는 업데이트를 크게 감소시킨다.&lt;/p&gt;
 
 &lt;p&gt;&lt;center&gt;
 &lt;img src=&#34;https://success.docker.com/api/images/.%2Frefarch%2Fnetworking%2Fimages%2Fcontrolplane.png&#34; alt=&#34;&#34; /&gt;
@@ -3878,7 +3878,7 @@ c97909a4b198        none                null                local&lt;/code&gt;&l
 &lt;li&gt;&lt;strong&gt;장애 탐지 (Failure Detection)&lt;/strong&gt;는 네트워크 정체와 긍정 노드(false posivive node) 장애를 유발하는 특정 경로를 배제시키기 위해 직접 및 간접 hello 메시지를 사용한다.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;전체 상태 동기화 (Full State Syncs)&lt;/strong&gt;는 일관성(consistency)을 신속하게 구성하고, 네트워크 파티션을 해결하기 위해 주기적으로 발생한다.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;토폴로지 인식 (Topology Aware)&lt;/strong&gt; 알고리즘은 자신과 다른 피어 간의 상대적인 대기 시간을 이해한다. 이것은 컨버전스를 보다 빠르고 효율적으로 만드는 피어 그룹을 최적화하는 데 사용된다.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Control Plane Encryption (Control Plane Encryption)&lt;/strong&gt;은 네트워크 보안을 손상시킬 수 있는 중간자 공격(man in the middle) 및 다른 공격에서 보호한다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;컨트롤 플레인 암호화 (Control Plane Encryption)&lt;/strong&gt;은 네트워크 보안을 손상시킬 수 있는 중간자 공격(man in the middle) 및 다른 공격에서 보호한다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;blockquote&gt;
@@ -4011,7 +4011,7 @@ e1cac9da3116        bridge              bridge              &lt;span class=&#34;
 
 &lt;p&gt;기본적으로 동일한 도커 네트워크의 모든 컨테이너 (멀티 호스트 swarm 스코프 또는 local 스코프)는 모든 포트에서 서로 연결된다. 서로 다른 도커 네트워크와 외부 도커에서 발생하는 컨테이너 인그레스 트래픽 간의 통신은 방화벽으로 보호된다. 이는 컨테이너 애플리케이션을 외부 세계 및 서로에게서 보호하는 기본적인 보안 측면이다. 자세한 내용은 &lt;a href=&#34;https://success.docker.com/api/asset/.%2Frefarch%2Fnetworking%2F#security&#34; target=&#34;_blank&#34;&gt;네트워크 보안&lt;/a&gt;을 참조하라.&lt;/p&gt;
 
-&lt;p&gt;대부분 유형의 도커 네트워크(&lt;code&gt;brdige&lt;/code&gt;와 &lt;code&gt;overlay&lt;/code&gt; 포함)의 경우 애플리케이션을 위한 외부 인그레스 액세스를 명시적으로 부여해야 한다. 이는 내부 포트 매핑을 통해 이루어진다. 도커는 내부 컨테이너 인터페이스에 호스트 인터페이스에 노출된 포트를 퍼블리싱한다. 다음 다이어그램은 컨테이너 &lt;code&gt;C2&lt;/code&gt;로의 인그레스(하향 화살표) 및 엔그레스(상단 화살표) 트래픽을 나타낸다. 아웃바운드(엔그레스) 컨테이너 트래픽은 기본적으로 허용된다. 컨테이너에 의해 시작된 엔그레스 연결은 임시 포트(일반적으로 32768 - 60999 범위)에 마스커레이딩되거나 SNAT된다. 이 연결에 대한 반송 트래픽(return traffic)이 허용되므로 컨테이너는 임시 포트에서 호스트에 라우팅할 수 있는 최상의 IP 주소를 사용한다.&lt;/p&gt;
+&lt;p&gt;대부분 유형의 도커 네트워크(&lt;code&gt;bridge&lt;/code&gt;와 &lt;code&gt;overlay&lt;/code&gt; 포함)의 경우 애플리케이션을 위한 외부 인그레스 액세스를 명시적으로 부여해야 한다. 이는 내부 포트 매핑을 통해 이루어진다. 도커는 내부 컨테이너 인터페이스에 호스트 인터페이스에 노출된 포트를 퍼블리싱한다. 다음 다이어그램은 컨테이너 &lt;code&gt;C2&lt;/code&gt;로의 인그레스(하향 화살표) 및 엔그레스(상단 화살표) 트래픽을 나타낸다. 아웃바운드(엔그레스) 컨테이너 트래픽은 기본적으로 허용된다. 컨테이너에 의해 시작된 엔그레스 연결은 임시 포트(일반적으로 32768 - 60999 범위)에 마스커레이딩되거나 SNAT된다. 이 연결에 대한 반송 트래픽(return traffic)이 허용되므로 컨테이너는 임시 포트에서 호스트에 라우팅할 수 있는 최상의 IP 주소를 사용한다.&lt;/p&gt;
 
 &lt;p&gt;인그레스 액세스는 명시적인 포트 퍼블리싱을 통해 제공된다. 포트 퍼블리싱은 도커 엔진에 의해 수행되며 UCP 또는 엔진 CLI를 통해 제어할 수 있다. 서비스나 컨테이너를 노출하도록 특정 또는 무작위로 선택된 포트를 구성할 수 있다. 포트는 특정(또는 모든) 호스트 인터페이스에서 수신 대기하도록 설정할 수 있으며, 모든 트래픽은 이 포트에서 포트 및 컨테이너 내부의 인터페이스로 매핑된다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ docker run -d --name C2 --net my_bridge -p &lt;span class=&#34;m&#34;&gt;5000&lt;/span&gt;:80 nginx&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -4027,7 +4027,7 @@ e1cac9da3116        bridge              bridge              &lt;span class=&#34;
 
 &lt;h1 id=&#34;오버레이-드라이버-네트워크-아키텍처&#34;&gt;오버레이 드라이버 네트워크 아키텍처&lt;/h1&gt;
 
-&lt;p&gt;네이티브 도커 &lt;code&gt;overlay&lt;/code&gt; 네트워크 드라이버는 멀티 호스트 네트워킹의 여러가지 문제를 근본적으로 단순화한다. &lt;code&gt;overlay&lt;/code&gt; 드라이버를 사용하면, 멀티 호스트 네트워크가 외부 프로비저닝이나 컴포넌트 없이 도커 내부의 일급 시민이다. &lt;code&gt;overlay&lt;/code&gt;는 swarm 분산 컨트롤 플레인을 사용하여 대규모 클러스터에 걸쳐 중앙 집중식 관리, 안정성 및 보안을 제공한다.&lt;/p&gt;
+&lt;p&gt;네이티브 도커 &lt;code&gt;overlay&lt;/code&gt; 네트워크 드라이버는 멀티 호스트 네트워킹의 여러가지 문제를 근본적으로 단순화한다. &lt;code&gt;overlay&lt;/code&gt; 드라이버를 사용하면, 멀티 호스트 네트워크가 외부 프로비저닝이나 컴포넌트가 없는 도커 내부의 일급 시민이다. &lt;code&gt;overlay&lt;/code&gt;는 swarm 분산 컨트롤 플레인을 사용하여 대규모 클러스터에 걸쳐 중앙 집중식 관리, 안정성 및 보안을 제공한다.&lt;/p&gt;
 
 &lt;h2 id=&#34;vxlan-데이터-플레인&#34;&gt;VXLAN 데이터 플레인&lt;/h2&gt;
 
@@ -4586,6 +4586,7 @@ host-B $ docker network create -d macvlan --subnet &lt;span class=&#34;m&#34;&gt
 &lt;h1 id=&#34;기타&#34;&gt;기타&lt;/h1&gt;
 
 &lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.joinc.co.kr/w/man/12/docker/InfrastructureForDocker/network&#34; target=&#34;_blank&#34;&gt;도커 네트워크 - JoinC&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://arisu1000.tistory.com/27850&#34; target=&#34;_blank&#34;&gt;Kubernetes 네트워킹: Pod 네트워킹&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://sookocheff.com/post/kubernetes/understanding-kubernetes-networking-model/&#34; target=&#34;_blank&#34;&gt;A Guide to the Kubernetes Networking Model&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://supergiant.io/blog/kubernetes-networking-explained-introduction/&#34; target=&#34;_blank&#34;&gt;Kubernetes Networking Explained: Introduction&lt;/a&gt;&lt;/li&gt;
