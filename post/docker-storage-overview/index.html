@@ -133,13 +133,13 @@
         
 
 <blockquote>
-<p>도커상에서 어플리케이션 데이터관리는 중요한 주제이므로 도커 공식 문서를 하나씩 번역해가며 그 내용을 자세히 살펴보고자 한다. 원글의 출처는 <a href="https://docs.docker.com/storage/" target="_blank">Storage overview</a>이다.</p>
+<p>도커상에서 어플리케이션 데이터관리는 중요한 주제이므로 도커 공식 문서를 하나씩 번역해가며 그 내용을 자세히 살펴보고자 한다.</p>
 </blockquote>
 
 <p>도커 스토리지 전체 목차는 다음과 같다.</p>
 
 <ul>
-<li><strong><a href="/post/docker-storage-overview/">* 스토리지 소개</a></strong></li>
+<li><strong><a href="/post/docker-storage-overview/">* 스토리지 소개</a> (<a href="https://docs.docker.com/storage/" target="_blank">원문</a>)</strong></li>
 <li><a href="/post/docker-storage-volumes/">볼륨 사용</a> (<a href="https://docs.docker.com/storage/volumes/" target="_blank">원문</a>)</li>
 <li>바인드 마운트</li>
 <li>tmp 마운트</li>
@@ -166,7 +166,7 @@
 <ul>
 <li>데이터는 컨테이너가 더 이상 존재하지 않을 때 지속되지 않으며, 다른 프로세스가 필요할 때에 컨테이너에서 데이터를 꺼내는 것이 어려울 수 있다.</li>
 <li>컨테이너의 쓰기 가능한 레이어는 컨테이너가 실행 중인 호스트 머신과 밀접하게 결합된다. 다른 곳으로 쉽게 자료를 옮길 수 없다.</li>
-<li>컨테이너의 쓰기 가능한 계층에 쓰려면 파일 시스템을 관리하는 스토리지 드라이버가 필요하다. 스토리지 드라이버는 리눅스 커널을 사용하여 유니언 파일 시스템을 제공한다. 이런 추가적인 추상화는 호스트 파일 시스템에 직접 쓰는 데이터 볼륨을 사용하는 것에 비해 성능을 떨어뜨린다.</li>
+<li>컨테이너의 쓰기 가능한 레이어에 쓰려면 파일 시스템을 관리하는 스토리지 드라이버가 필요하다. 스토리지 드라이버는 리눅스 커널을 사용하여 유니언 파일 시스템을 제공한다. 이런 추가적인 추상화는 호스트 파일 시스템에 직접 쓰는 데이터 볼륨을 사용하는 것에 비해 성능을 떨어뜨린다.</li>
 </ul>
 
 <p>도커에는 호스트 머신에 파일을 저장하는 컨테이너에 대한 두 가지 옵션이 있어 컨테이너가 정지한 후에도 파일이 유지될 수 있는데, 볼륨과 바인딩 마운트. 만약 Linux에서 도커를 실행하고 있다면 <code>tmpfs</code> 마운트를 사용할 수 있다.</p>
@@ -212,7 +212,7 @@
 </blockquote>
 
 <ul>
-<li><strong>tmpfs mounts</strong>: <code>tmpfs</code> 마운트는 도커 호스트나 컨테이너 안에 있는 디스크에서 영속되지 않는다. 이는 컨테이너의 생명주기 동안에 컨테이너가 비영속적인 상태나 민감한 정보를 저장하기 위해 사용할 수 있다. 예를 들어, 내부적으로, 스웜 서비스는 <code>tmpfs</code> 마운트를 사용하여 서비스 컨테이너에 <a href="https://docs.docker.com/engine/swarm/secrets/" target="_blank">시크릿</a>을 마운트한다.</li>
+<li><strong>tmpfs 마운트</strong>: <code>tmpfs</code> 마운트는 도커 호스트나 컨테이너 안에 있는 디스크에서 영속되지 않는다. 이는 컨테이너의 생명주기 동안에 컨테이너가 비영속적인 상태나 민감한 정보를 저장하기 위해 사용할 수 있다. 예를 들어, 내부적으로, 스웜 서비스는 <code>tmpfs</code> 마운트를 사용하여 서비스 컨테이너에 <a href="https://docs.docker.com/engine/swarm/secrets/" target="_blank">시크릿</a>을 마운트한다.</li>
 </ul>
 
 <p>바인딩 마운트 및 볼륨은 모두 <code>-v</code> 또는 <code>--volume</code> 플래그를 사용하여 컨테이너에 탑재할 수 있지만 각각의 구문은 약간 다르다. <code>tmpfs</code> 마운트의 경우 <code>--tmpfs</code> 플래그를 사용할 수 있다. 단, 도커 17.06 이상에서는 bind mount, volumes 또는 <code>tmpfs</code> 마운트를 위해 컨테이너와 서비스 모두에 <code>--mount</code> 플래그를 사용할 것을 권장한다.</p>
