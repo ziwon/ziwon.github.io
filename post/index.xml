@@ -59,17 +59,6 @@ kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 �
     </item>
     
     <item>
-      <title>[번역] docker run</title>
-      <link>https://ziwon.github.io/post/docker-run/</link>
-      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/post/docker-run/</guid>
-      <description>Docker run의 여러가지 매개변수에 대해 자세히 알고자 번역해보았다.
- docker run 설명 새 컨테이너에서 명령을 실행한다.
-사용법 docker run [OPTIONS] IMAGE [COMMAND] [ARG...] 옵션    이름, 약식 기본값 설명     --add-host  커스텀 호스트-대-IP 매핑을 추가 (host:ip)   --attach, -a  STDIN, STDOUT 또는 STDERR를 연결.   --blkio-weight  10과 1000 사이의 IO (상대적 가중치) 차단 혹은 사용하지 않으려면 0 (기본값 0)   --blkio-weight-device  블록 IO 가중치 (상대적인 디바이스 가중치)   --cap-add  리눅스 기능 추가   --cap-drop  리눅스 기능 중단   --cgroup-parent  컨테이너의 선택적인 부모 cgroup   --cidfile  컨테이너 ID를 파일에 작성   --cpu-count  CPU 수 (윈도우만 해당)   --cpu-percent  CPU 백분율 (윈도우만 해당)   --cpu-period  CPU CFS(Completely Fair Scheduler) period 제한 (API 1.</description>
-    </item>
-    
-    <item>
       <title>TGI Kubernetes 004: RBAC</title>
       <link>https://ziwon.github.io/post/tgik-004/</link>
       <pubDate>Tue, 05 Feb 2019 11:55:00 +0900</pubDate>
