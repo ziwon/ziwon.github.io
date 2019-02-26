@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>[번역] docker run | 人生は儚く短い。</title>
+
+
+
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は儚く短い。" />
+
+<link rel="stylesheet" href="/css/style.css"/><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-hybrid.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://ziwon.github.io/">
+          <h1 class="title is-4">人生は儚く短い。</h1>
+        </a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+
+    <nav class="nav">
+      
+
+      
+    </nav>
+
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/docker-run/">[번역] docker run</a></h1>
+      <h2 class="subtitle is-6">2019-02-11 </h2>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+        
+<a class="subtitle is-6" href="/tags/docker">#docker</a>
+
+
+
+        
+      </div>
+      <div class="content">
+        
+
+<blockquote>
+<p>Docker run의 여러가지 매개변수에 대해 자세히 알고자 번역해보았다.</p>
+</blockquote>
+
+<h1 id="docker-run">docker run</h1>
+
+<h2 id="설명">설명</h2>
+
+<p>새 컨테이너에서 명령을 실행한다.</p>
+
+<h2 id="사용법">사용법</h2>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">docker run <span class="o">[</span>OPTIONS<span class="o">]</span> IMAGE <span class="o">[</span>COMMAND<span class="o">]</span> <span class="o">[</span>ARG...<span class="o">]</span></code></pre></div>
+<h2 id="옵션">옵션</h2>
+
+<table>
+<thead>
+<tr>
+<th>이름, 약식</th>
+<th>기본값</th>
+<th>설명</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>--add-host</code></td>
+<td></td>
+<td>커스텀 호스트-대-IP 매핑을 추가 (host:ip)</td>
+</tr>
+
+<tr>
+<td><code>--attach, -a</code></td>
+<td></td>
+<td>STDIN, STDOUT 또는 STDERR를 연결.</td>
+</tr>
+
+<tr>
+<td><code>--blkio-weight</code></td>
+<td></td>
+<td>10과 1000 사이의 IO (상대적 가중치) 차단 혹은 사용하지 않으려면 0 (기본값 0)</td>
+</tr>
+
+<tr>
+<td><code>--blkio-weight-device</code></td>
+<td></td>
+<td>블록 IO 가중치 (상대적인 디바이스 가중치)</td>
+</tr>
+
+<tr>
+<td><code>--cap-add</code></td>
+<td></td>
+<td>리눅스 기능 추가</td>
+</tr>
+
+<tr>
+<td><code>--cap-drop</code></td>
+<td></td>
+<td>리눅스 기능 중단</td>
+</tr>
+
+<tr>
+<td><code>--cgroup-parent</code></td>
+<td></td>
+<td>컨테이너의 선택적인 부모 cgroup</td>
+</tr>
+
+<tr>
+<td><code>--cidfile</code></td>
+<td></td>
+<td>컨테이너 ID를 파일에 작성</td>
+</tr>
+
+<tr>
+<td><code>--cpu-count</code></td>
+<td></td>
+<td>CPU 수 (윈도우만 해당)</td>
+</tr>
+
+<tr>
+<td><code>--cpu-percent</code></td>
+<td></td>
+<td>CPU 백분율 (윈도우만 해당)</td>
+</tr>
+
+<tr>
+<td><code>--cpu-period</code></td>
+<td></td>
+<td>CPU CFS(Completely Fair Scheduler) period 제한 (API 1.25+)</td>
+</tr>
+
+<tr>
+<td><code>--cpu-quota</code></td>
+<td></td>
+<td>CPU CFS(Completely Fair Scheduler) 할당량 제한 (API 1.25+)</td>
+</tr>
+
+<tr>
+<td><code>--cpu-rt-period</code></td>
+<td></td>
+<td>마이크로 초단위로 실시간 period 제한</td>
+</tr>
+
+<tr>
+<td><code>--cpu-rt-runtime</code></td>
+<td></td>
+<td>마이크로 초단위로 실시간 런타임 제한</td>
+</tr>
+
+<tr>
+<td><code>--cpu-shares , -c</code></td>
+<td></td>
+<td>CPU 공유 (상대적 가중치)</td>
+</tr>
+
+<tr>
+<td><code>--cpus</code></td>
+<td></td>
+<td>CPU 수</td>
+</tr>
+
+<tr>
+<td><code>--cpuset-cpus</code></td>
+<td></td>
+<td>실행을 허용할 CPU (0-3, 0, 1)</td>
+</tr>
+
+<tr>
+<td><code>--cpuset-mems</code></td>
+<td></td>
+<td>실행을 허용할 MEM (0-3, 0, 1)</td>
+</tr>
+
+<tr>
+<td><code>--detach, -d</code></td>
+<td></td>
+<td>백그라운드에서 컨테이너를 실행하고 컨테이너 ID를 출력</td>
+</tr>
+
+<tr>
+<td><code>--detach-keys</code></td>
+<td></td>
+<td>컨테이너를 분리하기 위한 키순서 재정의</td>
+</tr>
+
+<tr>
+<td><code>--device</code></td>
+<td></td>
+<td>컨테이너에 호스트 디바이스 추가</td>
+</tr>
+
+<tr>
+<td><code>--device-cgroup-rule</code></td>
+<td></td>
+<td>cgroup 허용 디바이스 목록에 규칙 추가</td>
+</tr>
+
+<tr>
+<td><code>--device-read-bps</code></td>
+<td></td>
+<td>디바이스로부터 읽기 속도 (초당 바이트) 제한</td>
+</tr>
+
+<tr>
+<td><code>--device-read-iops</code></td>
+<td></td>
+<td>다바이스로부터 읽기 속도 (초당 IO) 제한</td>
+</tr>
+
+<tr>
+<td><code>--device-write-bps</code></td>
+<td></td>
+<td>디바이스에 쓰기 속도 (초당 바이트) 제한</td>
+</tr>
+
+<tr>
+<td><code>--device-write-iops</code></td>
+<td></td>
+<td>디바이스에 쓰기 속도 (초당 IO) 제한</td>
+</tr>
+
+<tr>
+<td><code>--disable-content-trust</code></td>
+<td><code>true</code></td>
+<td>이미지 확인 생략</td>
+</tr>
+
+<tr>
+<td><code>--dns</code></td>
+<td></td>
+<td>사용자 지정 DNS 서버 설정</td>
+</tr>
+
+<tr>
+<td><code>--dns-option</code></td>
+<td></td>
+<td>DNS 옵션 설정</td>
+</tr>
+
+<tr>
+<td><code>--dns-search</code></td>
+<td></td>
+<td>사용자 지정 DNS 검색 도메인 설정</td>
+</tr>
+
+<tr>
+<td><code>--entrypoint</code></td>
+<td></td>
+<td>이미지의 기본 ENTRYPOINT를 재정의</td>
+</tr>
+
+<tr>
+<td><code>--env , -e</code></td>
+<td></td>
+<td>환경변수 설정</td>
+</tr>
+
+<tr>
+<td><code>--env-file</code></td>
+<td></td>
+<td>환경변수에서 파일 읽기</td>
+</tr>
+
+<tr>
+<td><code>--expose</code></td>
+<td></td>
+<td>포트 또는 포트 범위 노출</td>
+</tr>
+
+<tr>
+<td><code>--group-add</code></td>
+<td></td>
+<td>조인할 추가적인 그룹을 추가</td>
+</tr>
+
+<tr>
+<td><code>--health-cmd</code></td>
+<td></td>
+<td>헬스 체크하기 위해 실행하는 명령</td>
+</tr>
+
+<tr>
+<td><code>--health-interval</code></td>
+<td></td>
+<td>검사를 실행하는 시간 (ms</td>
+</tr>
+
+<tr>
+<td><code>--health-retries</code></td>
+<td></td>
+<td>언헬시 보고에 필요한 연속 실패</td>
+</tr>
+
+<tr>
+<td><code>--health-start-period</code></td>
+<td></td>
+<td>health-retries 카운트다운을 시작하기 전에 컨테이너를 초기화하는 시작 시간 (ms</td>
+</tr>
+
+<tr>
+<td><code>--health-timeout</code></td>
+<td></td>
+<td>한 번의 체크가 실행될 수 있는 최대 시간 (ms</td>
+</tr>
+
+<tr>
+<td><code>--help</code></td>
+<td></td>
+<td>사용법 출력</td>
+</tr>
+
+<tr>
+<td><code>--hostname , -h</code></td>
+<td></td>
+<td>컨테이너 호스트 이름</td>
+</tr>
+
+<tr>
+<td><code>--init</code></td>
+<td></td>
+<td>시그널을 전달하고 및 프로세스를 수확을 위한 컨테이너 내의 init 실행</td>
+</tr>
+
+<tr>
+<td><code>--interactive , -i</code></td>
+<td></td>
+<td>STDIN을 연결하지 않아도 오픈시킴</td>
+</tr>
+
+<tr>
+<td><code>--io-maxbandwidth</code></td>
+<td></td>
+<td>시스템 드라이브의 최대 입출력 대역폭 제한 (윈도우만)</td>
+</tr>
+
+<tr>
+<td><code>--io-maxiops</code></td>
+<td></td>
+<td>시스템 드라이브의 최대 입출력 제한 (윈도우만)</td>
+</tr>
+
+<tr>
+<td><code>--ip</code></td>
+<td></td>
+<td>IPv4 주소 (예. 172.30.100.104)</td>
+</tr>
+
+<tr>
+<td><code>--ip6</code></td>
+<td></td>
+<td>IPv6 주소 (예. 2001:db8::33)</td>
+</tr>
+
+<tr>
+<td><code>--ipc</code></td>
+<td></td>
+<td>사용할 IPC 모드</td>
+</tr>
+
+<tr>
+<td><code>--isolation</code></td>
+<td></td>
+<td>컨테이너 격리 기술</td>
+</tr>
+
+<tr>
+<td><code>--kernel-memory</code></td>
+<td></td>
+<td>커널 메모리 제한</td>
+</tr>
+
+<tr>
+<td><code>--label, -l</code></td>
+<td></td>
+<td>컨테이너 메타데이터 설정</td>
+</tr>
+
+<tr>
+<td><code>--label-file</code></td>
+<td></td>
+<td>라인으로 구분된 라벨 파일 읽기</td>
+</tr>
+
+<tr>
+<td><code>--link</code></td>
+<td></td>
+<td>또다른 컨터이너에 대한 링크 추가</td>
+</tr>
+
+<tr>
+<td><code>--link-local-ip</code></td>
+<td></td>
+<td>컨테이너 IPv4/IPv6 링크 로컬 주소</td>
+</tr>
+
+<tr>
+<td><code>--log-driver</code></td>
+<td></td>
+<td>컨테이너에 대한 로깅 드라이버</td>
+</tr>
+
+<tr>
+<td><code>--log-opt</code></td>
+<td></td>
+<td>로깅 드라이버 옵션</td>
+</tr>
+
+<tr>
+<td><code>--mac-address</code></td>
+<td></td>
+<td>컨테이너 맥 어드레스 (예. 92:d0:c6:0a:29:33)</td>
+</tr>
+
+<tr>
+<td><code>--memory , -m</code></td>
+<td></td>
+<td>메모리 제한</td>
+</tr>
+
+<tr>
+<td><code>--memory-reservation</code></td>
+<td></td>
+<td>메모리 소프트 제한</td>
+</tr>
+
+<tr>
+<td><code>--memory-swap</code></td>
+<td></td>
+<td>메모리 플러스 스왑과 같은 스왑 제한: &lsquo;-1&rsquo;로 무제한 스왑 가능</td>
+</tr>
+
+<tr>
+<td><code>--memory-swappiness</code></td>
+<td><code>-1</code></td>
+<td>컨테이너 메모리 스왑니스 조정 (0 ~ 100)</td>
+</tr>
+
+<tr>
+<td><code>--mount</code></td>
+<td></td>
+<td>컨테이너에 파일 시스템 마운트를 연결</td>
+</tr>
+
+<tr>
+<td><code>--name</code></td>
+<td></td>
+<td>컨테이너에 이름을 할당</td>
+</tr>
+
+<tr>
+<td><code>--net</code></td>
+<td></td>
+<td>네트워크에 컨테이너를 연결</td>
+</tr>
+
+<tr>
+<td><code>--net-alias</code></td>
+<td></td>
+<td>컨테이너에 대한 네트워크 범위 앨리어스 추가</td>
+</tr>
+
+<tr>
+<td><code>--network</code></td>
+<td></td>
+<td>네트워크에 컨테이를 연결</td>
+</tr>
+
+<tr>
+<td><code>--network-alias</code></td>
+<td></td>
+<td>컨테이너에 대한 네트워크 범위 앨리어스 추가</td>
+</tr>
+
+<tr>
+<td><code>--no-healthcheck</code></td>
+<td></td>
+<td>컨터이너에 지정된 HEATHCHECK 비활성화</td>
+</tr>
+
+<tr>
+<td><code>--oom-kill-disable</code></td>
+<td></td>
+<td>OOM 킬러 비활성화</td>
+</tr>
+
+<tr>
+<td><code>--oom-score-adj</code></td>
+<td></td>
+<td>호스트의 OOM 기본 설정 조정 (-1000 ~ 1000)</td>
+</tr>
+
+<tr>
+<td><code>--pid</code></td>
+<td></td>
+<td>사용할 PID 네임스페이스</td>
+</tr>
+
+<tr>
+<td><code>--pids-limit</code></td>
+<td></td>
+<td>컨테이너 pids 제한 조정 (무제한은 -1 설정)</td>
+</tr>
+
+<tr>
+<td><code>--platform</code></td>
+<td></td>
+<td>서버가 멀티 플랫폼 가능한 경우 플랫폼 설정</td>
+</tr>
+
+<tr>
+<td><code>--privileged</code></td>
+<td></td>
+<td>이 컨테이너에 확장된 권한을 부여</td>
+</tr>
+
+<tr>
+<td><code>--publish , -p</code></td>
+<td></td>
+<td>컨테이너 포트를 호스트에 게시</td>
+</tr>
+
+<tr>
+<td><code>--publish-all , -P</code></td>
+<td></td>
+<td>노출된 모든 포트를 임의 포트에 게시</td>
+</tr>
+
+<tr>
+<td><code>--read-only</code></td>
+<td></td>
+<td>컨테이너 루트 파일시스템을 읽기 전용으로 마운트</td>
+</tr>
+
+<tr>
+<td><code>--restart</code></td>
+<td><code>no</code></td>
+<td>컨테이너가 종료될 때 적용할 재시작 정책</td>
+</tr>
+
+<tr>
+<td><code>--rm</code></td>
+<td></td>
+<td>컨테이너가 종료되면 자동으로 제거</td>
+</tr>
+
+<tr>
+<td><code>--runtime</code></td>
+<td></td>
+<td>컨테이너에 사용하는 런타임</td>
+</tr>
+
+<tr>
+<td><code>--security-opt</code></td>
+<td></td>
+<td>보안 옵션</td>
+</tr>
+
+<tr>
+<td><code>--shm-size</code></td>
+<td></td>
+<td>/dev/shm 크기</td>
+</tr>
+
+<tr>
+<td><code>--sig-proxy</code></td>
+<td><code>true</code></td>
+<td>프로세스에 수신된 시그널을 프록시</td>
+</tr>
+
+<tr>
+<td><code>--stop-signal</code></td>
+<td><code>SIGTERM</code></td>
+<td>컨테이너 정지할 시그널</td>
+</tr>
+
+<tr>
+<td><code>--stop-timeout</code></td>
+<td></td>
+<td>컨테이너를 정지하는 타임아웃 (초단위)</td>
+</tr>
+
+<tr>
+<td><code>--storage-opt</code></td>
+<td></td>
+<td>컨테이너의 저장소 드라이버 옵션</td>
+</tr>
+
+<tr>
+<td><code>--sysctl</code></td>
+<td></td>
+<td>sysctl 옵션</td>
+</tr>
+
+<tr>
+<td><code>--tmpfs</code></td>
+<td></td>
+<td>tmpfs 디렉토리 마운트</td>
+</tr>
+
+<tr>
+<td><code>--tty , -t</code></td>
+<td></td>
+<td>pseudo-TTY 할당</td>
+</tr>
+
+<tr>
+<td><code>--ulimit</code></td>
+<td></td>
+<td>Ulimit 옵션</td>
+</tr>
+
+<tr>
+<td><code>--user , -u</code></td>
+<td></td>
+<td>사용자 이름 또는 UID (형식: &lt;이름</td>
+</tr>
+
+<tr>
+<td><code>--userns</code></td>
+<td></td>
+<td>사용할 사용자 네임스페이스</td>
+</tr>
+
+<tr>
+<td><code>--uts</code></td>
+<td></td>
+<td>사용할 UTS 네임스페이스</td>
+</tr>
+
+<tr>
+<td><code>--volume , -v</code></td>
+<td></td>
+<td>마운트하는 볼륨을 바인딩</td>
+</tr>
+
+<tr>
+<td><code>--volume-driver</code></td>
+<td></td>
+<td>컨테이너용 선택적 볼륨 드라이버</td>
+</tr>
+
+<tr>
+<td><code>--volumes-from</code></td>
+<td></td>
+<td>지정된 컨테이너로부터 볼륨 마운트</td>
+</tr>
+
+<tr>
+<td><code>--workdir , -w</code></td>
+<td></td>
+<td>컨테이너 내의 작업 디렉토리</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="부모-명령">부모 명령</h2>
+
+<table>
+<thead>
+<tr>
+<th>명령어</th>
+<th>설명</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>docker</td>
+<td>Docker CLI의 기본 명령어</td>
+</tr>
+</tbody>
+</table>
+
+        
+        <div class="related">
+</div>
+        
+      </div>
+    </article>
+    
+
+    
+    <nav class="post-nav">
+        
+        <a class="prev" href="/post/tgik-005/">
+            &lt; <span class="prev-text nav-default">TGI Kubernetes 005: Pod Params and Probes</span>
+                <span class="prev-text nav-mobile"></span>
+        </a>
+        
+        <a class="next" href="/post/tgik-004/">
+            <span class="next-text nav-default">TGI Kubernetes 004: RBAC</span>
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
+
+  </div>
+ 
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      disqus();
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Philbert Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-129419926-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
+
