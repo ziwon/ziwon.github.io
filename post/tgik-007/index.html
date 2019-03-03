@@ -128,7 +128,7 @@
 
 <p><a href="https://github.com/heptio/tgik/blob/master/episodes/007/README.md" target="_blank">일곱 번째 에피소드</a>는 간단하게 쿠버네티스 컨트롤러를 만들어 보는 데모이다.</p>
 
-<p>데모 리포지토리가 오래되고 API 패키지명이 다르기도 하고 하여, <code>go mod</code>로 재작성하였다. 저장소에는 각 데모에 해당하는 컨트롤러의 소스가 각ㄲ <code>pod-watcher</code>와 <code>secret-controller</code>의 두 가지로 태깅되어있다.</p>
+<p>데모 리포지토리가 오래되고 API 패키지명이 다르기도 하고 하여, <code>go mod</code> 기반으로 재작성하였다. 저장소에는 데모에 해당하는 컨트롤러의 소스가 각각 <code>pod-watcher</code>와 <code>secret-controller</code>의 두 가지로 태깅되어 있다.</p>
 
 <ul>
 <li><a href="https://github.com/ziwon/k8s-controller" target="_blank">ziwon/k8s-controller</a></li>
@@ -140,7 +140,7 @@
 <li><a href="https://github.com/ziwon/yak8s" target="_blank">ziwon/yak8s</a></li>
 </ul>
 
-<h2 id="pod-watcher">Pod-Watcher</h2>
+<h2 id="pod-컨트롤러">Pod 컨트롤러</h2>
 
 <p>먼저, 적당한 디렉토리에 저장소를 클론한다. 그리고 <code>pod-watcher</code>를 체크 아웃한다. (<code>go mod</code>에 대한 자세한 설명은 여기서는 생략합니다.)</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ <span class="nb">export</span> <span class="nv">GO111MODULE</span><span class="o">=</span>auto
@@ -211,7 +211,7 @@ Alias tip: gor *.go
 <span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 caches are synced
 <span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 waiting <span class="k">for</span> stop signal</code></pre></div>
 <p>클러스터에 Pod를 하나 배포한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">make run-k8s
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ make run-kuard
 kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard
 pod/kuard created</code></pre></div>
 <p>다음과 같이 컨트롤러에서 새로 배포된 Pod가 추가됨을 확인할 수 있다.</p>
@@ -289,11 +289,11 @@ pod/kuard created</code></pre></div>
 	<span class="o">&lt;-</span><span class="nx">stop</span>
 	<span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;received stop signal&#34;</span><span class="p">)</span>
 <span class="p">}</span></code></pre></div>
-<h2 id="시크릿-컨트롤러">시크릿 컨트롤러</h2>
+<h2 id="secret-copy-컨트롤러">Secret Copy 컨트롤러</h2>
 
 <p>다음으로 작성해 볼 컨트롤러는 시크릿 컨트롤러이다.</p>
 
-<p>예를 들어, 여러 개발자가 사용하는 쿠버네티스 클러스터를 셋업했고, 네임스페이스마다 개발자를 할당하여 뭔가를 한다고 할 때, 공유 데이터베이스를 사용하지 않고 개발자들에게 쿠버네티스 시크릿을 모든 개발자들의 네임스페이스에 전파하는 것이 이슈가 될 수 있다. 이를 해결하기 위해 이를테면, 일종의 시크릿을 배포하는 컨트롤러를 만들 수 있을 것이다.</p>
+<p>예를 들어, 여러 개발자가 사용하는 쿠버네티스 클러스터를 셋업했고, 네임스페이스마다 개발자를 할당하여 뭔가를 한다고 할 때, 공유 데이터베이스를 사용하지 않고 개발자들에게 쿠버네티스 시크릿을 모든 개발자들의 네임스페이스에 전파하는 것이 이슈가 될 수 있다. 이를 해결하기 위해 이를테면, 일종의 시크릿을 각 네임스페이스에 복사하는 컨트롤러를 만들 수 있을 것이다.</p>
 
 <p>자세한 소스 코드는 <code>secret-controller</code> 태그를 참고한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ git checkout secret-controller</code></pre></div>
@@ -377,10 +377,10 @@ Examples:
   <span class="c1"># Create a new secret named my-secret from an env file
 </span><span class="c1"></span>  kubectl create secret generic my-secret --from-env-file<span class="o">=</span>path/to/bar.env</code></pre></div>
 <p>위 가이드 메세지를 따라, , <code>--from-literal</code> 옵션으로, <code>--type</code>의 값은 <code>k8s.ziwon.dev/secretsync</code>이고, 이름이 <code>supersecret</code>인 시크릿을 생성한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create --namespace<span class="o">=</span>secretsync secret generic supersecret --from-literal<span class="o">=</span><span class="nv">ziwon</span><span class="o">=</span>awsome --type<span class="o">=</span>k8s.ziwon.dev/secretsync
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create --namespace<span class="o">=</span>secretsync secret generic supersecret --from-literal<span class="o">=</span><span class="nv">ziwon</span><span class="o">=</span>awesome --type<span class="o">=</span>k8s.ziwon.dev/secretsync
 secret/supersecret created</code></pre></div>
 <p>만들어진 시크릿은 다음과 같이 확인할 수 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k get secrets
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl get secrets
 NAME                  TYPE                                  DATA   AGE
 default-token-vhc89   kubernetes.io/service-account-token   <span class="m">3</span>      12m
 supersecret           k8s.ziwon.dev/secretsync              <span class="m">1</span>      11m</code></pre></div>
@@ -390,7 +390,7 @@ supersecret           k8s.ziwon.dev/secretsync              <span class="m">1</s
 <span class="m">2019</span>/03/03 <span class="m">18</span>:09:22 onAdd: secretsync/supersecret
 <span class="m">2019</span>/03/03 <span class="m">18</span>:09:22 Do something with this secret
 <span class="m">2019</span>/03/03 <span class="m">18</span>:09:22 We should copy supersecret to namespace default</code></pre></div>
-<p>이상, 간단하게 Pod Watcher 컨트롤러와 Secret Controller를 만들어 보았다.</p>
+<p>이상, 간단하게 Pod Watcher 컨트롤러와 Secret Copy 컨트롤러를 만들어 보았다.</p>
 
 <h2 id="기타">기타</h2>
 

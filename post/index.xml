@@ -19,9 +19,9 @@
       
       <guid>https://ziwon.github.io/post/tgik-007/</guid>
       <description>일곱 번째 에피소드는 간단하게 쿠버네티스 컨트롤러를 만들어 보는 데모이다.
-데모 리포지토리가 오래되고 API 패키지명이 다르기도 하고 하여, go mod로 재작성하였다. 저장소에는 각 데모에 해당하는 컨트롤러의 소스가 각ㄲ pod-watcher와 secret-controller의 두 가지로 태깅되어있다.
+데모 리포지토리가 오래되고 API 패키지명이 다르기도 하고 하여, go mod 기반으로 재작성하였다. 저장소에는 데모에 해당하는 컨트롤러의 소스가 각각 pod-watcher와 secret-controller의 두 가지로 태깅되어 있다.
  ziwon/k8s-controller  쿠버네티스 클러스터는 kind를 사용하여 테스트하였다.
- ziwon/yak8s  Pod-Watcher 먼저, 적당한 디렉토리에 저장소를 클론한다. 그리고 pod-watcher를 체크 아웃한다. (go mod에 대한 자세한 설명은 여기서는 생략합니다.)
+ ziwon/yak8s  Pod 컨트롤러 먼저, 적당한 디렉토리에 저장소를 클론한다. 그리고 pod-watcher를 체크 아웃한다. (go mod에 대한 자세한 설명은 여기서는 생략합니다.)
 $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ git checkout pod-watcher 다음으로, 로컬 PC 환경에서 쿠버네티스 클러스터를 띄운다.</description>
     </item>
     
