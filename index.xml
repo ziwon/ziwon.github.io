@@ -13,6 +13,291 @@
     
     
     <item>
+      <title>TGI Kubernetes 007: Controller 만들기</title>
+      <link>https://ziwon.github.io/post/tgik-007/</link>
+      <pubDate>Sun, 03 Mar 2019 13:25:00 +0900</pubDate>
+      <author>Philbert Yoon</author>
+      <guid>https://ziwon.github.io/post/tgik-007/</guid>
+      <description></description>
+      
+      <content>
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/heptio/tgik/blob/master/episodes/007/README.md&#34; target=&#34;_blank&#34;&gt;일곱 번째 에피소드&lt;/a&gt;는 간단하게 쿠버네티스 컨트롤러를 만들어 보는 데모이다.&lt;/p&gt;
+
+&lt;p&gt;데모 리포지토리가 오래되고 API 패키지명이 다르기도 하고 하여, &lt;code&gt;go mod&lt;/code&gt;로 재작성하였다. 저장소에는 각 데모에 해당하는 컨트롤러의 소스가 각ㄲ &lt;code&gt;pod-watcher&lt;/code&gt;와 &lt;code&gt;secret-controller&lt;/code&gt;의 두 가지로 태깅되어있다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ziwon/k8s-controller&#34; target=&#34;_blank&#34;&gt;ziwon/k8s-controller&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;쿠버네티스 클러스터는 &lt;a href=&#34;https://github.com/kubernetes-sigs/kind&#34; target=&#34;_blank&#34;&gt;kind&lt;/a&gt;를 사용하여 테스트하였다.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ziwon/yak8s&#34; target=&#34;_blank&#34;&gt;ziwon/yak8s&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;pod-watcher&#34;&gt;Pod-Watcher&lt;/h2&gt;
+
+&lt;p&gt;먼저, 적당한 디렉토리에 저장소를 클론한다. 그리고 &lt;code&gt;pod-watcher&lt;/code&gt;를 체크 아웃한다. (&lt;code&gt;go mod&lt;/code&gt;에 대한 자세한 설명은 여기서는 생략합니다.)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ &lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GO111MODULE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;auto
+$ git clone git@github.com:ziwon/k8s-controller.git
+$ git checkout pod-watcher&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음으로, 로컬 PC 환경에서 쿠버네티스 클러스터를 띄운다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ git clone https://github.com/ziwon/yak8s
+$ make kind-cluster-up
+Creating cluster &lt;span class=&#34;s1&#34;&gt;&amp;#39;kind-1&amp;#39;&lt;/span&gt; ...
+ ✓ Ensuring node image &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;kindest/node:v1.13.2&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; 🖼
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;lb&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Creating node container 📦
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;lb&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Fixing mounts 🗻
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;lb&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Starting systemd 🖥
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;lb&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Waiting &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; docker to be ready 🐋
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;lb&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Pre-loading images 🐋
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Creating node container 📦
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Fixing mounts 🗻
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Starting systemd 🖥
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Waiting &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; docker to be ready 🐋
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Pre-loading images 🐋
+ ...
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;lb&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Starting the external load balancer ⛵
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Creating the kubeadm config file ⛵
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Starting Kubernetes &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;this may take a minute&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ☸
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;control-plane2&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Joining control-plane node to Kubernetes ☸
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;worker1&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Joining worker node to Kubernetes ☸
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;worker2&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Joining worker node to Kubernetes ☸
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;worker3&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Joining worker node to Kubernetes ☸
+ ✓ &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;worker4&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Joining worker node to Kubernetes ☸
+Cluster creation complete. You can now use the cluster with:
+
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;kind get kubeconfig-path --name&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+kubectl cluster-info
+/Library/Developer/CommandLineTools/usr/bin/make kind-cluster-info
+Kubernetes master is running at https://localhost:63578
+KubeDNS is running at https://localhost:63578/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;클러스터를 띄웠으니, 컨트롤러가 사용할 &lt;code&gt;KUBECONFIG&lt;/code&gt; 환경변수를 잡아준다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ &lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;kind get kubeconfig-path --name&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 컨트롤러를 실행시켜보자. 다음과 같이 클러스터 내의 Pod 컴포넌트 정보들이 컨트롤러 캐시에 싱크되고 있는 것을 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; ziwon/k8s-controller
+$ git checkout pod-watcher
+$ go run *.go
+Alias tip: gor *.go
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 k8s-controller version UNKNOWN
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 waiting &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; cache sync
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/weave-net-ctjpn
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-apiserver-kind-1-control-plane1
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-proxy-mkvq5
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-scheduler-kind-1-control-plane2
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-proxy-r88qg
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-proxy-gs25r
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/weave-net-x2jcn
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/weave-net-qpw2p
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-proxy-qxct5
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/etcd-kind-1-control-plane1
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/coredns-86c58d9df4-w8s8q
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/etcd-kind-1-control-plane2
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-apiserver-kind-1-control-plane2
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-scheduler-kind-1-control-plane1
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-controller-manager-kind-1-control-plane2
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-controller-manager-kind-1-control-plane1
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-proxy-lrjws
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/weave-net-rpfnw
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/coredns-86c58d9df4-8g2s2
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/kube-proxy-tw8ld
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/weave-net-ljdnm
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 onAdd: kube-system/weave-net-vl2nw
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 caches are synced
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:12:15 waiting &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; stop signal&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;클러스터에 Pod를 하나 배포한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;make run-k8s
+kubectl run --restart&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Never --image&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gcr.io/kuar-demo/kuard-amd64:blue kuard
+pod/kuard created&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음과 같이 컨트롤러에서 새로 배포된 Pod가 추가됨을 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:13:30 onAdd: default/kuard
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:13:30 onUpdate: default/kuard
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:13:30 onUpdate: default/kuard
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:13:36 onUpdate: default/kuard&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 배포된 Pod을 클러스터에서 제거하면, 역시 삭제되었다는 이벤트를 컨트롤러를 통해 수신하게 된다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ kubectl delete po kuard&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:16:19 onUpdate: default/kuard
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;15&lt;/span&gt;:16:19 onDelete: default/kuard&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이상, 컨트롤러의 동작을 간단히 확인해 보았다. 클러스터에는 여러 개의 컨트롤러를 붙일 수 있으며, 단지 각각의 컨트롤러가 동일한 작업을 하지 않으면 문제 없다고 한다. 또한 컨트롤러는 여러 언어로 된 라이브러리가 있기 때문에, 굳이 Go언어로 작성될 필요는 없다고 한다.&lt;/p&gt;
+
+&lt;p&gt;반응형 컨트롤러를 작성하기 위한 여러가지 유틸리티와 라이브러리가 있으며, 한 가지 베스트 프랙티스 중 하나는 Queue를 사용하는 것이다. 클러스터 자체가 매우 bursty하고 여러 가지 변경이 매우 많기 때문에, 클러스터에 대한 모든 변경을 하나씩 일일히 처리하기 보다는 비슷한 종류의 변경들은 하나로 묶어서 큐를 통해 처리하게 되면, rate limit을 사용해서 클러스터 변경에 대해 서버가 얼마나 세게 치는지 알 수 있다고 한다. 이를 위해 쿠버네티스 클라이언트에서 &lt;strong&gt;&lt;a href=&#34;https://github.com/kubernetes/client-go/tree/master/examples/workqueue&#34; target=&#34;_blank&#34;&gt;Workqueue&lt;/a&gt;&lt;/strong&gt;를 제공하고 있다.&lt;/p&gt;
+
+&lt;h3 id=&#34;pod-watcher-코드-설명&#34;&gt;Pod-Watcher 코드 설명&lt;/h3&gt;
+
+&lt;p&gt;이제 코드를 간단히 살펴보자.&lt;/p&gt;
+
+&lt;p&gt;다음은 &lt;code&gt;k8s-controller.go&lt;/code&gt; 파일에서 설정 파일을 잡아주는 부분으로,&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;kubeconfig&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;clientcmd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;BuildConfigFromFlags&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;kubeconfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;InClusterConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위 코드는 쿠버네티스 클라이언트를 &lt;code&gt;KUBECONFIG&lt;/code&gt; 환경변수 또는 &lt;code&gt;kubeconfig&lt;/code&gt; 플래그를 통해서 설정하거나 또는 만약 컨트롤러가 쿠버네티스 클러스터 내에 있다면, 기본값으로 restClient를 설정하게 된다.&lt;/p&gt;
+
+&lt;p&gt;다음으로 설정된 환경변수에 대해 새로운 클라이언트를 생성한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;nx&#34;&gt;client&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;kubernetes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;NewForConfigOrDie&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 &lt;code&gt;sharedInformer&lt;/code&gt;를 생성하는데, 쿠버네티스 오브젝트에 대한 미러를 캐시하다가 특정 오브젝트의 변경이 있으면 알려주는 주는 역할을 한다. 쿠버네티스 내에서는 각각 자신들만의 컨트롤러가 쿠버네티스 객체에 대해 미러를 유지하는데, 이는 매우 큰 클러스터의 경우 매우 메모리 집약적인 작업이다. 따라서 여러 컨트롤러가 공유해서 사용하는 뭔가가 필요한데, &lt;code&gt;SharedInformer&lt;/code&gt;가 그 역할을 한다고 볼 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;	&lt;span class=&#34;nx&#34;&gt;sharedInformers&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;informers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;NewSharedInformerFactory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Minute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;k8sController&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;NewK8SController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sharedInformers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Core&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;V1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Pods&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제, &lt;code&gt;controller.go&lt;/code&gt;의 소스를 살펴보자.&lt;/p&gt;
+
+&lt;p&gt;먼저 &lt;code&gt;podGetter&lt;/code&gt;는 쿠버네티스 클라이언트를 통해 해당 Pod 정보를 획득하고, &lt;code&gt;podLister&lt;/code&gt;는 &lt;code&gt;SharedInformer&lt;/code&gt;의 캐시를 통해 Pod 목록을 획득한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;K8SController&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;podGetter&lt;/span&gt;       &lt;span class=&#34;nx&#34;&gt;corev1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;PodsGetter&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;podLister&lt;/span&gt;       &lt;span class=&#34;nx&#34;&gt;listercorev1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;PodLister&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;podListerSynced&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cache&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;InformerSynced&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음으로 &lt;code&gt;SharedInformer&lt;/code&gt;에 이벤트 핸들러를 추가한다. 이 부분은 이벤트 옵저버 패턴의 일반적인 형식으로 볼 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;	&lt;span class=&#34;nx&#34;&gt;podInformer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Informer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;AddEventHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;cache&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ResourceEventHandlerFuncs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+			&lt;span class=&#34;nx&#34;&gt;AddFunc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+				&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;onAdd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+			&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+			&lt;span class=&#34;nx&#34;&gt;UpdateFunc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;oldObj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newObj&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+				&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;onUpdate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;oldObj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newObj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+			&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+			&lt;span class=&#34;nx&#34;&gt;DeleteFunc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+				&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;onDelete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+			&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+		&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고, &lt;code&gt;onAdd&lt;/code&gt;, &lt;code&gt;onUpdate&lt;/code&gt;, &lt;code&gt;onDelete&lt;/code&gt; 등 각각의 이벤트 핸들러를 구현한다. &lt;code&gt;cache.MetaNamespaceKeyFunc&lt;/code&gt;는 &lt;code&gt;default/kuard&lt;/code&gt;에서처럼, 네임스페이스와 객체의 이름을 바인딩한 값을 캐쉬에 대한 키로 가져온다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;K8SController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;onAdd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;onAdd: object: %#v: %v&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cache&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;MetaNamespaceKeyFunc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;onAdd: error getting key for: %#v: %v&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;HandleError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;onAdd: %v&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다음은 캐시 싱크를 수행하는 함수이다. 완료될 때까지 기다리고, 만약 큐를 이용한다면, 싱크 전에 큐를 로딩해주고 워커를 실행해야한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;K8SController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;stop&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;chan&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;waiting for cache sync&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cache&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;WaitForCacheSync&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;podListerSynced&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;timed out waiting for cache sync&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;caches are synced&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+	&lt;span class=&#34;c1&#34;&gt;// wait until we&amp;#39;re told to stop
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;waiting for stop signal&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;stop&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;received stop signal&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;시크릿-컨트롤러&#34;&gt;시크릿 컨트롤러&lt;/h2&gt;
+
+&lt;p&gt;다음으로 작성해 볼 컨트롤러는 시크릿 컨트롤러이다.&lt;/p&gt;
+
+&lt;p&gt;예를 들어, 여러 개발자가 사용하는 쿠버네티스 클러스터를 셋업했고, 네임스페이스마다 개발자를 할당하여 뭔가를 한다고 할 때, 공유 데이터베이스를 사용하지 않고 개발자들에게 쿠버네티스 시크릿을 모든 개발자들의 네임스페이스에 전파하는 것이 이슈가 될 수 있다. 이를 해결하기 위해 이를테면, 일종의 시크릿을 배포하는 컨트롤러를 만들 수 있을 것이다.&lt;/p&gt;
+
+&lt;p&gt;자세한 소스 코드는 &lt;code&gt;secret-controller&lt;/code&gt; 태그를 참고한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ git checkout secret-controller&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;소스를 보면, Secret 컴포넌트에 대한 이벤트를 핸들링하는 &lt;strong&gt;&lt;a href=&#34;https://github.com/ziwon/k8s-controller/blob/secret-controller/controller.go#L110&#34; target=&#34;_blank&#34;&gt;handleSecretChange(obj interface{})&lt;/a&gt;&lt;/strong&gt; 컨트롤러 메소드가 추가되었다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;K8SController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handleSecretChange&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;apicorev1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;c1&#34;&gt;// TODO: this is probably a `DeletedFinalStateUnknown`.  Figure out what
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;// to do.
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ObjectMeta&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Namespace&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;secretSyncSourceNamespace&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Skipping secret in wrong namespace&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Type&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;secretSyncType&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Skipping secret of wrong type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+	&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Do something with this secret&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;nsList&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;namespaceGetter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Namespaces&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;List&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;metav1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ListOptions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt;
+
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Error listeing namespaces: %v&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+	&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ns&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;range&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;nsList&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Items&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;nsName&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ObjectMeta&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Name&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;namespaceBlacklist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;nsName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;];&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ok&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+			&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Skipping namespace on blacklist: %v&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;nsName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+			&lt;span class=&#34;k&#34;&gt;continue&lt;/span&gt;
+		&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;We should copy %s to namespace %s&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ObjectMeta&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ObjectMeta&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;copySecretToNamespace&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;nsName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;시크릿을 복사할 때, &lt;code&gt;kube-public&lt;/code&gt;, &lt;code&gt;kube-system&lt;/code&gt; 네임스페이스는 제외한 다른 네임스페이스에 복사하는 작업을 수행하고 있다. 실제 시크릿을 복사하는 코드는 시간관계상 생략되었지만, 그 구현 내용은 다음과 같이 주석을 참고한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;K8SController&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;copySecretToNamespace&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;secret&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;apicorev1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Secret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;nsName&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// TODO:
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// 1. Make a deep copy of the secret
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// 2. Remove things like object version that&amp;#39;ll prevent us from writing
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// 3. Write in new namespace
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// 4. Do a create or update for the new object
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제, 클러스터에 &lt;code&gt;secretsync&lt;/code&gt;라는 네임스페이스를 만든다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ kubectl create namespace secretsync&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;시크릿을 만드는 방법과 관련된 옵션은 다음과 같이 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ kubectl create --namespace&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;secretsync secret generic --help
+Create a secret based on a file, directory, or specified literal value.
+
+A single secret may package one or more key/value pairs.
+
+When creating a secret based on a file, the key will default to the basename of the file, and the
+value will default to the file content. If the basename is an invalid key or you wish to chose your
+own, you may specify an alternate key.
+
+When creating a secret based on a directory, each file whose basename is a valid key in the
+directory will be packaged into the secret. Any directory entries except regular files are ignored
+&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;e.g. subdirectories, symlinks, devices, pipes, etc&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;.
+
+Examples:
+  &lt;span class=&#34;c1&#34;&gt;# Create a new secret named my-secret with keys for each file in folder bar
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  kubectl create secret generic my-secret --from-file&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;path/to/bar
+
+  &lt;span class=&#34;c1&#34;&gt;# Create a new secret named my-secret with specified keys instead of names on disk
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  kubectl create secret generic my-secret --from-file&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ssh-privatekey&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/.ssh/id_rsa
+--from-file&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ssh-publickey&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/.ssh/id_rsa.pub
+
+  &lt;span class=&#34;c1&#34;&gt;# Create a new secret named my-secret with key1=supersecret and key2=topsecret
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  kubectl create secret generic my-secret --from-literal&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;key1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;supersecret
+--from-literal&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;key2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;topsecret
+
+  &lt;span class=&#34;c1&#34;&gt;# Create a new secret named my-secret using a combination of a file and a literal
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  kubectl create secret generic my-secret --from-file&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ssh-privatekey&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/.ssh/id_rsa
+--from-literal&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;passphrase&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;topsecret
+
+  &lt;span class=&#34;c1&#34;&gt;# Create a new secret named my-secret from an env file
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  kubectl create secret generic my-secret --from-env-file&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;path/to/bar.env&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위 가이드 메세지를 따라, , &lt;code&gt;--from-literal&lt;/code&gt; 옵션으로, &lt;code&gt;--type&lt;/code&gt;의 값은 &lt;code&gt;k8s.ziwon.dev/secretsync&lt;/code&gt;이고, 이름이 &lt;code&gt;supersecret&lt;/code&gt;인 시크릿을 생성한다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ kubectl create --namespace&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;secretsync secret generic supersecret --from-literal&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;ziwon&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;awsome --type&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;k8s.ziwon.dev/secretsync
+secret/supersecret created&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;만들어진 시크릿은 다음과 같이 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ k get secrets
+NAME                  TYPE                                  DATA   AGE
+default-token-vhc89   kubernetes.io/service-account-token   &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt;      12m
+supersecret           k8s.ziwon.dev/secretsync              &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;      11m&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;시크릿 컨트롤러를 실행하면, 다음과 같이 &lt;code&gt;secretsync/supersecret&lt;/code&gt;에 대해 핸들링하는 컨트롤러의 동작을 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;$ go run *.go
+...
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;18&lt;/span&gt;:09:22 onAdd: secretsync/supersecret
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;18&lt;/span&gt;:09:22 Do something with this secret
+&lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt;/03/03 &lt;span class=&#34;m&#34;&gt;18&lt;/span&gt;:09:22 We should copy supersecret to namespace default&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이상, 간단하게 Pod Watcher 컨트롤러와 Secret Controller를 만들어 보았다.&lt;/p&gt;
+
+&lt;h2 id=&#34;기타&#34;&gt;기타&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://engineering.bitnami.com/articles/a-deep-dive-into-kubernetes-controllers.html&#34; target=&#34;_blank&#34;&gt;A Deep Dive Into Kubernetes Controllers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+      
+    </item>
+    
+    <item>
       <title>[번역] 도커 볼륨</title>
       <link>https://ziwon.github.io/post/docker-storage-volumes/</link>
       <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>

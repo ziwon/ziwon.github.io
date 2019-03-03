@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>TGI Kubernetes 007: Controller 만들기 | 人生は儚く短い。</title>
+
+
+
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は儚く短い。" />
+
+<link rel="stylesheet" href="/css/style.css"/><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-hybrid.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+
+<link rel=“stylesheet” type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/hybrid.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://ziwon.github.io/">
+          <h1 class="title is-4">人生は儚く短い。</h1>
+        </a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+
+    <nav class="nav">
+      
+
+      
+    </nav>
+
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/tgik-007/">TGI Kubernetes 007: Controller 만들기</a></h1>
+      <h2 class="subtitle is-6">2019-03-03 </h2>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+        
+<a class="subtitle is-6" href="/tags/kubernetes">#Kubernetes</a>
+
+
+
+  
+  | <a class="subtitle is-6" href="/tags/controller">#controller</a>
+  
+
+        
+      </div>
+      <div class="content">
+        
+
+<p><a href="https://github.com/heptio/tgik/blob/master/episodes/007/README.md" target="_blank">일곱 번째 에피소드</a>는 간단하게 쿠버네티스 컨트롤러를 만들어 보는 데모이다.</p>
+
+<p>데모 리포지토리가 오래되고 API 패키지명이 다르기도 하고 하여, <code>go mod</code>로 재작성하였다. 저장소에는 각 데모에 해당하는 컨트롤러의 소스가 각ㄲ <code>pod-watcher</code>와 <code>secret-controller</code>의 두 가지로 태깅되어있다.</p>
+
+<ul>
+<li><a href="https://github.com/ziwon/k8s-controller" target="_blank">ziwon/k8s-controller</a></li>
+</ul>
+
+<p>쿠버네티스 클러스터는 <a href="https://github.com/kubernetes-sigs/kind" target="_blank">kind</a>를 사용하여 테스트하였다.</p>
+
+<ul>
+<li><a href="https://github.com/ziwon/yak8s" target="_blank">ziwon/yak8s</a></li>
+</ul>
+
+<h2 id="pod-watcher">Pod-Watcher</h2>
+
+<p>먼저, 적당한 디렉토리에 저장소를 클론한다. 그리고 <code>pod-watcher</code>를 체크 아웃한다. (<code>go mod</code>에 대한 자세한 설명은 여기서는 생략합니다.)</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ <span class="nb">export</span> <span class="nv">GO111MODULE</span><span class="o">=</span>auto
+$ git clone git@github.com:ziwon/k8s-controller.git
+$ git checkout pod-watcher</code></pre></div>
+<p>다음으로, 로컬 PC 환경에서 쿠버네티스 클러스터를 띄운다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ git clone https://github.com/ziwon/yak8s
+$ make kind-cluster-up
+Creating cluster <span class="s1">&#39;kind-1&#39;</span> ...
+ ✓ Ensuring node image <span class="o">(</span>kindest/node:v1.13.2<span class="o">)</span> 🖼
+ ✓ <span class="o">[</span>lb<span class="o">]</span> Creating node container 📦
+ ✓ <span class="o">[</span>lb<span class="o">]</span> Fixing mounts 🗻
+ ✓ <span class="o">[</span>lb<span class="o">]</span> Starting systemd 🖥
+ ✓ <span class="o">[</span>lb<span class="o">]</span> Waiting <span class="k">for</span> docker to be ready 🐋
+ ✓ <span class="o">[</span>lb<span class="o">]</span> Pre-loading images 🐋
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Creating node container 📦
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Fixing mounts 🗻
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Starting systemd 🖥
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Waiting <span class="k">for</span> docker to be ready 🐋
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Pre-loading images 🐋
+ ...
+ ✓ <span class="o">[</span>lb<span class="o">]</span> Starting the external load balancer ⛵
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Creating the kubeadm config file ⛵
+ ✓ <span class="o">[</span>control-plane1<span class="o">]</span> Starting Kubernetes <span class="o">(</span>this may take a minute<span class="o">)</span> ☸
+ ✓ <span class="o">[</span>control-plane2<span class="o">]</span> Joining control-plane node to Kubernetes ☸
+ ✓ <span class="o">[</span>worker1<span class="o">]</span> Joining worker node to Kubernetes ☸
+ ✓ <span class="o">[</span>worker2<span class="o">]</span> Joining worker node to Kubernetes ☸
+ ✓ <span class="o">[</span>worker3<span class="o">]</span> Joining worker node to Kubernetes ☸
+ ✓ <span class="o">[</span>worker4<span class="o">]</span> Joining worker node to Kubernetes ☸
+Cluster creation complete. You can now use the cluster with:
+
+<span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>kind get kubeconfig-path --name<span class="o">=</span><span class="s2">&#34;1&#34;</span><span class="k">)</span><span class="s2">&#34;</span>
+kubectl cluster-info
+/Library/Developer/CommandLineTools/usr/bin/make kind-cluster-info
+Kubernetes master is running at https://localhost:63578
+KubeDNS is running at https://localhost:63578/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy</code></pre></div>
+<p>클러스터를 띄웠으니, 컨트롤러가 사용할 <code>KUBECONFIG</code> 환경변수를 잡아준다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>kind get kubeconfig-path --name<span class="o">=</span><span class="s2">&#34;1&#34;</span><span class="k">)</span><span class="s2">&#34;</span></code></pre></div>
+<p>이제 컨트롤러를 실행시켜보자. 다음과 같이 클러스터 내의 Pod 컴포넌트 정보들이 컨트롤러 캐시에 싱크되고 있는 것을 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ <span class="nb">cd</span> ziwon/k8s-controller
+$ git checkout pod-watcher
+$ go run *.go
+Alias tip: gor *.go
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 k8s-controller version UNKNOWN
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 waiting <span class="k">for</span> cache sync
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/weave-net-ctjpn
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-apiserver-kind-1-control-plane1
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-proxy-mkvq5
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-scheduler-kind-1-control-plane2
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-proxy-r88qg
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-proxy-gs25r
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/weave-net-x2jcn
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/weave-net-qpw2p
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-proxy-qxct5
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/etcd-kind-1-control-plane1
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/coredns-86c58d9df4-w8s8q
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/etcd-kind-1-control-plane2
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-apiserver-kind-1-control-plane2
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-scheduler-kind-1-control-plane1
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-controller-manager-kind-1-control-plane2
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-controller-manager-kind-1-control-plane1
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-proxy-lrjws
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/weave-net-rpfnw
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/coredns-86c58d9df4-8g2s2
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/kube-proxy-tw8ld
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/weave-net-ljdnm
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 onAdd: kube-system/weave-net-vl2nw
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 caches are synced
+<span class="m">2019</span>/03/03 <span class="m">15</span>:12:15 waiting <span class="k">for</span> stop signal</code></pre></div>
+<p>클러스터에 Pod를 하나 배포한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">make run-k8s
+kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard
+pod/kuard created</code></pre></div>
+<p>다음과 같이 컨트롤러에서 새로 배포된 Pod가 추가됨을 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="m">2019</span>/03/03 <span class="m">15</span>:13:30 onAdd: default/kuard
+<span class="m">2019</span>/03/03 <span class="m">15</span>:13:30 onUpdate: default/kuard
+<span class="m">2019</span>/03/03 <span class="m">15</span>:13:30 onUpdate: default/kuard
+<span class="m">2019</span>/03/03 <span class="m">15</span>:13:36 onUpdate: default/kuard</code></pre></div>
+<p>이제 배포된 Pod을 클러스터에서 제거하면, 역시 삭제되었다는 이벤트를 컨트롤러를 통해 수신하게 된다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl delete po kuard</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="m">2019</span>/03/03 <span class="m">15</span>:16:19 onUpdate: default/kuard
+<span class="m">2019</span>/03/03 <span class="m">15</span>:16:19 onDelete: default/kuard</code></pre></div>
+<p>이상, 컨트롤러의 동작을 간단히 확인해 보았다. 클러스터에는 여러 개의 컨트롤러를 붙일 수 있으며, 단지 각각의 컨트롤러가 동일한 작업을 하지 않으면 문제 없다고 한다. 또한 컨트롤러는 여러 언어로 된 라이브러리가 있기 때문에, 굳이 Go언어로 작성될 필요는 없다고 한다.</p>
+
+<p>반응형 컨트롤러를 작성하기 위한 여러가지 유틸리티와 라이브러리가 있으며, 한 가지 베스트 프랙티스 중 하나는 Queue를 사용하는 것이다. 클러스터 자체가 매우 bursty하고 여러 가지 변경이 매우 많기 때문에, 클러스터에 대한 모든 변경을 하나씩 일일히 처리하기 보다는 비슷한 종류의 변경들은 하나로 묶어서 큐를 통해 처리하게 되면, rate limit을 사용해서 클러스터 변경에 대해 서버가 얼마나 세게 치는지 알 수 있다고 한다. 이를 위해 쿠버네티스 클라이언트에서 <strong><a href="https://github.com/kubernetes/client-go/tree/master/examples/workqueue" target="_blank">Workqueue</a></strong>를 제공하고 있다.</p>
+
+<h3 id="pod-watcher-코드-설명">Pod-Watcher 코드 설명</h3>
+
+<p>이제 코드를 간단히 살펴보자.</p>
+
+<p>다음은 <code>k8s-controller.go</code> 파일에서 설정 파일을 잡아주는 부분으로,</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">	<span class="k">if</span> <span class="nx">kubeconfig</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+		<span class="nx">config</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">clientcmd</span><span class="p">.</span><span class="nx">BuildConfigFromFlags</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">kubeconfig</span><span class="p">)</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">config</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">InClusterConfig</span><span class="p">()</span>
+	<span class="p">}</span></code></pre></div>
+<p>위 코드는 쿠버네티스 클라이언트를 <code>KUBECONFIG</code> 환경변수 또는 <code>kubeconfig</code> 플래그를 통해서 설정하거나 또는 만약 컨트롤러가 쿠버네티스 클러스터 내에 있다면, 기본값으로 restClient를 설정하게 된다.</p>
+
+<p>다음으로 설정된 환경변수에 대해 새로운 클라이언트를 생성한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">client</span> <span class="o">:=</span> <span class="nx">kubernetes</span><span class="p">.</span><span class="nx">NewForConfigOrDie</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span></code></pre></div>
+<p>그리고 <code>sharedInformer</code>를 생성하는데, 쿠버네티스 오브젝트에 대한 미러를 캐시하다가 특정 오브젝트의 변경이 있으면 알려주는 주는 역할을 한다. 쿠버네티스 내에서는 각각 자신들만의 컨트롤러가 쿠버네티스 객체에 대해 미러를 유지하는데, 이는 매우 큰 클러스터의 경우 매우 메모리 집약적인 작업이다. 따라서 여러 컨트롤러가 공유해서 사용하는 뭔가가 필요한데, <code>SharedInformer</code>가 그 역할을 한다고 볼 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">	<span class="nx">sharedInformers</span> <span class="o">:=</span> <span class="nx">informers</span><span class="p">.</span><span class="nx">NewSharedInformerFactory</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">)</span>
+	<span class="nx">k8sController</span> <span class="o">:=</span> <span class="nx">NewK8SController</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span> <span class="nx">sharedInformers</span><span class="p">.</span><span class="nx">Core</span><span class="p">().</span><span class="nx">V1</span><span class="p">().</span><span class="nx">Pods</span><span class="p">())</span></code></pre></div>
+<p>이제, <code>controller.go</code>의 소스를 살펴보자.</p>
+
+<p>먼저 <code>podGetter</code>는 쿠버네티스 클라이언트를 통해 해당 Pod 정보를 획득하고, <code>podLister</code>는 <code>SharedInformer</code>의 캐시를 통해 Pod 목록을 획득한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">K8SController</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">podGetter</span>       <span class="nx">corev1</span><span class="p">.</span><span class="nx">PodsGetter</span>
+	<span class="nx">podLister</span>       <span class="nx">listercorev1</span><span class="p">.</span><span class="nx">PodLister</span>
+	<span class="nx">podListerSynced</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">InformerSynced</span>
+<span class="p">}</span></code></pre></div>
+<p>다음으로 <code>SharedInformer</code>에 이벤트 핸들러를 추가한다. 이 부분은 이벤트 옵저버 패턴의 일반적인 형식으로 볼 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">	<span class="nx">podInformer</span><span class="p">.</span><span class="nx">Informer</span><span class="p">().</span><span class="nx">AddEventHandler</span><span class="p">(</span>
+		<span class="nx">cache</span><span class="p">.</span><span class="nx">ResourceEventHandlerFuncs</span><span class="p">{</span>
+			<span class="nx">AddFunc</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">obj</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+				<span class="nx">c</span><span class="p">.</span><span class="nx">onAdd</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+			<span class="p">},</span>
+			<span class="nx">UpdateFunc</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">oldObj</span><span class="p">,</span> <span class="nx">newObj</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+				<span class="nx">c</span><span class="p">.</span><span class="nx">onUpdate</span><span class="p">(</span><span class="nx">oldObj</span><span class="p">,</span> <span class="nx">newObj</span><span class="p">)</span>
+			<span class="p">},</span>
+			<span class="nx">DeleteFunc</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">obj</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+				<span class="nx">c</span><span class="p">.</span><span class="nx">onDelete</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+			<span class="p">},</span>
+		<span class="p">},</span>
+	<span class="p">)</span></code></pre></div>
+<p>그리고, <code>onAdd</code>, <code>onUpdate</code>, <code>onDelete</code> 등 각각의 이벤트 핸들러를 구현한다. <code>cache.MetaNamespaceKeyFunc</code>는 <code>default/kuard</code>에서처럼, 네임스페이스와 객체의 이름을 바인딩한 값을 캐쉬에 대한 키로 가져온다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">K8SController</span><span class="p">)</span> <span class="nx">onAdd</span><span class="p">(</span><span class="nx">obj</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;onAdd: object: %#v: %v&#34;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">)</span>
+	<span class="nx">key</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">MetaNamespaceKeyFunc</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;onAdd: error getting key for: %#v: %v&#34;</span><span class="p">,</span> <span class="nx">obj</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="nx">runtime</span><span class="p">.</span><span class="nx">HandleError</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;onAdd: %v&#34;</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<p>다음은 캐시 싱크를 수행하는 함수이다. 완료될 때까지 기다리고, 만약 큐를 이용한다면, 싱크 전에 큐를 로딩해주고 워커를 실행해야한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">K8SController</span><span class="p">)</span> <span class="nx">Run</span><span class="p">(</span><span class="nx">stop</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kd">struct</span><span class="p">{})</span> <span class="p">{</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;waiting for cache sync&#34;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">cache</span><span class="p">.</span><span class="nx">WaitForCacheSync</span><span class="p">(</span><span class="nx">stop</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">podListerSynced</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;timed out waiting for cache sync&#34;</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;caches are synced&#34;</span><span class="p">)</span>
+
+	<span class="c1">// wait until we&#39;re told to stop
+</span><span class="c1"></span>	<span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;waiting for stop signal&#34;</span><span class="p">)</span>
+	<span class="o">&lt;-</span><span class="nx">stop</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&#34;received stop signal&#34;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<h2 id="시크릿-컨트롤러">시크릿 컨트롤러</h2>
+
+<p>다음으로 작성해 볼 컨트롤러는 시크릿 컨트롤러이다.</p>
+
+<p>예를 들어, 여러 개발자가 사용하는 쿠버네티스 클러스터를 셋업했고, 네임스페이스마다 개발자를 할당하여 뭔가를 한다고 할 때, 공유 데이터베이스를 사용하지 않고 개발자들에게 쿠버네티스 시크릿을 모든 개발자들의 네임스페이스에 전파하는 것이 이슈가 될 수 있다. 이를 해결하기 위해 이를테면, 일종의 시크릿을 배포하는 컨트롤러를 만들 수 있을 것이다.</p>
+
+<p>자세한 소스 코드는 <code>secret-controller</code> 태그를 참고한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ git checkout secret-controller</code></pre></div>
+<p>소스를 보면, Secret 컴포넌트에 대한 이벤트를 핸들링하는 <strong><a href="https://github.com/ziwon/k8s-controller/blob/secret-controller/controller.go#L110" target="_blank">handleSecretChange(obj interface{})</a></strong> 컨트롤러 메소드가 추가되었다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">K8SController</span><span class="p">)</span> <span class="nx">handleSecretChange</span><span class="p">(</span><span class="nx">obj</span> <span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+	<span class="nx">secret</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">obj</span><span class="p">.(</span><span class="o">*</span><span class="nx">apicorev1</span><span class="p">.</span><span class="nx">Secret</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+		<span class="c1">// TODO: this is probably a `DeletedFinalStateUnknown`.  Figure out what
+</span><span class="c1"></span>		<span class="c1">// to do.
+</span><span class="c1"></span>		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">secret</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">.</span><span class="nx">Namespace</span> <span class="o">!=</span> <span class="nx">secretSyncSourceNamespace</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Skipping secret in wrong namespace&#34;</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="nx">secret</span><span class="p">.</span><span class="nx">Type</span> <span class="o">!=</span> <span class="nx">secretSyncType</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Skipping secret of wrong type&#34;</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Do something with this secret&#34;</span><span class="p">)</span>
+	<span class="nx">nsList</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">namespaceGetter</span><span class="p">.</span><span class="nx">Namespaces</span><span class="p">().</span><span class="nx">List</span><span class="p">(</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">{})</span>
+
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Error listeing namespaces: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ns</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">nsList</span><span class="p">.</span><span class="nx">Items</span> <span class="p">{</span>
+		<span class="nx">nsName</span> <span class="o">:=</span> <span class="nx">ns</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">.</span><span class="nx">Name</span>
+		<span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">namespaceBlacklist</span><span class="p">[</span><span class="nx">nsName</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;Skipping namespace on blacklist: %v&#34;</span><span class="p">,</span> <span class="nx">nsName</span><span class="p">)</span>
+			<span class="k">continue</span>
+		<span class="p">}</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;We should copy %s to namespace %s&#34;</span><span class="p">,</span> <span class="nx">secret</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span> <span class="nx">ns</span><span class="p">.</span><span class="nx">ObjectMeta</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
+		<span class="nx">c</span><span class="p">.</span><span class="nx">copySecretToNamespace</span><span class="p">(</span><span class="nx">secret</span><span class="p">,</span> <span class="nx">nsName</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+<p>시크릿을 복사할 때, <code>kube-public</code>, <code>kube-system</code> 네임스페이스는 제외한 다른 네임스페이스에 복사하는 작업을 수행하고 있다. 실제 시크릿을 복사하는 코드는 시간관계상 생략되었지만, 그 구현 내용은 다음과 같이 주석을 참고한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">K8SController</span><span class="p">)</span> <span class="nx">copySecretToNamespace</span><span class="p">(</span><span class="nx">secret</span> <span class="o">*</span><span class="nx">apicorev1</span><span class="p">.</span><span class="nx">Secret</span><span class="p">,</span> <span class="nx">nsName</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// TODO:
+</span><span class="c1"></span>	<span class="c1">// 1. Make a deep copy of the secret
+</span><span class="c1"></span>	<span class="c1">// 2. Remove things like object version that&#39;ll prevent us from writing
+</span><span class="c1"></span>	<span class="c1">// 3. Write in new namespace
+</span><span class="c1"></span>	<span class="c1">// 4. Do a create or update for the new object
+</span><span class="c1"></span><span class="p">}</span></code></pre></div>
+<p>이제, 클러스터에 <code>secretsync</code>라는 네임스페이스를 만든다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create namespace secretsync</code></pre></div>
+<p>시크릿을 만드는 방법과 관련된 옵션은 다음과 같이 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create --namespace<span class="o">=</span>secretsync secret generic --help
+Create a secret based on a file, directory, or specified literal value.
+
+A single secret may package one or more key/value pairs.
+
+When creating a secret based on a file, the key will default to the basename of the file, and the
+value will default to the file content. If the basename is an invalid key or you wish to chose your
+own, you may specify an alternate key.
+
+When creating a secret based on a directory, each file whose basename is a valid key in the
+directory will be packaged into the secret. Any directory entries except regular files are ignored
+<span class="o">(</span>e.g. subdirectories, symlinks, devices, pipes, etc<span class="o">)</span>.
+
+Examples:
+  <span class="c1"># Create a new secret named my-secret with keys for each file in folder bar
+</span><span class="c1"></span>  kubectl create secret generic my-secret --from-file<span class="o">=</span>path/to/bar
+
+  <span class="c1"># Create a new secret named my-secret with specified keys instead of names on disk
+</span><span class="c1"></span>  kubectl create secret generic my-secret --from-file<span class="o">=</span>ssh-privatekey<span class="o">=</span>~/.ssh/id_rsa
+--from-file<span class="o">=</span>ssh-publickey<span class="o">=</span>~/.ssh/id_rsa.pub
+
+  <span class="c1"># Create a new secret named my-secret with key1=supersecret and key2=topsecret
+</span><span class="c1"></span>  kubectl create secret generic my-secret --from-literal<span class="o">=</span><span class="nv">key1</span><span class="o">=</span>supersecret
+--from-literal<span class="o">=</span><span class="nv">key2</span><span class="o">=</span>topsecret
+
+  <span class="c1"># Create a new secret named my-secret using a combination of a file and a literal
+</span><span class="c1"></span>  kubectl create secret generic my-secret --from-file<span class="o">=</span>ssh-privatekey<span class="o">=</span>~/.ssh/id_rsa
+--from-literal<span class="o">=</span><span class="nv">passphrase</span><span class="o">=</span>topsecret
+
+  <span class="c1"># Create a new secret named my-secret from an env file
+</span><span class="c1"></span>  kubectl create secret generic my-secret --from-env-file<span class="o">=</span>path/to/bar.env</code></pre></div>
+<p>위 가이드 메세지를 따라, , <code>--from-literal</code> 옵션으로, <code>--type</code>의 값은 <code>k8s.ziwon.dev/secretsync</code>이고, 이름이 <code>supersecret</code>인 시크릿을 생성한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ kubectl create --namespace<span class="o">=</span>secretsync secret generic supersecret --from-literal<span class="o">=</span><span class="nv">ziwon</span><span class="o">=</span>awsome --type<span class="o">=</span>k8s.ziwon.dev/secretsync
+secret/supersecret created</code></pre></div>
+<p>만들어진 시크릿은 다음과 같이 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ k get secrets
+NAME                  TYPE                                  DATA   AGE
+default-token-vhc89   kubernetes.io/service-account-token   <span class="m">3</span>      12m
+supersecret           k8s.ziwon.dev/secretsync              <span class="m">1</span>      11m</code></pre></div>
+<p>시크릿 컨트롤러를 실행하면, 다음과 같이 <code>secretsync/supersecret</code>에 대해 핸들링하는 컨트롤러의 동작을 확인할 수 있다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">$ go run *.go
+...
+<span class="m">2019</span>/03/03 <span class="m">18</span>:09:22 onAdd: secretsync/supersecret
+<span class="m">2019</span>/03/03 <span class="m">18</span>:09:22 Do something with this secret
+<span class="m">2019</span>/03/03 <span class="m">18</span>:09:22 We should copy supersecret to namespace default</code></pre></div>
+<p>이상, 간단하게 Pod Watcher 컨트롤러와 Secret Controller를 만들어 보았다.</p>
+
+<h2 id="기타">기타</h2>
+
+<ul>
+<li><a href="https://engineering.bitnami.com/articles/a-deep-dive-into-kubernetes-controllers.html" target="_blank">A Deep Dive Into Kubernetes Controllers</a></li>
+</ul>
+
+        
+        <div class="related">
+
+<h3>Similar articles:</h3>
+<ul>
+	
+	<li><a href="/post/tgik-006/">TGI Kubernetes 006: kubeadm</a></li>
+	
+	<li><a href="/post/tgik-005/">TGI Kubernetes 005: Pod Params and Probes</a></li>
+	
+	<li><a href="/post/tgik-004/">TGI Kubernetes 004: RBAC</a></li>
+	
+	<li><a href="/post/tgik-003/">TGI Kubernetes 003: Istio</a></li>
+	
+	<li><a href="/post/tgik-002/">TGI Kubernetes 002: Networking and Services</a></li>
+	
+</ul>
+</div>
+        
+      </div>
+    </article>
+    
+
+    
+    <nav class="post-nav">
+        
+        
+        <a class="next" href="/post/docker-storage-volumes/">
+            <span class="next-text nav-default">[번역] 도커 볼륨</span>
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
+
+  </div>
+ 
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      disqus();
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Philbert Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-129419926-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
+

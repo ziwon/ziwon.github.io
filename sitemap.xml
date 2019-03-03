@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ziwon.github.io/post/tgik-007/</loc>
+    <lastmod>2019-03-03T13:25:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/post/docker-storage-volumes/</loc>
     <lastmod>2019-02-24T16:59:00+09:00</lastmod>
   </url>
@@ -129,6 +134,12 @@
   </url>
   
   <url>
+    <loc>https://ziwon.github.io/tags/controller/</loc>
+    <lastmod>2019-03-03T13:25:00+09:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://ziwon.github.io/tags/coursera/</loc>
     <lastmod>2014-01-22T11:15:43+09:00</lastmod>
     <priority>0</priority>
@@ -196,7 +207,7 @@
   
   <url>
     <loc>https://ziwon.github.io/tags/kubernetes/</loc>
-    <lastmod>2019-02-22T10:25:00+09:00</lastmod>
+    <lastmod>2019-03-03T13:25:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -238,7 +249,7 @@
   
   <url>
     <loc>https://ziwon.github.io/post/</loc>
-    <lastmod>2019-02-24T16:59:00+09:00</lastmod>
+    <lastmod>2019-03-03T13:25:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -334,7 +345,7 @@
   
   <url>
     <loc>https://ziwon.github.io/</loc>
-    <lastmod>2019-02-24T16:59:00+09:00</lastmod>
+    <lastmod>2019-03-03T13:25:00+09:00</lastmod>
     <priority>0</priority>
   </url>
   
