@@ -16,7 +16,7 @@
       <title>Cosmos란 무엇인가</title>
       <link>https://ziwon.github.io/post/cosmos-intro/</link>
       <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/cosmos-intro/</guid>
       <description></description>
       
@@ -276,7 +276,7 @@ Proof-of-Work 체인과 같이 빠른 파이널리티를 갖지 않는 블록체
       <title>TGI Kubernetes 007: Controller 만들기</title>
       <link>https://ziwon.github.io/post/tgik-007/</link>
       <pubDate>Sun, 03 Mar 2019 13:25:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-007/</guid>
       <description></description>
       
@@ -561,7 +561,7 @@ supersecret           k8s.ziwon.dev/secretsync              &lt;span class=&#34;
       <title>[번역] 도커 볼륨</title>
       <link>https://ziwon.github.io/post/docker-storage-volumes/</link>
       <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/docker-storage-volumes/</guid>
       <description></description>
       
@@ -880,7 +880,7 @@ $ docker volume rm nginx-vol&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       <title>TGI Kubernetes 006: kubeadm</title>
       <link>https://ziwon.github.io/post/tgik-006/</link>
       <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-006/</guid>
       <description></description>
       
@@ -1545,7 +1545,7 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
       <title>[번역] 도커 스토리지 소개</title>
       <link>https://ziwon.github.io/post/docker-storage-overview/</link>
       <pubDate>Wed, 20 Feb 2019 11:55:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/docker-storage-overview/</guid>
       <description></description>
       
@@ -1683,7 +1683,7 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
       <title>TGI Kubernetes 005: Pod Params and Probes</title>
       <link>https://ziwon.github.io/post/tgik-005/</link>
       <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-005/</guid>
       <description></description>
       
@@ -1988,7 +1988,7 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
       <title>TGI Kubernetes 004: RBAC</title>
       <link>https://ziwon.github.io/post/tgik-004/</link>
       <pubDate>Tue, 05 Feb 2019 11:55:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-004/</guid>
       <description></description>
       
@@ -3188,7 +3188,7 @@ helm init --service-account tiller --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt
       <title>TGI Kubernetes 003: Istio</title>
       <link>https://ziwon.github.io/post/tgik-003/</link>
       <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-003/</guid>
       <description></description>
       
@@ -3651,7 +3651,7 @@ serviceAccount: istio-pilot-service-account&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       <title>TGI Kubernetes 002: Networking and Services</title>
       <link>https://ziwon.github.io/post/tgik-002/</link>
       <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-002/</guid>
       <description></description>
       
@@ -4497,7 +4497,7 @@ status:
       <title>[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</title>
       <link>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</link>
       <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</guid>
       <description></description>
       
@@ -5485,7 +5485,7 @@ host-B $ docker network create -d macvlan --subnet &lt;span class=&#34;m&#34;&gt
       <title>TGI Kubernetes 001: A Quick Tour</title>
       <link>https://ziwon.github.io/post/tgik-001/</link>
       <pubDate>Sun, 13 Jan 2019 17:12:00 +0000</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-001/</guid>
       <description></description>
       
@@ -5694,7 +5694,7 @@ kubectl rollout undo deployment kuard
       <title>Kops에서 Bastion 호스트 SSH로 접속하기</title>
       <link>https://ziwon.github.io/post/bastion-in-kops/</link>
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
       <description></description>
       
@@ -5743,7 +5743,7 @@ core@ip-10-1-178-52 ~ $&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
       <title>[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</title>
       <link>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</link>
       <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</guid>
       <description></description>
       
@@ -6182,7 +6182,7 @@ core@ip-10-1-178-52 ~ $&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
       <title>[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</title>
       <link>https://ziwon.github.io/post/python_magic_methods/</link>
       <pubDate>Mon, 30 Jan 2017 03:37:00 +0000</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/python_magic_methods/</guid>
       <description></description>
       
@@ -6788,7 +6788,7 @@ Not closable.
       <title>Using custom model_to_dict() in Django</title>
       <link>https://ziwon.github.io/post/using_custom_model_to_dict_in_django/</link>
       <pubDate>Fri, 09 Dec 2016 11:00:25 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/using_custom_model_to_dict_in_django/</guid>
       <description></description>
       
@@ -6928,7 +6928,7 @@ Not closable.
       <title>[번역] Effective Go: Concurrency</title>
       <link>https://ziwon.github.io/post/effective-go-concurrency/</link>
       <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/effective-go-concurrency/</guid>
       <description></description>
       
@@ -7174,7 +7174,7 @@ Not closable.
       <title>Falcon REST API</title>
       <link>https://ziwon.github.io/post/falcon-rest-template/</link>
       <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/falcon-rest-template/</guid>
       <description></description>
       
@@ -7229,7 +7229,7 @@ SMC Version &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;system&lt;span class=&#3
       <title>Generics of a Higher Kind</title>
       <link>https://ziwon.github.io/post/generics-of-a-higher-kind/</link>
       <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/generics-of-a-higher-kind/</guid>
       <description></description>
       
@@ -7533,7 +7533,7 @@ SMC Version &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;system&lt;span class=&#3
       <title>Principles of Reactive Programming</title>
       <link>https://ziwon.github.io/post/principles-of-reactive-programming/</link>
       <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/principles-of-reactive-programming/</guid>
       <description></description>
       
@@ -7550,7 +7550,7 @@ went on. Now where to go?&lt;/p&gt;
       <title>Lambda Calculus</title>
       <link>https://ziwon.github.io/post/lambda-calculus/</link>
       <pubDate>Tue, 22 Oct 2013 13:03:05 +0900</pubDate>
-      <author>Philbert Yoon</author>
+      <author>Aron Yoon</author>
       <guid>https://ziwon.github.io/post/lambda-calculus/</guid>
       <description></description>
       
