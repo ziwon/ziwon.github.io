@@ -143,7 +143,7 @@
 
 &lt;h3 id=&#34;워크샵-저장소&#34;&gt;워크샵 저장소&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/davecheney/high-performance-go-workshop에서&#34; target=&#34;_blank&#34;&gt;https://github.com/davecheney/high-performance-go-workshop에서&lt;/a&gt; 이 문서에 대한 소스와 및 코드 샘플을 다운로드하세요.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/davecheney/high-performance-go-workshop&#34; target=&#34;_blank&#34;&gt;https://github.com/davecheney/high-performance-go-workshop&lt;/a&gt;에서 이 문서에 대한 소스와 및 코드 샘플을 다운로드하세요.&lt;/p&gt;
 
 &lt;h3 id=&#34;노트북-전원-공급-장치-등&#34;&gt;노트북, 전원 공급 장치 등&lt;/h3&gt;
 
@@ -152,7 +152,7 @@
 &lt;p&gt;&lt;a href=&#34;https://golang.org/dl/&#34; target=&#34;_blank&#34;&gt;Go 1.12 다운로드&lt;/a&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Go 1.13으로 이미 업그레이드했다면 좋습니다. Go  마이너 릴리즈마다  최적화 선택에 따른 항상 약간의 변경 사항이 있는데, 진행하면서 언급하겠습니다.&lt;/p&gt;
+&lt;p&gt;Go 1.13으로 이미 업그레이드했다면 좋습니다. Go 마이너 릴리즈마다 항상 최적화 선택에 따라 약간의 변경 사항이 있는데, 진행하면서 언급하겠습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&#34;graphviz&#34;&gt;Graphviz&lt;/h3&gt;
@@ -174,7 +174,7 @@
 
 &lt;h3 id=&#34;구글-크롬&#34;&gt;구글 크롬&lt;/h3&gt;
 
-&lt;p&gt;엑스큐선 트레이서 (execution tracer) 섹션에서 구글 크롬이 필요합니다. Safari, Edge, Firefox 또는 IE 4.01에서는 작동하지 않습니다. 배터리에게 미안하다고 말해주세요.&lt;/p&gt;
+&lt;p&gt;엑스큐선 트레이서 (execution tracer) 섹션에서 구글 크롬이 필요합니다. Safari, Edge, Firefox 또는 IE 4.01에서는 작동하지 않습니다. 배터리에게 미안하다고 말해주세요. (역자주, 미국식 농담??)&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://www.google.com/chrome/&#34; target=&#34;_blank&#34;&gt;구글 크롬 다운로드&lt;/a&gt;&lt;/p&gt;
 
@@ -186,7 +186,7 @@
 
 &lt;p&gt;이건 강의가 아니라 대화입니다. 질문을 할 수 있는 많은 휴식 시간이 있을 겁니다.&lt;/p&gt;
 
-&lt;p&gt;만약 여러분이 무언가를 이해하지 못하거나, 여러분이 듣고 있는 것이 정확하지 않다고 된다면, 질문하세요.&lt;/p&gt;
+&lt;p&gt;만약 여러분이 무언가를 이해하지 못하거나, 여러분이 듣고 있는 것이 정확하지 않다고 생각된다면, 질문하세요.&lt;/p&gt;
 
 &lt;h2 id=&#34;1-마이크로-프로세서의-과거-현재-그리고-미래&#34;&gt;1. 마이크로 프로세서의 과거, 현재, 그리고 미래&lt;/h2&gt;
 
@@ -200,7 +200,7 @@
 
 &lt;p&gt;&lt;img src=&#34;https://dave.cheney.net/high-performance-go-workshop/images/image-20180818145606919.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;요즘 대중적으로 사용되는 용어가 있는데, 마틴 톰슨(Martin Thompson)이나 빌 케네디(Bill Kennedy) 같은 사람들이 &amp;ldquo;기계적인 공감&amp;rdquo;에 대해 이야기하는 것을 들을 수 있습니다.&lt;/p&gt;
+&lt;p&gt;요즘 대중적으로 사용되는 용어가 있는데, 마틴 톰슨(Martin Thompson)이나 빌 케네디(Bill Kennedy) 같은 사람들이 &amp;ldquo;기계적 공감&amp;rdquo;에 대해 이야기하는 것을 들을 수 있습니다.&lt;/p&gt;
 
 &lt;p&gt;&amp;ldquo;기계적 공감&amp;rdquo;이라는 이름은 세계 3대 포뮬라1 챔피언인 위대한 경주 자동차 드라이버인 재키 스튜어트(Jackie Stewart)로부터 유래했습니다. 그는 최고의 운전자는 기계가 어떻게 작동하는지 충분히 이해하고 있어서 기계와 조화를 이룰 수 있다고 믿었습니다.&lt;/p&gt;
 
@@ -208,7 +208,7 @@
 
 &lt;p&gt;소프트웨어 엔지니어들도 마찬가지라고 생각합니다. 저는 이 자리에 계신 여러분 중 누구도 전문적인 CPU 디자이너가 되지는 않을 것이라고 생각합니다. 하지만 그렇다고 해서 CPU 디자이너들이 직면하고 있는 문제들을 무시할 수는 없습니다.&lt;/p&gt;
 
-&lt;h3 id=&#34;1-2-6자리-수의-크기&#34;&gt;1.2 6자리 수의 크기&lt;/h3&gt;
+&lt;h3 id=&#34;1-2-10의-6승&#34;&gt;1.2 10의 6승&lt;/h3&gt;
 
 &lt;p&gt;다음과 같은 일반적인 인터넷 밈이 있습니다.&lt;/p&gt;
 
@@ -216,7 +216,7 @@
 
 &lt;p&gt;물론 말도 안 되는 소리이지만, 이는 컴퓨터 업계에서 얼마나 많은 변화가 일어났는지를 잘 보여주고 있습니다.&lt;/p&gt;
 
-&lt;p&gt;이 자리에 모인 소프트웨어 저자들은 모두 무어의 법칙의 혜택을 받아왔기 때문에, 40년 동안 18개월마다 칩에서 사용할 수 있는 트랜지스터의 수가 두 배로 증가했습니다. 평생동안 툴이 6자리 수의 크기로 개선된 산업 분야는 없습니다.&lt;/p&gt;
+&lt;p&gt;이 자리에 모인 소프트웨어 저자들은 모두 무어의 법칙의 혜택을 받아왔기 때문에, 40년 동안 18개월마다 칩에서 사용할 수 있는 트랜지스터의 수가 두 배로 증가했습니다. 평생동안 툴이 10의 6승 만큼 개선된 산업 분야는 없습니다.&lt;/p&gt;
 
 &lt;p&gt;하지만 이 모든 것이 변하고 있습니다.&lt;/p&gt;
 
