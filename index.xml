@@ -432,7 +432,7 @@
 &lt;h3 id=&#34;1-14-결론&#34;&gt;1.14 결론&lt;/h3&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;제가 인용하고자 하는 숫자는 2010년까지 30GHz, 100억 개의 트랜지스터, 초당 1테라 명령입니다. — &lt;a href=&#34;https://www.cnet.com/news/intel-cto-chip-heat-becoming-critical-issue/&#34; target=&#34;_blank&#34;&gt;Pat Gelsinger, Intel CTO, 2002년 4월&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;제가 인용하고자 하는 숫자는 2010년까지 입니다. 즉, 30GHz, 100억 개의 트랜지스터, 초당 1테라 인스트럭션이죠 — &lt;a href=&#34;https://www.cnet.com/news/intel-cto-chip-heat-becoming-critical-issue/&#34; target=&#34;_blank&#34;&gt;Pat Gelsinger, Intel CTO, 2002년 4월&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;재료 과학의 획기적인 발전없이는 CPU 성능의 연간 증가율 52%의 시대로 돌아올 가능성이 거의 없다는 것이 분명합니다. 일반적인 합의는 재료 과학 자체가 아니라 트랜지스터 사용 방법에 결함이 있다는 것입니다. 실리콘으로 표현된 순차적 명령흐름의 논리적 모델은 값비싼 최종 게임으로 귀결됩니다.&lt;/p&gt;
@@ -543,10 +543,7 @@ PASS
 ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;.671s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;go test&lt;/code&gt;는 벤치마크와 일치하기 전에 패키지의 모든 테스트를 실행합니다. 따라서, 패키지에 많은 테스트가 있거나 실행하는 데 시간이 오래 걸리면 &lt;code&gt;go test&lt;/code&gt;의 &lt;code&gt;-run&lt;/code&gt; 플래그에 아무것도 일치하지 않는 정규식을 줘서 테스트에서 제외시킬 수 있습니다.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;go test -run=^$ 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -run&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;^$	&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/blockquote&gt;
 
 &lt;h4 id=&#34;2-2-2-벤치마크-동작-방식&#34;&gt;2.2.2 벤치마크 동작 방식&lt;/h4&gt;
 
@@ -560,17 +557,14 @@ ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span
 
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;-8&lt;/code&gt; 접미사는 이 테스트를 실행하는 데 사용된 &lt;code&gt;GOMAXPROCS&lt;/code&gt; 값과 관련이 있습니다. 이 숫자는 &lt;code&gt;GOMAXPROCS&lt;/code&gt;와 마찬가지로, 시작시 Go 프로세스에서 보이는 CPU 수로 기본 설정됩니다. 벤치마크를 실행할 값 목록을 가져오는 &lt;code&gt;-cpu&lt;/code&gt; 플래그를 사용하여 이 값을 변경할 수 있습니다.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;% go test -bench=. -cpu=1,2,4 ./examples/fib/
-goos: darwin
-goarch: amd64
-BenchmarkFib20             30000             39115 ns/op
-BenchmarkFib20-2           30000             39468 ns/op
-BenchmarkFib20-4           50000             40728 ns/op
-PASS
-ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     5.531s
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;    % go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. -cpu&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;,2,4 ./examples/fib/
+    goos: darwin
+    goarch: amd64
+    BenchmarkFib20             &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39115&lt;/span&gt; ns/op
+    BenchmarkFib20-2           &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39468&lt;/span&gt; ns/op
+    BenchmarkFib20-4           &lt;span class=&#34;m&#34;&gt;50000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;40728&lt;/span&gt; ns/op
+    PASS
+    ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;.531s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;여기에서는 1, 2, 4개의 코어로 벤치마크를 실행하고 있습니다. 이 경우 이 벤치마크는 완전히 순차적이므로 플래그가 결과에 거의 영향을 미치지 않습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -873,7 +867,7 @@ ok      bufio   20.366s
 
 &lt;p&gt;질문 있으세요?&lt;/p&gt;
 
-&lt;p&gt;아마 휴식 시간입니다.&lt;/p&gt;
+&lt;p&gt;휴식 시간이겠군요.&lt;/p&gt;
 
 &lt;h2 id=&#34;3-성능-측정-및-프로파일링&#34;&gt;3. 성능 측정 및 프로파일링&lt;/h2&gt;
 
@@ -894,7 +888,7 @@ ok      bufio   20.366s
 &lt;li&gt;&lt;code&gt;go tool pprof&lt;/code&gt;는 프로파일을 조사합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;3-2-프로파일-타입&#34;&gt;3.2 프로파일 타입&lt;/h3&gt;
+&lt;h3 id=&#34;3-2-프로파일링-타입&#34;&gt;3.2 프로파일링 타입&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;pprof&lt;/code&gt;는 여러 타입의 프로파일링을 지원합니다. 오늘은 이들 중 세 가지에 대해 설명하겠습니다.&lt;/p&gt;
 
@@ -924,7 +918,7 @@ ok      bufio   20.366s
 &lt;p&gt;CPU 프로파일링과 같은 메모리 프로파일링은 기본적으로 1000개 할당마다 메모리 프로파일링 샘플 1을 기본으로 합니다. 이 비율은 변경할 수 있습니다.&lt;/p&gt;
 
 &lt;p&gt;메모리 프로파일링은 샘플 기반이며 사용하지 않는 할당을 추적하기 때문에 메모리 프로파일링을 사용하여 애플리케이션의 전체 메모리 사용량을 결정하는 것은 어렵습니다.
-                                                                                                                                                                                                                                                                                                                                                   개인적인 의견: 메모리 누수를 찾는 데 유용한 메모리 프로파일링을 찾지 못했습니다. 애플리케이션에서 사용중인 메모리 양을 확인하는 더 좋은 방법이 있습니다. 나중 프레젠테이션에서 이에 대해 논의할 것입니다.&lt;/p&gt;
+                                                                                                                                                                                                                                                                                                                                                   &lt;em&gt;개인적인 의견&lt;/em&gt;: 메모리 누수를 찾는 데 유용한 메모리 프로파일링을 찾지 못했습니다. 애플리케이션에서 사용중인 메모리 양을 확인하는 더 좋은 방법이 있습니다. 나중 프레젠테이션에서 이에 대해 논의할 것입니다.&lt;/p&gt;
 
 &lt;h4 id=&#34;3-2-3-블록-프로파일링&#34;&gt;3.2.3 블록 프로파일링&lt;/h4&gt;
 
@@ -954,7 +948,7 @@ ok      bufio   20.366s
 
 &lt;p&gt;프로파일링은 공짜가 아닙니다.&lt;/p&gt;
 
-&lt;p&gt;프로파일링은 프로그램 성능에 괜찮지만, 프로그램에 측정 가능한 영향을 미칩니다. 특히, 메모리 프로파일 샘플 속도를 증가시키는 증가시키는 경우&lt;/p&gt;
+&lt;p&gt;프로파일링은 프로그램 성능에 괜찮지만, 프로그램에 측정 가능한 영향을 미칩니다. 특히, 메모리 프로파일 샘플 속도를 증가시키는 경우에 그러합니다.&lt;/p&gt;
 
 &lt;p&gt;대부분의 도구는 한 번에 여러 프로파일링을 활성화하지 못하게 합니다.&lt;/p&gt;
 
@@ -1154,7 +1148,9 @@ Showing nodes accounting &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;입력 파일과 &lt;code&gt;readbyte&lt;/code&gt; 사이에 &lt;code&gt;bufio.Reader&lt;/code&gt;를 삽입하고&lt;/p&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;이 수정된 프로그램의 시간을 &lt;code&gt;wc&lt;/code&gt;와 비교해보세요. 얼마나 가까워졌나요? 프로필을 보고 뭐가 또 있는지 살펴보세요.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h4 id=&#34;3-5-5-메모리-프로파일링&#34;&gt;3.5.5 메모리 프로파일링&lt;/h4&gt;
 
