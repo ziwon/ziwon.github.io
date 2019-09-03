@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Golang on 人生は短くて使える時間も限られてる。</title>
-    <link>https://ziwon.github.io/tags/golang/</link>
-    <description>Recent content in Golang on 人生は短くて使える時間も限られてる。</description>
+    <title>Go on 人生は短くて使える時間も限られてる。</title>
+    <link>https://ziwon.github.io/tags/go/</link>
+    <description>Recent content in Go on 人生は短くて使える時間も限られてる。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Philbert Yoon&lt;/a&gt;</copyright>
     <lastBuildDate>Tue, 03 Sep 2019 20:07:00 +0900</lastBuildDate>
     
-	<atom:link href="https://ziwon.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ziwon.github.io/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -21,18 +21,6 @@
       <description>원글은 High Performance Go Workshop입니다. 학습 차원에서 허락없이 번역하였습니다. 저작권 등의 문제가 있을 경우, 이메일로 연락주시길 바랍니다.
  개요 이 워크샵의 목표는 Go 애플리케이션에서 성능 문제를 진단하고 해결하는 데 필요한 도구를 제공하는 것입니다.
 하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다. 남는 시간에 질문을 하며 자신의 코드로 실험해볼 수 있을 것입니다.</description>
-    </item>
-    
-    <item>
-      <title>[번역] Effective Go: Concurrency</title>
-      <link>https://ziwon.github.io/post/effective-go-concurrency/</link>
-      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/post/effective-go-concurrency/</guid>
-      <description>2016.10.04 - Effective Go의 한글화 작업이완료되었습니다. 아래 동시성 번역 역시 번역팀의 도움으로 갱신되었습니다.
-Effective Go 의 한글화 문서를 보던 중, Concurrency에 대한 부분이 빠져 있어서 해당 부분만 따로 번역했습니다. 원문의 출처는 여기입니다.
- 통신에 의한 공유 (Share by communicating) 동시성 프로그래밍은 광범위한 주제이므로 여기에서는 Go에 한정된 중요한 것들에 대해서만 지면을 할애한다.
-다양한 환경에서 동시성 프로그래은 공유 변수에 대한 정확한 접근을 구현하기 위해 엄수해야 하는 세세한 내용들로 어려워졌다. Go는 공유 변수가 채널을 돌려가며 전달된다는 점에서 다른 접근을 권장한다.</description>
     </item>
     
   </channel>

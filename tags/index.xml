@@ -148,9 +148,18 @@
     </item>
     
     <item>
+      <title>Go</title>
+      <link>https://ziwon.github.io/tags/go/</link>
+      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Golang</title>
       <link>https://ziwon.github.io/tags/golang/</link>
-      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
+      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/golang/</guid>
       <description></description>
@@ -162,6 +171,15 @@
       <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/heptio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>High Performance</title>
+      <link>https://ziwon.github.io/tags/high-performance/</link>
+      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/high-performance/</guid>
       <description></description>
     </item>
     
