@@ -30,7 +30,7 @@
 
 &lt;p&gt;이 워크샵의 목표는 Go 애플리케이션에서 성능 문제를 진단하고 해결하는 데 필요한 도구를 제공하는 것입니다.&lt;/p&gt;
 
-&lt;p&gt;하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다. 남는 시간에 질문을 하며 자신의 코드로 실험해볼 수 있을 것입니다.&lt;/p&gt;
+&lt;p&gt;하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다. 남는 시간에 질문을 하며 자신의 코드로 실험해 볼 수 있을 것입니다.&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;이 프리젠테이션의 최신 버전은 다음 사이트에서 제공됩니다.
@@ -123,7 +123,7 @@
 
 &lt;p&gt;이 워크샵은 Go 애플리케이션에서 성능 문제를 진단하고 해결하는 데 필요한 도구를 제공하려는 것이 목적입니다.&lt;/p&gt;
 
-&lt;p&gt;하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다. 남는 시간에 질문을 하며 자신의 코드로 실험해볼 수 있을 것입니다.&lt;/p&gt;
+&lt;p&gt;하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다. 남는 시간에 질문을 하며 자신의 코드로 실험해 볼 수 있을 것입니다.&lt;/p&gt;
 
 &lt;h3 id=&#34;강사&#34;&gt;강사&lt;/h3&gt;
 
@@ -133,7 +133,7 @@
 
 &lt;h2 id=&#34;라이센스-및-내용물&#34;&gt;라이센스 및 내용물&lt;/h2&gt;
 
-&lt;p&gt;이 워크숍은 &lt;a href=&#34;https://twitter.com/davecheney&#34; target=&#34;_blank&#34;&gt;데이비드 체니&lt;/a&gt;와 &lt;a href=&#34;https://twitter.com/francesc&#34; target=&#34;_blank&#34;&gt;프란체스코 캄포이&lt;/a&gt;의 합작품입니다.&lt;/p&gt;
+&lt;p&gt;이 워크숍은 &lt;a href=&#34;https://twitter.com/davecheney&#34; target=&#34;_blank&#34;&gt;데이브 체니&lt;/a&gt;와 &lt;a href=&#34;https://twitter.com/francesc&#34; target=&#34;_blank&#34;&gt;프란체스코 캄포이&lt;/a&gt;의 합작품입니다.&lt;/p&gt;
 
 &lt;p&gt;이 프레젠테이션은 &lt;a href=&#34;https://creativecommons.org/licenses/by-sa/4.0/&#34; target=&#34;_blank&#34;&gt;Creative Commons At Attion-ShareAlike 4.0 International&lt;/a&gt; 라이센스에 따라 라이센스가 부여됩니다.&lt;/p&gt;
 
@@ -160,16 +160,14 @@
 &lt;p&gt;pprof 섹션에서 그래피즈 도구 모음과 함께 제공되는 &lt;code&gt;dot&lt;/code&gt; 프로그램이 필요합니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Linux: &lt;code&gt;[sudo] apt-get install graphviz&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;OSX:&lt;/p&gt;
+&lt;li&gt;Linux: &lt;code&gt;[sudo] apt-get install graphviz&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;OSX:
 
 &lt;ul&gt;
 &lt;li&gt;MacPorts: &lt;code&gt;sudo port install graphviz&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Homebrew: &lt;code&gt;brew install graphviz&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://graphviz.gitlab.io/download/#Windows&#34; target=&#34;_blank&#34;&gt;Windows&lt;/a&gt; (테스트 안됨)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://graphviz.gitlab.io/download/#Windows&#34; target=&#34;_blank&#34;&gt;Windows&lt;/a&gt; (테스트 안됨)&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&#34;구글-크롬&#34;&gt;구글 크롬&lt;/h3&gt;
@@ -512,27 +510,25 @@
 		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
 		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
 		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Fib&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Fib&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;테스트 패키지를 사용하여 다음 형태로 함수의 벤치 마크를 작성할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;테스트 패키지를 사용하여 다음 형태로 함수의 벤치마크를 작성할 수 있습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;BenchmarkFib20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;testing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;B&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 		&lt;span class=&#34;nx&#34;&gt;Fib&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// run the Fib function b.N times
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;blockquote&gt;
-&lt;p&gt;벤치마크 함수는 테스트와 함께 &lt;code&gt;_test.go&lt;/code&gt; 파일에 있습니다.&lt;/p&gt;
+&lt;p&gt;벤치마크 함수는 &lt;code&gt;_test.go&lt;/code&gt; 파일에 테스트 함수와 나란히 있습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;벤치마크는 테스트와 유사하지만 유일한 차이점은 &lt;code&gt;*testing.T&lt;/code&gt; 대신 &lt;code&gt;* testing.B&lt;/code&gt;를 사용한다는 것입니다. 이 두 가지 유형 모두 &lt;code&gt;Errorf()&lt;/code&gt;, &lt;code&gt;Fatalf()&lt;/code&gt; 및 &lt;code&gt;FailNow()&lt;/code&gt;와 같은 크라우드 즐겨 찾기를 제공하는 &lt;code&gt;testing.TB&lt;/code&gt; 인터페이스를 구현합니다.&lt;/p&gt;
+&lt;p&gt;벤치마크는 테스트와 유사하지만 유일한 차이점은 &lt;code&gt;*testing.T&lt;/code&gt; 대신 &lt;code&gt;* testing.B&lt;/code&gt;를 사용한다는 것입니다. 이 두 가지 유형 모두 &lt;code&gt;Errorf()&lt;/code&gt;, &lt;code&gt;Fatalf()&lt;/code&gt; 및 &lt;code&gt;FailNow()&lt;/code&gt;와 같은 대중들이 좋아하는 &lt;code&gt;testing.TB&lt;/code&gt; 인터페이스를 구현합니다.&lt;/p&gt;
 
 &lt;h4 id=&#34;2-2-1-패키지의-벤치마크-실행&#34;&gt;2.2.1 패키지의 벤치마크 실행&lt;/h4&gt;
 
-&lt;p&gt;벤치마크에서 테스트 패키지를 사용할 때, &lt;code&gt;go test&lt;/code&gt; 하위 명령을 통해 실행됩니다. 그러나 기본적으로 &lt;code&gt;go test&lt;/code&gt;만 호출하면 벤치마크가 제외됩니다.&lt;/p&gt;
+&lt;p&gt;벤치마크에서 테스트 패키지를 사용할 때, &lt;code&gt;go test&lt;/code&gt; 하위 명령을 통해 실행됩니다. 그러나 기본적으로 &lt;code&gt;go test&lt;/code&gt;만 호출하면 벤치마크는 제외됩니다.&lt;/p&gt;
 
 &lt;p&gt;패키지에서 벤치마크를 명시적으로 실행하려면 &lt;code&gt;-bench&lt;/code&gt; 플래그를 사용하세요. &lt;code&gt;-bench&lt;/code&gt;는 실행하려는 벤치마크 이름과 일치하는 정규식을 사용하므로 패키지에서 모든 벤치마크를 호출하는 가장 일반적인 방법은 &lt;code&gt;-bench=.&lt;/code&gt;입니다. 다음은 예제입니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. ./examples/fib/
@@ -551,7 +547,7 @@ ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span
 
 &lt;p&gt;&lt;code&gt;b.N&lt;/code&gt;은 1에서 시작합니다. 벤치마크 함수가 1초 미만으로 완료되는 경우(기본값), 그 다음 &lt;code&gt;b.N&lt;/code&gt;이 증가되고 벤치마크 함수가 다시 실행됩니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;b.N&lt;/code&gt;은 대략적으로 1, 2, 3, 5, 10, 20, 30, 50, 100 등의 순서로 증가합니다. 벤치마크 프레임워크는 스마트해지려고 하는데, 작은 &lt;code&gt;b.N&lt;/code&gt; 값이 비교적 빠르게 완료되는 경우 반복 횟수가 더 빠르게 증가합니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;b.N&lt;/code&gt;은 대략적으로 1, 2, 3, 5, 10, 20, 30, 50, 100 등의 순서로 증가합니다. 벤치마크 프레임워크는 꾀를 쓰려고 합니다. 작은 &lt;code&gt;b.N&lt;/code&gt; 값이 비교적 빠르게 완료되는 경우에는 반복 횟수가 더 빠르게 증가하죠.&lt;/p&gt;
 
 &lt;p&gt;위의 예를 살펴보면 &lt;code&gt;BenchmarkFib20-8&lt;/code&gt;은 약 30,000회의 루프 반복이 1초 이상 걸린다는 것을 발견했습니다. 여기에서 벤치마크 프레임워크는 작업당 평균 시간이 40865ns임을 계산했습니다.&lt;/p&gt;
 
@@ -570,7 +566,7 @@ ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span
 
 &lt;h4 id=&#34;2-2-3-벤치마크-정확도-개선&#34;&gt;2.2.3 벤치마크 정확도 개선&lt;/h4&gt;
 
-&lt;p&gt;&lt;code&gt;fib&lt;/code&gt; 함수는 약간 만들어진 예입니다. TechPower 웹 서버 벤치마크를 작성하지 않는 한, 피보나치 시퀀스에서 20번째 숫자를 얼마나 빨리 계산할 수 있는지에 대한 비즈니스가 결정되지는 않을 것입니다. 그러나 이 벤치마크는 유효한 벤치마크의 믿을만한 예를 제공합니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;fib&lt;/code&gt; 함수는 약간 억지스런 예제입니다. TechPower 웹서버 벤치마크를 작성하지 않는 한, 피보나치 시퀀스에서 20번째 숫자를 얼마나 빨리 계산할 수 있는지에 대한 비즈니스가 결정되지는 않을 것입니다. 그러나 이 벤치마크는 올바른 벤치마크의 신뢰할만한 예제를 보여줍니다.&lt;/p&gt;
 
 &lt;p&gt;특히, 벤치마크를 수만 번 반복하여 실행하면 작업당 좋은 평균값을 얻을 수 있습니다. 벤치마크가 100회 또는 10회 반복으로 실행되는 경우, 해당 실행의 평균은 표준편차가 높을 수 있습니다. 벤치마크가 수백만 또는 수십억 번 반복되는 경우 평균은 매우 정확할 수 있지만, 코드 레이아웃 및 정렬에 차이가 있을 수 있습니다.&lt;/p&gt;
 
@@ -581,7 +577,7 @@ goarch: amd64
 BenchmarkFib20-8          &lt;span class=&#34;m&#34;&gt;300000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39318&lt;/span&gt; ns/op
 PASS
 ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt;.066s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;리턴되는 데 10초 이상 걸리는 &lt;code&gt;b.N&lt;/code&gt; 값에 도달할 때까지 동일한 벤치마크를 실행합니다. 10배 더 길어질수록 총 반복 횟수는 10배 더 큽니다. 결과가 크게 달라지지 않았는데, 이는 우리가 예상한 것입니다.&lt;/p&gt;
+&lt;p&gt;반환되는 데 10초 이상 걸리는 &lt;code&gt;b.N&lt;/code&gt; 값에 도달할 때까지 동일한 벤치마크를 실행합니다. 10배 더 길어질수록 총 반복 횟수는 10배 더 큽니다. 결과가 크게 달라지지 않았는데, 이는 우리가 예상한 것입니다.&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;총 시간이 10이 아닌 20초인 이유는 무엇일까요?&lt;/p&gt;
@@ -612,14 +608,14 @@ BenchmarkFib1-8         &lt;span class=&#34;m&#34;&gt;1000000000&lt;/span&gt;   
 &lt;blockquote&gt;
 &lt;p&gt;10x, 20x, 50x, 100x 및 300x의 &lt;code&gt;-benchtime&lt;/code&gt;으로 위의 &lt;code&gt;fib&lt;/code&gt; 벤치를 실행해보세요. 어떤가요?&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;go test&lt;/code&gt;가 적용하는 기본값을 특정 패키지에 맞게 조정해야하는 경우, 벤치마크를 실행하려는 모든 사람이 동일한 설정으로 수행할 수 있도록 &lt;code&gt;Makefile&lt;/code&gt;에서 해당 설정을 코드화하는 것이 좋습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;go test&lt;/code&gt;가 적용하는 기본값을 특정 패키지에 맞게 조정해야 하는 경우, 벤치마크를 실행하려는 모든 사람이 동일한 설정으로 수행할 수 있도록 &lt;code&gt;Makefile&lt;/code&gt;에서 해당 설정을 코드화하는 것이 좋습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&#34;2-3-benchstat과-벤치마크-비교&#34;&gt;2.3 benchstat과 벤치마크 비교&lt;/h3&gt;
 
 &lt;p&gt;이전 섹션에서는 더 많은 데이터를 평균화하기 위해 벤치마크를 두 번 이상 실행할 것을 제안했습니다. 이는 챕터의 시작 부분에서 언급한 전원 관리, 백그라운드 프로세스 및 발열 관리의 영향으로 인한 모든 벤치마크에 유용합니다.&lt;/p&gt;
 
-&lt;p&gt;Russ Cox에서 &lt;a href=&#34;https://godoc.org/golang.org/x/perf/cmd/benchstat&#34; target=&#34;_blank&#34;&gt;benchstat&lt;/a&gt;라는 도구를 소개하겠습니다.&lt;/p&gt;
+&lt;p&gt;러스 콕스(Russ Cox)가 &lt;a href=&#34;https://godoc.org/golang.org/x/perf/cmd/benchstat&#34; target=&#34;_blank&#34;&gt;benchstat&lt;/a&gt;라고 부르는 도구를 소개하겠습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go get golang.org/x/perf/cmd/benchstat&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;code&gt;benchstat&lt;/code&gt;는 일련의 벤치마크 실행을 수행하고 얼마나 안정적인지 알려줍니다. 다음은 배터리 전원에 대한 Fib(20)의 예제입니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;Fib20 -count&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; ./examples/fib/ &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; tee old.txt
@@ -640,7 +636,7 @@ ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span
 % benchstat old.txt
 name     time/op
 Fib20-8  &lt;span class=&#34;m&#34;&gt;38&lt;/span&gt;.4µs ± &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;%&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;benchstat&lt;/code&gt;에 따르면 평균은 샘플 전체에서 +/- 2% 차이로 38.8 마이크로 초입니다. 이는 배터리 전원에 아주 좋습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;benchstat&lt;/code&gt;에 따르면 평균은 샘플 전체에서 +/- 1% 오차로 38.8 마이크로 초입니다. 이는 배터리 전원에 아주 좋습니다.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;첫 번째 실행이 운영 체제에서 전원을 절약하기 위해 CPU를 클럭 다운시켰기 때문에 가장 느립니다.&lt;/p&gt;&lt;/li&gt;
@@ -658,10 +654,10 @@ Fib20-8  &lt;span class=&#34;m&#34;&gt;38&lt;/span&gt;.4µs ± &lt;span class=&#
 &lt;p&gt;벤치마크 실행에서 출력을 저장하는 것이 유용하지만, 이를 생성한 바이너리를 저장할 수도 있습니다. 이를 통해 이전 반복 벤치마크를 다시 실행할 수 있습니다. 이렇게 하려면, &lt;code&gt;-c&lt;/code&gt; 플래그를 사용하여 테스트 바이너리를 저장합니다. 종종 이 이진데이터의 이름을 .test에서 .golden로 바꿉니다.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -c
-% mv fib.test fib. golden&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;이전 &lt;code&gt;Fib&lt;/code&gt; 함수는 피보나치 시리즈의 0번째와 1번째 숫자의 값을 하드 코딩했습니다. 그 후 코드는 재귀적으로 호출됩니다. 이후에 재귀 비용에 대해 이야기할테지만, 현재로서는, 특히 알고리즘이 기하급수적인 시간을 사용하기 때문에 비용이 든다고 가정하겠습니다.&lt;/p&gt;
+% mv fib.test fib.golden&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이전 &lt;code&gt;Fib&lt;/code&gt; 함수는 피보나치 시리즈의 0번째와 1번째 숫자의 값을 하드코딩했습니다. 그 후 코드는 재귀적으로 호출됩니다. 이후에 재귀 비용에 대해 이야기할테지만, 현재로서는, 특히 알고리즘이 기하급수적인 시간을 사용하기 때문에 비용이 든다고 가정하겠습니다.&lt;/p&gt;
 
-&lt;p&gt;이를 간단하게 해결할 수 있는 방법은 피보나치 시리즈에서 다른 번호를 하드 코딩하여 각 재귀 호출의 깊이를 하나씩 줄이는 것입니다.&lt;/p&gt;
+&lt;p&gt;이를 간단하게 해결할 수 있는 방법은 피보나치 시리즈에서 또다른 수를 하드코딩하여 각 재귀 호출의 깊이를 하나씩 줄이는 것입니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Fib&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;switch&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
@@ -683,11 +679,11 @@ name     old time/op  new time/op  delta
 Fib20-8  &lt;span class=&#34;m&#34;&gt;44&lt;/span&gt;.3µs ± &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt;%  &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt;.6µs ± &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;%  -42.31%  &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;.000 &lt;span class=&#34;nv&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;+10&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;벤치마크를 비교할 때, 확인해야 할 세 가지가 있습니다.&lt;/p&gt;
 
-&lt;p&gt;이전과 새 샘플의 ±변화. 1-2% 변화가 양호하고, 3-5%는 괜찮으며, 5% 보다 크면 일부 샘플은 신뢰할 수 없는 것으로 간주됩니다. 한 쪽의 변화가 큰 벤치마크를 비교할 때, 개선이 이루지지 않는 것을 볼 수 있으므로 주의해야 합니다.&lt;/p&gt;
-
-&lt;p&gt;p 값. 0.05보다 낮은 p값은 양호하고 0.05보다 크면 벤치마크가 통계적으로 유의하지 않을 수 있음을 의미합니다.&lt;/p&gt;
-
-&lt;p&gt;누락된 샘플. benchstat는 이전 및 새 샘플 중 유효하다고 생각되는 샘플의 개수를 보고합니다. 때로는 &lt;code&gt;-count = 10&lt;/code&gt;을 수행하더라도 9개만 보고될 수 있습니다. 10% 이하의 거부율(rejection rate)은 괜찮지만, 10%보다 높으면 설정이 불안정하고 너무 적은 수의 샘플을 비교하고 있는 것일 수 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;이전 샘플과 새 샘플의 ±오차. 1-2% 변화가 양호하고, 3-5%는 괜찮으며, 5% 보다 크면 일부 샘플은 신뢰할 수 없는 것으로 간주됩니다. 한 쪽의 변화가 큰 벤치마크를 비교할 때, 개선이 이루지지 않는 것을 볼 수 있으므로 주의해야 합니다.&lt;/li&gt;
+&lt;li&gt;p값. 0.05보다 낮은 p값은 양호하고 0.05보다 크면 벤치마크가 통계적으로 유의하지 않을 수 있음을 의미합니다.&lt;/li&gt;
+&lt;li&gt;누락된 샘플. benchstat는 이전 및 새 샘플 중 유효하다고 생각되는 샘플의 개수를 보고합니다. 때로는 &lt;code&gt;-count = 10&lt;/code&gt;을 수행하더라도 9개만 보고될 수 있습니다. 10% 이하의 거부율(rejection rate)은 괜찮지만, 10%보다 높으면 설정이 불안정하고 너무 적은 수의 샘플을 비교하고 있는 것일 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h3 id=&#34;2-4-벤치마킹-시작-비용-피하기&#34;&gt;2.4 벤치마킹 시작 비용 피하기&lt;/h3&gt;
 
@@ -701,7 +697,7 @@ Fib20-8  &lt;span class=&#34;m&#34;&gt;44&lt;/span&gt;.3µs ± &lt;span class=&#
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;(1) - 벤치마크 타이머를 리셋합니다.&lt;/p&gt;
 
-&lt;p&gt;루프가 반복될 때마다 값비싼 셋업 로직이 있는 경우 &lt;code&gt;b.StopTimer()&lt;/code&gt; 및 벤치마크 타이머를 일시 중지하려면 &lt;code&gt;b.StartTimer()&lt;/code&gt;를 사용하세요.&lt;/p&gt;
+&lt;p&gt;루프가 반복될 때마다 값비싼 셋업 로직이 있는 경우, 벤치마크 타이머를 일시 중지하려면 &lt;code&gt;b.StopTimer()&lt;/code&gt; 및 &lt;code&gt;b.StartTimer()&lt;/code&gt;를 사용하세요.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;BenchmarkComplicated&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;testing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;B&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
         &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
                 &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;StopTimer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// (1)
@@ -710,7 +706,7 @@ Fib20-8  &lt;span class=&#34;m&#34;&gt;44&lt;/span&gt;.3µs ± &lt;span class=&#
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;                &lt;span class=&#34;c1&#34;&gt;// function under test
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;(1) - 벤치마크 타이머를 중지합니다.
+&lt;p&gt;(1) - 벤치마크 타이머를 중지합니다.&lt;br/&gt;
 (2) - 타이머를 재개합니다.&lt;/p&gt;
 
 &lt;h3 id=&#34;2-5-벤치마킹-할당&#34;&gt;2.5 벤치마킹 할당&lt;/h3&gt;
@@ -739,25 +735,22 @@ BenchmarkWriterEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&l
 BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;17&lt;/span&gt;.0 ns/op             &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; allocs/op&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;go test -benchmem&lt;/code&gt; 플래그를 사용해서 테스트 프레임워크가 모든 벤치마크 실행에 대한 할당 통계를 보고하도록 할 수도 있습니다.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;% go test -run=^$ -bench=. -benchmem bufio
-goos: darwin
-goarch: amd64
-pkg: bufio
-BenchmarkReaderCopyOptimal-8            20000000                93.5 ns/op            16 B/op          1 allocs/op
-BenchmarkReaderCopyUnoptimal-8          10000000               155 ns/op              32 B/op          2 allocs/op
-BenchmarkReaderCopyNoWriteTo-8            500000              3238 ns/op           32800 B/op          3 allocs/op
-BenchmarkReaderWriteToOptimal-8          5000000               335 ns/op              16 B/op          1 allocs/op
-BenchmarkWriterCopyOptimal-8            20000000                96.7 ns/op            16 B/op          1 allocs/op
-BenchmarkWriterCopyUnoptimal-8          10000000               124 ns/op              32 B/op          2 allocs/op
-BenchmarkWriterCopyNoReadFrom-8           500000              3219 ns/op           32800 B/op          3 allocs/op
-BenchmarkReaderEmpty-8                   2000000               748 ns/op            4224 B/op          3 allocs/op
-BenchmarkWriterEmpty-8                   2000000               662 ns/op            4096 B/op          1 allocs/op
-BenchmarkWriterFlush-8                  100000000               16.9 ns/op             0 B/op          0 allocs/op
-PASS
-ok      bufio   20.366s
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;    % go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -run&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;^$ -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. -benchmem bufio
+    goos: darwin
+    goarch: amd64
+    pkg: bufio
+    BenchmarkReaderCopyOptimal-8            &lt;span class=&#34;m&#34;&gt;20000000&lt;/span&gt;                &lt;span class=&#34;m&#34;&gt;93&lt;/span&gt;.5 ns/op            &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+    BenchmarkReaderCopyUnoptimal-8          &lt;span class=&#34;m&#34;&gt;10000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;155&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; allocs/op
+    BenchmarkReaderCopyNoWriteTo-8            &lt;span class=&#34;m&#34;&gt;500000&lt;/span&gt;              &lt;span class=&#34;m&#34;&gt;3238&lt;/span&gt; ns/op           &lt;span class=&#34;m&#34;&gt;32800&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
+    BenchmarkReaderWriteToOptimal-8          &lt;span class=&#34;m&#34;&gt;5000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;335&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+    BenchmarkWriterCopyOptimal-8            &lt;span class=&#34;m&#34;&gt;20000000&lt;/span&gt;                &lt;span class=&#34;m&#34;&gt;96&lt;/span&gt;.7 ns/op            &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+    BenchmarkWriterCopyUnoptimal-8          &lt;span class=&#34;m&#34;&gt;10000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;124&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; allocs/op
+    BenchmarkWriterCopyNoReadFrom-8           &lt;span class=&#34;m&#34;&gt;500000&lt;/span&gt;              &lt;span class=&#34;m&#34;&gt;3219&lt;/span&gt; ns/op           &lt;span class=&#34;m&#34;&gt;32800&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
+    BenchmarkReaderEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;748&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4224&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
+    BenchmarkWriterEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;662&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+    BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt;.9 ns/op             &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; allocs/op
+    PASS
+    ok      bufio   &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt;.366s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/blockquote&gt;
 
 &lt;h3 id=&#34;2-6-컴파일러-최적화-주의&#34;&gt;2.6 컴파일러 최적화 주의&lt;/h3&gt;
 
@@ -792,7 +785,7 @@ ok      bufio   20.366s
 &lt;p&gt;함수가 인라인화되어 있으므로 이제 컴파일러에서 사이드 이펙트가 없음을 알 수 있습니다. &lt;code&gt;popcnt&lt;/code&gt;는 전역 변수의 상태에 영향을 주지 않습니다. 따라서 호출을 없앱니다. 컴파일러가 보는 것은 다음과 같습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;BenchmarkPopcnt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;testing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;B&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-		&lt;span class=&#34;c1&#34;&gt;// optimised away
+		&lt;span class=&#34;c1&#34;&gt;// 최적화되어 사라짐
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;테스트해 본 모든 버전의 Go 컴파일러에서 루프가 계속 생성됩니다. 그러나 Intel CPU는 루프, 특히 빈 루프를 최적화하는 데 정말 좋습니다.&lt;/p&gt;
@@ -873,9 +866,11 @@ ok      bufio   20.366s
 
 &lt;p&gt;이전 섹션에서는 병목 현상이 발생한 위치를 미리 알고 있을 때, 유용한 개별 함수를 벤치마킹하는 방법에 대해 살펴 보았습니다. 하지만, 종종 여러분은 질문하는 입장이 될 것입니다.&lt;/p&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;이 프로그램은 왜 이렇게 오래 걸리는 거죠?&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;이처럼 고수준의 질문에 답을 하려면 전체 프로그램을 프로파일링하는 것이 유용합니다. 이번 섹션에서는 Go에 내장된 프로파일링 도구를 사용하여 내부에서 프로그램의 동작을 조사할 것입니다.&lt;/p&gt;
+&lt;p&gt;이처럼 고수준의 질문에 답을 하려면 전체 프로그램을 프로파일링하는 것이 유용합니다. 이번 섹션에서는 Go에 내장된 프로파일링 도구를 사용하여 프로그램내부 동작을 조사할 것입니다.&lt;/p&gt;
 
 &lt;h3 id=&#34;3-1-pprof&#34;&gt;3.1 pprof&lt;/h3&gt;
 
