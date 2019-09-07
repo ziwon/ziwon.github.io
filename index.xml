@@ -22,9 +22,9 @@
       
       <content>
 
-&lt;blockquote&gt;
-&lt;p&gt;원글은 &lt;a href=&#34;https://dave.cheney.net/high-performance-go-workshop/dotgo-paris.html&#34; target=&#34;_blank&#34;&gt;High Performance Go Workshop&lt;/a&gt;입니다. 학습 차원에서 허락없이 번역하였습니다. 저작권 등의 문제가 있을 경우, 이메일로 연락주시길 바랍니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;style type=&#34;text/css&#34;&gt;.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:#444;background:#e7f2fa}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:#fff;background:#6ab0de}.notice-title:before{margin-right:8px;font-family:&#34;Font Awesome 5 Free&#34;,FontAwesome;font-weight:400}.notice.warning .notice-title{background:rgba(217,83,79,.9)}.notice.warning .notice-title:before{content:&#39;\f071&#39;}.notice.warning{background:#fae2e2}.notice.info .notice-title{background:#f0b37e}.notice.info .notice-title:before{content:&#39;\f05a&#39;}.notice.info{background:#fff2db}.notice.note .notice-title{background:#6ab0de}.notice.note .notice-title:before{content:&#39;\f06a&#39;}.notice.note{background:#e7f2fA}.notice.tip .notice-title{background:rgba(92,184,92,.8)}.notice.tip .notice-title:before{content:&#39;\f058&#39;}.notice.tip{background:#e6f9e6}&lt;/style&gt;&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;원글은 &lt;a href=&#34;https://dave.cheney.net/high-performance-go-workshop/dotgo-paris.html&#34; target=&#34;_blank&#34;&gt;High Performance Go Workshop&lt;/a&gt;입니다. 학습 차원에서 허락없이 번역하였습니다. 저작권 등의 문제가 있을 경우, 이메일로 연락주시길 바랍니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h2 id=&#34;개요&#34;&gt;개요&lt;/h2&gt;
 
@@ -314,9 +314,9 @@
 
 &lt;p&gt;인텔, TSMC, AMD, 그리고 삼성은 새로운 공장을 짓고 새로운 프로세스 툴링을 구매해야 하기 때문에 수 십억 달러의 비용이 듭니다. 그래서 다이당 트랜지스터 수가 계속 상승하며, 단가가 상승하기 시작했습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;나노미터 단위로 측정했던 게이트 길이(gate length)라는 용어도 모호해졌습니다. 다양한 제조사들은 트랜지스터 크기를 다양한 방법으로 측정하여, 납품없이 경쟁사보다 적은 수의 트랜지스터를 시연할 수 있습니다. 이는 CPU 제조사의 비일반회계(Non-GAAP) 수익 보고 모델입니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;나노미터 단위로 측정했던 게이트 길이(gate length)라는 용어도 모호해졌습니다. 다양한 제조사들은 트랜지스터 크기를 다양한 방법으로 측정하여, 납품없이 경쟁사보다 적은 수의 트랜지스터를 시연할 수 있습니다. 이는 CPU 제조사의 비일반회계(Non-GAAP) 수익 보고 모델입니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;1-7-더-많은-코어&#34;&gt;1.7 더 많은 코어&lt;/h3&gt;
 
@@ -364,9 +364,9 @@
 
 &lt;p&gt;엄청난 수의 트랜지스터와 전력을 희생하며 이러한 모든 최적화로 단일 쓰레드 성능이 개선되었습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;클리프 클릭(Cliff Click)은 비순차적 및 추론적 실행은 캐시 미스를 조기에 시작하여 관찰된 캐시 대기 시간을 줄이는데 가장 유용하다고 논증하는 &lt;a href=&#34;https://www.youtube.com/watch?v=OFgxAFdxYAQ&#34; target=&#34;_blank&#34;&gt;훌륭한 프리젠테이션&lt;/a&gt;을 제공합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;클리프 클릭(Cliff Click)은 비순차적 및 추론적 실행은 캐시 미스를 조기에 시작하여 관찰된 캐시 대기 시간을 줄이는데 가장 유용하다고 논증하는 &lt;a href=&#34;https://www.youtube.com/watch?v=OFgxAFdxYAQ&#34; target=&#34;_blank&#34;&gt;훌륭한 프리젠테이션&lt;/a&gt;을 제공합니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;1-10-현대-cpu는-벌크-동작에-대해-최적화되었습니다&#34;&gt;1.10 현대 CPU는 벌크 동작에 대해 최적화되었습니다.&lt;/h3&gt;
 
@@ -520,9 +520,9 @@
 		&lt;span class=&#34;nx&#34;&gt;Fib&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// run the Fib function b.N times
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;벤치마크 함수는 &lt;code&gt;_test.go&lt;/code&gt; 파일에 테스트 함수와 나란히 있습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;벤치마크 함수는 &lt;code&gt;_test.go&lt;/code&gt; 파일에 테스트 함수와 나란히 있습니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;p&gt;벤치마크는 테스트와 유사하지만 유일한 차이점은 &lt;code&gt;*testing.T&lt;/code&gt; 대신 &lt;code&gt;* testing.B&lt;/code&gt;를 사용한다는 것입니다. 이 두 가지 유형 모두 &lt;code&gt;Errorf()&lt;/code&gt;, &lt;code&gt;Fatalf()&lt;/code&gt; 및 &lt;code&gt;FailNow()&lt;/code&gt;와 같은 대중들이 좋아하는 &lt;code&gt;testing.TB&lt;/code&gt; 인터페이스를 구현합니다.&lt;/p&gt;
 
@@ -537,9 +537,10 @@ goarch: amd64
 BenchmarkFib20-8           &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;40865&lt;/span&gt; ns/op
 PASS
 ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;.671s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;go test&lt;/code&gt;는 벤치마크와 일치하기 전에 패키지의 모든 테스트를 실행합니다. 따라서, 패키지에 많은 테스트가 있거나 실행하는 데 시간이 오래 걸리면 &lt;code&gt;go test&lt;/code&gt;의 &lt;code&gt;-run&lt;/code&gt; 플래그에 아무것도 일치하지 않는 정규식을 줘서 테스트에서 제외시킬 수 있습니다.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -run&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;^$	&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;&lt;code&gt;go test&lt;/code&gt;는 벤치마크와 일치하기 전에 패키지의 모든 테스트를 실행합니다. 따라서, 패키지에 많은 테스트가 있거나 실행하는 데 시간이 오래 걸리면 &lt;code&gt;go test&lt;/code&gt;의 &lt;code&gt;-run&lt;/code&gt; 플래그에 아무것도 일치하지 않는 정규식을 줘서 테스트에서 제외시킬 수 있습니다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -run&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;^$	&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;2-2-2-벤치마크-동작-방식&#34;&gt;2.2.2 벤치마크 동작 방식&lt;/h4&gt;
 
@@ -551,18 +552,18 @@ ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span
 
 &lt;p&gt;위의 예를 살펴보면 &lt;code&gt;BenchmarkFib20-8&lt;/code&gt;은 약 30,000회의 루프 반복이 1초 이상 걸린다는 것을 발견했습니다. 여기에서 벤치마크 프레임워크는 작업당 평균 시간이 40865ns임을 계산했습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;-8&lt;/code&gt; 접미사는 이 테스트를 실행하는 데 사용된 &lt;code&gt;GOMAXPROCS&lt;/code&gt; 값과 관련이 있습니다. 이 숫자는 &lt;code&gt;GOMAXPROCS&lt;/code&gt;와 마찬가지로, 시작시 Go 프로세스에서 보이는 CPU 수로 기본 설정됩니다. 벤치마크를 실행할 값 목록을 가져오는 &lt;code&gt;-cpu&lt;/code&gt; 플래그를 사용하여 이 값을 변경할 수 있습니다.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;    % go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. -cpu&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;,2,4 ./examples/fib/
-    goos: darwin
-    goarch: amd64
-    BenchmarkFib20             &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39115&lt;/span&gt; ns/op
-    BenchmarkFib20-2           &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39468&lt;/span&gt; ns/op
-    BenchmarkFib20-4           &lt;span class=&#34;m&#34;&gt;50000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;40728&lt;/span&gt; ns/op
-    PASS
-    ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;.531s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;여기에서는 1, 2, 4개의 코어로 벤치마크를 실행하고 있습니다. 이 경우 이 벤치마크는 완전히 순차적이므로 플래그가 결과에 거의 영향을 미치지 않습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;&lt;code&gt;-8&lt;/code&gt; 접미사는 이 테스트를 실행하는 데 사용된 &lt;code&gt;GOMAXPROCS&lt;/code&gt; 값과 관련이 있습니다. 이 숫자는 &lt;code&gt;GOMAXPROCS&lt;/code&gt;와 마찬가지로, 시작시 Go 프로세스에서 보이는 CPU 수로 기본 설정됩니다. 벤치마크를 실행할 값 목록을 가져오는 &lt;code&gt;-cpu&lt;/code&gt; 플래그를 사용하여 이 값을 변경할 수 있습니다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;	% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. -cpu&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;,2,4 ./examples/fib/
+	goos: darwin
+	goarch: amd64
+	BenchmarkFib20             &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39115&lt;/span&gt; ns/op
+	BenchmarkFib20-2           &lt;span class=&#34;m&#34;&gt;30000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;39468&lt;/span&gt; ns/op
+	BenchmarkFib20-4           &lt;span class=&#34;m&#34;&gt;50000&lt;/span&gt;             &lt;span class=&#34;m&#34;&gt;40728&lt;/span&gt; ns/op
+	PASS
+	ok      _/Users/dfc/devel/high-performance-go-workshop/examples/fib     &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;.531s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기에서는 1, 2, 4개의 코어로 벤치마크를 실행하고 있습니다. 이 경우 이 벤치마크는 완전히 순차적이므로 플래그가 결과에 거의 영향을 미치지 않습니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;2-2-3-벤치마크-정확도-개선&#34;&gt;2.2.3 벤치마크 정확도 개선&lt;/h4&gt;
 
@@ -607,9 +608,11 @@ BenchmarkFib1-8         &lt;span class=&#34;m&#34;&gt;1000000000&lt;/span&gt;   
 
 &lt;blockquote&gt;
 &lt;p&gt;10x, 20x, 50x, 100x 및 300x의 &lt;code&gt;-benchtime&lt;/code&gt;으로 위의 &lt;code&gt;fib&lt;/code&gt; 벤치를 실행해보세요. 어떤가요?&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;go test&lt;/code&gt;가 적용하는 기본값을 특정 패키지에 맞게 조정해야 하는 경우, 벤치마크를 실행하려는 모든 사람이 동일한 설정으로 수행할 수 있도록 &lt;code&gt;Makefile&lt;/code&gt;에서 해당 설정을 코드화하는 것이 좋습니다.&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;&lt;code&gt;go test&lt;/code&gt;가 적용하는 기본값을 특정 패키지에 맞게 조정해야 하는 경우, 벤치마크를 실행하려는 모든 사람이 동일한 설정으로 수행할 수 있도록 &lt;code&gt;Makefile&lt;/code&gt;에서 해당 설정을 코드화하는 것이 좋습니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;2-3-benchstat과-벤치마크-비교&#34;&gt;2.3 benchstat과 벤치마크 비교&lt;/h3&gt;
 
@@ -650,11 +653,12 @@ Fib20-8  &lt;span class=&#34;m&#34;&gt;38&lt;/span&gt;.4µs ± &lt;span class=&#
 
 &lt;p&gt;두 벤치마크 세트 간의 성능 델타를 결정하는 것은 지루하고 오류가 발생하기 쉽습니다. Benchstat가 이를 도와줄 수 있습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;벤치마크 실행에서 출력을 저장하는 것이 유용하지만, 이를 생성한 바이너리를 저장할 수도 있습니다. 이를 통해 이전 반복 벤치마크를 다시 실행할 수 있습니다. 이렇게 하려면, &lt;code&gt;-c&lt;/code&gt; 플래그를 사용하여 테스트 바이너리를 저장합니다. 종종 이 이진데이터의 이름을 .test에서 .golden로 바꿉니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;벤치마크 실행에서 출력을 저장하는 것이 유용하지만, 이를 생성한 바이너리를 저장할 수도 있습니다. 이를 통해 이전 반복 벤치마크를 다시 실행할 수 있습니다. 이렇게 하려면, &lt;code&gt;-c&lt;/code&gt; 플래그를 사용하여 테스트 바이너리를 저장합니다. 종종 이 이진데이터의 이름을 .test에서 .golden로 바꿉니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -c
-% mv fib.test fib.golden&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+% mv fib.test fib.golden&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
 &lt;p&gt;이전 &lt;code&gt;Fib&lt;/code&gt; 함수는 피보나치 시리즈의 0번째와 1번째 숫자의 값을 하드코딩했습니다. 그 후 코드는 재귀적으로 호출됩니다. 이후에 재귀 비용에 대해 이야기할테지만, 현재로서는, 특히 알고리즘이 기하급수적인 시간을 사용하기 때문에 비용이 든다고 가정하겠습니다.&lt;/p&gt;
 
 &lt;p&gt;이를 간단하게 해결할 수 있는 방법은 피보나치 시리즈에서 또다른 수를 하드코딩하여 각 재귀 호출의 깊이를 하나씩 줄이는 것입니다.&lt;/p&gt;
@@ -733,24 +737,25 @@ BenchmarkWriterCopyNoReadFrom-8           &lt;span class=&#34;m&#34;&gt;300000&l
 BenchmarkReaderEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;789&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4224&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
 BenchmarkWriterEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;683&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
 BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;17&lt;/span&gt;.0 ns/op             &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; allocs/op&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;go test -benchmem&lt;/code&gt; 플래그를 사용해서 테스트 프레임워크가 모든 벤치마크 실행에 대한 할당 통계를 보고하도록 할 수도 있습니다.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;    % go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -run&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;^$ -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. -benchmem bufio
-    goos: darwin
-    goarch: amd64
-    pkg: bufio
-    BenchmarkReaderCopyOptimal-8            &lt;span class=&#34;m&#34;&gt;20000000&lt;/span&gt;                &lt;span class=&#34;m&#34;&gt;93&lt;/span&gt;.5 ns/op            &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
-    BenchmarkReaderCopyUnoptimal-8          &lt;span class=&#34;m&#34;&gt;10000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;155&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; allocs/op
-    BenchmarkReaderCopyNoWriteTo-8            &lt;span class=&#34;m&#34;&gt;500000&lt;/span&gt;              &lt;span class=&#34;m&#34;&gt;3238&lt;/span&gt; ns/op           &lt;span class=&#34;m&#34;&gt;32800&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
-    BenchmarkReaderWriteToOptimal-8          &lt;span class=&#34;m&#34;&gt;5000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;335&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
-    BenchmarkWriterCopyOptimal-8            &lt;span class=&#34;m&#34;&gt;20000000&lt;/span&gt;                &lt;span class=&#34;m&#34;&gt;96&lt;/span&gt;.7 ns/op            &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
-    BenchmarkWriterCopyUnoptimal-8          &lt;span class=&#34;m&#34;&gt;10000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;124&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; allocs/op
-    BenchmarkWriterCopyNoReadFrom-8           &lt;span class=&#34;m&#34;&gt;500000&lt;/span&gt;              &lt;span class=&#34;m&#34;&gt;3219&lt;/span&gt; ns/op           &lt;span class=&#34;m&#34;&gt;32800&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
-    BenchmarkReaderEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;748&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4224&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
-    BenchmarkWriterEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;662&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
-    BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt;.9 ns/op             &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; allocs/op
-    PASS
-    ok      bufio   &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt;.366s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;&lt;code&gt;go test -benchmem&lt;/code&gt; 플래그를 사용해서 테스트 프레임워크가 모든 벤치마크 실행에 대한 할당 통계를 보고하도록 할 수도 있습니다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;	% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -run&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;^$ -bench&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;. -benchmem bufio
+	goos: darwin
+	goarch: amd64
+	pkg: bufio
+	BenchmarkReaderCopyOptimal-8            &lt;span class=&#34;m&#34;&gt;20000000&lt;/span&gt;                &lt;span class=&#34;m&#34;&gt;93&lt;/span&gt;.5 ns/op            &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+	BenchmarkReaderCopyUnoptimal-8          &lt;span class=&#34;m&#34;&gt;10000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;155&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; allocs/op
+	BenchmarkReaderCopyNoWriteTo-8            &lt;span class=&#34;m&#34;&gt;500000&lt;/span&gt;              &lt;span class=&#34;m&#34;&gt;3238&lt;/span&gt; ns/op           &lt;span class=&#34;m&#34;&gt;32800&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
+	BenchmarkReaderWriteToOptimal-8          &lt;span class=&#34;m&#34;&gt;5000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;335&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+	BenchmarkWriterCopyOptimal-8            &lt;span class=&#34;m&#34;&gt;20000000&lt;/span&gt;                &lt;span class=&#34;m&#34;&gt;96&lt;/span&gt;.7 ns/op            &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+	BenchmarkWriterCopyUnoptimal-8          &lt;span class=&#34;m&#34;&gt;10000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;124&lt;/span&gt; ns/op              &lt;span class=&#34;m&#34;&gt;32&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; allocs/op
+	BenchmarkWriterCopyNoReadFrom-8           &lt;span class=&#34;m&#34;&gt;500000&lt;/span&gt;              &lt;span class=&#34;m&#34;&gt;3219&lt;/span&gt; ns/op           &lt;span class=&#34;m&#34;&gt;32800&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
+	BenchmarkReaderEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;748&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4224&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;3&lt;/span&gt; allocs/op
+	BenchmarkWriterEmpty-8                   &lt;span class=&#34;m&#34;&gt;2000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;662&lt;/span&gt; ns/op            &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; allocs/op
+	BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&lt;/span&gt;               &lt;span class=&#34;m&#34;&gt;16&lt;/span&gt;.9 ns/op             &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; B/op          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; allocs/op
+	PASS
+	ok      bufio   &lt;span class=&#34;m&#34;&gt;20&lt;/span&gt;.366s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;2-6-컴파일러-최적화-주의&#34;&gt;2.6 컴파일러 최적화 주의&lt;/h3&gt;
 
@@ -796,12 +801,14 @@ BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -gcflags&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-S&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;gcflags = -l -S&lt;/code&gt;를 사용해서 인라인을 비활성화합니다. 어셈블리 출력에 어떻게 영향을 미칠까요?&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;&lt;em&gt;최적화는 좋은 것입니다&lt;/em&gt; &lt;br/&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;strong&gt;최적화는 좋은 것입니다&lt;/strong&gt;
 실제 코드를 빠르게 만드는 똑같은 최적화를 제거해야 합니다. 이는 불필요한 계산을 제거함으로써, 관찰할 수 없는 사이드 이펙트가 있는 벤치마크를 제거하는 것과 동일합니다.&lt;/p&gt;
 
-&lt;p&gt;이는 Go 컴파일러가 개선됨에 따라 더 흔해지겠죠.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;이는 Go 컴파일러가 개선됨에 따라 더 흔해지겠죠.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;2-6-2-벤치마크-고치기&#34;&gt;2.6.2 벤치마크 고치기&lt;/h4&gt;
 
@@ -825,7 +832,9 @@ BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&
 
 &lt;p&gt;&lt;code&gt;Result&lt;/code&gt;에 직접 할당하면 어떻게 될까요? 이것이 벤치마크 시간에 영향을 줄까요? &lt;code&gt;popcnt&lt;/code&gt;의 결과를 &lt;code&gt;_&lt;/code&gt;에 할당하면 어떨까요?&lt;/p&gt;
 
-&lt;p&gt;이전 &lt;code&gt;Fib&lt;/code&gt; 벤치마크에서 이러한 예방 조치를 취하지 않았습니다. 그렇게 했어야 했을까요?&lt;/p&gt;
+&lt;div class=&#34;notice warning&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Warning&lt;/p&gt;&lt;p&gt;이전 &lt;code&gt;Fib&lt;/code&gt; 벤치마크에서 이러한 예방 조치를 취하지 않았습니다. 그렇게 했어야 했을까요?&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;2-7-벤치마크-실수들&#34;&gt;2.7 벤치마크 실수들&lt;/h3&gt;
 
@@ -947,11 +956,11 @@ BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&
 
 &lt;p&gt;대부분의 도구는 한 번에 여러 프로파일링을 활성화하지 못하게 합니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;한 번에 둘 이상의 프로파일을 활성화하지 마세요.&lt;/p&gt;
+&lt;div class=&#34;notice warning&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Warning&lt;/p&gt;&lt;p&gt;한 번에 둘 이상의 프로파일을 활성화하지 마세요.&lt;/p&gt;
 
-&lt;p&gt;여러 프로파일을 동시에 활성화하면, 서로의 상호 작용을 보게 되고, 그 결과를 버리게 됩니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;여러 프로파일을 동시에 활성화하면, 서로의 상호 작용을 보게 되고, 그 결과를 버리게 됩니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;3-4-프로파일-수집&#34;&gt;3.4 프로파일 수집&lt;/h3&gt;
 
@@ -976,9 +985,9 @@ BenchmarkWriterFlush-8                  &lt;span class=&#34;m&#34;&gt;100000000&
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;go tool pprof /path/to/your/profile&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이 도구는 텍스트, 그래픽, 심지어 프레임 그래프 등 프로파일링 데이터를 여러가지 다르게 표현할 수 있습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;Go를 한동안 사용했다면 &lt;code&gt;pprof&lt;/code&gt;에 두 가지 아규먼트가 있다고 들었을 것입니다. Go 1.9부터 프로파일 파일에는 프로파일을 렌더링하는 데 필요한 모든 정보가 포함되어 있습니다. 더 이상 프로파일을 생성한 바이너리가 필요하지 않습니다. 🎉&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;Go를 한동안 사용했다면 &lt;code&gt;pprof&lt;/code&gt;에 두 가지 아규먼트가 있다고 들었을 것입니다. Go 1.9부터 프로파일 파일에는 프로파일을 렌더링하는 데 필요한 모든 정보가 포함되어 있습니다. 더 이상 프로파일을 생성한 바이너리가 필요하지 않습니다. 🎉&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;3-5-1-더-읽을거리&#34;&gt;3.5.1 더 읽을거리&lt;/h4&gt;
 
@@ -5277,7 +5286,7 @@ function handleMouseUp(evt) {
 
 &lt;p&gt;그러나 고루틴의 스택은 지역 변수를 저장하는데 값싼 장소입니다. 왜냐하면 스택에 대해서 가비지 콜렉션할 필요가 없기 때문입니다. 따라서 스택에 저장하는 것이 안전한 경우, 스택에 할당하는 것이 더 효율적입니다.&lt;/p&gt;
 
-&lt;p&gt;일부 언어, 예를 들면 C 및 C ++에서, 스택 또는 힙 할당을 선택하는 것은 프로그래머의 수작업이었습니다. 힙 할당은 &lt;code&gt;malloc&lt;/code&gt;과 &lt;code&gt;free&lt;/code&gt;로 이루어지고 무료이며 스택 할당은 &lt;code&gt;alloca&lt;/code&gt;를 통해 이루어집니다. 이러한 메커니즘을 사용해서 발생하는 실수가 메모리 손상 버그의 흔한 원인입니다.&lt;/p&gt;
+&lt;p&gt;일부 언어, 예를 들면 C 및 C++에서, 스택 또는 힙 할당을 선택하는 것은 프로그래머의 수작업이었습니다. 힙 할당은 &lt;code&gt;malloc&lt;/code&gt;과 &lt;code&gt;free&lt;/code&gt;로 이루어지고 무료이며 스택 할당은 &lt;code&gt;alloca&lt;/code&gt;를 통해 이루어집니다. 이러한 메커니즘을 사용해서 발생하는 실수가 메모리 손상 버그의 흔한 원인입니다.&lt;/p&gt;
 
 &lt;p&gt;Go에서는, 컴파일러가 함수 호출의 라이프 사이클보다 오래 존재하는 값은 힙에 자동적으로 이동시킵니다. 이를 값이 힙으로 빠져나갔다(이스케이프되었다)고 말합니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Foo&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -5401,7 +5410,7 @@ examples/esc/center.go:19:13: NewPoint &lt;span class=&#34;o&#34;&gt;[]&lt;/span
 
 &lt;p&gt;만약 함수가 많은 일을 한다면, 프리앰블 오버헤드는 무시할 수 있습니다. 이는 함수가 특정 크기를 초과하는 이유입니다. (현재 일부 명령어 카운트와 추가로 인라이닝을 방지하는 몇 가지 작업을 합쳐서입니다. (예: Go 1.7 이전 스위치))&lt;/p&gt;
 
-&lt;p&gt;반면에 작은 함수는 상대적으로 적은 양의 유용한 작업을 수행하기 위해 고정된 오버헤드를 지불합니다. 가장 많은 혜택을 받기 때문에 이들이 인라이닝 타겟이 되는 함수들입니다.&lt;/p&gt;
+&lt;p&gt;반면에 작은 함수는 상대적으로 적은 양의 유용한 작업을 수행하기 위해 고정된 오버헤드를 지닙니다. 가장 많은 혜택을 받기 때문에 이들이 인라이닝 타겟이 되는 함수들입니다.&lt;/p&gt;
 
 &lt;p&gt;또 다른 이유는 인라인이 많으면, 스택 트레이싱을 따라가기가 어렵습니다.&lt;/p&gt;
 
@@ -5436,7 +5445,7 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;/ul&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;//go:noinline&lt;/code&gt; 주석을 사용하지 않고 &lt;code&gt;Max&lt;/code&gt;를 다시 작성하여 올바른 답을 여전히 리턴하지만 더 이상 컴파일러가 인라인될 수 있다고 간주하지 않도록 해봅시다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;//go:noinline&lt;/code&gt; 주석을 사용하지 않고 &lt;code&gt;Max&lt;/code&gt;를 다시 작성하여 올바른 답을 여전히 리턴하지만 더 이상 컴파일러가 인라인될 수 있다고 가정하지 않도록 해봅시다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&#34;4-3-2-인라인은-어떻게-생겼나요&#34;&gt;4.3.2 인라인은 어떻게 생겼나요?&lt;/h3&gt;
@@ -5453,10 +5462,10 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
         &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;FUNCDATA와 PCDATA가 무엇인가요?
-&lt;code&gt;-S&lt;/code&gt;의 출력은 바이너리로 들어가는 최종 기계 코드가 아닙니다. 링커는 최종 링크 단계에서 일부 처리를 수행합니다. &lt;code&gt;FUNCDATA&lt;/code&gt; 및 &lt;code&gt;PCDATA&lt;/code&gt;와 같은 줄은 연결시 다른 곳으로 이동하는 가비지 콜렉터의 메타 데이터입니다. &lt;code&gt;-S&lt;/code&gt;의 출력을 읽을 때 &lt;code&gt;FUNCDATA&lt;/code&gt; 및 &lt;code&gt;PCDATA&lt;/code&gt; 행은 그냥 무시하세요. 그들은 최종 바이너리의 일부가 아니니깐요.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;FUNCDATA와 PCDATA가 무엇인가요?
+&lt;code&gt;-S&lt;/code&gt;의 출력은 바이너리로 들어가는 최종 기계 코드가 아닙니다. 링커는 최종 링크 단계에서 일부 처리를 수행합니다. &lt;code&gt;FUNCDATA&lt;/code&gt; 및 &lt;code&gt;PCDATA&lt;/code&gt;와 같은 줄은 연결시 다른 곳으로 이동하는 가비지 콜렉터의 메타 데이터입니다. &lt;code&gt;-S&lt;/code&gt;의 출력을 읽을 때 &lt;code&gt;FUNCDATA&lt;/code&gt; 및 &lt;code&gt;PCDATA&lt;/code&gt; 행은 그냥 무시하세요. 그들은 최종 바이너리의 일부가 아니니깐요.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;4-3-3-논의&#34;&gt;4.3.3 논의&lt;/h4&gt;
 
@@ -5466,8 +5475,9 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;p&gt;&lt;code&gt;a&lt;/code&gt;와 &lt;code&gt;b&lt;/code&gt;가 변수로 선언되면 어떻게 될까요? a와 b가 매개변수로 F()에 전달되면 어떻게 될까요?&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;br/&gt;
-&amp;gt; &lt;code&gt;-gcflags = -S&lt;/code&gt;는 작업 디렉토리에 최종 바이너리가 빌드되는 것을 막지 않습니다. 이후의 &lt;code&gt;go build..&lt;/code&gt; 실행으로 출력이 생성되지 않으면 작업 디렉토리에서 &lt;code&gt;./max&lt;/code&gt; 바이너리를 삭제하세요&lt;/p&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;code&gt;-gcflags = -S&lt;/code&gt;는 작업 디렉토리에 최종 바이너리가 빌드되는 것을 막지 않습니다. 이후의 &lt;code&gt;go build..&lt;/code&gt; 실행으로 출력이 생성되지 않으면 작업 디렉토리에서 &lt;code&gt;./max&lt;/code&gt; 바이너리를 삭제하세요&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;4-3-4-인라이닝-레벨-조정&#34;&gt;4.3.4 인라이닝 레벨 조정&lt;/h4&gt;
 
@@ -5475,7 +5485,7 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;-gcflags = -l&lt;/code&gt;, 인라인 비활성화&lt;/li&gt;
-&lt;li&gt;전달하지 않음, 보통 인라이닝&lt;/li&gt;
+&lt;li&gt;아무것도 전달하지 않음, 보통 인라이닝&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;-gcflags = &#39;-l -l&#39;&lt;/code&gt;인라인 레벨 2, 더 공격적이며, 더 빨라질 수 있으며, 더 큰 바이너리를 만들 수 있습니다.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;-gcflags = &#39;-l -l -l&#39;&lt;/code&gt; 인라인 레벨 3, 좀 더 공격적이며, 확실히 더 큰 바이너리를 만들고, 좀 더 빠를 수 있지만 버그가 있을 수 있습니다.&lt;/li&gt;
 &lt;li&gt;- Go 1.11의 &lt;code&gt;-gcflags = -l = 4&lt;/code&gt; (4 개의 &lt;code&gt;-l&lt;/code&gt;s)는 실험적인 중간 스택 인라인 최적화를 가능하게합니다.&lt;/li&gt;
@@ -5487,9 +5497,9 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 
 &lt;p&gt;이전 예에서 중간 스택의 인라이닝 예제를 볼 수 있습니다. Go 1.11 및 이전 &lt;code&gt;F&lt;/code&gt;는 리프 함수가 아니었습니다. max라고 하죠. 그러나 개선된 &lt;code&gt;F&lt;/code&gt; 인라이닝으로 인해 F는 이제 호출자에게 인라이닝됩니다. 이것은 두 가지 이유입니다. &lt;code&gt;max&lt;/code&gt;가 &lt;code&gt;F&lt;/code&gt;에 인라인딩되면, &lt;code&gt;F&lt;/code&gt;는 다른 함수 호출을 포함하지 않으므로, 복잡성 예산(complexity budget)을 초과하지 않았다고 가정한다면, 잠재적 리프 함수가 됩니다. 왜냐하면 F는 단순한 함수이기 때문입니다. 즉, 인라이닝과 데드 코드 제거로 복잡성 예산(complexity budget)의 많은 부분이 제거되었기 때문에, 최대 호출에 관계없이 중간 스택에서 실행할 수 있습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;중간 스택 인라이닝을 사용하면 함수의 빠른 경로를 인라인화하여 고속 경로에서 함수 호출 오버헤드를 제거할 수 있습니다. Go 1.13에 착지한 이 최근 CL은 &lt;code&gt;sync.RWMutex.Unlock()&lt;/code&gt; 적용된 이 기술을 보여줍니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;중간 스택 인라이닝을 사용하면 함수의 빠른 경로를 인라인화하여 고속 경로에서 함수 호출 오버헤드를 제거할 수 있습니다. Go 1.13에 착지한 이 최근 CL은 &lt;code&gt;sync.RWMutex.Unlock()&lt;/code&gt; 적용된 이 기술을 보여줍니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;p&gt;&lt;strong&gt;더 읽을거리&lt;/strong&gt;
 - &lt;a href=&#34;https://docs.google.com/presentation/d/1Wcblp3jpfeKwA0Y4FOmj63PW52M_qmNqlQkNaLj0P5o/edit#slide=id.p&#34; target=&#34;_blank&#34;&gt;David Lazar의 Go 컴파일러 프레젠테이션의 중간 스택 인라인&lt;/a&gt;
@@ -5595,9 +5605,9 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;li&gt;&lt;code&gt;-l -N&lt;/code&gt;은 모든 최적화를 비활성화합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;이후의 &lt;code&gt;go build..&lt;/code&gt; 실행으로 출력이 생성되지 않으면, 작업 디렉토리에서 &lt;code&gt;./max&lt;/code&gt; 바이너리를 삭제하세요&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;이후의 &lt;code&gt;go build..&lt;/code&gt; 실행으로 출력이 생성되지 않으면, 작업 디렉토리에서 &lt;code&gt;./max&lt;/code&gt; 바이너리를 삭제하세요&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;4-5-1-더-읽을거리&#34;&gt;4.5.1 더 읽을거리&lt;/h4&gt;
 
@@ -5677,9 +5687,9 @@ go build &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ./mandelb
 real    0m1.654s
 user    0m1.630s
 sys     0m0.015s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;time go run man&lt;/code&gt;을 사용하지 마세요. 그렇지 않으면 프로그램을 컴파일하고 실행하는데 걸리는 시간이 길어집니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;code&gt;time go run man&lt;/code&gt;을 사용하지 마세요. 그렇지 않으면 프로그램을 컴파일하고 실행하는데 걸리는 시간이 길어집니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;5-1-2-프로그램은-무엇을-하고-있을까요&#34;&gt;5.1.2 프로그램은 무엇을 하고 있을까요&lt;/h3&gt;
 
@@ -5711,9 +5721,9 @@ sys     0m0.015s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이 코드를 main 함수의 맨 위에 추가하면 프로그램은 &lt;code&gt;os.Stdout&lt;/code&gt;에 프로파일을 작성합니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; examples/mandelbrot-runtime-pprof
 go run mandelbrot.go &amp;gt; cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;CPU 프로파일에는 컴파일이 아닌 &lt;code&gt;mandelbrot.go&lt;/code&gt;의 실행만 포함되므로 이 경우 &lt;code&gt;go run&lt;/code&gt;을 사용할 수 있습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;CPU 프로파일에는 컴파일이 아닌 &lt;code&gt;mandelbrot.go&lt;/code&gt;의 실행만 포함되므로 이 경우 &lt;code&gt;go run&lt;/code&gt;을 사용할 수 있습니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h4 id=&#34;5-3-1-github-com-pkg-profile-사용한-프로파일-생성&#34;&gt;5.3.1 github.com/pkg/profile 사용한 프로파일 생성&lt;/h4&gt;
 
@@ -5733,9 +5743,9 @@ go run mandelbrot.go &amp;gt; cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 	&lt;span class=&#34;k&#34;&gt;defer&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;profile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;profile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CPUProfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;profile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ProfilePath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이 버전을 실행하면 현재 작업 디렉토리에 프로파일이 작성됩니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;pkg/profile&lt;/code&gt;을 사용하는 것이 필수는 아니지만, 트레이싱 수집 및 기록과 관련된 많은 보일러 플레이트가 필요하므로 이 워크샵의 나머지 부분에서 사용합니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;code&gt;pkg/profile&lt;/code&gt;을 사용하는 것이 필수는 아니지만, 트레이싱 수집 및 기록과 관련된 많은 보일러 플레이트가 필요하므로 이 워크샵의 나머지 부분에서 사용합니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;5-3-2-프로파일-분석하기&#34;&gt;5.3.2 프로파일 분석하기&lt;/h3&gt;
 
@@ -5743,9 +5753,9 @@ go run mandelbrot.go &amp;gt; cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go tool pprof -http&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;:8080 cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이 실행에서 프로그램이 1.81 초 동안 실행되었음을 알 수 있습니다 (프로파일링은 약간의 오버 헤드를 추가 함). pprof는 샘플 기반이므로 운영 체제의 &lt;code&gt;SIGPROF&lt;/code&gt; 타이머에 의존하여 &lt;code&gt;pprof&lt;/code&gt;가 1.53 초 동안 만 데이터를 캡처했음을 알 수 있습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;Go 1.9 이후 pprof 트레이싱에는 트레이싱을 분석하는 데 필요한 모든 정보가 포함됩니다. 더 이상 트레이싱을 생성하는 일치하는 바이너리가 없어도 됩니다. 🎉&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;Go 1.9 이후 pprof 트레이싱에는 트레이싱을 분석하는 데 필요한 모든 정보가 포함됩니다. 더 이상 트레이싱을 생성하는 일치하는 바이너리가 없어도 됩니다. 🎉&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;p&gt;&lt;code&gt;top pprof&lt;/code&gt; 기능을 사용하여 트레이싱에 의해 기록된 함수를 정렬할 수 있습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go tool pprof cpu.pprof
@@ -5786,9 +5796,8 @@ Showing top &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; nodes out of &lt;span 
          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;     &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;% &lt;span class=&#34;m&#34;&gt;85&lt;/span&gt;.34%      150ms  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt;.85%  image/png.&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;*encoder&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;.writeIDATs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;정렬 결과는 &lt;code&gt;main.fillPixed&lt;/code&gt;가 대부분의 작업을 처리하고 있다고 제안하고 있습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;웹 명령을 사용하여 프로파일을 시각화할 수도 있습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;code&gt;web&lt;/code&gt; 커맨드를 사용하여 프로파일을 시각화할 수도 있습니다.&lt;/p&gt;
 
 &lt;div&gt;
     &lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; xmlns:xlink=&#34;http://www.w3.org/1999/xlink&#34; width=&#34;100%px&#34; height=&#34;100%px&#34;&gt;
@@ -7585,8 +7594,8 @@ Showing top &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; nodes out of &lt;span 
     &lt;/g&gt;
     &lt;/g&gt;
     &lt;/g&gt;&lt;/svg&gt;
-    &lt;/div&gt;
-    
+    &lt;/div&gt;&lt;/div&gt;
+
 
 &lt;h2 id=&#34;5-4-트레이싱과-프로파일링&#34;&gt;5.4 트레이싱과 프로파일링&lt;/h2&gt;
 
@@ -7634,8 +7643,10 @@ sys     0m0.020s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;트레이싱 프로파일은 마이크로초 수준까지 타이밍 레졸루션을 제공합니다. 이는 외부 프로파일링으로는 얻을 수 없는 것입니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;go tool trace&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;계속하기 전에 추적 도구의 사용법에 대해 이야기해야 할 것이 있습니다.&lt;/p&gt;
 
@@ -7647,8 +7658,8 @@ sys     0m0.020s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;li&gt;&lt;p&gt;트레이싱를 보려면 많은 메모리가 필요할 수 있습니다. 실제로 4Gb는 부족합니다. 8Gb가 아마 최소 수준일 것입니다.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Fedora와 같은 OS 배포판에서 Go를 설치한 경우 트레이싱 뷰어의 지원 파일이 기본 &lt;code&gt;golang&lt;/code&gt; deb/rpm의 일부가 아닌 어떤 &lt;code&gt;-extra&lt;/code&gt; 패키지에 있을 수 있습니다.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/div&gt;
+
 
 &lt;h2 id=&#34;5-5-하나-이상의-cpu-사용하기&#34;&gt;5.5 하나 이상의 CPU 사용하기&lt;/h2&gt;
 
@@ -7785,12 +7796,13 @@ sys     0m0.121s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;모두가 &lt;code&gt;net/http/pprof&lt;/code&gt; 패키지에 대해 알고 있을 거라고 생각합니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;net/http/pprof&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;net/http/pprof&lt;/code&gt;를 임포트하면 &lt;code&gt;http.DefaultServeMux&lt;/code&gt;에 트레이싱 및 프로파일링 경로를 등록합니다. Go 1.5부터 트레이싱 프로파일러가 포함됩니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice warning&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Warning&lt;/p&gt;&lt;p&gt;&lt;code&gt;net/http/pprof&lt;/code&gt;를 임포트하면 &lt;code&gt;http.DefaultServeMux&lt;/code&gt;에 트레이싱 및 프로파일링 경로를 등록합니다. Go 1.5부터 트레이싱 프로파일러가 포함됩니다.&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;curl&lt;/code&gt; (또는 &lt;code&gt;wget&lt;/code&gt;)을 사용해서 mandelweb에서 5초 트레이싱을 확보할 수 있습니다.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% curl -o trace.out http://127.0.0.1:8080/debug/pprof/trace?seconds&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% curl -o trace.out http://127.0.0.1:8080/debug/pprof/trace?seconds&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
 &lt;h3 id=&#34;5-9-3-부하-생성하기&#34;&gt;5.9.3 부하 생성하기&lt;/h3&gt;
 
 &lt;p&gt;이전 예제는 흥미롭지만 유휴 상태인 웹 서버에는, 정의상, 성능 문제가 없습니다. 약간의 부하를 발생시켜야합니다. 이를 위해 &lt;a href=&#34;https://github.com/rakyll/hey&#34; target=&#34;_blank&#34;&gt;JBD&lt;/a&gt;가 개발하신 &lt;code&gt;hey&lt;/code&gt;를 사용할게요.&lt;/p&gt;
@@ -7901,8 +7913,9 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 
 &lt;p&gt;DEMO: &lt;code&gt;GODEBUG=gctrace=1&lt;/code&gt;을 활성화하여 &lt;code&gt;godoc&lt;/code&gt;을 표시합니다.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;프러덕션 환경에서 이 환경 변수를 사용하세요. 성능에 영향을 미치지 않습니다.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;프러덕션 환경에서 이 환경 변수를 사용하세요. 성능에 영향을 미치지 않습니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;p&gt;&lt;code&gt;GODEBUG=gctrace=1&lt;/code&gt;은 문제가 있는 것을 알고 있을 때 사용하면 좋습니다. 그러나 Go 애플리케이션의 일반적인 원격 측정의 경우는 &lt;code&gt;net/http/pprof&lt;/code&gt; 인터페이스를 사용하는 것을 추천합니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;net/http/pprof&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -7910,12 +7923,13 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 
 &lt;ul&gt;
 &lt;li&gt;실행 중인 모든 고루틴의 목록, &lt;code&gt;/debug/pprof/heap?debug=1&lt;/code&gt;.&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;메모리 할당 통계 리포트, &lt;code&gt;/debug/pprof/heap?debug=1&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;net/http/pprof&lt;/code&gt;는 기본 &lt;code&gt;http.ServeMux&lt;/code&gt;에 등록됩니다.
-&lt;code&gt;http.ListenAndServe(address, nil)&lt;/code&gt;을 사용하면 이것이 표시되므로 주의하세요.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;메모리 할당 통계 리포트, &lt;code&gt;/debug/pprof/heap?debug=1&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&#34;notice warning&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Warning&lt;/p&gt;&lt;p&gt;&lt;code&gt;net/http/pprof&lt;/code&gt;는 기본 &lt;code&gt;http.ServeMux&lt;/code&gt;에 등록됩니다.
+&lt;code&gt;http.ListenAndServe(address, nil)&lt;/code&gt;을 사용하면 이것이 표시되므로 주의하세요.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;p&gt;DEMO: &lt;code&gt;godoc -http=:8080&lt;/code&gt;, &lt;code&gt;/debug/pprof&lt;/code&gt;를 보여줍니다.&lt;/p&gt;
 
@@ -8073,18 +8087,21 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 
 &lt;p&gt;동기화 패키지는 공통 객체를 재사용하는데 사용되는 &lt;code&gt;sync.Pool&lt;/code&gt; 타입과 함께 제공됩니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;sync.Pool&lt;/code&gt;에는 고정 크기 또는 최대 용량이 없습니다. GC가 발생할 때까지 추가하고 가져와 무조건 비웁니다. 이는 &lt;a href=&#34;https://groups.google.com/forum/#!searchin/golang-dev/gc-aware/golang-dev/kJ_R6vYVYHU/LjoGriFTYxMJ&#34; target=&#34;_blank&#34;&gt;설계를 따른 것&lt;/a&gt;입니다.&lt;/p&gt;
+&lt;div class=&#34;notice warning&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Warning&lt;/p&gt;&lt;p&gt;&lt;code&gt;sync.Pool&lt;/code&gt;에는 고정 크기 또는 최대 용량이 없습니다. GC가 발생할 때까지 추가하고 가져와 무조건 비웁니다. 이는 &lt;a href=&#34;https://groups.google.com/forum/#!searchin/golang-dev/gc-aware/golang-dev/kJ_R6vYVYHU/LjoGriFTYxMJ&#34; target=&#34;_blank&#34;&gt;설계를 따른 것&lt;/a&gt;입니다.&lt;/p&gt;&lt;/div&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;가비지 콜렉션이 너무 빠르거나 가비지 콜렉션이 너무 늦으면 Pool을 비우기에 적절한 시간은 가비지 콜렉션 중이어야 합니다. 즉, Pool 타입의 세만틱스는 각 가비지 콜렉션에서 비어져야 한다는 것입니다. — 러스 콕스&lt;/p&gt;
-&lt;/blockquote&gt;
+
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;가비지 콜렉션이 너무 빠르거나 가비지 콜렉션이 너무 늦으면 Pool을 비우기에 적절한 시간은 가비지 콜렉션 중이어야 합니다. 즉, Pool 타입의 세만틱스는 각 가비지 콜렉션에서 비어져야 한다는 것입니다. — 러스 콕스&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;pool&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sync&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Pool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;interface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;make&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4096&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 
 &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;fn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;nx&#34;&gt;buf&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;pool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;().([]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// takes from pool or calls New
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// do work
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;nx&#34;&gt;pool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Put&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// returns buf to the pool
-&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
 &lt;h2 id=&#34;6-10-연습문제&#34;&gt;6.10 연습문제&lt;/h2&gt;
 
 &lt;ul&gt;
@@ -8125,9 +8142,9 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 
 &lt;p&gt;답을 모르신다면, 고루틴이 스택에서 접근할 수 있는 모든 힙 할당 변수뿐만 아니라 스택의 메모리를 힙에 고정하기 때문에 메모리 누수가 발생할 수 있습니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;고루틴을 어떻게 멈출 지 모른채로 시작하지 마세요.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;고루틴을 어떻게 멈출 지 모른채로 시작하지 마세요.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;7-1-2-더-읽을거리&#34;&gt;7.1.2 더 읽을거리&lt;/h3&gt;
 
@@ -8149,16 +8166,17 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 
 &lt;p&gt;디스크 서브 시스템은 수백 또는 수천 개의 동시 IO 요청을 처리할 수 없을 것으로 예상됩니다.&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;동시 차단 IO의 양을 제한하려면 작업자 고루틴 풀 또는 버퍼링된 채널을 세마포어로 사용하세요.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;동시 블럭킹 IO의 양을 제한하려면 작업자 고루틴 풀 또는 버퍼링된 채널을 세마포어로 사용하세요.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;	&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;semaphore&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;make&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;chan&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 	
 	&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;processRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;work&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Work&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 		&lt;span class=&#34;nx&#34;&gt;semaphore&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{}{}&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// acquire semaphore
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;// process request
 &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;		&lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;semaphore&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// release semaphore
-&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+
 &lt;h2 id=&#34;7-3-애플리케이션에서-io-멀티-플라이어를-조심하세요&#34;&gt;7.3 애플리케이션에서 IO 멀티 플라이어를 조심하세요&lt;/h2&gt;
 
 &lt;p&gt;서버 프로세스를 작성하는 경우 해당 서버의 주 작업은 네트워크를 통해 연결된 클라이언트와 애플리케이션에 저장된 데이터를 멀리플렉싱하는 것입니다.&lt;/p&gt;
@@ -8252,20 +8270,16 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 &lt;p&gt;이전 버전의 Go는 결코 나아지지 않을 것입니다. 버그 수정이나 최적화가 절대 이뤄지지 않을 겁니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Go 1.4는 사용해서는 안 됩니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.5와 1.6은 컴파일러 속도가 느렸지만, 코드도 더 빠르고, GC는 더 빠릅니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.7은 1.6보다 컴파일 속도가 약 30% 향상 되었으며, 링크 속도가 2배 향상되었습니다 (이전 모든 버전의 Go보다 좋음)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.8은 이 시점에서 컴파일 속도가 약간 향상되지만, 인텔 이외의 아키텍처에서는 코드 품질이 크게 향상됩니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.9-1.12는 지속적으로 생성된 코드의 성능을 개선하고, 버그를 수정하며, 인라인을 개선하고 디버깅을 개선합니다.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;Go 1.4는 사용해서는 안 됩니다.&lt;/li&gt;
+&lt;li&gt;Go 1.5와 1.6은 컴파일러 속도가 느렸지만, 코드도 더 빠르고, GC는 더 빠릅니다.&lt;/li&gt;
+&lt;li&gt;Go 1.7은 1.6보다 컴파일 속도가 약 30% 향상 되었으며, 링크 속도가 2배 향상되었습니다 (이전 모든 버전의 Go보다 좋음)&lt;/li&gt;
+&lt;li&gt;Go 1.8은 이 시점에서 컴파일 속도가 약간 향상되지만, 인텔 이외의 아키텍처에서는 코드 품질이 크게 향상됩니다.&lt;/li&gt;
+&lt;li&gt;Go 1.9-1.12는 지속적으로 생성된 코드의 성능을 개선하고, 버그를 수정하며, 인라인을 개선하고 디버깅을 개선합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;이전 버전의 Go에는 업데이트가 없습니다. 사용해서는 안됩니다. 최신버전을 사용하면 최상의 성능을 얻을 수 있습니다.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class=&#34;notice tip&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;이전 버전의 Go에는 업데이트가 없습니다. 사용해서는 안됩니다. 최신버전을 사용하면 최상의 성능을 얻을 수 있습니다.&lt;/p&gt;&lt;/div&gt;
+
 
 &lt;h3 id=&#34;7-9-1-더-읽을거리&#34;&gt;7.9.1 더 읽을거리&lt;/h3&gt;
 

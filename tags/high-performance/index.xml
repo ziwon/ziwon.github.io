@@ -18,9 +18,10 @@
       <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
       
       <guid>https://ziwon.github.io/post/high-performance-go-workshop/</guid>
-      <description>원글은 High Performance Go Workshop입니다. 학습 차원에서 허락없이 번역하였습니다. 저작권 등의 문제가 있을 경우, 이메일로 연락주시길 바랍니다.
+      <description>.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:#444;background:#e7f2fa}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:#fff;background:#6ab0de}.notice-title:before{margin-right:8px;font-family:&#34;Font Awesome 5 Free&#34;,FontAwesome;font-weight:400}.notice.warning .notice-title{background:rgba(217,83,79,.9)}.notice.warning .notice-title:before{content:&#39;\f071&#39;}.notice.warning{background:#fae2e2}.notice.info .notice-title{background:#f0b37e}.notice.info .notice-title:before{content:&#39;\f05a&#39;}.notice.info{background:#fff2db}.notice.note .notice-title{background:#6ab0de}.notice.note .notice-title:before{content:&#39;\f06a&#39;}.notice.note{background:#e7f2fA}.notice.tip .notice-title{background:rgba(92,184,92,.8)}.notice.tip .notice-title:before{content:&#39;\f058&#39;}.notice.tip{background:#e6f9e6}Note
+원글은 High Performance Go Workshop입니다. 학습 차원에서 허락없이 번역하였습니다. 저작권 등의 문제가 있을 경우, 이메일로 연락주시길 바랍니다.
  개요 이 워크샵의 목표는 Go 애플리케이션에서 성능 문제를 진단하고 해결하는 데 필요한 도구를 제공하는 것입니다.
-하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다. 남는 시간에 질문을 하며 자신의 코드로 실험해 볼 수 있을 것입니다.</description>
+하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다.</description>
     </item>
     
   </channel>
