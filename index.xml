@@ -16,7 +16,7 @@
       <title>[번역] 고성능 Go Workshop</title>
       <link>https://ziwon.github.io/post/high-performance-go-workshop/</link>
       <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/high-performance-go-workshop/</guid>
       <description></description>
       
@@ -5486,9 +5486,9 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;-gcflags = -l&lt;/code&gt;, 인라인 비활성화&lt;/li&gt;
 &lt;li&gt;아무것도 전달하지 않음, 일반적인 인라이닝&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-gcflags = &#39;-l -l&#39;&lt;/code&gt; 인라인 레벨 2, 더 공격적이며, 더 빨라질 수 있으며, 더 큰 바이너리를 만듭니다.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;-gcflags = &#39;-l -l -l&#39;&lt;/code&gt; 인라인 레벨 3, 좀 더 공격적이며, 확실히 더 큰 바이너리를 만들고, 좀 더 빠를 수 있지만 버그가 있을 수 있습니다.&lt;/li&gt;
-&lt;li&gt;- Go 1.11의 &lt;code&gt;-gcflags = -l = 4&lt;/code&gt; (4 개의 &lt;code&gt;-l&lt;/code&gt;s)는 실험적인 중간 스택 인라인 최적화를 가능하게 합니다.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-gcflags = &amp;quot;-l -l&amp;quot;&lt;/code&gt; 인라인 레벨 2, 더 공격적이며, 더 빨라질 수 있으며, 더 큰 바이너리를 만듭니다.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-gcflags = &amp;quot;-l -l -l&amp;quot;&lt;/code&gt; 인라인 레벨 3, 좀 더 공격적이며, 확실히 더 큰 바이너리를 만들고, 좀 더 빠를 수 있지만 버그가 있을 수 있습니다.&lt;/li&gt;
+&lt;li&gt;- Go 1.11의 &lt;code&gt;-gcflags = -l = 4&lt;/code&gt; (4 개의 &lt;code&gt;-l&lt;/code&gt;)는 실험적인 중간 스택 인라인 최적화를 가능하게 합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&#34;4-3-5-중간-스택-인라이닝&#34;&gt;4.3.5 중간 스택 인라이닝&lt;/h4&gt;
@@ -5501,9 +5501,12 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;중간 스택 인라이닝을 사용하면 함수의 고속 경로를 인라인화하여, 고속 경로에서 함수 호출 오버헤드를 제거할 수 있습니다. &lt;a href=&#34;https://go-review.googlesource.com/c/go/+/152698&#34; target=&#34;_blank&#34;&gt;Go 1.13에 들어온 최근의 CL&lt;/a&gt;은 &lt;code&gt;sync.RWMutex.Unlock()&lt;/code&gt; 적용된 이 기술을 보여줍니다.&lt;/p&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;더 읽을거리&lt;/strong&gt;
-- &lt;a href=&#34;https://docs.google.com/presentation/d/1Wcblp3jpfeKwA0Y4FOmj63PW52M_qmNqlQkNaLj0P5o/edit#slide=id.p&#34; target=&#34;_blank&#34;&gt;David Lazar의 Go 컴파일러 프레젠테이션의 중간 스택 인라인&lt;/a&gt;
-- &lt;a href=&#34;https://github.com/golang/proposal/blob/master/design/19348-midstack-inlining.md&#34; target=&#34;_blank&#34;&gt;Go 컴파일러에서 중간 스택 인라니닝&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;더 읽을거리&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.google.com/presentation/d/1Wcblp3jpfeKwA0Y4FOmj63PW52M_qmNqlQkNaLj0P5o/edit#slide=id.p&#34; target=&#34;_blank&#34;&gt;David Lazar의 Go 컴파일러 프레젠테이션의 중간 스택 인라인&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/golang/proposal/blob/master/design/19348-midstack-inlining.md&#34; target=&#34;_blank&#34;&gt;Go 컴파일러에서 중간 스택 인라니닝&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h3 id=&#34;4-4-데드-코드-제거&#34;&gt;4.4 데드 코드 제거&lt;/h3&gt;
 
@@ -5577,9 +5580,9 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id=&#34;4-4-1-데드-코드-제거&#34;&gt;4.4.1 데드 코드 제거&lt;/h4&gt;
 
-&lt;p&gt;분기 제거는 데드 코드 제거로 알려진 최적화 범주 중 하나입니다. 실제로 정적 증거(static proofs)를 사용하여 코드 조각에 도달할 수 없거나 죽은 것으로 알려져 있으므로 최종 바이너리에서 컴파일, 최적화 또는 생성할 필요가 없습니다.&lt;/p&gt;
+&lt;p&gt;분기 제거는 데드 코드 제거로 알려진 최적화 방법 중 하나입니다. 실제로 정적 증거(static proofs)를 사용하여 코드 조각에 도달할 수 없거나 죽은 것으로 알려져 있으므로 최종 바이너리에서 컴파일, 최적화 또는 생성할 필요가 없습니다.&lt;/p&gt;
 
-&lt;p&gt;데드 코드 제거가 인라인과 함께 작동하여 도달할 수 없는 것으로 입증된 루프와 분기를 제거하여 생성된 된 코드의 양을 줄이는 방법을 보았습니다.&lt;/p&gt;
+&lt;p&gt;데드 코드 제거가 인라인과 함께 작동하여 도달할 수 없는 것으로 입증된 루프와 분기문을 제거하여 생성된 코드의 양을 줄이는 방법을 보았습니다.&lt;/p&gt;
 
 &lt;p&gt;이를 활용하여 고가의 디버깅을 구현하고 숨길 수 있습니다&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kd&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;debug&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -5673,9 +5676,9 @@ examples/inl/max.go:21:3: inlining call to Max&lt;/code&gt;&lt;/pre&gt;&lt;/div&
 
 &lt;h3 id=&#34;5-1-엑스큐션-트레이서란-무엇인가-왜-필요한가&#34;&gt;5.1 엑스큐션 트레이서란 무엇인가, 왜 필요한가&lt;/h3&gt;
 
-&lt;p&gt;엑스큐션 트레이서가 무엇을 하는지 그리고 왜 중요한지를 설명하는 가장 쉬운 방법은 pprof &lt;code&gt;go tool pprof&lt;/code&gt;의 성능이 저하되는 코드 조각을 살펴보는 것인 듯 합니다.&lt;/p&gt;
+&lt;p&gt;저는 엑스큐션 트레이서가 무엇을 하는지 그리고 왜 중요한지를 설명하는 가장 쉬운 방법은 pprof, 즉 &lt;code&gt;go tool pprof&lt;/code&gt;가 잘 수행되지 않는 코드 조각을 살펴보는 것이라고 생각합니다.&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;examples/mandelbrot&lt;/code&gt; 디렉토리에는 간단한 만델브로트 생성기가 들어 있습니다. 이 코드는 &lt;a href=&#34;https://github.com/campoy/mandelbrot&#34; target=&#34;_blank&#34;&gt;프란체스 캄포이&lt;/a&gt;에서 따왔습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;examples/mandelbrot&lt;/code&gt; 디렉토리에는 간단한 만델브로트 생성기가 들어 있습니다. 이 코드는 &lt;a href=&#34;https://github.com/campoy/mandelbrot&#34; target=&#34;_blank&#34;&gt;프란체스 캄포이 저장소&lt;/a&gt;에서 따왔습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; examples/mandelbrot
 go build &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ./mandelbrot&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;img src=&#34;https://dave.cheney.net/high-performance-go-workshop/images/mandelbrot.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
@@ -5693,11 +5696,11 @@ sys     0m0.015s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&#34;5-1-2-프로그램은-무엇을-하고-있을까요&#34;&gt;5.1.2 프로그램은 무엇을 하고 있을까요&lt;/h3&gt;
 
-&lt;p&gt;따라서, 이 예제에서 프로그램은 만델브로트를 생성하고 png에 쓰는 데 1.6 초가 걸렸습니다.&lt;/p&gt;
+&lt;p&gt;따라서, 이 예제에서 프로그램은 만델브로트를 생성하고 png파일에 쓰는 데 1.6초가 걸렸습니다.&lt;/p&gt;
 
 &lt;p&gt;괜찮나요? 더 빨리 만들 수 있을까요?&lt;/p&gt;
 
-&lt;p&gt;질문에 대한 한 가지 답변은 Go 내장 pprof 지원을 사용하여 프로그램을 프로파일링하는 것이 될 수 있습니다.&lt;/p&gt;
+&lt;p&gt;질문에 대한 한 가지 답변은 Go 빌트인 pprof 지원 기능을 사용하여 프로그램을 프로파일링하는 것이 될 수 있습니다.&lt;/p&gt;
 
 &lt;p&gt;한번 해봅시다.&lt;/p&gt;
 
@@ -5712,7 +5715,7 @@ sys     0m0.015s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&#34;5-3-runtime-pprof-사용한-프로파일-생성&#34;&gt;5.3 runtime/pprof 사용한 프로파일 생성&lt;/h2&gt;
 
-&lt;p&gt;마술이 없다는 것을 보여주기 위해 &lt;code&gt;os.Stdout&lt;/code&gt;에 CPU 프로파일을 쓰도록 프로그램을 수정해 봅시다.&lt;/p&gt;
+&lt;p&gt;마술이 없다는 것을 보여주기 위해 &lt;code&gt;os.Stdout&lt;/code&gt;에 CPU 프로파일링을 쓰도록 프로그램을 수정해 봅시다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;runtime/pprof&amp;#34;&lt;/span&gt;
 
 &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -5727,37 +5730,39 @@ go run mandelbrot.go &amp;gt; cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id=&#34;5-3-1-github-com-pkg-profile-사용한-프로파일-생성&#34;&gt;5.3.1 github.com/pkg/profile 사용한 프로파일 생성&lt;/h4&gt;
 
-&lt;p&gt;이전 슬라이드는 프로필을 생성하는 매우 저렴한 방법을 보여 주었지만 몇 가지 문제가 있습니다.&lt;/p&gt;
+&lt;p&gt;이전 슬라이드는 프로파일을 생성하는 매우 값싼 방법을 보여 주었지만, 몇 가지 문제가 있습니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;출력을 파일로 리디렉션하는 것을 잊어 버린 경우 해당 터미널 세션이 종료됩니다. 😞 (힌트 : &lt;code&gt;reset (1)&lt;/code&gt;은 여러분의 친구입니다)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;os.Stdout&lt;/code&gt;에 다른 것을 쓰면 (예 : fmt.Println) 디&lt;/li&gt;
+&lt;li&gt;출력을 파일로 리디렉션하는 것을 잊어버린 경우 해당 터미널 세션을 날리게 됩니다. 😞 (힌트 : &lt;code&gt;reset (1)&lt;/code&gt;은 여러분의 친구입니다)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;os.Stdout&lt;/code&gt;에 다른 것을 쓰게 되면(예 : fmt.Println), 트레이싱에 오류가 생깁니다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;code&gt;runtime/pprof&lt;/code&gt;를 사용하는 권장 방법은 트레이싱을 파일에 쓰는 것입니다. 하지만, 누군가가 ^C으로 프로그램을 중단시켰다면, 트레이싱이 멈춰 있는지, 그리고 프로그램이 중단되기 전에 파일이 닫혀 있는지 확인해야 합니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;runtime/pprof&lt;/code&gt;을 사용하는 권장 방법은 &lt;a href=&#34;https://godoc.org/runtime/pprof#hdr-Profiling_a_Go_program&#34; target=&#34;_blank&#34;&gt;트레이싱을 파일에 쓰는&lt;/a&gt; 것입니다. 하지만, 누군가가 ^C으로 프로그램을 중단시켰다면, 트레이싱이 멈춰 있는지, 그리고 프로그램이 중단되기 전에 파일이 닫혀 있는지 확인해야 합니다.&lt;/p&gt;
 
-&lt;p&gt;그래서 몇 년 전에 저는 이를 관리하기 위해 패키지를 작성했습니다.&lt;/p&gt;
+&lt;p&gt;그래서, 몇 년 전에 저는 이를 관리하기 위해 &lt;a href=&#34;https://godoc.org/github.gom/pkg/profile&#34; target=&#34;_blank&#34;&gt;패키지&lt;/a&gt;를 작성했습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-golang&#34; data-lang=&#34;golang&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;github.com/pkg/profile&amp;#34;&lt;/span&gt;
 
 &lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;defer&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;profile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;profile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;CPUProfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;profile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;ProfilePath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;이 버전을 실행하면 현재 작업 디렉토리에 프로파일이 작성됩니다.&lt;/p&gt;
-
+&lt;p&gt;이 버전을 실행하면, 현재 작업 디렉토리에 프로파일이 작성됩니다.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go run mandelbrot.go
+&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;/09/17 &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:22:06 profile: cpu profiling enabled, cpu.pprof
+&lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;/09/17 &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:22:08 profile: cpu profiling disabled, cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&#34;notice note&#34; &gt;
-&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;code&gt;pkg/profile&lt;/code&gt;을 사용하는 것이 필수는 아니지만, 트레이싱 수집 및 기록과 관련된 많은 보일러 플레이트가 필요하므로 이 워크샵의 나머지 부분에서 사용합니다.&lt;/p&gt;&lt;/div&gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Note&lt;/p&gt;&lt;p&gt;&lt;code&gt;pkg/profile&lt;/code&gt;을 사용하는 것이 필수는 아니지만, 트레이싱 수집 및 기록과 관련된 많은 보일러플레이트가 필요하므로 이 워크샵의 나머지 부분에서 사용합니다.&lt;/p&gt;&lt;/div&gt;
 
 
 &lt;h3 id=&#34;5-3-2-프로파일-분석하기&#34;&gt;5.3.2 프로파일 분석하기&lt;/h3&gt;
 
 &lt;p&gt;이제 프로파일이 있으니, &lt;code&gt;go tool pprof&lt;/code&gt;를 사용해서 분석할 수 있습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go tool pprof -http&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;:8080 cpu.pprof&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;이 실행에서 프로그램이 1.81 초 동안 실행되었음을 알 수 있습니다 (프로파일링은 약간의 오버 헤드를 추가 함). pprof는 샘플 기반이므로 운영 체제의 &lt;code&gt;SIGPROF&lt;/code&gt; 타이머에 의존하여 &lt;code&gt;pprof&lt;/code&gt;가 1.53 초 동안 만 데이터를 캡처했음을 알 수 있습니다.&lt;/p&gt;
+&lt;p&gt;이 실행에서 프로그램이 1.81초 동안 실행되었음을 알 수 있습니다 (프로파일링은 약간의 오버헤드를 추가시킴). pprof는 샘플 기반이므로 운영체제의 &lt;code&gt;SIGPROF&lt;/code&gt; 타이머에 의존하여 &lt;code&gt;pprof&lt;/code&gt;가 1.53초 동안만 데이터를 캡처했음을 알 수 있습니다.&lt;/p&gt;
 
 &lt;div class=&#34;notice tip&#34; &gt;
-&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;Go 1.9 이후 pprof 트레이싱에는 트레이싱을 분석하는 데 필요한 모든 정보가 포함됩니다. 더 이상 트레이싱을 생성하는 일치하는 바이너리가 없어도 됩니다. 🎉&lt;/p&gt;&lt;/div&gt;
+&lt;p class=&#34;first notice-title&#34;&gt;Tip&lt;/p&gt;&lt;p&gt;Go 1.9 이후 &lt;code&gt;pprof&lt;/code&gt; 트레이싱에는 트레이싱을 분석하는데 필요한 모든 정보가 포함됩니다. 더 이상 트레이싱을 생성하는 일치하는 바이너리가 없어도 됩니다. 🎉&lt;/p&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;code&gt;top pprof&lt;/code&gt; 기능을 사용하여 트레이싱에 의해 기록된 함수를 정렬할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;top&lt;/code&gt; pprof 명령어를 사용하여 트레이싱이 기록한 함수를 정렬할 수 있습니다.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;% go tool pprof cpu.pprof
 Type: cpu
 Time: Mar &lt;span class=&#34;m&#34;&gt;24&lt;/span&gt;, &lt;span class=&#34;m&#34;&gt;2019&lt;/span&gt; at &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt;:18pm &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;CET&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
@@ -7625,7 +7630,7 @@ sys     0m0.020s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;/09/17 &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:41:40 Serializing trace...
 &lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;/09/17 &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:41:40 Splitting trace...
 &lt;span class=&#34;m&#34;&gt;2017&lt;/span&gt;/09/17 &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:41:40 Opening browser. Trace viewer s listening on http://127.0.0.1:57842&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;이 도구는 &lt;code&gt;go tool pprof&lt;/code&gt;와 약간 다릅니다. 엑스큐션 트레이서 프로그램은 크롬에 내장된 많은 프로파일 시각화 인프라를 재사용하므로 &lt;code&gt;go tool trace&lt;/code&gt;은 서버로 작동하여 원시 실행 추적을 크롬이 기본적으로 표시 할 수있는 데이터로 변환합니다.&lt;/p&gt;
+&lt;p&gt;이 도구는 &lt;code&gt;go tool pprof&lt;/code&gt;와 약간 다릅니다. 엑스큐션 트레이서 프로그램은 크롬에 내장된 많은 프로파일 시각화 인프라를 재사용하므로 &lt;code&gt;go tool trace&lt;/code&gt;은 서버로 작동하여 원시 엑스큐션 트레이싱을 크롬이 기본적으로 표시 할 수 있는 데이터로 변환합니다.&lt;/p&gt;
 
 &lt;h3 id=&#34;5-4-2-트레이싱-분석하기&#34;&gt;5.4.2 트레이싱 분석하기&lt;/h3&gt;
 
@@ -7651,13 +7656,10 @@ sys     0m0.020s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;계속하기 전에 추적 도구의 사용법에 대해 이야기해야 할 것이 있습니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;이 도구는 크롬에 내장된 자바 스크립트 디버깅 지원을 사용합니다. 트레이싱 프로필은 크롬에서만 볼 수 있으며 Firefox, Safari, IE Edge에서는 작동하지 않습니다. 쏘리.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;이 제품은 Google 제품이므로 키보드 단축키를 지원합니다. &lt;code&gt;WASD&lt;/code&gt;를 사용하여 탐색하고, &lt;code&gt;?&lt;/code&gt; 사용해서 목록을 얻을 수 있습니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;트레이싱를 보려면 많은 메모리가 필요할 수 있습니다. 실제로 4Gb는 부족합니다. 8Gb가 아마 최소 수준일 것입니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Fedora와 같은 OS 배포판에서 Go를 설치한 경우 트레이싱 뷰어의 지원 파일이 기본 &lt;code&gt;golang&lt;/code&gt; deb/rpm의 일부가 아닌 어떤 &lt;code&gt;-extra&lt;/code&gt; 패키지에 있을 수 있습니다.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;이 도구는 크롬에 내장된 자바 스크립트 디버깅 지원을 사용합니다. 트레이싱 프로필은 크롬에서만 볼 수 있으며 Firefox, Safari, IE Edge에서는 작동하지 않습니다. 쏘리.&lt;/li&gt;
+&lt;li&gt;이 제품은 Google 제품이므로 키보드 단축키를 지원합니다. &lt;code&gt;WASD&lt;/code&gt;를 사용하여 탐색하고, &lt;code&gt;?&lt;/code&gt; 사용해서 목록을 얻을 수 있습니다.&lt;/li&gt;
+&lt;li&gt;트레이싱를 보려면 많은 메모리가 필요할 수 있습니다. 실제로 4Gb는 부족합니다. 8Gb가 아마 최소 수준일 것입니다.&lt;/li&gt;
+&lt;li&gt;Fedora와 같은 OS 배포판에서 Go를 설치한 경우 트레이싱 뷰어의 지원 파일이 기본 &lt;code&gt;golang&lt;/code&gt; deb/rpm의 일부가 아닌 어떤 &lt;code&gt;-extra&lt;/code&gt; 패키지에 있을 수 있습니다.&lt;/li&gt;
 &lt;/ul&gt;&lt;/div&gt;
 
 
@@ -7676,14 +7678,13 @@ user    0m4.031s
 sys     0m0.865s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;실행 시간은 기본적으로 동일했습니다. 더 많은 &lt;code&gt;user&lt;/code&gt; 시간이 있었는데, 말이 됩니다. 모든 CPU를 사용하고 있었는데도, real (wall clock, 벽시계) 시간은 거의 똑같습니다.&lt;/p&gt;
 
-&lt;p&gt;트레이싱를 한번 볼까요&lt;/p&gt;
+&lt;p&gt;트레이싱를 한번 볼까요.&lt;/p&gt;
 
 &lt;p&gt;보시다시피, 이 추적은 훨씬 더 많은 데이터를 생성했습니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;많은 작업이 완료된 것 같지만 확대하면 약간의 차이가 있습니다. 이것은 스케줄러로 여겨집니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;4개의 코어를 모두 사용하는 동안 각 &lt;code&gt;fillPixel&lt;/code&gt;은 상대적으로 적은 양의 작업이므로 오버헤드를 예약하는 데 많은 시간을 소비하고 있습니다.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;많은 작업이 완료된 것 같지만 확대하면 약간의 차이가 있습니다. 이것은 스케줄러로 여겨집니다.&lt;/li&gt;
+&lt;li&gt;4개의 코어를 모두 사용하는 동안 각 &lt;code&gt;fillPixel&lt;/code&gt;은 상대적으로 적은 양의 작업이므로 오버헤드를 예약하는 데 많은 시간을 소비하고 있습니다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;5-6-작업-배치하기&#34;&gt;5.6 작업 배치하기&lt;/h2&gt;
@@ -7704,9 +7705,8 @@ sys     0m0.025s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;보시다시피 이제 트레이싱는 더 작고 작업하기가 더 쉽습니다. 우리는 전체 트레이싱를 볼 수 있는데, 이는 멋진 보너스입니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;프로그램이 시작될 때 고루틴의 수가 최대 약 1,000 개로 증가하는 것을 볼 수 있습니다. 이것은 이전 트레이싱에서 보았던 1 &amp;lt;&amp;lt; 20에 비해 개선된 것입니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;확대하면 &lt;code&gt;onePerRowFillImg&lt;/code&gt;이 더 오래 실행되는 것을 볼 수 있으며 고루틴 생성 작업이 조기에 완료되므로 스케줄러는 나머지 실행 가능한 고루틴을 효율적으로 처리합니다.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;프로그램이 시작될 때 고루틴의 수가 최대 약 1,000 개로 증가하는 것을 볼 수 있습니다. 이것은 이전 트레이싱에서 보았던 1 &amp;lt;&amp;lt; 20에 비해 개선된 것입니다.&lt;/li&gt;
+&lt;li&gt;확대하면 &lt;code&gt;onePerRowFillImg&lt;/code&gt;이 더 오래 실행되는 것을 볼 수 있으며 고루틴 생성 작업이 조기에 완료되므로 스케줄러는 나머지 실행 가능한 고루틴을 효율적으로 처리합니다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;5-7-워커-사용하기&#34;&gt;5.7 워커 사용하기&lt;/h2&gt;
@@ -7738,11 +7738,9 @@ sys     0m4.311s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이는 채널이 언버퍼드(unbuffered)이기 때문입니다. 버퍼링되지 않은 채널은 수신할 준비가 된 사람이 있을 때까지 보낼 수 없습니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;프로듀셔는 수신할 준비가 된 워커가 있을 때까지 작업을 보낼 수 없습니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;워커들은 누군가 보낼 준비가 될 때까지 작업을 받을 수 없기 때문에 기다릴 때 서로 경쟁합니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;송신자는 권한이 없으므로 이미 실행 중인 워커보다 우선 순위를 가질 수 없습니다.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;프로듀셔는 수신할 준비가 된 워커가 있을 때까지 작업을 보낼 수 없습니다.&lt;/li&gt;
+&lt;li&gt;워커들은 누군가 보낼 준비가 될 때까지 작업을 받을 수 없기 때문에 기다릴 때 서로 경쟁합니다.&lt;/li&gt;
+&lt;li&gt;송신자는 권한이 없으므로 이미 실행 중인 워커보다 우선 순위를 가질 수 없습니다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;여기서 볼 수 있는 것은 버퍼되지 않은 채널에 의해 도입되는 많은 지연 시간입니다. 스케줄러 내부에는 많은 중지 및 시작이 있으며 작업을 기다리는 동안 잠재적으로 잠금 및 뮤텍스가 발생할 수 있으며, 이는 &lt;code&gt;sys&lt;/code&gt; 시간이 더 높은 이유입니다.&lt;/p&gt;
@@ -7764,9 +7762,8 @@ sys     0m0.121s&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;버퍼드(buffered) 채널을 사용한 트레이싱 결과는 다음과 같습니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;프로듀서는 워커가 도착할 때까지 기다릴 필요가 없고, 빠르게 채널을 채울 수 있습니다.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;프로듀서는 작업을 기다리지 않고 채널에서 다음 항목을 빠르게 가져올 수 있습니다.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;프로듀서는 워커가 도착할 때까지 기다릴 필요가 없고, 빠르게 채널을 채울 수 있습니다.&lt;/li&gt;
+&lt;li&gt;프로듀서는 작업을 기다리지 않고 채널에서 다음 항목을 빠르게 가져올 수 있습니다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;이 방법을 사용하면 이전에 row마다 고루틴을 스케쥴링했던 것보다 픽셀마다 작업을 전달하기 위해 채널을 사용하는 속도와 거의 같은 속도를 얻게 됩니다.&lt;/p&gt;
@@ -7879,19 +7876,13 @@ Trace viewer is listening on http://127.0.0.1:60301&lt;/code&gt;&lt;/pre&gt;&lt;
 &lt;p&gt;Go GC의 설계는 수년에 걸쳐 변경되었습니다.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Go 1.0, tcmalloc에 크게 의존하는 스탑-더-월드 마크 스윕 콜렉터&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.3, 힙의 큰 숫자를 포인터로 오인하지 않아, 메모리 누수가 발생하는, 완전 정밀 콜렉터&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.5, 처리량보다 레이턴시에 중점을 둔 새로운 GC 설계&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.6, 레이턴시가 짧은 더 큰 힙을 처리하는 GC 개선&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.7, 리팩토링 위주의 작은 GC 개선&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.8, STW 시간을 줄이기 위한 추가 작업, 이제 100 마이크로초 범위로 내려감.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Go 1.10+, 전체 GC 사이클을 트리거할 때 레이턴시를 낮추기 위한 순수 협업 (pure cooperative) 고루틴에서 벗어남.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;Go 1.0, tcmalloc에 크게 의존하는 스탑-더-월드 마크 스윕 콜렉터&lt;/li&gt;
+&lt;li&gt;Go 1.3, 힙의 큰 숫자를 포인터로 오인하지 않아, 메모리 누수가 발생하는, 완전 정밀 콜렉터&lt;/li&gt;
+&lt;li&gt;Go 1.5, 처리량보다 레이턴시에 중점을 둔 새로운 GC 설계&lt;/li&gt;
+&lt;li&gt;Go 1.6, 레이턴시가 짧은 더 큰 힙을 처리하는 GC 개선&lt;/li&gt;
+&lt;li&gt;Go 1.7, 리팩토링 위주의 작은 GC 개선&lt;/li&gt;
+&lt;li&gt;Go 1.8, STW 시간을 줄이기 위한 추가 작업, 이제 100 마이크로초 범위로 내려감.&lt;/li&gt;
+&lt;li&gt;Go 1.10+, 전체 GC 사이클을 트리거할 때 레이턴시를 낮추기 위한 순수 협업 (pure cooperative) 고루틴에서 벗어남.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;6-3-가비지-콜렉터-모니터링&#34;&gt;6.3 가비지 콜렉터 모니터링&lt;/h2&gt;
@@ -8284,9 +8275,8 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
 &lt;h3 id=&#34;7-9-1-더-읽을거리&#34;&gt;7.9.1 더 읽을거리&lt;/h3&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://dave.cheney.net/2016/04/02/go-1-7-toolchain-improvements&#34; target=&#34;_blank&#34;&gt;Go 1.7 toolchain improvements&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://dave.cheney.net/2016/09/18/go-1-8-performance-improvements-one-month-in&#34; target=&#34;_blank&#34;&gt;Go 1.8 performance improvements&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://dave.cheney.net/2016/04/02/go-1-7-toolchain-improvements&#34; target=&#34;_blank&#34;&gt;Go 1.7 toolchain improvements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://dave.cheney.net/2016/09/18/go-1-8-performance-improvements-one-month-in&#34; target=&#34;_blank&#34;&gt;Go 1.8 performance improvements&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&#34;7-9-2-핫-필드를-구조체의-상단으로-이동&#34;&gt;7.9.2 핫 필드를 구조체의 상단으로 이동&lt;/h3&gt;
@@ -8338,7 +8328,7 @@ gc &lt;span class=&#34;m&#34;&gt;9&lt;/span&gt; @0.045s &lt;span class=&#34;m&#3
       <title>Cosmos란 무엇인가</title>
       <link>https://ziwon.github.io/post/cosmos-intro/</link>
       <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/cosmos-intro/</guid>
       <description></description>
       
@@ -8598,7 +8588,7 @@ Proof-of-Work 체인과 같이 빠른 파이널리티를 갖지 않는 블록체
       <title>TGI Kubernetes 007: Controller 만들기</title>
       <link>https://ziwon.github.io/post/tgik-007/</link>
       <pubDate>Sun, 03 Mar 2019 13:25:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-007/</guid>
       <description></description>
       
@@ -8883,7 +8873,7 @@ supersecret           k8s.ziwon.dev/secretsync              &lt;span class=&#34;
       <title>[번역] 도커 볼륨</title>
       <link>https://ziwon.github.io/post/docker-storage-volumes/</link>
       <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/docker-storage-volumes/</guid>
       <description></description>
       
@@ -9202,7 +9192,7 @@ $ docker volume rm nginx-vol&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       <title>TGI Kubernetes 006: kubeadm</title>
       <link>https://ziwon.github.io/post/tgik-006/</link>
       <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-006/</guid>
       <description></description>
       
@@ -9867,7 +9857,7 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
       <title>[번역] 도커 스토리지 소개</title>
       <link>https://ziwon.github.io/post/docker-storage-overview/</link>
       <pubDate>Wed, 20 Feb 2019 11:55:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/docker-storage-overview/</guid>
       <description></description>
       
@@ -10005,7 +9995,7 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
       <title>TGI Kubernetes 005: Pod Params and Probes</title>
       <link>https://ziwon.github.io/post/tgik-005/</link>
       <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-005/</guid>
       <description></description>
       
@@ -10310,7 +10300,7 @@ ip-172-31-31-2     Ready    master   36m   v1.13.3&lt;/code&gt;&lt;/pre&gt;&lt;/
       <title>TGI Kubernetes 004: RBAC</title>
       <link>https://ziwon.github.io/post/tgik-004/</link>
       <pubDate>Tue, 05 Feb 2019 11:55:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-004/</guid>
       <description></description>
       
@@ -11510,7 +11500,7 @@ helm init --service-account tiller --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt
       <title>TGI Kubernetes 003: Istio</title>
       <link>https://ziwon.github.io/post/tgik-003/</link>
       <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-003/</guid>
       <description></description>
       
@@ -11973,7 +11963,7 @@ serviceAccount: istio-pilot-service-account&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       <title>TGI Kubernetes 002: Networking and Services</title>
       <link>https://ziwon.github.io/post/tgik-002/</link>
       <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-002/</guid>
       <description></description>
       
@@ -12819,7 +12809,7 @@ status:
       <title>[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</title>
       <link>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</link>
       <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</guid>
       <description></description>
       
@@ -13807,7 +13797,7 @@ host-B $ docker network create -d macvlan --subnet &lt;span class=&#34;m&#34;&gt
       <title>TGI Kubernetes 001: A Quick Tour</title>
       <link>https://ziwon.github.io/post/tgik-001/</link>
       <pubDate>Sun, 13 Jan 2019 17:12:00 +0000</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/tgik-001/</guid>
       <description></description>
       
@@ -14016,7 +14006,7 @@ kubectl rollout undo deployment kuard
       <title>Kops에서 Bastion 호스트 SSH로 접속하기</title>
       <link>https://ziwon.github.io/post/bastion-in-kops/</link>
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
       <description></description>
       
@@ -14065,7 +14055,7 @@ core@ip-10-1-178-52 ~ $&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
       <title>[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</title>
       <link>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</link>
       <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/</guid>
       <description></description>
       
@@ -14504,7 +14494,7 @@ core@ip-10-1-178-52 ~ $&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
       <title>[번역] 파이썬 매직 메소드 (Python&#39;s Magic Methods)</title>
       <link>https://ziwon.github.io/post/python_magic_methods/</link>
       <pubDate>Mon, 30 Jan 2017 03:37:00 +0000</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/python_magic_methods/</guid>
       <description></description>
       
@@ -15110,7 +15100,7 @@ Not closable.
       <title>Using custom model_to_dict() in Django</title>
       <link>https://ziwon.github.io/post/using_custom_model_to_dict_in_django/</link>
       <pubDate>Fri, 09 Dec 2016 11:00:25 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/using_custom_model_to_dict_in_django/</guid>
       <description></description>
       
@@ -15250,7 +15240,7 @@ Not closable.
       <title>[번역] Effective Go: Concurrency</title>
       <link>https://ziwon.github.io/post/effective-go-concurrency/</link>
       <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/effective-go-concurrency/</guid>
       <description></description>
       
@@ -15496,7 +15486,7 @@ Not closable.
       <title>Falcon REST API</title>
       <link>https://ziwon.github.io/post/falcon-rest-template/</link>
       <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/falcon-rest-template/</guid>
       <description></description>
       
@@ -15551,7 +15541,7 @@ SMC Version &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;system&lt;span class=&#3
       <title>Generics of a Higher Kind</title>
       <link>https://ziwon.github.io/post/generics-of-a-higher-kind/</link>
       <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/generics-of-a-higher-kind/</guid>
       <description></description>
       
@@ -15855,7 +15845,7 @@ SMC Version &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;system&lt;span class=&#3
       <title>Principles of Reactive Programming</title>
       <link>https://ziwon.github.io/post/principles-of-reactive-programming/</link>
       <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/principles-of-reactive-programming/</guid>
       <description></description>
       
@@ -15872,7 +15862,7 @@ went on. Now where to go?&lt;/p&gt;
       <title>Lambda Calculus</title>
       <link>https://ziwon.github.io/post/lambda-calculus/</link>
       <pubDate>Tue, 22 Oct 2013 13:03:05 +0900</pubDate>
-      <author>Aron Yoon</author>
+      <author>Youngpil Yoon</author>
       <guid>https://ziwon.github.io/post/lambda-calculus/</guid>
       <description></description>
       
