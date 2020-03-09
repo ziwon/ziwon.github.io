@@ -7,64 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 03 Sep 2019 20:07:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 03 Mar 2019 13:25:00 +0900</lastBuildDate>
     
 	<atom:link href="https://ziwon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Go</title>
-      <link>https://ziwon.github.io/tags/go/</link>
-      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>https://ziwon.github.io/tags/golang/</link>
-      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>High Performance</title>
-      <link>https://ziwon.github.io/tags/high-performance/</link>
-      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/high-performance/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>blockchain</title>
-      <link>https://ziwon.github.io/tags/blockchain/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/blockchain/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cosmos</title>
-      <link>https://ziwon.github.io/tags/cosmos/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/cosmos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tendermint</title>
-      <link>https://ziwon.github.io/tags/tendermint/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/tendermint/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>controller</title>
@@ -333,6 +279,15 @@
       <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/concurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://ziwon.github.io/tags/golang/</link>
+      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/golang/</guid>
       <description></description>
     </item>
     

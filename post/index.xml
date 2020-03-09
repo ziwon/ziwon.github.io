@@ -7,34 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Tue, 03 Sep 2019 20:07:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 03 Mar 2019 13:25:00 +0900</lastBuildDate>
     
 	<atom:link href="https://ziwon.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>[번역] 고성능 Go Workshop</title>
-      <link>https://ziwon.github.io/post/high-performance-go-workshop/</link>
-      <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/post/high-performance-go-workshop/</guid>
-      <description>.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:#444;background:#e7f2fa}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:#fff;background:#6ab0de}.notice-title:before{margin-right:8px;font-family:&#34;Font Awesome 5 Free&#34;,FontAwesome;font-weight:400}.notice.warning .notice-title{background:rgba(217,83,79,.9)}.notice.warning .notice-title:before{content:&#39;\f071&#39;}.notice.warning{background:#fae2e2}.notice.info .notice-title{background:#f0b37e}.notice.info .notice-title:before{content:&#39;\f05a&#39;}.notice.info{background:#fff2db}.notice.note .notice-title{background:#6ab0de}.notice.note .notice-title:before{content:&#39;\f06a&#39;}.notice.note{background:#e7f2fA}.notice.tip .notice-title{background:rgba(92,184,92,.8)}.notice.tip .notice-title:before{content:&#39;\f058&#39;}.notice.tip{background:#e6f9e6}Note
-원글은 High Performance Go Workshop입니다. 학습 차원에서 허락없이 번역하였습니다. 저작권 등의 문제가 있을 경우, 이메일로 연락주시길 바랍니다.
- 개요 이 워크샵의 목표는 Go 애플리케이션에서 성능 문제를 진단하고 해결하는 데 필요한 도구를 제공하는 것입니다.
-하루 동안 작은 것부터 작업할 것입니다. 벤치마크를 작성하는 방법을 배우고, 작은 코드 조각을 프로파일링하는 등 그런 다음 한걸음 나와 엑스큐션 트레이서, 가비지 콜렉터, 실행 중인 애플리케이션 트레이싱에 대해 얘기하고자 합니다.</description>
-    </item>
-    
-    <item>
-      <title>Cosmos란 무엇인가</title>
-      <link>https://ziwon.github.io/post/cosmos-intro/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/post/cosmos-intro/</guid>
-      <description>다음은 What is Cosmos를 번역한 글입니다. 저작권은 코스모스에 있습니다.
-이전 문서의 한국어 번역은 다음과 같습니다.
- 코스모스의 가치에 대한 이해   도입 엄밀히 말하면, Cosmos는 독립적인 병렬 블록 체인의 분산된 네트워크이며, 각각은 Tendermint 합의와 같은 BFT 합의 알고리즘을 기반으로 합니다.
-즉, 코스모스는 서로 확장 가능하고 상호 운용할 수 있는 블록체인 생태계입니다. Cosmos 이전에는 블록체인이 사일로화되어 서로 통신할 수 없었습니다. 구축하기 어려웠으며 초당 소량의 트랜잭션만 처리할 수 있었습니다. Cosmos는 새로운 기술적 비전으로 이러한 문제를 해결합니다.</description>
-    </item>
     
     <item>
       <title>TGI Kubernetes 007: Controller 만들기</title>
