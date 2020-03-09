@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on 人生は短くて使える時間も限られてる。</title>
+    <title>Kubernetes on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in Kubernetes on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -32,10 +32,9 @@ $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ 
       
       <guid>https://ziwon.github.io/post/tgik-006/</guid>
       <description>여섯 번째 에피소드는 kubeadm을 이용해서 싱글 마스터 쿠버네티스 클러스터를 설치하는 내용이다. 말할 필요도 없이, 실제 프로덕션 수준의 고가용성 쿠버네티스 클러스터 셋업은 아래처럼 단순하지 않으니 어디까지나 참고만 하도록 한다.
-•••
 오픈소스 릴리즈 - Velero (aka. Ark) &amp;amp; Sonobuoy 앞서, Heptio가 릴리즈한 오픈소스에 대해 간략히 설명하는데, 해당 깃헙 저장소의 README 파일을 내용을 요약하면 아래와 같다.
- Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
- 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제  Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</description>
+  Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
+ 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제    Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</description>
     </item>
     
     <item>
@@ -46,7 +45,7 @@ $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ 
       <guid>https://ziwon.github.io/post/tgik-005/</guid>
       <description>다섯 번 째 TGIK 에피소드는 특별한 내용이 없는 것 같네요. TGIK 진행된 분량이 많은 관계로 핵심만 추려서 빨리빨리 정리해야되지 않을까 싶네요.
  다섯 번 째 에피소드는 Pod을 실행하는 모든 매개변수에 대해 설명한다. 구체적으로 readinessProbe, livenessProve, restart 등 매개변수에 대해 설명한다.
-kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다.</description>
+kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다. 또한 다소 복잡해보이지만, restart 매개변수에 따라 생성되는 리소스가 달라진다.</description>
     </item>
     
     <item>
@@ -56,7 +55,6 @@ kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 �
       
       <guid>https://ziwon.github.io/post/tgik-004/</guid>
       <description>네번째 에피소드는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 Adding users on &amp;ldquo;Quick Start for Kubernetes on AWS&amp;rdquo; 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다. RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 Role based access control (RBAC) policies in Kubernetes 웨비나를 추천한다.
-•••
 KubeConfig kubeconfig 파일의 기본 위치는 $HOME/.kube/config이며, KUBECONFIG 환경변수 또는 --kubeconfig 옵션으로 지정할 수 있다.</description>
     </item>
     
@@ -67,7 +65,6 @@ KubeConfig kubeconfig 파일의 기본 위치는 $HOME/.kube/config이며, KUBEC
       
       <guid>https://ziwon.github.io/post/tgik-003/</guid>
       <description>TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
-•••
 Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.
 여러 가지 타입의 마이크로 서비스가 있을 수 있다.
  Implementation Detail (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각각의 모듈로 세부 구현된 서비스 ) Shared Artificat, Priavete Instance (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발) Shared Instance (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스) Big-S Servie (회사 외부로 확장된 완전히 구현된 Saas 모델, 예.</description>
@@ -81,8 +78,7 @@ Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네
       <guid>https://ziwon.github.io/post/tgik-002/</guid>
       <description>TGIK: Thanks God It&amp;rsquo;s Kubernetes 두 번째 에피소드는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.
  결국, heptio-quickstart를 AWS에 올리고 따라해보았다. 아무래도 GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. QuickStart이긴 하나, CloudFormation 기반으로 Kubernetes 컴포넌트들을 설치해가는 스크립트를 하나하나씩 살펴보는 것도 유의미해보인다.
- •••
-Networking 먼저, 10개의 kuard Pod를 띄운다.
+ Networking 먼저, 10개의 kuard Pod를 띄운다.
 $ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deployment.apps &amp;#34;kuard&amp;#34; created $ kubectl get pods NAME READY STATUS RESTARTS AGE kuard-dbdd7955d-4kdbr 1/1 Running 0 13s kuard-dbdd7955d-5r757 1/1 Running 0 13s kuard-dbdd7955d-dhts5 1/1 Running 0 13s kuard-dbdd7955d-hsl87 1/1 Running 0 13s kuard-dbdd7955d-k8x7l 1/1 Running 0 13s kuard-dbdd7955d-ms8hb 1/1 Running 0 13s kuard-dbdd7955d-qfjbk 1/1 Running 0 13s kuard-dbdd7955d-tfgdl 1/1 Running 0 13s kuard-dbdd7955d-v8lj2 1/1 Running 0 13s kuard-dbdd7955d-wzcf4 1/1 Running 0 13s port-forward으로 실행 중인 kuard에 접속해본다.</description>
     </item>
     
@@ -103,8 +99,7 @@ $ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deploym
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
       
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
-      <description>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1
-AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
+      <description>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
 이를 테면, 다음과 같이 쿠버네티스 마스터 노드와 워커 노드가 구성되어 있다고 하자. 이들 인스턴스들은 내부 네트워크에 존재하므로 바스티온 호스트를 통해 접속해야 한다.</description>
     </item>
     

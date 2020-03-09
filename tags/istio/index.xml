@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Istio on 人生は短くて使える時間も限られてる。</title>
+    <title>Istio on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/istio/</link>
-    <description>Recent content in Istio on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in Istio on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -19,7 +19,6 @@
       
       <guid>https://ziwon.github.io/post/tgik-003/</guid>
       <description>TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
-•••
 Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.
 여러 가지 타입의 마이크로 서비스가 있을 수 있다.
  Implementation Detail (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각각의 모듈로 세부 구현된 서비스 ) Shared Artificat, Priavete Instance (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발) Shared Instance (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스) Big-S Servie (회사 외부로 확장된 완전히 구현된 Saas 모델, 예.</description>

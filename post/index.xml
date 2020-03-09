@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on 人生は短くて使える時間も限られてる。</title>
+    <title>Posts on ziwon.github.io</title>
     <link>https://ziwon.github.io/post/</link>
-    <description>Recent content in Posts on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in Posts on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -31,8 +31,8 @@
       
       <guid>https://ziwon.github.io/post/cosmos-intro/</guid>
       <description>다음은 What is Cosmos를 번역한 글입니다. 저작권은 코스모스에 있습니다.
-이전 문서의 한국어 번역은 다음과 같습니다. - 코스모스의 가치에 대한 이해
- 도입 엄밀히 말하면, Cosmos는 독립적인 병렬 블록 체인의 분산된 네트워크이며, 각각은 Tendermint 합의와 같은 BFT 합의 알고리즘을 기반으로 합니다.
+이전 문서의 한국어 번역은 다음과 같습니다.
+ 코스모스의 가치에 대한 이해   도입 엄밀히 말하면, Cosmos는 독립적인 병렬 블록 체인의 분산된 네트워크이며, 각각은 Tendermint 합의와 같은 BFT 합의 알고리즘을 기반으로 합니다.
 즉, 코스모스는 서로 확장 가능하고 상호 운용할 수 있는 블록체인 생태계입니다. Cosmos 이전에는 블록체인이 사일로화되어 서로 통신할 수 없었습니다. 구축하기 어려웠으며 초당 소량의 트랜잭션만 처리할 수 있었습니다. Cosmos는 새로운 기술적 비전으로 이러한 문제를 해결합니다.</description>
     </item>
     
@@ -56,8 +56,7 @@ $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ 
       
       <guid>https://ziwon.github.io/post/docker-storage-volumes/</guid>
       <description>도커 스토리지 목차는 다음과 같다.
- 스토리지 소개 (원문) * 볼륨 사용 (원문) 바인드 마운트 tmp 마운트 컨테이너에 데이터 저장하기  스토리지 드라이버에 대해 스토리지 드라이버 선택 AUFS 스토리지 드라이버 사용 Btrfs 스토리지 드라이버 사용 디바이스 맵퍼 스토리지 드라이버 사용 OverlayFS 스토리지 드라이버 사용 ZFS 스토리지 드라이버 사용 VFS 스토리지 드라이버 사용   •••
-볼륨 사용 볼륨은 도커 컨테이너에 의해 생성되고 사용되는 데이터를 영속하기 위해 선호되는 메커니즘이다. 바인드 마운트는 호스트 머신의 디렉토리 구조에 따라 달라지지만, 볼륨은 도커에 의해 완전히 관리된다.</description>
+ 스토리지 소개 (원문) * 볼륨 사용 (원문) 바인드 마운트 tmp 마운트 컨테이너에 데이터 저장하기  스토리지 드라이버에 대해 스토리지 드라이버 선택 AUFS 스토리지 드라이버 사용 Btrfs 스토리지 드라이버 사용 디바이스 맵퍼 스토리지 드라이버 사용 OverlayFS 스토리지 드라이버 사용 ZFS 스토리지 드라이버 사용 VFS 스토리지 드라이버 사용    볼륨 사용 볼륨은 도커 컨테이너에 의해 생성되고 사용되는 데이터를 영속하기 위해 선호되는 메커니즘이다. 바인드 마운트는 호스트 머신의 디렉토리 구조에 따라 달라지지만, 볼륨은 도커에 의해 완전히 관리된다.</description>
     </item>
     
     <item>
@@ -67,10 +66,9 @@ $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ 
       
       <guid>https://ziwon.github.io/post/tgik-006/</guid>
       <description>여섯 번째 에피소드는 kubeadm을 이용해서 싱글 마스터 쿠버네티스 클러스터를 설치하는 내용이다. 말할 필요도 없이, 실제 프로덕션 수준의 고가용성 쿠버네티스 클러스터 셋업은 아래처럼 단순하지 않으니 어디까지나 참고만 하도록 한다.
-•••
 오픈소스 릴리즈 - Velero (aka. Ark) &amp;amp; Sonobuoy 앞서, Heptio가 릴리즈한 오픈소스에 대해 간략히 설명하는데, 해당 깃헙 저장소의 README 파일을 내용을 요약하면 아래와 같다.
- Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
- 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제  Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</description>
+  Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
+ 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제    Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</description>
     </item>
     
     <item>
@@ -81,7 +79,7 @@ $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ 
       <guid>https://ziwon.github.io/post/docker-storage-overview/</guid>
       <description>도커상에서 어플리케이션 데이터관리는 중요한 주제이므로 도커 공식 문서를 하나씩 번역해가며 그 내용을 자세히 살펴보고자 한다.
  도커 스토리지 전체 목차는 다음과 같다.
- * 스토리지 소개 (원문) 볼륨 사용 (원문) 바인드 마운트 tmp 마운트 컨테이너에 데이터 저장하기  스토리지 드라이버에 대해 스토리지 드라이버 선택 AUFS 스토리지 드라이버 사용 Btrfs 스토리지 드라이버 사용 디바이스 맵퍼 스토리지 드라이버 사용 OverlayFS 스토리지 드라이버 사용 ZFS 스토리지 드라이버 사용 VFS 스토리지 드라이버 사용   •••</description>
+ * 스토리지 소개 (원문) 볼륨 사용 (원문) 바인드 마운트 tmp 마운트 컨테이너에 데이터 저장하기  스토리지 드라이버에 대해 스토리지 드라이버 선택 AUFS 스토리지 드라이버 사용 Btrfs 스토리지 드라이버 사용 디바이스 맵퍼 스토리지 드라이버 사용 OverlayFS 스토리지 드라이버 사용 ZFS 스토리지 드라이버 사용 VFS 스토리지 드라이버 사용    도커에서 데이터 관리 기본적으로 컨테이너 내부에서 생성된 모든 파일은 쓰기 가능한 컨테이너 레이어에 저장된다.</description>
     </item>
     
     <item>
@@ -92,7 +90,7 @@ $ export GO111MODULE=auto $ git clone git@github.com:ziwon/k8s-controller.git $ 
       <guid>https://ziwon.github.io/post/tgik-005/</guid>
       <description>다섯 번 째 TGIK 에피소드는 특별한 내용이 없는 것 같네요. TGIK 진행된 분량이 많은 관계로 핵심만 추려서 빨리빨리 정리해야되지 않을까 싶네요.
  다섯 번 째 에피소드는 Pod을 실행하는 모든 매개변수에 대해 설명한다. 구체적으로 readinessProbe, livenessProve, restart 등 매개변수에 대해 설명한다.
-kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다.</description>
+kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 따라 여러 가지 일을 한다. 사람들이 잘 모르는 한 가지 살펴볼만한 매개변수는 --generator이다. generator 변수에 따라 여러가지 객체를 생성할 수 있다. 또한 다소 복잡해보이지만, restart 매개변수에 따라 생성되는 리소스가 달라진다.</description>
     </item>
     
     <item>
@@ -102,7 +100,6 @@ kubectl run --help는 스위스 군용 칼처럼 주어지는 매개변수에 �
       
       <guid>https://ziwon.github.io/post/tgik-004/</guid>
       <description>네번째 에피소드는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 Adding users on &amp;ldquo;Quick Start for Kubernetes on AWS&amp;rdquo; 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다. RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 Role based access control (RBAC) policies in Kubernetes 웨비나를 추천한다.
-•••
 KubeConfig kubeconfig 파일의 기본 위치는 $HOME/.kube/config이며, KUBECONFIG 환경변수 또는 --kubeconfig 옵션으로 지정할 수 있다.</description>
     </item>
     
@@ -113,7 +110,6 @@ KubeConfig kubeconfig 파일의 기본 위치는 $HOME/.kube/config이며, KUBEC
       
       <guid>https://ziwon.github.io/post/tgik-003/</guid>
       <description>TGIK 003: Istio 세번째 에피소드는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.
-•••
 Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 The Operations Dividend - Joe Beda (LinuxCon North America 2016)를 참고한다.
 여러 가지 타입의 마이크로 서비스가 있을 수 있다.
  Implementation Detail (어플리케이션의 세부 구현, 모놀리틱 서비스가 나뉘어 각각의 모듈로 세부 구현된 서비스 ) Shared Artificat, Priavete Instance (MySQL 데이터베이스처럼 개인 인스턴스를 하나씩 가지고 개발) Shared Instance (큰 조직의 공유 인스턴스, 다른 곳의 여러 팀과 팀이 사용하는 단일 서비스) Big-S Servie (회사 외부로 확장된 완전히 구현된 Saas 모델, 예.</description>
@@ -127,8 +123,7 @@ Service Network 앞서 자신이 발표한 자료를 참고하여, 서비스 네
       <guid>https://ziwon.github.io/post/tgik-002/</guid>
       <description>TGIK: Thanks God It&amp;rsquo;s Kubernetes 두 번째 에피소드는 네트워킹과 서비스에 관해 다룬다. 관련 링크나 노트는 없다.
  결국, heptio-quickstart를 AWS에 올리고 따라해보았다. 아무래도 GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. QuickStart이긴 하나, CloudFormation 기반으로 Kubernetes 컴포넌트들을 설치해가는 스크립트를 하나하나씩 살펴보는 것도 유의미해보인다.
- •••
-Networking 먼저, 10개의 kuard Pod를 띄운다.
+ Networking 먼저, 10개의 kuard Pod를 띄운다.
 $ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deployment.apps &amp;#34;kuard&amp;#34; created $ kubectl get pods NAME READY STATUS RESTARTS AGE kuard-dbdd7955d-4kdbr 1/1 Running 0 13s kuard-dbdd7955d-5r757 1/1 Running 0 13s kuard-dbdd7955d-dhts5 1/1 Running 0 13s kuard-dbdd7955d-hsl87 1/1 Running 0 13s kuard-dbdd7955d-k8x7l 1/1 Running 0 13s kuard-dbdd7955d-ms8hb 1/1 Running 0 13s kuard-dbdd7955d-qfjbk 1/1 Running 0 13s kuard-dbdd7955d-tfgdl 1/1 Running 0 13s kuard-dbdd7955d-v8lj2 1/1 Running 0 13s kuard-dbdd7955d-wzcf4 1/1 Running 0 13s port-forward으로 실행 중인 kuard에 접속해본다.</description>
     </item>
     
@@ -139,8 +134,8 @@ $ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deploym
       
       <guid>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</guid>
       <description>원문: Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks (오역 및 오타는 댓글로 알려주세요)
-※ 컨테이너가 아닌 Pod간의 Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 기타 아티클을 참조하세요.
- 배우게 될 것 도커 컨테이너는 실행에 필요한 모든 것, 즉 코드, 런타임, 시스템 도구, 시스템 라이브러리 등 서버에 설치할 수 있는 모든 것을 포함하는 완전한 파일 시스템에 있는 소프트웨어 하나를 래핑한다. 이는 소프트웨어가 환경에 관계없이 항상 동일한 기능을 실행할 것을 보장한다.</description>
+  ※ 컨테이너가 아닌 Pod간의 Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 기타 아티클을 참조하세요.
+  배우게 될 것 도커 컨테이너는 실행에 필요한 모든 것, 즉 코드, 런타임, 시스템 도구, 시스템 라이브러리 등 서버에 설치할 수 있는 모든 것을 포함하는 완전한 파일 시스템에 있는 소프트웨어 하나를 래핑한다. 이는 소프트웨어가 환경에 관계없이 항상 동일한 기능을 실행할 것을 보장한다.</description>
     </item>
     
     <item>
@@ -160,8 +155,7 @@ $ kubectl run --replicas=10 --image=gcr.io/kuar-demo/kuard-amd64:1 kuard deploym
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
       
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
-      <description>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1
-AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
+      <description>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
 이를 테면, 다음과 같이 쿠버네티스 마스터 노드와 워커 노드가 구성되어 있다고 하자. 이들 인스턴스들은 내부 네트워크에 존재하므로 바스티온 호스트를 통해 접속해야 한다.</description>
     </item>
     
@@ -183,7 +177,7 @@ AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접�
       <guid>https://ziwon.github.io/post/python_magic_methods/</guid>
       <description>A guide to Python&amp;rsquo;s magic methods를 번역한 문서입니다.
  서론 이 가이드는 몇 달 간의 블로그 게시물의 정점입니다. 주제는 매직 메소드(magic methods) 입니다.
-매직 메소드가 뭘까요? 이들은 객체지향 파이썬의 모든 것입니다. 클래스에 &amp;ldquo;마법&amp;rdquo;을 추가하기 위해 정의할 수 있는 특수한 메소드입니다. 항상 두 개의 밑줄로 둘러싸입니다. (예: __init__ 또는 __lt__) 또한 필요한 만큼 문서화되지 않았습니다. 파이썬에 대한 모든 매직 메소드가 파이썬 문서의 동일한 섹션에 있지만, 흩어져 있고, 느슨하게 구성되어 있습니다.</description>
+매직 메소드가 뭘까요? 이들은 객체지향 파이썬의 모든 것입니다. 클래스에 &amp;ldquo;마법&amp;quot;을 추가하기 위해 정의할 수 있는 특수한 메소드입니다. 항상 두 개의 밑줄로 둘러싸입니다. (예: __init__ 또는 __lt__) 또한 필요한 만큼 문서화되지 않았습니다. 파이썬에 대한 모든 매직 메소드가 파이썬 문서의 동일한 섹션에 있지만, 흩어져 있고, 느슨하게 구성되어 있습니다. 섹션에서 예제는 거의 찾기 어렵습니다.</description>
     </item>
     
     <item>
@@ -202,7 +196,7 @@ AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접�
       
       <guid>https://ziwon.github.io/post/effective-go-concurrency/</guid>
       <description>2016.10.04 - Effective Go의 한글화 작업이완료되었습니다. 아래 동시성 번역 역시 번역팀의 도움으로 갱신되었습니다.
-Effective Go 의 한글화 문서를 보던 중, Concurrency에 대한 부분이 빠져 있어서 해당 부분만 따로 번역했습니다. 원문의 출처는 여기입니다.
+  Effective Go 의 한글화 문서를 보던 중, Concurrency에 대한 부분이 빠져 있어서 해당 부분만 따로 번역했습니다. 원문의 출처는 여기입니다.
  통신에 의한 공유 (Share by communicating) 동시성 프로그래밍은 광범위한 주제이므로 여기에서는 Go에 한정된 중요한 것들에 대해서만 지면을 할애한다.
 다양한 환경에서 동시성 프로그래은 공유 변수에 대한 정확한 접근을 구현하기 위해 엄수해야 하는 세세한 내용들로 어려워졌다. Go는 공유 변수가 채널을 돌려가며 전달된다는 점에서 다른 접근을 권장한다.</description>
     </item>
@@ -225,7 +219,7 @@ https://github.com/patriz/falcon-rest-api
       <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
       
       <guid>https://ziwon.github.io/post/generics-of-a-higher-kind/</guid>
-      <description>1. Introduction 일차 매개변수적 다형성과 고차 타입 생성자 다형성  일차 매개변수적 다형성은 정적 타입 프로그래밍 언어의 표준 요소임 일차 매개변수적 다형성은 제네릭(generic)이라고 부름 제네릭의 한 가지 응용 분야는 콜렉션(collection)  예) List[A] 타입은 주어진 요소 A 타입의 리스트를 표현, A는 자유롭게 선택됨  일차 매개변수적 다형성은 List와 같은 타입 생성자를 도출하며 타입을 추상화 함 그러나 결과로 나온 타입 생성자는 그들 자신을 추상화할 수 없음  예) List와 같은 타입 생성자를 다른 타입 생성자의 타입 인자로 전달할 수 없음  이런 제한은 자연스러운 추상를 정형화하는데 방해가 되며 불필요한 중복 코드로 이어짐  고차 타입 생성자 다형성와 카인드  고차 타입 생성자 다형성을 통해 더 많은 제네럴티를 확보할 수 있음 이 논문에서는 Scala 프로그래밍 언어의 타입 생성자 다형성의 설계와 구현에 대해 살펴봄 Scala 2.</description>
+      <description>1. Introduction 일차 매개변수적 다형성과 고차 타입 생성자 다형성  일차 매개변수적 다형성은 정적 타입 프로그래밍 언어의 표준 요소임 일차 매개변수적 다형성은 제네릭(generic)이라고 부름 제네릭의 한 가지 응용 분야는 콜렉션(collection)  예) List[A] 타입은 주어진 요소 A 타입의 리스트를 표현, A는 자유롭게 선택됨   일차 매개변수적 다형성은 List와 같은 타입 생성자를 도출하며 타입을 추상화 함 그러나 결과로 나온 타입 생성자는 그들 자신을 추상화할 수 없음  예) List와 같은 타입 생성자를 다른 타입 생성자의 타입 인자로 전달할 수 없음   이런 제한은 자연스러운 추상를 정형화하는데 방해가 되며 불필요한 중복 코드로 이어짐  고차 타입 생성자 다형성와 카인드  고차 타입 생성자 다형성을 통해 더 많은 제네럴티를 확보할 수 있음 이 논문에서는 Scala 프로그래밍 언어의 타입 생성자 다형성의 설계와 구현에 대해 살펴봄 Scala 2.</description>
     </item>
     
     <item>
@@ -244,7 +238,7 @@ https://github.com/patriz/falcon-rest-api
       
       <guid>https://ziwon.github.io/post/lambda-calculus/</guid>
       <description>람다 대수는 결정문제(decision problem)를 풀기 위해, 계산가능성(computability)의 개념을 정의한 수학적 모델로 1936년 알로존 처치(Alonzo Church)가 고안하였다.
-좀 더 구체적으로는 소프트웨어에서 &amp;lsquo;알고리즘이란 무엇인가?&amp;lsquo;를 정의한 클래스(class)나 객체(object)가 아닌 값(function) 중심 언어, 즉 함수형 언어의 계산 모델이다. (같은 해에 처치의 제자였던, 앨런 튜닝은 튜링 머신의 개념으로 계산 모델을 정의했다. Lisp를 만든 존 매카시
+좀 더 구체적으로는 소프트웨어에서 &amp;lsquo;알고리즘이란 무엇인가?&amp;lsquo;를 정의한 클래스(class)나 객체(object)가 아닌 값(function) 중심 언어, 즉 함수형 언어의 계산 모델이다. (같은 해에 처치의 제자였던, 앨런 튜닝은 튜링 머신의 개념으로 계산 모델을 정의했다. Lisp를 만든 [존 매카시](http://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist))도 처치의 제자였다고 한다.)
 람다 대수는 그 자체가 이미 하나의 언어로 많은 함수형 프로그래밍 언어가 람다대수에 기초하고 있다.
  functional language = lambda calcus + sugars (ex.</description>
     </item>

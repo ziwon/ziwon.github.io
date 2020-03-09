@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ssh on 人生は短くて使える時間も限られてる。</title>
+    <title>ssh on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/ssh/</link>
-    <description>Recent content in Ssh on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in ssh on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -18,8 +18,7 @@
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
       
       <guid>https://ziwon.github.io/post/bastion-in-kops/</guid>
-      <description>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1
-AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
+      <description>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.1AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 2, Kops에서는 바스티온 호스트를 프로비저닝하고 3, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 4)
 이를 테면, 다음과 같이 쿠버네티스 마스터 노드와 워커 노드가 구성되어 있다고 하자. 이들 인스턴스들은 내부 네트워크에 존재하므로 바스티온 호스트를 통해 접속해야 한다.</description>
     </item>
     

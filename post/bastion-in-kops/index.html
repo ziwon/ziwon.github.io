@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Kops에서 Bastion 호스트 SSH로 접속하기 | 人生は短くて使える時間も限られてる。</title>
+<title>Kops에서 Bastion 호스트 SSH로 접속하기 | ziwon.github.io</title>
 
 
 
-<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は短くて使える時間も限られてる。" />
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="ziwon.github.io" />
 <link rel='stylesheet' href='https://ziwon.github.io/css/style-kiss.css'><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-github.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 
@@ -50,14 +50,14 @@
 
 <section class="section">
   <div class="container">
-    <nav class="nav">
-      <div class="nav-left">
-        <a class="nav-item" href="https://ziwon.github.io/">
-          <h1 class="title is-4">人生は短くて使える時間も限られてる。</h1>
+    <nav id="nav-main" class="nav">
+      <div id="nav-name" class="nav-left">
+        <a id="nav-anchor" class="nav-item" href="https://ziwon.github.io/">
+          <h1 id="nav-heading" class="title is-4">ziwon.github.io</h1>
         </a>
       </div>
       <div class="nav-right">
-        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+        <nav id="nav-items" class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
             target='_blank' rel='noopener'>
             <span class="icon">
               <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
@@ -107,6 +107,7 @@
     </nav>
 
   </div>
+  <script src="/js/navicon-shift.js"></script>
 </section>
 <section class="section">
   <div class="container">
@@ -131,10 +132,8 @@
         
       </div>
       <div class="content">
-        <p>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.<sup><a href="http://blog.pentasecurity.com/221034903499" target="_blank">1</a></sup></p>
-
-<p>AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 <sup><a href="https://en.wikipedia.org/wiki/Bastion_host" target="_blank">2</a></sup>, Kops에서는 바스티온 호스트를 프로비저닝하고 <sup><a href="https://github.com/kubernetes/kops/blob/master/docs/bastion.md" target="_blank">3</a></sup>, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 <sup><a href="https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html" target="_blank">4</a></sup>)</p>
-
+        <p>네트워크에서 바스티온 호스트(Bastion Host)는 침입차단 소프트웨어가 설치되어 내부와 외부 네트워크 사이에서 일종의 게이트 역할을 수행하는 호스트로 네트워크 보안에 가장 중요한 방화벽 호스트로써 방화벽의 메인서버를 의미하기도 한다.<!-- raw HTML omitted --><a href="http://blog.pentasecurity.com/221034903499">1</a><!-- raw HTML omitted --></p>
+<p>AWS 컨텍스트에서는 바스티온 호스트를 내부 네트워크에 접속할 수 있는 서버로 정의하는데 <!-- raw HTML omitted --><a href="https://en.wikipedia.org/wiki/Bastion_host">2</a><!-- raw HTML omitted -->, Kops에서는 바스티온 호스트를 프로비저닝하고 <!-- raw HTML omitted --><a href="https://github.com/kubernetes/kops/blob/master/docs/bastion.md">3</a><!-- raw HTML omitted -->, 이를 통해 프라이빗 네트워크 인스턴스에 접속한다. (AWS 바스티온 구조 <!-- raw HTML omitted --><a href="https://docs.aws.amazon.com/quickstart/latest/linux-bastion/architecture.html">4</a><!-- raw HTML omitted -->)</p>
 <p>이를 테면, 다음과 같이 쿠버네티스 마스터 노드와 워커 노드가 구성되어 있다고 하자. 이들 인스턴스들은 내부 네트워크에 존재하므로 바스티온 호스트를 통해 접속해야 한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get node
 NAME                                            STATUS   ROLES    AGE   VERSION
@@ -146,8 +145,8 @@ ip-10-1-82-30.ap-northeast-1.compute.internal   Ready    node     44d   v1.10.11
 ip-10-1-96-13.ap-northeast-1.compute.internal   Ready    node     44d   v1.10.11
 ip-10-1-199-22.ap-northeast-1.compute.internal  Ready    node     45d   v1.10.11
 ip-10-1-135-94.ap-northeast-1.compute.internal  Ready    node     45d   v1.10.11
-...</code></pre></div>
-<p>이 때, 바스티온 호스트에 프라이빗 키를 복사해서 바스티온에 로그인하여 내부 서브넷 인스턴스로 접속할 수도 있지만, 다음과 같이 ssh 프락싱을 사용하고 <sup><a href="https://ekartco.com/2017/12/using-aws-bastion-hosts-correctly/" target="_blank">5</a></sup>, 접속하려는 호스트 네임을 동적으로 구성해서 좀 더 쉽게 접속할 수도 있다.</p>
+...
+</code></pre></div><p>이 때, 바스티온 호스트에 프라이빗 키를 복사해서 바스티온에 로그인하여 내부 서브넷 인스턴스로 접속할 수도 있지만, 다음과 같이 ssh 프락싱을 사용하고 <!-- raw HTML omitted --><a href="https://ekartco.com/2017/12/using-aws-bastion-hosts-correctly/">5</a><!-- raw HTML omitted -->, 접속하려는 호스트 네임을 동적으로 구성해서 좀 더 쉽게 접속할 수도 있다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ vi ~/.ssh/config
 Host k8s-prod
 	HostName bastion.prod.k8s.example.net
@@ -158,17 +157,18 @@ Host ip-10-1-*
 	User core
 	ProxyCommand ssh -q -W %h:%p k8s-prod
 	IdentityFile ~/.ssh/prod.k8s.id_rsa
-...</code></pre></div>
-<p>위의 구성이 끝나면, 다음과 같이 한번에 로컬에서 내부 서브넷 호스트에 접속할 수 있게 된다.</p>
+...
+</code></pre></div><p>위의 구성이 끝나면, 다음과 같이 한번에 로컬에서 내부 서브넷 호스트에 접속할 수 있게 된다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ ssh k8s-prod
-Last login: Wed Jan  <span class="m">2</span> <span class="m">12</span>:20:25 UTC <span class="m">2019</span> from <span class="m">10</span>.x.x.xx on ssh
-Container Linux by CoreOS stable <span class="o">(</span><span class="m">1911</span>.5.0<span class="o">)</span>
+Last login: Wed Jan  <span class="m">2</span> 12:20:25 UTC <span class="m">2019</span> from 10.x.x.xx on ssh
+Container Linux by CoreOS stable <span class="o">(</span>1911.5.0<span class="o">)</span>
 core@ip-10-x-x-x ~ $
 
 $ ssh ip-10-1-178-52.ap-northeast-1.compute.internal
-Last login: Wed Jan  <span class="m">2</span> <span class="m">12</span>:47:40 UTC <span class="m">2019</span> from <span class="m">10</span>.1.178.52 on pts/0
-Container Linux by CoreOS stable <span class="o">(</span><span class="m">1911</span>.5.0<span class="o">)</span>
-core@ip-10-1-178-52 ~ $</code></pre></div>
+Last login: Wed Jan  <span class="m">2</span> 12:47:40 UTC <span class="m">2019</span> from 10.1.178.52 on pts/0
+Container Linux by CoreOS stable <span class="o">(</span>1911.5.0<span class="o">)</span>
+core@ip-10-1-178-52 ~ $
+</code></pre></div>
         
         <div class="related">
 </div>
@@ -180,12 +180,12 @@ core@ip-10-1-178-52 ~ $</code></pre></div>
     
     <nav class="post-nav">
         
-        <a class="prev" href="/post/tgik-001/">
+        <a class="prev" href="https://ziwon.github.io/post/tgik-001/">
             &lt; <span class="prev-text nav-default">TGI Kubernetes 001: A Quick Tour</span>
                 <span class="prev-text nav-mobile"></span>
         </a>
         
-        <a class="next" href="/post/modern-network-load-balancing-and-proxying/">
+        <a class="next" href="https://ziwon.github.io/post/modern-network-load-balancing-and-proxying/">
             <span class="next-text nav-default">[번역] 최신 네트워크 로드 밸런싱 및 프록시 소개</span>
             <span class="next-text nav-mobile"></span>
             >

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Concurrency on 人生は短くて使える時間も限られてる。</title>
+    <title>concurrency on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/concurrency/</link>
-    <description>Recent content in Concurrency on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in concurrency on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -19,7 +19,7 @@
       
       <guid>https://ziwon.github.io/post/effective-go-concurrency/</guid>
       <description>2016.10.04 - Effective Go의 한글화 작업이완료되었습니다. 아래 동시성 번역 역시 번역팀의 도움으로 갱신되었습니다.
-Effective Go 의 한글화 문서를 보던 중, Concurrency에 대한 부분이 빠져 있어서 해당 부분만 따로 번역했습니다. 원문의 출처는 여기입니다.
+  Effective Go 의 한글화 문서를 보던 중, Concurrency에 대한 부분이 빠져 있어서 해당 부분만 따로 번역했습니다. 원문의 출처는 여기입니다.
  통신에 의한 공유 (Share by communicating) 동시성 프로그래밍은 광범위한 주제이므로 여기에서는 Go에 한정된 중요한 것들에 대해서만 지면을 할애한다.
 다양한 환경에서 동시성 프로그래은 공유 변수에 대한 정확한 접근을 구현하기 위해 엄수해야 하는 세세한 내용들로 어려워졌다. Go는 공유 변수가 채널을 돌려가며 전달된다는 점에서 다른 접근을 권장한다.</description>
     </item>

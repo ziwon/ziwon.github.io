@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python on 人生は短くて使える時間も限られてる。</title>
+    <title>python on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/python/</link>
-    <description>Recent content in Python on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in python on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -20,7 +20,7 @@
       <guid>https://ziwon.github.io/post/python_magic_methods/</guid>
       <description>A guide to Python&amp;rsquo;s magic methods를 번역한 문서입니다.
  서론 이 가이드는 몇 달 간의 블로그 게시물의 정점입니다. 주제는 매직 메소드(magic methods) 입니다.
-매직 메소드가 뭘까요? 이들은 객체지향 파이썬의 모든 것입니다. 클래스에 &amp;ldquo;마법&amp;rdquo;을 추가하기 위해 정의할 수 있는 특수한 메소드입니다. 항상 두 개의 밑줄로 둘러싸입니다. (예: __init__ 또는 __lt__) 또한 필요한 만큼 문서화되지 않았습니다. 파이썬에 대한 모든 매직 메소드가 파이썬 문서의 동일한 섹션에 있지만, 흩어져 있고, 느슨하게 구성되어 있습니다.</description>
+매직 메소드가 뭘까요? 이들은 객체지향 파이썬의 모든 것입니다. 클래스에 &amp;ldquo;마법&amp;quot;을 추가하기 위해 정의할 수 있는 특수한 메소드입니다. 항상 두 개의 밑줄로 둘러싸입니다. (예: __init__ 또는 __lt__) 또한 필요한 만큼 문서화되지 않았습니다. 파이썬에 대한 모든 매직 메소드가 파이썬 문서의 동일한 섹션에 있지만, 흩어져 있고, 느슨하게 구성되어 있습니다. 섹션에서 예제는 거의 찾기 어렵습니다.</description>
     </item>
     
     <item>

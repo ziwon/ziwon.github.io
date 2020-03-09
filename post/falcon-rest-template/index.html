@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Falcon REST API | 人生は短くて使える時間も限られてる。</title>
+<title>Falcon REST API | ziwon.github.io</title>
 
 
 
-<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は短くて使える時間も限られてる。" />
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="ziwon.github.io" />
 <link rel='stylesheet' href='https://ziwon.github.io/css/style-kiss.css'><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-github.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 
@@ -50,14 +50,14 @@
 
 <section class="section">
   <div class="container">
-    <nav class="nav">
-      <div class="nav-left">
-        <a class="nav-item" href="https://ziwon.github.io/">
-          <h1 class="title is-4">人生は短くて使える時間も限られてる。</h1>
+    <nav id="nav-main" class="nav">
+      <div id="nav-name" class="nav-left">
+        <a id="nav-anchor" class="nav-item" href="https://ziwon.github.io/">
+          <h1 id="nav-heading" class="title is-4">ziwon.github.io</h1>
         </a>
       </div>
       <div class="nav-right">
-        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+        <nav id="nav-items" class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
             target='_blank' rel='noopener'>
             <span class="icon">
               <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
@@ -107,6 +107,7 @@
     </nav>
 
   </div>
+  <script src="/js/navicon-shift.js"></script>
 </section>
 <section class="section">
   <div class="container">
@@ -131,50 +132,47 @@
         
       </div>
       <div class="content">
-        <p>Cloud API와 백엔드 개발에 경량화된 파이썬 프레임워크인 <a href="http://falconframework.org" target="_blank">Falcon</a>를 이용해 간단한 REST API 템플릿을 만들어 보았다.</p>
-
-<p><a href="https://github.com/patriz/falcon-rest-api" target="_blank">https://github.com/patriz/falcon-rest-api</a></p>
-
+        <p>Cloud API와 백엔드 개발에 경량화된 파이썬 프레임워크인 <a href="http://falconframework.org">Falcon</a>를 이용해 간단한 REST API 템플릿을 만들어 보았다.</p>
+<p><a href="https://github.com/patriz/falcon-rest-api">https://github.com/patriz/falcon-rest-api</a></p>
 <p>개발하는 느낌은 Flask와 비슷한데 (음.. Flask와 뭐가 다르지?) 미들웨어, 후킹 데코레이션 등을 이용해 HTTP 요청과 응답에 대해 체이닝 처리를 좀 더 직관적으로 할 수 있다. 성능이 Flask보다 좀 더 빠른 것으로 알려져 있다. Rackspace에서 밀고있는(?) Cloud API 전용 프레임워크인데, 최신 릴리즈 버전은 아직 0.3이다. 심플하고 미니멀한 걸 좋아한다면 해볼만하다.</p>
-
 <p>문서에도 나와있지만, Cython을 이용하면 약 20% 정도의 성능효과를 볼 수 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">pip install --upgrade cython falcon</code></pre></div>
-<p>다음은 Go와 성능비교이다.</p>
-
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">pip install --upgrade cython falcon
+</code></pre></div><p>다음은 Go와 성능비교이다.</p>
 <p><strong>falcon rest api with gunicorn (-w 9 -k gevent)</strong></p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">wrk -t10 -c100 -d30s http://localhost:5000
 Running 30s <span class="nb">test</span> @ http://localhost:5000
   <span class="m">10</span> threads and <span class="m">100</span> connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency   <span class="m">221</span>.79ms  <span class="m">414</span>.03ms   <span class="m">2</span>.00s    <span class="m">85</span>.43%
-    Req/Sec   <span class="m">755</span>.94    <span class="m">486</span>.41     <span class="m">2</span>.77k    <span class="m">64</span>.26%
-  <span class="m">139452</span> requests in <span class="m">30</span>.08s, <span class="m">32</span>.98MB <span class="nb">read</span>
-  Socket errors: connect <span class="m">0</span>, <span class="nb">read</span> <span class="m">0</span>, write <span class="m">0</span>, timeout <span class="m">389</span>
-Requests/sec:   <span class="m">4636</span>.13
-Transfer/sec:      <span class="m">1</span>.10MB</code></pre></div>
-<p><strong>sample http server with gogin only</strong></p>
+    Latency   221.79ms  414.03ms   2.00s    85.43%
+    Req/Sec   755.94    486.41     2.77k    64.26%
+  <span class="m">139452</span> requests in 30.08s, 32.98MB <span class="nb">read</span>
+  Socket errors: connect 0, <span class="nb">read</span> 0, write 0, timeout <span class="m">389</span>
+Requests/sec:   4636.13
+Transfer/sec:      1.10MB
+</code></pre></div><p><strong>sample http server with gogin only</strong></p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">wrk -t10 -c100 -d30s http://localhost:8080
 Running 30s <span class="nb">test</span> @ http://localhost:8080
   <span class="m">10</span> threads and <span class="m">100</span> connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency     <span class="m">6</span>.65ms    <span class="m">6</span>.50ms  <span class="m">76</span>.68ms   <span class="m">76</span>.00%
-    Req/Sec     <span class="m">1</span>.83k   <span class="m">402</span>.97     <span class="m">5</span>.40k    <span class="m">74</span>.30%
-  <span class="m">547412</span> requests in <span class="m">30</span>.08s, <span class="m">92</span>.93MB <span class="nb">read</span>
-Requests/sec:  <span class="m">18199</span>.96
-Transfer/sec:      <span class="m">3</span>.09MB</code></pre></div>
-<p>참고로 테스트 하드웨어 장비는 다음과 같다. (구린 내 아이맥ㅠ)</p>
+    Latency     6.65ms    6.50ms  76.68ms   76.00%
+    Req/Sec     1.83k   402.97     5.40k    74.30%
+  <span class="m">547412</span> requests in 30.08s, 92.93MB <span class="nb">read</span>
+Requests/sec:  18199.96
+Transfer/sec:      3.09MB
+</code></pre></div><p>참고로 테스트 하드웨어 장비는 다음과 같다. (구린 내 아이맥ㅠ)</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">Model Name:	iMac
 Model Identifier:	iMac11,3
 Processor Name:	Intel Core i5
-Processor Speed:	<span class="m">2</span>.8 GHz
+Processor Speed:	2.8 GHz
 Number of Processors:	<span class="m">1</span>
 Total Number of Cores:	<span class="m">4</span>
 L2 Cache <span class="o">(</span>per Core<span class="o">)</span>:	<span class="m">256</span> KB
 L3 Cache:	<span class="m">8</span> MB
 Memory:	<span class="m">12</span> GB
-Processor Interconnect Speed:	<span class="m">4</span>.8 GT/s
+Processor Interconnect Speed:	4.8 GT/s
 Boot ROM Version:	IM112.0057.B01
-SMC Version <span class="o">(</span>system<span class="o">)</span>:	<span class="m">1</span>.59f2</code></pre></div>
+SMC Version <span class="o">(</span>system<span class="o">)</span>:	1.59f2
+</code></pre></div>
         
         <div class="related">
 </div>
@@ -186,12 +184,12 @@ SMC Version <span class="o">(</span>system<span class="o">)</span>:	<span class=
     
     <nav class="post-nav">
         
-        <a class="prev" href="/post/effective-go-concurrency/">
+        <a class="prev" href="https://ziwon.github.io/post/effective-go-concurrency/">
             &lt; <span class="prev-text nav-default">[번역] Effective Go: Concurrency</span>
                 <span class="prev-text nav-mobile"></span>
         </a>
         
-        <a class="next" href="/post/generics-of-a-higher-kind/">
+        <a class="next" href="https://ziwon.github.io/post/generics-of-a-higher-kind/">
             <span class="next-text nav-default">Generics of a Higher Kind</span>
             <span class="next-text nav-mobile"></span>
             >

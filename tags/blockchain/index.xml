@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blockchain on 人生は短くて使える時間も限られてる。</title>
+    <title>blockchain on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/blockchain/</link>
-    <description>Recent content in Blockchain on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in blockchain on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -19,8 +19,8 @@
       
       <guid>https://ziwon.github.io/post/cosmos-intro/</guid>
       <description>다음은 What is Cosmos를 번역한 글입니다. 저작권은 코스모스에 있습니다.
-이전 문서의 한국어 번역은 다음과 같습니다. - 코스모스의 가치에 대한 이해
- 도입 엄밀히 말하면, Cosmos는 독립적인 병렬 블록 체인의 분산된 네트워크이며, 각각은 Tendermint 합의와 같은 BFT 합의 알고리즘을 기반으로 합니다.
+이전 문서의 한국어 번역은 다음과 같습니다.
+ 코스모스의 가치에 대한 이해   도입 엄밀히 말하면, Cosmos는 독립적인 병렬 블록 체인의 분산된 네트워크이며, 각각은 Tendermint 합의와 같은 BFT 합의 알고리즘을 기반으로 합니다.
 즉, 코스모스는 서로 확장 가능하고 상호 운용할 수 있는 블록체인 생태계입니다. Cosmos 이전에는 블록체인이 사일로화되어 서로 통신할 수 없었습니다. 구축하기 어려웠으며 초당 소량의 트랜잭션만 처리할 수 있었습니다. Cosmos는 새로운 기술적 비전으로 이러한 문제를 해결합니다.</description>
     </item>
     

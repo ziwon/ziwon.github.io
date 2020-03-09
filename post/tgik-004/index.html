@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>TGI Kubernetes 004: RBAC | 人生は短くて使える時間も限られてる。</title>
+<title>TGI Kubernetes 004: RBAC | ziwon.github.io</title>
 
 
 
-<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="人生は短くて使える時間も限られてる。" />
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="ziwon.github.io" />
 <link rel='stylesheet' href='https://ziwon.github.io/css/style-kiss.css'><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-github.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 
@@ -50,14 +50,14 @@
 
 <section class="section">
   <div class="container">
-    <nav class="nav">
-      <div class="nav-left">
-        <a class="nav-item" href="https://ziwon.github.io/">
-          <h1 class="title is-4">人生は短くて使える時間も限られてる。</h1>
+    <nav id="nav-main" class="nav">
+      <div id="nav-name" class="nav-left">
+        <a id="nav-anchor" class="nav-item" href="https://ziwon.github.io/">
+          <h1 id="nav-heading" class="title is-4">ziwon.github.io</h1>
         </a>
       </div>
       <div class="nav-right">
-        <nav class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+        <nav id="nav-items" class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
             target='_blank' rel='noopener'>
             <span class="icon">
               <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
@@ -107,6 +107,7 @@
     </nav>
 
   </div>
+  <script src="/js/navicon-shift.js"></script>
 </section>
 <section class="section">
   <div class="container">
@@ -127,50 +128,40 @@
         
       </div>
       <div class="content">
-        
-
-<p><a href="https://github.com/heptio/tgik/tree/master/episodes/004" target="_blank">네번째 에피소드</a>는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 <a href="https://www.linkedin.com/pulse/adding-users-quick-start-kubernetes-aws-jakub-scholz" target="_blank">Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo;</a> 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다.  RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 <a href="https://www.youtube.com/watch?v=CnHTCTP8d48" target="_blank">Role based access control (RBAC) policies in Kubernetes</a> 웨비나를 추천한다.</p>
-
-<p><center>•••</center></p>
-
+        <p><a href="https://github.com/heptio/tgik/tree/master/episodes/004">네번째 에피소드</a>는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 <a href="https://www.linkedin.com/pulse/adding-users-quick-start-kubernetes-aws-jakub-scholz">Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo;</a> 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다.  RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 <a href="https://www.youtube.com/watch?v=CnHTCTP8d48">Role based access control (RBAC) policies in Kubernetes</a> 웨비나를 추천한다.</p>
+<!-- raw HTML omitted -->
 <h2 id="kubeconfig">KubeConfig</h2>
-
 <p><code>kubeconfig</code> 파일의 기본 위치는 <code>$HOME/.kube/config</code>이며, <code>KUBECONFIG</code> 환경변수 또는 <code>--kubeconfig</code> 옵션으로 지정할 수 있다.</p>
-
 <p>앞선 TGIK 데모에서는 Heptio의 QuickStart를 사용해 쿠버네티스 클러스터를 생성할 때, 클러스터 작업을 실행하기 위해 다음과 같은 방법으로 마스터 노드에서 복사한 <code>kubeconfig</code> 파일을 로컬에 복사하였다.</p>
-
 <p>QuickStart에서 CloudFormation으로 프로비저닝할 때, 로컬 복사를 위한 커맨드가 다음과 같이 자동으로 생성되는데, 보다시피 <code>nc</code> 명령을 이용해 netcat 링크를 만들어 내부 마스터 서버에 접속하고 있다. (<code>netcat</code>을 이용하지 않고, <code>-W</code> 옵션으로도 클라이언트의 입출력을 마스터 호스트로 전달할 수 있다.)</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">SSH_KEY</span><span class="o">=</span><span class="s2">&#34;path/to/laptop.pem&#34;</span><span class="p">;</span> scp -i <span class="nv">$SSH_KEY</span> -o <span class="nv">ProxyCommand</span><span class="o">=</span><span class="s2">&#34;ssh -i \&#34;</span><span class="si">${</span><span class="nv">SSH_KEY</span><span class="si">}</span><span class="s2">\&#34; ubuntu@13.209.9.190 nc %h %p&#34;</span> ubuntu@10.0.21.21:~/kubeconfig ./kubeconfig</code></pre></div>
-<p>다음은 복사된 <code>kubeconfig</code> 파일의 내용이다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
-</span><span class="w"></span>clusters<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>cluster<span class="p">:</span><span class="w">
-</span><span class="w">    </span>certificate-authority-data<span class="p">:</span><span class="w"> </span>&lt;base64-encoded-ca-cert<span class="sd">&gt;
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nv">SSH_KEY</span><span class="o">=</span><span class="s2">&#34;path/to/laptop.pem&#34;</span><span class="p">;</span> scp -i <span class="nv">$SSH_KEY</span> -o <span class="nv">ProxyCommand</span><span class="o">=</span><span class="s2">&#34;ssh -i \&#34;</span><span class="si">${</span><span class="nv">SSH_KEY</span><span class="si">}</span><span class="s2">\&#34; ubuntu@13.209.9.190 nc %h %p&#34;</span> ubuntu@10.0.21.21:~/kubeconfig ./kubeconfig
+</code></pre></div><p>다음은 복사된 <code>kubeconfig</code> 파일의 내용이다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w"></span><span class="k">clusters</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">cluster</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">certificate-authority-data</span><span class="p">:</span><span class="w"> </span>&lt;base64-encoded-ca-cert<span class="sd">&gt;
 </span><span class="sd">    server: https://13.125.59.233:6443</span><span class="w">
-</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
-</span><span class="w"></span>contexts<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>context<span class="p">:</span><span class="w">
-</span><span class="w">    </span>cluster<span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
-</span><span class="w">    </span>user<span class="p">:</span><span class="w"> </span>admin<span class="w">
-</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>admin@kubernetes<span class="w">
-</span><span class="w"></span>current-context<span class="p">:</span><span class="w"> </span>admin@kubernetes<span class="w">
-</span><span class="w"></span>kind<span class="p">:</span><span class="w"> </span>Config<span class="w">
-</span><span class="w"></span>preferences<span class="p">:</span><span class="w"> </span>{}<span class="w">
-</span><span class="w"></span>users<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>admin<span class="w">
-</span><span class="w">  </span>user<span class="p">:</span><span class="w">
-</span><span class="w">  	</span>client-certificate-data<span class="p">:</span><span class="w"> </span>&lt;base64-encoded-csr<span class="sd">&gt;
-</span><span class="sd">  	client-key-data: &lt;base64-encoded-private-key&gt;</span></code></pre></div>
-<p>보다시피, yaml 파일 형식이며, <code>certificate-authority-data</code>, <code>client-certificate-data</code>, <code>client-key-data</code>처럼 인증서 및 개인키는 base64로 인코딩되어 있다.</p>
-
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
+</span><span class="w"></span><span class="k">contexts</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">context</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">cluster</span><span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
+</span><span class="w">    </span><span class="k">user</span><span class="p">:</span><span class="w"> </span>admin<span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>admin@kubernetes<span class="w">
+</span><span class="w"></span><span class="k">current-context</span><span class="p">:</span><span class="w"> </span>admin@kubernetes<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Config<span class="w">
+</span><span class="w"></span><span class="k">preferences</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w"></span><span class="k">users</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>admin<span class="w">
+</span><span class="w">  </span><span class="k">user</span><span class="p">:</span><span class="w">
+</span><span class="w">  	</span><span class="k">client-certificate-data</span><span class="p">:</span><span class="w"> </span>&lt;base64-encoded-csr<span class="sd">&gt;
+</span><span class="sd">  	client-key-data: &lt;base64-encoded-private-key&gt;</span><span class="w">
+</span></code></pre></div><p>보다시피, yaml 파일 형식이며, <code>certificate-authority-data</code>, <code>client-certificate-data</code>, <code>client-key-data</code>처럼 인증서 및 개인키는 base64로 인코딩되어 있다.</p>
 <h3 id="certificate-authority-data">certificate-authority-data</h3>
-
 <p>첫 번째 base64로 인코딩된 데이터는 API 서버의 TLS 인증서를 발급한 CA(certificate authority, 인증 기관)이다. 대부분의 TLS 연결은 기본적으로 <code>/etc/ssl</code>에서 신뢰하는 CA를 찾는데, 쿠버네티스의 경우 <code>kubeconfig</code> 파일의 <code>certificate-authority-data</code> 에 API 서버의 TLS 인증서를 발급한 Root CA을 기술하고 있다.</p>
-
 <p>Root CA외에 API 서버에서 인자로 전달되는 인증서, 공개키, 개인키 데이터는 다음과 같다. (쿠버네티스 1.13.x 기준)</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kube-apiserver 
     --authorization-mode<span class="o">=</span>Node,RBAC 
-    --advertise-address<span class="o">=</span><span class="m">172</span>.17.0.3 
+    --advertise-address<span class="o">=</span>172.17.0.3 
     --allow-privileged<span class="o">=</span><span class="nb">true</span> 
     --client-ca-file<span class="o">=</span>/etc/kubernetes/pki/ca.crt 
     --enable-admission-plugins<span class="o">=</span>NodeRestriction 
@@ -192,15 +183,12 @@
     --requestheader-username-headers<span class="o">=</span>X-Remote-User 
     --secure-port<span class="o">=</span><span class="m">6443</span> 
     --service-account-key-file<span class="o">=</span>/etc/kubernetes/pki/sa.pub 
-    --service-cluster-ip-range<span class="o">=</span><span class="m">10</span>.96.0.0/12 
+    --service-cluster-ip-range<span class="o">=</span>10.96.0.0/12 
     --tls-cert-file<span class="o">=</span>/etc/kubernetes/pki/apiserver.crt 
-    --tls-private-key-file<span class="o">=</span>/etc/kubernetes/pki/apiserver.key</code></pre></div>
-<p>보다시피 API 서버의 경우, TLS 연결을 위한 인증서와 개인키는 각각 <code>--tls-cert-file</code>, <code>--tls-private-key-file</code> 인자를 통해 전달되고 있다. 그리고 API 서버의 <code>--client-ca-file</code> 인자는 <code>/etc/kubernetes/pki/ca.crt</code> 파일로 전달되고 있는데, 이는 쿠버네티스의 Root CA이며, 이는 앞서 살펴본 <code>kubeconfig</code>의 <code>certificate-authority-data</code>와 동일하다.</p>
-
+    --tls-private-key-file<span class="o">=</span>/etc/kubernetes/pki/apiserver.key
+</code></pre></div><p>보다시피 API 서버의 경우, TLS 연결을 위한 인증서와 개인키는 각각 <code>--tls-cert-file</code>, <code>--tls-private-key-file</code> 인자를 통해 전달되고 있다. 그리고 API 서버의 <code>--client-ca-file</code> 인자는 <code>/etc/kubernetes/pki/ca.crt</code> 파일로 전달되고 있는데, 이는 쿠버네티스의 Root CA이며, 이는 앞서 살펴본 <code>kubeconfig</code>의 <code>certificate-authority-data</code>와 동일하다.</p>
 <p>모든 쿠버네티스 클러스터에는 쿠버네티스 컨트롤 플레인 또는 사용자에게 인증서를 제공하는데 사용할 수 있는 클러스터 내장 인증 기관(certificate authority)이 있다. CA는 API 컴포넌트에서 API 서버의 인증서를 확인하고, API 서버가 kubelet 클라이언트 인증서를 확인하는데 사용한다. 이를 지원하기 위해 CA 인증서 번들은 클러스터의 모든 노드에 분산되며 <code>default</code> 서비스 계정에 연결된 시크릿으로서 배포된다. 쿠버네티스에는 기본적으로 세 가지 Root CA가 필요하다. 이들은 <code>/etc/kubernetes/pki</code>에 저장된다.</p>
-
-<p><center></p>
-
+<!-- raw HTML omitted -->
 <table>
 <thead>
 <tr>
@@ -209,20 +197,17 @@
 <th>description</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>ca.crt,key</td>
 <td>kubernetes-ca</td>
 <td>Kubernetes general CA</td>
 </tr>
-
 <tr>
 <td>etcd/ca.crt,key</td>
 <td>etcd-ca</td>
 <td>For all etcd-related function</td>
 </tr>
-
 <tr>
 <td>front-proxy-ca.crt,key</td>
 <td>kubernetes-front-proxy-ca</td>
@@ -230,11 +215,9 @@
 </tr>
 </tbody>
 </table>
-
-<p>(참고 - <a href="https://kubernetes.io/docs/setup/certificates/" target="_blank">PKI Certificates and Requirements</a>)
-</center></p>
-
-<p>이외에도 API 서버는 다음과 같이 인증과 관련된 다른 커맨드라인 인자를 지정할 수 있다. (참고 - <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/" target="_blank">kube-apiserver
+<p>(참고 - <a href="https://kubernetes.io/docs/setup/certificates/">PKI Certificates and Requirements</a>)</p>
+<!-- raw HTML omitted -->
+<p>이외에도 API 서버는 다음과 같이 인증과 관련된 다른 커맨드라인 인자를 지정할 수 있다. (참고 - <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">kube-apiserver
 </a>)</p>
 <div class="highlight"><pre class="chroma"><code class="language-txt" data-lang="txt">--cert-dir string                           The directory where the TLS certs are located. If --tls-cert-file and --tls-private-key-file are provided, this flag will be ignored. (default &#34;/var/run/kubernetes&#34;)
 --client-ca-file string                     If set, any request presenting a client certificate signed by one of the authorities in the client-ca-file is authenticated with an identity corresponding to the CommonName of the client certificate.
@@ -253,432 +236,13 @@
 --tls-ca-file string                        If set, this certificate authority will used for secure access from Admission Controllers. This must be a valid PEM-encoded CA bundle. Alternatively, the certificate authority can be appended to the certificate provided by --tls-cert-file.
 --tls-cert-file string                      File containing the default x509 Certificate for HTTPS. (CA cert, if any, concatenated after server cert). If HTTPS serving is enabled, and --tls-cert-file and --tls-private-key-file are not provided, a self-signed certificate and key are generated for the public address and saved to /var/run/kubernetes.
 --tls-private-key-file string               File containing the default x509 private key matching --tls-cert-file.
---tls-sni-cert-key namedCertKey             A pair of x509 certificate and private key file paths, optionally suffixed with a list of domain patterns which are fully qualified domain names, possibly with prefixed wildcard segments. If no domain patterns are provided, the names of the certificate are extracted. Non-wildcard matches trump over wildcard matches, explicit domain patterns trump over extracted names. For multiple key/certificate pairs, use the --tls-sni-cert-key multiple times. Examples: &#34;example.crt,example.key&#34; or &#34;foo.crt,foo.key:*.foo.com,foo.com&#34;. (default [])</code></pre></div>
-<p>다음과 같이, <code>kubectl</code>에서 클러스터 노드 정보를 조회할 때 디버그 레벨 <code>--v=10</code>을 지정해보자.</p>
-
-<p><details>
-<summary>kubectl get nodes &ndash;v=10</summary></p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get nodes --v<span class="o">=</span><span class="m">10</span>
-I0204 <span class="m">13</span>:05:46.390541   <span class="m">15326</span> loader.go:359<span class="o">]</span> Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
-I0204 <span class="m">13</span>:05:46.391193   <span class="m">15326</span> loader.go:359<span class="o">]</span> Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
-I0204 <span class="m">13</span>:05:46.392557   <span class="m">15326</span> cached_discovery.go:104<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/servergroups.json
-I0204 <span class="m">13</span>:05:46.393214   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393495   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v2beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393529   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/certificates.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393559   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393583   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393599   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/policy/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393613   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393622   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/admissionregistration.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393638   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393657   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta2/serverresources.json
-I0204 <span class="m">13</span>:05:46.393653   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/scheduling.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393707   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiextensions.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393740   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/networking.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393750   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393771   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393787   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393802   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393816   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393845   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393899   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/events.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393912   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393922   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393941   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393946   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/extensions/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393966   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.393984   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.394926   <span class="m">15326</span> loader.go:359<span class="o">]</span> Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
-I0204 <span class="m">13</span>:05:46.395217   <span class="m">15326</span> cached_discovery.go:104<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/servergroups.json
-I0204 <span class="m">13</span>:05:46.395311   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/scheduling.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395382   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395421   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395452   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/policy/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395477   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395521   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395529   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v2beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395547   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/networking.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395550   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/admissionregistration.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395559   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395550   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395551   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/certificates.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395592   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395599   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395620   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/extensions/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395625   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiextensions.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395639   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/events.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395651   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395677   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395651   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395652   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395660   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395660   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395743   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395722   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.395753   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta2/serverresources.json
-I0204 <span class="m">13</span>:05:46.395900   <span class="m">15326</span> cached_discovery.go:104<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/servergroups.json
-I0204 <span class="m">13</span>:05:46.396066   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396129   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396186   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396276   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/extensions/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396383   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396474   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta2/serverresources.json
-I0204 <span class="m">13</span>:05:46.396549   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396602   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/events.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396649   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396705   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396761   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396821   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396873   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396934   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v2beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.396988   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397045   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397103   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/certificates.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397157   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/networking.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397221   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/policy/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397285   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397350   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397403   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397458   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397515   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/admissionregistration.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397572   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiextensions.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.397625   <span class="m">15326</span> cached_discovery.go:70<span class="o">]</span> returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/scheduling.k8s.io/v1beta1/serverresources.json
-I0204 <span class="m">13</span>:05:46.398497   <span class="m">15326</span> loader.go:359<span class="o">]</span> Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
-I0204 <span class="m">13</span>:05:46.398751   <span class="m">15326</span> round_trippers.go:386<span class="o">]</span> curl -k -v -XGET  -H <span class="s2">&#34;Accept: application/json;as=Table;v=v1beta1;g=meta.k8s.io, application/json&#34;</span> -H <span class="s2">&#34;User-Agent: kubectl/v1.12.3 (darwin/amd64) kubernetes/435f92c&#34;</span> <span class="s1">&#39;https://13.125.59.233:6443/api/v1/nodes?limit=500&#39;</span>
-I0204 <span class="m">13</span>:05:46.435293   <span class="m">15326</span> round_trippers.go:405<span class="o">]</span> GET https://13.125.59.233:6443/api/v1/nodes?limit<span class="o">=</span><span class="m">500</span> <span class="m">200</span> OK in <span class="m">36</span> milliseconds
-I0204 <span class="m">13</span>:05:46.435313   <span class="m">15326</span> round_trippers.go:411<span class="o">]</span> Response Headers:
-I0204 <span class="m">13</span>:05:46.435318   <span class="m">15326</span> round_trippers.go:414<span class="o">]</span>     Content-Type: application/json
-I0204 <span class="m">13</span>:05:46.435324   <span class="m">15326</span> round_trippers.go:414<span class="o">]</span>     Date: Mon, <span class="m">04</span> Feb <span class="m">2019</span> <span class="m">04</span>:05:46 GMT
-I0204 <span class="m">13</span>:05:46.437396   <span class="m">15326</span> request.go:942<span class="o">]</span> Response Body: <span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;Table&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7633&#34;</span><span class="o">}</span>,<span class="s2">&#34;columnDefinitions&#34;</span>:<span class="o">[{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Name&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;name&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names&#34;</span>,<span class="s2">&#34;priority&#34;</span>:0<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Status&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;The status of the node&#34;</span>,<span class="s2">&#34;priority&#34;</span>:0<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Roles&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;The roles of the node&#34;</span>,<span class="s2">&#34;priority&#34;</span>:0<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Age&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.\n\nPopulated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata&#34;</span>,<span class="s2">&#34;priority&#34;</span>:0<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Version&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;Kubelet Version reported by the node.&#34;</span>,<span class="s2">&#34;priority&#34;</span>:0<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Internal-IP&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses&#34;</span>,<span class="s2">&#34;priority&#34;</span>:1<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;External-IP&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses&#34;</span>,<span class="s2">&#34;priority&#34;</span>:1<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;OS-Image&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)).&#34;</span>,<span class="s2">&#34;priority&#34;</span>:1<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Kernel-Version&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;Kernel Version reported by the node from &#39;uname -r&#39; (e.g. 3.16.0-0.bpo.4-amd64).&#34;</span>,<span class="s2">&#34;priority&#34;</span>:1<span class="o">}</span>,<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;Container-Runtime&#34;</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;string&#34;</span>,<span class="s2">&#34;format&#34;</span>:<span class="s2">&#34;&#34;</span>,<span class="s2">&#34;description&#34;</span>:<span class="s2">&#34;ContainerRuntime Version reported by the node through runtime remote API (e.g. docker://1.5.0).&#34;</span>,<span class="s2">&#34;priority&#34;</span>:1<span class="o">}]</span>,<span class="s2">&#34;rows&#34;</span>:<span class="o">[{</span><span class="s2">&#34;cells&#34;</span>:<span class="o">[</span><span class="s2">&#34;ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;Ready&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;1h&#34;</span>,<span class="s2">&#34;v1.11.5&#34;</span>,<span class="s2">&#34;10.0.11.90&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span>,<span class="s2">&#34;4.4.0-1072-aws&#34;</span>,<span class="s2">&#34;docker://17.3.2&#34;</span><span class="o">]</span>,<span class="s2">&#34;object&#34;</span>:<span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;PartialObjectMetadata&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes/ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;uid&#34;</span>:<span class="s2">&#34;208bde9f-2829-11e9-a2c8-02015048da6c&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7622&#34;</span>,<span class="s2">&#34;creationTimestamp&#34;</span>:<span class="s2">&#34;2019-02-04T03:01:11Z&#34;</span>,<span class="s2">&#34;labels&#34;</span>:<span class="o">{</span><span class="s2">&#34;beta.kubernetes.io/arch&#34;</span>:<span class="s2">&#34;amd64&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/instance-type&#34;</span>:<span class="s2">&#34;t2.small&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/os&#34;</span>:<span class="s2">&#34;linux&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/region&#34;</span>:<span class="s2">&#34;ap-northeast-2&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span>:<span class="s2">&#34;ap-northeast-2a&#34;</span>,<span class="s2">&#34;kubernetes.io/hostname&#34;</span>:<span class="s2">&#34;ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span><span class="o">}</span>,<span class="s2">&#34;annotations&#34;</span>:<span class="o">{</span><span class="s2">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span>:<span class="s2">&#34;/var/run/dockershim.sock&#34;</span>,<span class="s2">&#34;node.alpha.kubernetes.io/ttl&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span>:<span class="s2">&#34;true&#34;</span><span class="o">}}}}</span>,<span class="o">{</span><span class="s2">&#34;cells&#34;</span>:<span class="o">[</span><span class="s2">&#34;ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;Ready&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;1h&#34;</span>,<span class="s2">&#34;v1.11.5&#34;</span>,<span class="s2">&#34;10.0.15.49&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span>,<span class="s2">&#34;4.4.0-1072-aws&#34;</span>,<span class="s2">&#34;docker://17.3.2&#34;</span><span class="o">]</span>,<span class="s2">&#34;object&#34;</span>:<span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;PartialObjectMetadata&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes/ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;uid&#34;</span>:<span class="s2">&#34;208d8cb1-2829-11e9-a2c8-02015048da6c&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7619&#34;</span>,<span class="s2">&#34;creationTimestamp&#34;</span>:<span class="s2">&#34;2019-02-04T03:01:11Z&#34;</span>,<span class="s2">&#34;labels&#34;</span>:<span class="o">{</span><span class="s2">&#34;beta.kubernetes.io/arch&#34;</span>:<span class="s2">&#34;amd64&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/instance-type&#34;</span>:<span class="s2">&#34;t2.small&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/os&#34;</span>:<span class="s2">&#34;linux&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/region&#34;</span>:<span class="s2">&#34;ap-northeast-2&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span>:<span class="s2">&#34;ap-northeast-2a&#34;</span>,<span class="s2">&#34;kubernetes.io/hostname&#34;</span>:<span class="s2">&#34;ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span><span class="o">}</span>,<span class="s2">&#34;annotations&#34;</span>:<span class="o">{</span><span class="s2">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span>:<span class="s2">&#34;/var/run/dockershim.sock&#34;</span>,<span class="s2">&#34;node.alpha.kubernetes.io/ttl&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span>:<span class="s2">&#34;true&#34;</span><span class="o">}}}}</span>,<span class="o">{</span><span class="s2">&#34;cells&#34;</span>:<span class="o">[</span><span class="s2">&#34;ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;Ready&#34;</span>,<span class="s2">&#34;master&#34;</span>,<span class="s2">&#34;1h&#34;</span>,<span class="s2">&#34;v1.11.5&#34;</span>,<span class="s2">&#34;10.0.21.21&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span>,<span class="s2">&#34;4.4.0-1072-aws&#34;</span>,<span class="s2">&#34;docker://17.3.2&#34;</span><span class="o">]</span>,<span class="s2">&#34;object&#34;</span>:<span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;PartialObjectMetadata&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes/ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;uid&#34;</span>:<span class="s2">&#34;af849c71-2828-11e9-a2c8-02015048da6c&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7626&#34;</span>,<span class="s2">&#34;creationTimestamp&#34;</span>:<span class="s2">&#34;2019-02-04T02:58:02Z&#34;</span>,<span class="s2">&#34;labels&#34;</span>:<span class="o">{</span><span class="s2">&#34;beta.kubernetes.io/arch&#34;</span>:<span class="s2">&#34;amd64&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/instance-type&#34;</span>:<span class="s2">&#34;t2.small&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/os&#34;</span>:<span class="s2">&#34;linux&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/region&#34;</span>:<span class="s2">&#34;ap-northeast-2&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span>:<span class="s2">&#34;ap-northeast-2a&#34;</span>,<span class="s2">&#34;kubernetes.io/hostname&#34;</span>:<span class="s2">&#34;ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;node-role.kubernetes.io/master&#34;</span>:<span class="s2">&#34;&#34;</span><span class="o">}</span>,<span class="s2">&#34;annotations&#34;</span>:<span class="o">{</span><span class="s2">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span>:<span class="s2">&#34;/var/run/dockershim.sock&#34;</span>,<span class="s2">&#34;node.alpha.kubernetes.io/ttl&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span>:<span class="s2">&#34;true&#34;</span><span class="o">}}}}</span>,<span class="o">{</span><span class="s2">&#34;cells&#34;</span>:<span class="o">[</span><span class="s2">&#34;ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;Ready&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;1h&#34;</span>,<span class="s2">&#34;v1.11.5&#34;</span>,<span class="s2">&#34;10.0.23.205&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span>,<span class="s2">&#34;4.4.0-1072-aws&#34;</span>,<span class="s2">&#34;docker://17.3.2&#34;</span><span class="o">]</span>,<span class="s2">&#34;object&#34;</span>:<span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;PartialObjectMetadata&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes/ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;uid&#34;</span>:<span class="s2">&#34;22442c26-2829-11e9-a2c8-02015048da6c&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7628&#34;</span>,<span class="s2">&#34;creationTimestamp&#34;</span>:<span class="s2">&#34;2019-02-04T03:01:14Z&#34;</span>,<span class="s2">&#34;labels&#34;</span>:<span class="o">{</span><span class="s2">&#34;beta.kubernetes.io/arch&#34;</span>:<span class="s2">&#34;amd64&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/instance-type&#34;</span>:<span class="s2">&#34;t2.small&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/os&#34;</span>:<span class="s2">&#34;linux&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/region&#34;</span>:<span class="s2">&#34;ap-northeast-2&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span>:<span class="s2">&#34;ap-northeast-2a&#34;</span>,<span class="s2">&#34;kubernetes.io/hostname&#34;</span>:<span class="s2">&#34;ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span><span class="o">}</span>,<span class="s2">&#34;annotations&#34;</span>:<span class="o">{</span><span class="s2">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span>:<span class="s2">&#34;/var/run/dockershim.sock&#34;</span>,<span class="s2">&#34;node.alpha.kubernetes.io/ttl&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span>:<span class="s2">&#34;true&#34;</span><span class="o">}}}}</span>,<span class="o">{</span><span class="s2">&#34;cells&#34;</span>:<span class="o">[</span><span class="s2">&#34;ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;Ready&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;1h&#34;</span>,<span class="s2">&#34;v1.11.5&#34;</span>,<span class="s2">&#34;10.0.30.16&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span>,<span class="s2">&#34;4.4.0-1072-aws&#34;</span>,<span class="s2">&#34;docker://17.3.2&#34;</span><span class="o">]</span>,<span class="s2">&#34;object&#34;</span>:<span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;PartialObjectMetadata&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes/ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;uid&#34;</span>:<span class="s2">&#34;1c7ce276-2829-11e9-a2c8-02015048da6c&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7627&#34;</span>,<span class="s2">&#34;creationTimestamp&#34;</span>:<span class="s2">&#34;2019-02-04T03:01:04Z&#34;</span>,<span class="s2">&#34;labels&#34;</span>:<span class="o">{</span><span class="s2">&#34;beta.kubernetes.io/arch&#34;</span>:<span class="s2">&#34;amd64&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/instance-type&#34;</span>:<span class="s2">&#34;t2.small&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/os&#34;</span>:<span class="s2">&#34;linux&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/region&#34;</span>:<span class="s2">&#34;ap-northeast-2&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span>:<span class="s2">&#34;ap-northeast-2a&#34;</span>,<span class="s2">&#34;kubernetes.io/hostname&#34;</span>:<span class="s2">&#34;ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span><span class="o">}</span>,<span class="s2">&#34;annotations&#34;</span>:<span class="o">{</span><span class="s2">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span>:<span class="s2">&#34;/var/run/dockershim.sock&#34;</span>,<span class="s2">&#34;node.alpha.kubernetes.io/ttl&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span>:<span class="s2">&#34;true&#34;</span><span class="o">}}}}</span>,<span class="o">{</span><span class="s2">&#34;cells&#34;</span>:<span class="o">[</span><span class="s2">&#34;ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;Ready&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;1h&#34;</span>,<span class="s2">&#34;v1.11.5&#34;</span>,<span class="s2">&#34;10.0.7.175&#34;</span>,<span class="s2">&#34;\u003cnone\u003e&#34;</span>,<span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span>,<span class="s2">&#34;4.4.0-1072-aws&#34;</span>,<span class="s2">&#34;docker://17.3.2&#34;</span><span class="o">]</span>,<span class="s2">&#34;object&#34;</span>:<span class="o">{</span><span class="s2">&#34;kind&#34;</span>:<span class="s2">&#34;PartialObjectMetadata&#34;</span>,<span class="s2">&#34;apiVersion&#34;</span>:<span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span>,<span class="s2">&#34;metadata&#34;</span>:<span class="o">{</span><span class="s2">&#34;name&#34;</span>:<span class="s2">&#34;ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;selfLink&#34;</span>:<span class="s2">&#34;/api/v1/nodes/ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span>,<span class="s2">&#34;uid&#34;</span>:<span class="s2">&#34;3f3c5d27-2829-11e9-a2c8-02015048da6c&#34;</span>,<span class="s2">&#34;resourceVersion&#34;</span>:<span class="s2">&#34;7623&#34;</span>,<span class="s2">&#34;creationTimestamp&#34;</span>:<span class="s2">&#34;2019-02-04T03:02:03Z&#34;</span>,<span class="s2">&#34;labels&#34;</span>:<span class="o">{</span><span class="s2">&#34;beta.kubernetes.io/arch&#34;</span>:<span class="s2">&#34;amd64&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/instance-type&#34;</span>:<span class="s2">&#34;t2.small&#34;</span>,<span class="s2">&#34;beta.kubernetes.io/os&#34;</span>:<span class="s2">&#34;linux&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/region&#34;</span>:<span class="s2">&#34;ap-northeast-2&#34;</span>,<span class="s2">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span>:<span class="s2">&#34;ap-northeast-2a&#34;</span>,<span class="s2">&#34;kubernetes.io/hostname&#34;</span>:<span class="s2">&#34;ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span><span class="o">}</span>,<span class="s2">&#34;annotations&#34;</span>:<span class="o">{</span><span class="s2">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span>:<span class="s2">&#34;/var/run/dockershim.sock&#34;</span>,<span class="s2">&#34;node.alpha.kubernetes.io/ttl&#34;</span>:<span class="s2">&#34;0&#34;</span>,<span class="s2">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span>:<span class="s2">&#34;true&#34;</span><span class="o">}}}}]}</span>
-I0204 <span class="m">13</span>:05:46.438816   <span class="m">15326</span> get.go:558<span class="o">]</span> no kind is registered <span class="k">for</span> the <span class="nb">type</span> v1beta1.Table in scheme <span class="s2">&#34;k8s.io/kubernetes/pkg/api/legacyscheme/scheme.go:29&#34;</span>
-NAME                                             STATUS   ROLES    AGE   VERSION
-ip-10-0-11-90.ap-northeast-2.compute.internal    Ready    &lt;none&gt;   1h    v1.11.5
-ip-10-0-15-49.ap-northeast-2.compute.internal    Ready    &lt;none&gt;   1h    v1.11.5
-ip-10-0-21-21.ap-northeast-2.compute.internal    Ready    master   1h    v1.11.5
-ip-10-0-23-205.ap-northeast-2.compute.internal   Ready    &lt;none&gt;   1h    v1.11.5
-ip-10-0-30-16.ap-northeast-2.compute.internal    Ready    &lt;none&gt;   1h    v1.11.5
-ip-10-0-7-175.ap-northeast-2.compute.internal    Ready    &lt;none&gt;   1h    v1.11.5</code></pre></div>
-<p></details></p>
-
+--tls-sni-cert-key namedCertKey             A pair of x509 certificate and private key file paths, optionally suffixed with a list of domain patterns which are fully qualified domain names, possibly with prefixed wildcard segments. If no domain patterns are provided, the names of the certificate are extracted. Non-wildcard matches trump over wildcard matches, explicit domain patterns trump over extracted names. For multiple key/certificate pairs, use the --tls-sni-cert-key multiple times. Examples: &#34;example.crt,example.key&#34; or &#34;foo.crt,foo.key:*.foo.com,foo.com&#34;. (default [])
+</code></pre></div><p>다음과 같이, <code>kubectl</code>에서 클러스터 노드 정보를 조회할 때 디버그 레벨 <code>--v=10</code>을 지정해보자.</p>
+<!-- raw HTML omitted -->
 <p>그러면 위 상세 로그에서 다음과 같은 <code>kubectl get node</code>에 대응하는 <code>curl</code> 명령어를 확인할 수 있다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl -k -v -XGET  -H <span class="s2">&#34;Accept: application/json;as=Table;v=v1beta1;g=meta.k8s.io, application/json&#34;</span> -H <span class="s2">&#34;User-Agent: kubectl/v1.12.3 (darwin/amd64) kubernetes/435f92c&#34;</span> <span class="s1">&#39;https://13.125.59.233:6443/api/v1/nodes?limit=500&#39;</span></code></pre></div>
-<p>위 <code>kubectl</code>을 통해서 호출되는 API 서버의 응답은 다음과 같다.</p>
-
-<p><details>
-<summary><code>kubectl get node</code> json 응답</summary></p>
-<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;Table&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-  <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes&#34;</span><span class="p">,</span>
-    <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7633&#34;</span>
-  <span class="p">},</span>
-  <span class="nt">&#34;columnDefinitions&#34;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Name&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;name&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Status&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;The status of the node&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Roles&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;The roles of the node&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Age&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.\n\nPopulated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Version&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Kubelet Version reported by the node.&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Internal-IP&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;External-IP&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;OS-Image&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)).&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Kernel-Version&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Kernel Version reported by the node from &#39;uname -r&#39; (e.g. 3.16.0-0.bpo.4-amd64).&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Container-Runtime&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;string&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;format&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;ContainerRuntime Version reported by the node through runtime remote API (e.g. docker://1.5.0).&#34;</span><span class="p">,</span>
-      <span class="nt">&#34;priority&#34;</span><span class="p">:</span> <span class="mi">1</span>
-    <span class="p">}</span>
-  <span class="p">],</span>
-  <span class="nt">&#34;rows&#34;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;cells&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&#34;ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ready&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;1h&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;v1.11.5&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;10.0.11.90&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;4.4.0-1072-aws&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;docker://17.3.2&#34;</span>
-      <span class="p">],</span>
-      <span class="nt">&#34;object&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;PartialObjectMetadata&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes/ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;uid&#34;</span><span class="p">:</span> <span class="s2">&#34;208bde9f-2829-11e9-a2c8-02015048da6c&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7622&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;creationTimestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-02-04T03:01:11Z&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;beta.kubernetes.io/arch&#34;</span><span class="p">:</span> <span class="s2">&#34;amd64&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/instance-type&#34;</span><span class="p">:</span> <span class="s2">&#34;t2.small&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/os&#34;</span><span class="p">:</span> <span class="s2">&#34;linux&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/region&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2a&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;kubernetes.io/hostname&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-11-90.ap-northeast-2.compute.internal&#34;</span>
-          <span class="p">},</span>
-          <span class="nt">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/run/dockershim.sock&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node.alpha.kubernetes.io/ttl&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span><span class="p">:</span> <span class="s2">&#34;true&#34;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;cells&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&#34;ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ready&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;1h&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;v1.11.5&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;10.0.15.49&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;4.4.0-1072-aws&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;docker://17.3.2&#34;</span>
-      <span class="p">],</span>
-      <span class="nt">&#34;object&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;PartialObjectMetadata&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes/ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;uid&#34;</span><span class="p">:</span> <span class="s2">&#34;208d8cb1-2829-11e9-a2c8-02015048da6c&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7619&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;creationTimestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-02-04T03:01:11Z&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;beta.kubernetes.io/arch&#34;</span><span class="p">:</span> <span class="s2">&#34;amd64&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/instance-type&#34;</span><span class="p">:</span> <span class="s2">&#34;t2.small&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/os&#34;</span><span class="p">:</span> <span class="s2">&#34;linux&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/region&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2a&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;kubernetes.io/hostname&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-15-49.ap-northeast-2.compute.internal&#34;</span>
-          <span class="p">},</span>
-          <span class="nt">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/run/dockershim.sock&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node.alpha.kubernetes.io/ttl&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span><span class="p">:</span> <span class="s2">&#34;true&#34;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;cells&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&#34;ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ready&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;master&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;1h&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;v1.11.5&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;10.0.21.21&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;4.4.0-1072-aws&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;docker://17.3.2&#34;</span>
-      <span class="p">],</span>
-      <span class="nt">&#34;object&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;PartialObjectMetadata&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes/ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;uid&#34;</span><span class="p">:</span> <span class="s2">&#34;af849c71-2828-11e9-a2c8-02015048da6c&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7626&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;creationTimestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-02-04T02:58:02Z&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;beta.kubernetes.io/arch&#34;</span><span class="p">:</span> <span class="s2">&#34;amd64&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/instance-type&#34;</span><span class="p">:</span> <span class="s2">&#34;t2.small&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/os&#34;</span><span class="p">:</span> <span class="s2">&#34;linux&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/region&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2a&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;kubernetes.io/hostname&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-21-21.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node-role.kubernetes.io/master&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span>
-          <span class="p">},</span>
-          <span class="nt">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/run/dockershim.sock&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node.alpha.kubernetes.io/ttl&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span><span class="p">:</span> <span class="s2">&#34;true&#34;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;cells&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&#34;ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ready&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;1h&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;v1.11.5&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;10.0.23.205&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;4.4.0-1072-aws&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;docker://17.3.2&#34;</span>
-      <span class="p">],</span>
-      <span class="nt">&#34;object&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;PartialObjectMetadata&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes/ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;uid&#34;</span><span class="p">:</span> <span class="s2">&#34;22442c26-2829-11e9-a2c8-02015048da6c&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7628&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;creationTimestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-02-04T03:01:14Z&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;beta.kubernetes.io/arch&#34;</span><span class="p">:</span> <span class="s2">&#34;amd64&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/instance-type&#34;</span><span class="p">:</span> <span class="s2">&#34;t2.small&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/os&#34;</span><span class="p">:</span> <span class="s2">&#34;linux&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/region&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2a&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;kubernetes.io/hostname&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-23-205.ap-northeast-2.compute.internal&#34;</span>
-          <span class="p">},</span>
-          <span class="nt">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/run/dockershim.sock&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node.alpha.kubernetes.io/ttl&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span><span class="p">:</span> <span class="s2">&#34;true&#34;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;cells&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&#34;ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ready&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;1h&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;v1.11.5&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;10.0.30.16&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;4.4.0-1072-aws&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;docker://17.3.2&#34;</span>
-      <span class="p">],</span>
-      <span class="nt">&#34;object&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;PartialObjectMetadata&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes/ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;uid&#34;</span><span class="p">:</span> <span class="s2">&#34;1c7ce276-2829-11e9-a2c8-02015048da6c&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7627&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;creationTimestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-02-04T03:01:04Z&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;beta.kubernetes.io/arch&#34;</span><span class="p">:</span> <span class="s2">&#34;amd64&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/instance-type&#34;</span><span class="p">:</span> <span class="s2">&#34;t2.small&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/os&#34;</span><span class="p">:</span> <span class="s2">&#34;linux&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/region&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2a&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;kubernetes.io/hostname&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-30-16.ap-northeast-2.compute.internal&#34;</span>
-          <span class="p">},</span>
-          <span class="nt">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/run/dockershim.sock&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node.alpha.kubernetes.io/ttl&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span><span class="p">:</span> <span class="s2">&#34;true&#34;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="nt">&#34;cells&#34;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="s2">&#34;ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ready&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;1h&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;v1.11.5&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;10.0.7.175&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;&lt;none&gt;&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;Ubuntu 16.04.5 LTS&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;4.4.0-1072-aws&#34;</span><span class="p">,</span>
-        <span class="s2">&#34;docker://17.3.2&#34;</span>
-      <span class="p">],</span>
-      <span class="nt">&#34;object&#34;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;PartialObjectMetadata&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;apiVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;meta.k8s.io/v1beta1&#34;</span><span class="p">,</span>
-        <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;selfLink&#34;</span><span class="p">:</span> <span class="s2">&#34;/api/v1/nodes/ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;uid&#34;</span><span class="p">:</span> <span class="s2">&#34;3f3c5d27-2829-11e9-a2c8-02015048da6c&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;resourceVersion&#34;</span><span class="p">:</span> <span class="s2">&#34;7623&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;creationTimestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;2019-02-04T03:02:03Z&#34;</span><span class="p">,</span>
-          <span class="nt">&#34;labels&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;beta.kubernetes.io/arch&#34;</span><span class="p">:</span> <span class="s2">&#34;amd64&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/instance-type&#34;</span><span class="p">:</span> <span class="s2">&#34;t2.small&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;beta.kubernetes.io/os&#34;</span><span class="p">:</span> <span class="s2">&#34;linux&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/region&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;failure-domain.beta.kubernetes.io/zone&#34;</span><span class="p">:</span> <span class="s2">&#34;ap-northeast-2a&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;kubernetes.io/hostname&#34;</span><span class="p">:</span> <span class="s2">&#34;ip-10-0-7-175.ap-northeast-2.compute.internal&#34;</span>
-          <span class="p">},</span>
-          <span class="nt">&#34;annotations&#34;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nt">&#34;kubeadm.alpha.kubernetes.io/cri-socket&#34;</span><span class="p">:</span> <span class="s2">&#34;/var/run/dockershim.sock&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;node.alpha.kubernetes.io/ttl&#34;</span><span class="p">:</span> <span class="s2">&#34;0&#34;</span><span class="p">,</span>
-            <span class="nt">&#34;volumes.kubernetes.io/controller-managed-attach-detach&#34;</span><span class="p">:</span> <span class="s2">&#34;true&#34;</span>
-          <span class="p">}</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span></code></pre></div>
-<p></details></p>
-
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl -k -v -XGET  -H <span class="s2">&#34;Accept: application/json;as=Table;v=v1beta1;g=meta.k8s.io, application/json&#34;</span> -H <span class="s2">&#34;User-Agent: kubectl/v1.12.3 (darwin/amd64) kubernetes/435f92c&#34;</span> <span class="s1">&#39;https://13.125.59.233:6443/api/v1/nodes?limit=500&#39;</span>
+</code></pre></div><p>위 <code>kubectl</code>을 통해서 호출되는 API 서버의 응답은 다음과 같다.</p>
+<!-- raw HTML omitted -->
 <p>위 <code>curl</code> 명령을 <code>kubeconfig</code>에 인증서없이 그대로 호출하게 되면, 다음과 같이 API 서버로부터 <code>403</code> 인증 오류가 반환된다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;Status&#34;</span><span class="p">,</span>
@@ -691,20 +255,15 @@ ip-10-0-7-175.ap-northeast-2.compute.internal    Ready    &lt;none&gt;   1h    v
     <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;nodes&#34;</span>
   <span class="p">},</span>
   <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="mi">403</span>
-<span class="p">}</span></code></pre></div>
-<h3 id="client-certificate-data-client-key-data">client-certificate-data, client-key-data</h3>
-
+<span class="p">}</span>
+</code></pre></div><h3 id="client-certificate-data-client-key-data">client-certificate-data, client-key-data</h3>
 <p>쿠버네티스는 서버와 클라이언트가 각각 상호 인증(mutual authentication)한다.</p>
-
 <p>만약, <code>kubeconfig</code> 파일의 <code>certificate-authority-data</code>에 데이터가 잘못되거나 값이 삭제될 경우에는 다음과 같이 서버 연결이 사이닝되지 않았다는 오류를 볼 수 있다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get node
-Unable to connect to the server: x509: certificate signed by unknown authority</code></pre></div>
-<p>API 서버에 대해 보안 연결이 맺어져도 클라이언트 인증이 되어야 제한된 리소스에 접근이 가능하다. 이 때 클라이언트 인증시에 필요한 CSR과 프라이빗 키의 데이터가 각각 <code>client-certificate-data</code>, <code>client-key-data</code>에 기록된다.</p>
-
+Unable to connect to the server: x509: certificate signed by unknown authority
+</code></pre></div><p>API 서버에 대해 보안 연결이 맺어져도 클라이언트 인증이 되어야 제한된 리소스에 접근이 가능하다. 이 때 클라이언트 인증시에 필요한 CSR과 프라이빗 키의 데이터가 각각 <code>client-certificate-data</code>, <code>client-key-data</code>에 기록된다.</p>
 <h2 id="인증-authentication">인증 (Authentication)</h2>
-
-<p>쿠버네티스 클라이언트 컴포넌트가 API 서버에 연결을 맺을 때, 쿠버네티스가 사용자 ID를 할당하는 여러 가지 방법이 있을 수 있는데, 쿠버네티스에는 다음과 같은 인증 방법이 있다. (참고 - <a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/#authentication-strategies" target="_blank">Authentication strategies</a>)</p>
-
+<p>쿠버네티스 클라이언트 컴포넌트가 API 서버에 연결을 맺을 때, 쿠버네티스가 사용자 ID를 할당하는 여러 가지 방법이 있을 수 있는데, 쿠버네티스에는 다음과 같은 인증 방법이 있다. (참고 - <a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/#authentication-strategies">Authentication strategies</a>)</p>
 <ul>
 <li>X509 Client Certs: 괜찮은 인증 방법이지만, 정기적으로 클라이언트 인증서 갱신 및 재배포를 처리해야 한다.</li>
 <li>Static Token File: 일시적이지 않은 특성 때문에 추천하지 않는다.</li>
@@ -715,18 +274,15 @@ Unable to connect to the server: x509: certificate signed by unknown authority</
 <li>Webhook Token Authentication: OIDC와 마찬가지로 Webhook으로 GitHub 개인 토큰을 통합하여 최종 사용자가 사용할 수 있는 인증 방법이다.</li>
 <li>Authentication Proxy: <code>X-Remote-User</code>와 같은 요청 헤더의 값을 설정하는 인증 프락시와 통합시에 사용하는 인증 방법이다.</li>
 </ul>
-
-<p>클라이언트 인증서를 생성하는 방법은 다음과 같다. (참고 - <a href="https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/" target="_blank">Manage TLS Certificates in a Cluster</a>)</p>
-
+<p>클라이언트 인증서를 생성하는 방법은 다음과 같다. (참고 - <a href="https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/">Manage TLS Certificates in a Cluster</a>)</p>
 <p>영상에서는 클라이언트 인증을 위한 임의의 사용자 계정(예, <code>users:ziwon</code>)을 추가하는 예제를 보이고 있다.</p>
-
 <p>먼저 개인키를 생성한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ openssl genrsa -out ziwon.pem <span class="m">2048</span></code></pre></div>
-<p>다음으로 인증서 발급에 필요한 CSR(Certificate Signing Request, 인증서 서명 요청)을 생성한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ openssl req -new -key ziwon.pem -out ziwon.csr -subj <span class="s2">&#34;/CN=users:ziwon/O=cloud-native&#34;</span></code></pre></div>
-<p>그리고 생성된 CSR을 쿠버테스트에 등록하기 위해 base64로 인코딩한 값을 추출한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat ziwon.csr <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span></code></pre></div>
-<p>생성된 쿠버네티스 csr을 등록한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ openssl genrsa -out ziwon.pem <span class="m">2048</span>
+</code></pre></div><p>다음으로 인증서 발급에 필요한 CSR(Certificate Signing Request, 인증서 서명 요청)을 생성한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ openssl req -new -key ziwon.pem -out ziwon.csr -subj <span class="s2">&#34;/CN=users:ziwon/O=cloud-native&#34;</span>
+</code></pre></div><p>그리고 생성된 CSR을 쿠버테스트에 등록하기 위해 base64로 인코딩한 값을 추출한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat ziwon.csr <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span>
+</code></pre></div><p>생성된 쿠버네티스 csr을 등록한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat <span class="s">&lt;&lt; EOF | kubectl apply -f -
 </span><span class="s">apiVersion: certificates.k8s.io/v1beta1
 </span><span class="s">kind: CertificateSigningRequest
@@ -740,47 +296,45 @@ Unable to connect to the server: x509: certificate signed by unknown authority</
 </span><span class="s">  - digital signature
 </span><span class="s">  - key encipherment
 </span><span class="s">  - client auth
-</span><span class="s">EOF</span></code></pre></div>
-<p>등록 후, <code>pending</code> 상태에 있는 <code>user-request-ziwon</code>의 값을 승인한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl certificate approve user-request-ziwon</code></pre></div>
-<p>승인된 <code>user-request-ziwon</code> CSR로부터 공개키를 생성한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get csr user-request-ziwon -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.certificate}&#39;</span> <span class="p">|</span> base64 -d &gt; ziwon.crt</code></pre></div>
-<p>쿠버네티스 API 서버의 Root CA, 그리고 클라이언트의 공개키와 개인키를 이용해, 클라이언트 <code>kubeconfig</code> 파일을 생성한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat ziwon.crt <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">apiVersion<span class="p">:</span><span class="w"> </span>v1<span class="w">
-</span><span class="w"></span>clusters<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>cluster<span class="p">:</span><span class="w">
-</span><span class="w">    </span>certificate-authority-data<span class="p">:</span><span class="w"> </span>&lt;base64-encoded-ca-cert<span class="sd">&gt;
+</span><span class="s">EOF</span>
+</code></pre></div><p>등록 후, <code>pending</code> 상태에 있는 <code>user-request-ziwon</code>의 값을 승인한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl certificate approve user-request-ziwon
+</code></pre></div><p>승인된 <code>user-request-ziwon</code> CSR로부터 공개키를 생성한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get csr user-request-ziwon -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.certificate}&#39;</span> <span class="p">|</span> base64 -d &gt; ziwon.crt
+</code></pre></div><p>쿠버네티스 API 서버의 Root CA, 그리고 클라이언트의 공개키와 개인키를 이용해, 클라이언트 <code>kubeconfig</code> 파일을 생성한다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cat ziwon.crt <span class="p">|</span> base64 <span class="p">|</span> tr -d <span class="s1">&#39;\n&#39;</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w"></span><span class="k">clusters</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">cluster</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">certificate-authority-data</span><span class="p">:</span><span class="w"> </span>&lt;base64-encoded-ca-cert<span class="sd">&gt;
 </span><span class="sd">    server: https://localhost:53079</span><span class="w">
-</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
-</span><span class="w"></span>contexts<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>context<span class="p">:</span><span class="w">
-</span><span class="w">    </span>cluster<span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
-</span><span class="w">    </span>user<span class="p">:</span><span class="w"> </span>ziwon<span class="w">
-</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>ziwon@kubernetes<span class="w">
-</span><span class="w"></span>current-context<span class="p">:</span><span class="w"> </span>ziwon@kubernetes<span class="w">
-</span><span class="w"></span>kind<span class="p">:</span><span class="w"> </span>Config<span class="w">
-</span><span class="w"></span>preferences<span class="p">:</span><span class="w"> </span>{}<span class="w">
-</span><span class="w"></span>users<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>name<span class="p">:</span><span class="w"> </span>ziwon<span class="w">
-</span><span class="w">  </span>user<span class="p">:</span><span class="w">
-</span><span class="w">    </span>client-certificate-data<span class="p">:</span><span class="w"> </span>&lt;base64-encoded-crt<span class="sd">&gt;
-</span><span class="sd">    client-key-data: &lt;base64-encoded-key-data&gt;</span></code></pre></div>
-<p>그러면 다음과 같이 API 서버에 대해 클라이언트 ID <code>users:ziwon</code> 로 접근이 되는 것을 볼 수 있다. 그러나 접근이 되더라도 권한(Authoriztion)을 부여받은 Role이 지정되지 않았다. 따라서, 클러스터 리소스 및 네임스페이스 리소스 접근시 각각 오류 응답을 받게 된다.</p>
-
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
+</span><span class="w"></span><span class="k">contexts</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">context</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">cluster</span><span class="p">:</span><span class="w"> </span>kubernetes<span class="w">
+</span><span class="w">    </span><span class="k">user</span><span class="p">:</span><span class="w"> </span>ziwon<span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>ziwon@kubernetes<span class="w">
+</span><span class="w"></span><span class="k">current-context</span><span class="p">:</span><span class="w"> </span>ziwon@kubernetes<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Config<span class="w">
+</span><span class="w"></span><span class="k">preferences</span><span class="p">:</span><span class="w"> </span>{}<span class="w">
+</span><span class="w"></span><span class="k">users</span><span class="p">:</span><span class="w">
+</span><span class="w"></span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>ziwon<span class="w">
+</span><span class="w">  </span><span class="k">user</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">client-certificate-data</span><span class="p">:</span><span class="w"> </span>&lt;base64-encoded-crt<span class="sd">&gt;
+</span><span class="sd">    client-key-data: &lt;base64-encoded-key-data&gt;</span><span class="w">
+</span></code></pre></div><p>그러면 다음과 같이 API 서버에 대해 클라이언트 ID <code>users:ziwon</code> 로 접근이 되는 것을 볼 수 있다. 그러나 접근이 되더라도 권한(Authoriztion)을 부여받은 Role이 지정되지 않았다. 따라서, 클러스터 리소스 및 네임스페이스 리소스 접근시 각각 오류 응답을 받게 된다.</p>
 <ul>
 <li>클러스터 객체 접근시</li>
 </ul>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get node
-Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: nodes is forbidden: User <span class="s2">&#34;users:ziwon&#34;</span> cannot list resource <span class="s2">&#34;nodes&#34;</span> in API group <span class="s2">&#34;&#34;</span> at the cluster scope</code></pre></div>
-<ul>
+Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: nodes is forbidden: User <span class="s2">&#34;users:ziwon&#34;</span> cannot list resource <span class="s2">&#34;nodes&#34;</span> in API group <span class="s2">&#34;&#34;</span> at the cluster scope
+</code></pre></div><ul>
 <li>네임스페이스 객체 접근시</li>
 </ul>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get pod
-Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: pods is forbidden: User <span class="s2">&#34;users:ziwon&#34;</span> cannot list resource <span class="s2">&#34;pods&#34;</span> in API group <span class="s2">&#34;&#34;</span> in the namespace <span class="s2">&#34;default&#34;</span></code></pre></div>
-<h2 id="권한-authorization">권한 (Authorization)</h2>
-
+Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: pods is forbidden: User <span class="s2">&#34;users:ziwon&#34;</span> cannot list resource <span class="s2">&#34;pods&#34;</span> in API group <span class="s2">&#34;&#34;</span> in the namespace <span class="s2">&#34;default&#34;</span>
+</code></pre></div><h2 id="권한-authorization">권한 (Authorization)</h2>
 <p>모든 쿠버네티스트 리소스는 다음과 같이 클러스터 객체와 네임스페이스 객체로 구분할 수 있다.</p>
-
 <h3 id="클러스터-객체">클러스터 객체</h3>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl api-resources --namespaced<span class="o">=</span><span class="nb">false</span>
 NAME                              SHORTNAMES   APIGROUP                       NAMESPACED   KIND
@@ -803,8 +357,8 @@ clusterrolebindings                            rbac.authorization.k8s.io      <s
 clusterroles                                   rbac.authorization.k8s.io      <span class="nb">false</span>        ClusterRole
 priorityclasses                   pc           scheduling.k8s.io              <span class="nb">false</span>        PriorityClass
 storageclasses                    sc           storage.k8s.io                 <span class="nb">false</span>        StorageClass
-volumeattachments                              storage.k8s.io                 <span class="nb">false</span>        VolumeAttachment</code></pre></div>
-<h3 id="네임스페이스-객체">네임스페이스 객체</h3>
+volumeattachments                              storage.k8s.io                 <span class="nb">false</span>        VolumeAttachment
+</code></pre></div><h3 id="네임스페이스-객체">네임스페이스 객체</h3>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl api-resources --namespaced
 NAME                        SHORTNAMES   APIGROUP                    NAMESPACED   KIND
 bindings                                                             <span class="nb">true</span>         Binding
@@ -839,16 +393,13 @@ replicasets                 rs           extensions                  <span class
 networkpolicies             netpol       networking.k8s.io           <span class="nb">true</span>         NetworkPolicy
 poddisruptionbudgets        pdb          policy                      <span class="nb">true</span>         PodDisruptionBudget
 rolebindings                             rbac.authorization.k8s.io   <span class="nb">true</span>         RoleBinding
-roles                                    rbac.authorization.k8s.io   <span class="nb">true</span>         Role</code></pre></div>
-<p>다음과 같이 RBAC에 의한 리소스 접근시에 권한과 관련된 네임스페이스 객체와 클러스터 객체가 있다.</p>
-
-<h3 id="네임스페이스-role-rolebinding">네임스페이스 Role &amp; RoleBinding</h3>
-
+roles                                    rbac.authorization.k8s.io   <span class="nb">true</span>         Role
+</code></pre></div><p>다음과 같이 RBAC에 의한 리소스 접근시에 권한과 관련된 네임스페이스 객체와 클러스터 객체가 있다.</p>
+<h3 id="네임스페이스-role--rolebinding">네임스페이스 Role &amp; RoleBinding</h3>
 <ul>
 <li>Role</li>
 <li>RoleBinding</li>
 </ul>
-
 <p>쿠버네티스의 네임스페이스에 정의된 기본적인 <code>role</code> 목록은 다음과 같다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get role --all-namespaces
 NAMESPACE     NAME                                             AGE
@@ -863,14 +414,12 @@ kube-system   system::leader-locking-kube-scheduler            8h
 kube-system   system:controller:bootstrap-signer               8h
 kube-system   system:controller:cloud-provider                 8h
 kube-system   system:controller:token-cleaner                  8h
-kube-system   weave-net                                        8h</code></pre></div>
-<h3 id="클러스터-role-rolebinding">클러스터 Role &amp; RoleBinding</h3>
-
+kube-system   weave-net                                        8h
+</code></pre></div><h3 id="클러스터-role--rolebinding">클러스터 Role &amp; RoleBinding</h3>
 <ul>
 <li>ClusterRole</li>
 <li>ClusterRoleBinding</li>
 </ul>
-
 <p>쿠버네티스의 클러스터에 정의된 기본적인 <code>clusterrole</code> 목록은 다음과 같다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get clusterrole
 NAME                                                                   AGE
@@ -928,303 +477,12 @@ system:node-proxier                                                    8h
 system:persistent-volume-provisioner                                   8h
 system:volume-scheduler                                                8h
 view                                                                   8h
-weave-net                                                              8h</code></pre></div>
-<p>먼저, 클러스터 전체에 대해 정의된 기본 사용자 <code>system:basic-user</code>의 RBAC을 확인해보자.</p>
-
-<p><details>
-<summary>$ kubectl get clusterrole system:basic-user -o yaml</summary></p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">apiVersion<span class="p">:</span><span class="w"> </span>rbac.authorization.k8s.io/v1<span class="w">
-</span><span class="w"></span>kind<span class="p">:</span><span class="w"> </span>ClusterRole<span class="w">
-</span><span class="w"></span>metadata<span class="p">:</span><span class="w">
-</span><span class="w">  </span>annotations<span class="p">:</span><span class="w">
-</span><span class="w">    </span>rbac.authorization.kubernetes.io/autoupdate<span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span><span class="w">  </span>creationTimestamp<span class="p">:</span><span class="w"> </span><span class="ld">2019-02-04T05:11:12Z</span><span class="w">
-</span><span class="w">  </span>labels<span class="p">:</span><span class="w">
-</span><span class="w">    </span>kubernetes.io/bootstrapping<span class="p">:</span><span class="w"> </span>rbac-defaults<span class="w">
-</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>system<span class="p">:</span>basic-user<span class="w">
-</span><span class="w">  </span>resourceVersion<span class="p">:</span><span class="w"> </span><span class="s2">&#34;43&#34;</span><span class="w">
-</span><span class="w">  </span>selfLink<span class="p">:</span><span class="w"> </span>/apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Abasic-user<span class="w">
-</span><span class="w">  </span>uid<span class="p">:</span><span class="w"> </span>49fa84df-283b-<span class="m">11e9</span>-9ac2-0242c86ffe48<span class="w">
-</span><span class="w"></span>rules<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>authorization.k8s.io<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>selfsubjectaccessreviews<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>selfsubjectrulesreviews<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create</code></pre></div>
-<p></details></p>
-
+weave-net                                                              8h
+</code></pre></div><p>먼저, 클러스터 전체에 대해 정의된 기본 사용자 <code>system:basic-user</code>의 RBAC을 확인해보자.</p>
+<!-- raw HTML omitted -->
 <p>다음으로 클러스터 전체를 관리하는 관리자 <code>admin</code>의 RBAC을 확인해보자.</p>
-
-<p><details>
-<summary>$ kubectl get clusterrole admin -o yaml</summary></p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml">aggregationRule<span class="p">:</span><span class="w">
-</span><span class="w">  </span>clusterRoleSelectors<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>matchLabels<span class="p">:</span><span class="w">
-</span><span class="w">      </span>rbac.authorization.k8s.io/aggregate-to-admin<span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span><span class="w"></span>apiVersion<span class="p">:</span><span class="w"> </span>rbac.authorization.k8s.io/v1<span class="w">
-</span><span class="w"></span>kind<span class="p">:</span><span class="w"> </span>ClusterRole<span class="w">
-</span><span class="w"></span>metadata<span class="p">:</span><span class="w">
-</span><span class="w">  </span>annotations<span class="p">:</span><span class="w">
-</span><span class="w">    </span>rbac.authorization.kubernetes.io/autoupdate<span class="p">:</span><span class="w"> </span><span class="s2">&#34;true&#34;</span><span class="w">
-</span><span class="w">  </span>creationTimestamp<span class="p">:</span><span class="w"> </span><span class="ld">2019-02-04T05:11:12Z</span><span class="w">
-</span><span class="w">  </span>labels<span class="p">:</span><span class="w">
-</span><span class="w">    </span>kubernetes.io/bootstrapping<span class="p">:</span><span class="w"> </span>rbac-defaults<span class="w">
-</span><span class="w">  </span>name<span class="p">:</span><span class="w"> </span>admin<span class="w">
-</span><span class="w">  </span>resourceVersion<span class="p">:</span><span class="w"> </span><span class="s2">&#34;350&#34;</span><span class="w">
-</span><span class="w">  </span>selfLink<span class="p">:</span><span class="w"> </span>/apis/rbac.authorization.k8s.io/v1/clusterroles/admin<span class="w">
-</span><span class="w">  </span>uid<span class="p">:</span><span class="w"> </span>49faedb8-283b-<span class="m">11e9</span>-9ac2-0242c86ffe48<span class="w">
-</span><span class="w"></span>rules<span class="p">:</span><span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/attach<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/exec<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/portforward<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/proxy<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>secrets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>services/proxy<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>serviceaccounts<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>impersonate<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/attach<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/exec<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/portforward<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/proxy<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>configmaps<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>endpoints<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>persistentvolumeclaims<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>secrets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>serviceaccounts<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>services<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>services/proxy<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>apps<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>daemonsets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments/rollback<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>statefulsets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>statefulsets/scale<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>autoscaling<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>horizontalpodautoscalers<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>batch<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>cronjobs<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>jobs<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>extensions<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>daemonsets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments/rollback<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>ingresses<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>networkpolicies<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers/scale<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>policy<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>poddisruptionbudgets<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>networking.k8s.io<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>networkpolicies<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>configmaps<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>endpoints<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>persistentvolumeclaims<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>serviceaccounts<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>services<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>bindings<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>events<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>limitranges<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>namespaces/status<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/log<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>pods/status<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers/status<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>resourcequotas<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>resourcequotas/status<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>namespaces<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>apps<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>controllerrevisions<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>daemonsets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>statefulsets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>statefulsets/scale<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>autoscaling<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>horizontalpodautoscalers<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>batch<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>cronjobs<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>jobs<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>extensions<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>daemonsets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deployments/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>ingresses<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>networkpolicies<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicasets/scale<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>replicationcontrollers/scale<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>policy<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>poddisruptionbudgets<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>networking.k8s.io<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>networkpolicies<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>authorization.k8s.io<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>localsubjectaccessreviews<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w"></span>-<span class="w"> </span>apiGroups<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>rbac.authorization.k8s.io<span class="w">
-</span><span class="w">  </span>resources<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>rolebindings<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>roles<span class="w">
-</span><span class="w">  </span>verbs<span class="p">:</span><span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>create<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>delete<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>deletecollection<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>get<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>list<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>patch<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>update<span class="w">
-</span><span class="w">  </span>-<span class="w"> </span>watch</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl create rolebinding ziwon --clusterrole<span class="o">=</span>admin --user<span class="o">=</span>users:ziwon --dry-run -o yaml
+<!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl create rolebinding ziwon --clusterrole<span class="o">=</span>admin --user<span class="o">=</span>users:ziwon --dry-run -o yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -1237,59 +495,57 @@ roleRef:
 subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: User
-  name: users:ziwon</code></pre></div>
-<p></details></p>
-
+  name: users:ziwon
+</code></pre></div><!-- raw HTML omitted -->
 <p>먼저, <code>foo</code>라는 네임스페이스를 만든다. 이때 기본 <code>~/.kube/config</code>를 사용한다.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard</code></pre></div>
-<p>그리고 새로운 쉘에서 새로 추가된 사용자 <code>users:ziwon</code>의 <code>kubeconfig-ziwon</code>를 이용해 Pod을 하나 배포해본다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard
+</code></pre></div><p>그리고 새로운 쉘에서 새로 추가된 사용자 <code>users:ziwon</code>의 <code>kubeconfig-ziwon</code>를 이용해 Pod을 하나 배포해본다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>/path/to/kubeconfig-ziwon
 $ kubectl config set-context <span class="k">$(</span>kubectl config current-context<span class="k">)</span> --namespace<span class="o">=</span>foo
 $ kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard
 
-Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: pods is forbidden: User <span class="s2">&#34;users:ziwon&#34;</span> cannot create resource <span class="s2">&#34;pods&#34;</span> in API group <span class="s2">&#34;&#34;</span> in the namespace <span class="s2">&#34;foo&#34;</span></code></pre></div>
-<p>배포가 되지 않는 것을 확인할 수 있다. 이에, 다시 어드민 계정으로 사용자 <code>users:ziwon</code>에 대한 <code>Pod</code> 등의 네임스페이스 객체 접근을 위한 <code>rolebinding</code>과 클러스터 객체 접근을 위한 <code>clusterrolebinding</code>을 만든다.</p>
+Error from server <span class="o">(</span>Forbidden<span class="o">)</span>: pods is forbidden: User <span class="s2">&#34;users:ziwon&#34;</span> cannot create resource <span class="s2">&#34;pods&#34;</span> in API group <span class="s2">&#34;&#34;</span> in the namespace <span class="s2">&#34;foo&#34;</span>
+</code></pre></div><p>배포가 되지 않는 것을 확인할 수 있다. 이에, 다시 어드민 계정으로 사용자 <code>users:ziwon</code>에 대한 <code>Pod</code> 등의 네임스페이스 객체 접근을 위한 <code>rolebinding</code>과 클러스터 객체 접근을 위한 <code>clusterrolebinding</code>을 만든다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>~/.kube/config
 $ kubectl create rolebinding ziwon-role --clusterrole<span class="o">=</span>admin --user<span class="o">=</span>users:ziwon
-$ kubectl create clusterrolebinding ziwon-clusterrole --clusterrole<span class="o">=</span>view --user<span class="o">=</span>users:ziwon</code></pre></div>
-<p>그러면 다음과 같이 정상적으로 배포가 되고, 네임스페이스 Pod 객체 목록을 정상적으로 확인할 수 있다.</p>
+$ kubectl create clusterrolebinding ziwon-clusterrole --clusterrole<span class="o">=</span>view --user<span class="o">=</span>users:ziwon
+</code></pre></div><p>그러면 다음과 같이 정상적으로 배포가 되고, 네임스페이스 Pod 객체 목록을 정상적으로 확인할 수 있다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard
 $ kubectl get pod -n foo
 NAME    READY   STATUS    RESTARTS   AGE
-kuard   <span class="m">1</span>/1     Running   <span class="m">0</span>          17s</code></pre></div>
-<p>또한 다음과 같이, <code>clusterrolebinding</code>이 부여되었기 때문에 클러스터 전체 Pod 목록도 확인할 수 있다.</p>
+kuard   1/1     Running   <span class="m">0</span>          17s
+</code></pre></div><p>또한 다음과 같이, <code>clusterrolebinding</code>이 부여되었기 때문에 클러스터 전체 Pod 목록도 확인할 수 있다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get pod --all-namespaces
 NAMESPACE     NAME                                            READY   STATUS    RESTARTS   AGE
-default       kuard                                           <span class="m">1</span>/1     Running   <span class="m">0</span>          10m
-foo           kuard                                           <span class="m">1</span>/1     Running   <span class="m">0</span>          2m14s
-kube-system   coredns-86c58d9df4-98rkf                        <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   coredns-86c58d9df4-zt4l8                        <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   etcd-kind-1-control-plane1                      <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   etcd-kind-1-control-plane2                      <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-apiserver-kind-1-control-plane1            <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-apiserver-kind-1-control-plane2            <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-controller-manager-kind-1-control-plane1   <span class="m">1</span>/1     Running   <span class="m">1</span>          9h
-kube-system   kube-controller-manager-kind-1-control-plane2   <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-6cmkr                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-bzbwk                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-hlq4l                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-jl9sg                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-mw2rt                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-p9pzv                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-tjs8r                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-proxy-tvgz7                                <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   kube-scheduler-kind-1-control-plane1            <span class="m">1</span>/1     Running   <span class="m">1</span>          9h
-kube-system   kube-scheduler-kind-1-control-plane2            <span class="m">1</span>/1     Running   <span class="m">0</span>          9h
-kube-system   weave-net-52l8x                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h
-kube-system   weave-net-5f4lb                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h
-kube-system   weave-net-6d9dx                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h
-kube-system   weave-net-6nhns                                 <span class="m">2</span>/2     Running   <span class="m">1</span>          9h
-kube-system   weave-net-6t7tw                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h
-kube-system   weave-net-hqlw6                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h
-kube-system   weave-net-m2dn4                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h
-kube-system   weave-net-nrsvs                                 <span class="m">2</span>/2     Running   <span class="m">0</span>          9h</code></pre></div>
-<h2 id="service-account">Service Account</h2>
-
+default       kuard                                           1/1     Running   <span class="m">0</span>          10m
+foo           kuard                                           1/1     Running   <span class="m">0</span>          2m14s
+kube-system   coredns-86c58d9df4-98rkf                        1/1     Running   <span class="m">0</span>          9h
+kube-system   coredns-86c58d9df4-zt4l8                        1/1     Running   <span class="m">0</span>          9h
+kube-system   etcd-kind-1-control-plane1                      1/1     Running   <span class="m">0</span>          9h
+kube-system   etcd-kind-1-control-plane2                      1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-apiserver-kind-1-control-plane1            1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-apiserver-kind-1-control-plane2            1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-controller-manager-kind-1-control-plane1   1/1     Running   <span class="m">1</span>          9h
+kube-system   kube-controller-manager-kind-1-control-plane2   1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-6cmkr                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-bzbwk                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-hlq4l                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-jl9sg                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-mw2rt                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-p9pzv                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-tjs8r                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-proxy-tvgz7                                1/1     Running   <span class="m">0</span>          9h
+kube-system   kube-scheduler-kind-1-control-plane1            1/1     Running   <span class="m">1</span>          9h
+kube-system   kube-scheduler-kind-1-control-plane2            1/1     Running   <span class="m">0</span>          9h
+kube-system   weave-net-52l8x                                 2/2     Running   <span class="m">0</span>          9h
+kube-system   weave-net-5f4lb                                 2/2     Running   <span class="m">0</span>          9h
+kube-system   weave-net-6d9dx                                 2/2     Running   <span class="m">0</span>          9h
+kube-system   weave-net-6nhns                                 2/2     Running   <span class="m">1</span>          9h
+kube-system   weave-net-6t7tw                                 2/2     Running   <span class="m">0</span>          9h
+kube-system   weave-net-hqlw6                                 2/2     Running   <span class="m">0</span>          9h
+kube-system   weave-net-m2dn4                                 2/2     Running   <span class="m">0</span>          9h
+kube-system   weave-net-nrsvs                                 2/2     Running   <span class="m">0</span>          9h
+</code></pre></div><h2 id="service-account">Service Account</h2>
 <p>다음과 같이 모든 네임스페이스에는 기본적으로 <code>default</code> 서비스 계정이 존재한다. 쿠버네티스에 RBAC이 있기 전에 클러스터에 접근하는 방법이 Service Account였기 때문이다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get sa --all-namespaces
 NAMESPACE     NAME                                 SECRETS   AGE
@@ -1297,23 +553,21 @@ default       default                              <span class="m">1</span>     
 foo           default                              <span class="m">1</span>         39h
 kube-public   default                              <span class="m">1</span>         2d1h
 kube-system   default                              <span class="m">1</span>         2d1h
-...</code></pre></div>
-<p>즉, 어플리케이션을 실행시키고 싶으면, 일종의 봇 아이텐티티를 지닌 어플리케이션 고유의 개별 서비스 계정을 주어서 클러스터의 다른 리소스들과 통신하게 할 수 있었다. 그러나 RBAC이 추가되고 베스트 프랙티스로써 알려지게 되면서 문제가 되는 것이, RBAC 측면에서 기존의 <code>default</code> 계정은 zero 인증과 권한을 가지게 된다는 것이다. 그 대표적인 예가 helm이다. 설치한 후에 RBAC 인증으로 인해 제대로 동작하지 않아 다음과 같은 서비스 계정을 만들고 RBAC 정책을 설정해주어야 한다.</p>
+...
+</code></pre></div><p>즉, 어플리케이션을 실행시키고 싶으면, 일종의 봇 아이텐티티를 지닌 어플리케이션 고유의 개별 서비스 계정을 주어서 클러스터의 다른 리소스들과 통신하게 할 수 있었다. 그러나 RBAC이 추가되고 베스트 프랙티스로써 알려지게 되면서 문제가 되는 것이, RBAC 측면에서 기존의 <code>default</code> 계정은 zero 인증과 권한을 가지게 된다는 것이다. 그 대표적인 예가 helm이다. 설치한 후에 RBAC 인증으로 인해 제대로 동작하지 않아 다음과 같은 서비스 계정을 만들고 RBAC 정책을 설정해주어야 한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole<span class="o">=</span>cluster-admin --serviceaccount<span class="o">=</span>kube-system:tiller
 kubectl patch deploy --namespace kube-system tiller-deploy -p <span class="s1">&#39;{&#34;spec&#34;:{&#34;template&#34;:{&#34;spec&#34;:{&#34;serviceAccount&#34;:&#34;tiller&#34;}}}}&#39;</span>
-helm init --service-account tiller --upgrade</code></pre></div>
-<p>그래서 기존의 <code>default</code> 서비스 계정 등 서비스 계정에 관한 RBAC 정책이 이슈가 될 수 있는데, 다음 문서는 서비스 계정에 대한 <a href="[How to: RBAC best practices and workarounds](http://docs.heptio.com/content/tutorials/rbac.html)" target="_blank">Heptio사의 RBAC 베스트 프랙티스</a>에서는 개별 서비스 계정을 만들어 권한을 부여하는 것을 좀 더 안전한 프랙티스로 권하고 있다.</p>
-
+helm init --service-account tiller --upgrade
+</code></pre></div><p>그래서 기존의 <code>default</code> 서비스 계정 등 서비스 계정에 관한 RBAC 정책이 이슈가 될 수 있는데, 다음 문서는 서비스 계정에 대한 [Heptio사의 RBAC 베스트 프랙티스](<a href="http://docs.heptio.com/content/tutorials/rbac.html">How to: RBAC best practices and workarounds</a>)에서는 개별 서비스 계정을 만들어 권한을 부여하는 것을 좀 더 안전한 프랙티스로 권하고 있다.</p>
 <h2 id="관련-링크">관련 링크</h2>
-
 <ul>
-<li><a href="https://rsec.kr/?p=426" target="_blank">RSA 인증서 (Certification) 와 전자서명 (Digital Sign)의 원리</a></li>
-<li><a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/" target="_blank">Using RBAC Authorization</a></li>
-<li><a href="https://www.linkedin.com/pulse/adding-users-quick-start-kubernetes-aws-jakub-scholz" target="_blank">Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo;</a></li>
-<li><a href="http://docs.heptio.com/content/tutorials/rbac.html" target="_blank">How to: RBAC best practices and workarounds</a></li>
-<li><a href="https://jvns.ca/blog/2017/08/05/how-kubernetes-certificates-work/" target="_blank">How Kubernetes certificate authorities work</a></li>
-<li><a href="https://dev.to/petermbenjamin/kubernetes-security-best-practices-hlk#authentication" target="_blank">Kubernetes Security Best-Practices</a></li>
+<li><a href="https://rsec.kr/?p=426">RSA 인증서 (Certification) 와 전자서명 (Digital Sign)의 원리</a></li>
+<li><a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Using RBAC Authorization</a></li>
+<li><a href="https://www.linkedin.com/pulse/adding-users-quick-start-kubernetes-aws-jakub-scholz">Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo;</a></li>
+<li><a href="http://docs.heptio.com/content/tutorials/rbac.html">How to: RBAC best practices and workarounds</a></li>
+<li><a href="https://jvns.ca/blog/2017/08/05/how-kubernetes-certificates-work/">How Kubernetes certificate authorities work</a></li>
+<li><a href="https://dev.to/petermbenjamin/kubernetes-security-best-practices-hlk#authentication">Kubernetes Security Best-Practices</a></li>
 </ul>
 
         
@@ -1340,12 +594,12 @@ helm init --service-account tiller --upgrade</code></pre></div>
     
     <nav class="post-nav">
         
-        <a class="prev" href="/post/tgik-005/">
+        <a class="prev" href="https://ziwon.github.io/post/tgik-005/">
             &lt; <span class="prev-text nav-default">TGI Kubernetes 005: Pod Params and Probes</span>
                 <span class="prev-text nav-mobile"></span>
         </a>
         
-        <a class="next" href="/post/tgik-003/">
+        <a class="next" href="https://ziwon.github.io/post/tgik-003/">
             <span class="next-text nav-default">TGI Kubernetes 003: Istio</span>
             <span class="next-text nav-mobile"></span>
             >

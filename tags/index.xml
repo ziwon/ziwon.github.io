@@ -1,151 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on 人生は短くて使える時間も限られてる。</title>
+    <title>Tags on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/</link>
-    <description>Recent content in Tags on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in Tags on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
-    <lastBuildDate>Fri, 04 Sep 2015 00:27:35 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 03 Sep 2019 20:07:00 +0900</lastBuildDate>
     
 	<atom:link href="https://ziwon.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Api</title>
-      <link>https://ziwon.github.io/tags/api/</link>
-      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/api/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bastion</title>
-      <link>https://ziwon.github.io/tags/bastion/</link>
-      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/bastion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Blockchain</title>
-      <link>https://ziwon.github.io/tags/blockchain/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/blockchain/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Calculus</title>
-      <link>https://ziwon.github.io/tags/calculus/</link>
-      <pubDate>Tue, 22 Oct 2013 13:03:05 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/calculus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Channel</title>
-      <link>https://ziwon.github.io/tags/channel/</link>
-      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/channel/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cloudformation</title>
-      <link>https://ziwon.github.io/tags/cloudformation/</link>
-      <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/cloudformation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Concurrency</title>
-      <link>https://ziwon.github.io/tags/concurrency/</link>
-      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/concurrency/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Controller</title>
-      <link>https://ziwon.github.io/tags/controller/</link>
-      <pubDate>Sun, 03 Mar 2019 13:25:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/controller/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cosmos</title>
-      <link>https://ziwon.github.io/tags/cosmos/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/cosmos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Coursera</title>
-      <link>https://ziwon.github.io/tags/coursera/</link>
-      <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/coursera/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Devops</title>
-      <link>https://ziwon.github.io/tags/devops/</link>
-      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Django</title>
-      <link>https://ziwon.github.io/tags/django/</link>
-      <pubDate>Fri, 09 Dec 2016 11:00:25 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/django/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Docker</title>
-      <link>https://ziwon.github.io/tags/docker/</link>
-      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Falcon</title>
-      <link>https://ziwon.github.io/tags/falcon/</link>
-      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/falcon/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Functional</title>
-      <link>https://ziwon.github.io/tags/functional/</link>
-      <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/functional/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Go</title>
@@ -157,20 +22,11 @@
     </item>
     
     <item>
-      <title>Golang</title>
+      <title>golang</title>
       <link>https://ziwon.github.io/tags/golang/</link>
       <pubDate>Tue, 03 Sep 2019 20:07:00 +0900</pubDate>
       
       <guid>https://ziwon.github.io/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Heptio</title>
-      <link>https://ziwon.github.io/tags/heptio/</link>
-      <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/heptio/</guid>
       <description></description>
     </item>
     
@@ -184,29 +40,38 @@
     </item>
     
     <item>
-      <title>Istio</title>
-      <link>https://ziwon.github.io/tags/istio/</link>
-      <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
+      <title>blockchain</title>
+      <link>https://ziwon.github.io/tags/blockchain/</link>
+      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/istio/</guid>
+      <guid>https://ziwon.github.io/tags/blockchain/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Kops</title>
-      <link>https://ziwon.github.io/tags/kops/</link>
-      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
+      <title>cosmos</title>
+      <link>https://ziwon.github.io/tags/cosmos/</link>
+      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/kops/</guid>
+      <guid>https://ziwon.github.io/tags/cosmos/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Kubeadm</title>
-      <link>https://ziwon.github.io/tags/kubeadm/</link>
-      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
+      <title>tendermint</title>
+      <link>https://ziwon.github.io/tags/tendermint/</link>
+      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/kubeadm/</guid>
+      <guid>https://ziwon.github.io/tags/tendermint/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>controller</title>
+      <link>https://ziwon.github.io/tags/controller/</link>
+      <pubDate>Sun, 03 Mar 2019 13:25:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/controller/</guid>
       <description></description>
     </item>
     
@@ -220,34 +85,16 @@
     </item>
     
     <item>
-      <title>Liveness</title>
-      <link>https://ziwon.github.io/tags/liveness/</link>
-      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
+      <title>Docker</title>
+      <link>https://ziwon.github.io/tags/docker/</link>
+      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/liveness/</guid>
+      <guid>https://ziwon.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Load Balancing</title>
-      <link>https://ziwon.github.io/tags/load-balancing/</link>
-      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/load-balancing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Microservice</title>
-      <link>https://ziwon.github.io/tags/microservice/</link>
-      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/microservice/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mounts</title>
+      <title>mounts</title>
       <link>https://ziwon.github.io/tags/mounts/</link>
       <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
       
@@ -256,16 +103,7 @@
     </item>
     
     <item>
-      <title>Networking</title>
-      <link>https://ziwon.github.io/tags/networking/</link>
-      <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/networking/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Persistence</title>
+      <title>persistence</title>
       <link>https://ziwon.github.io/tags/persistence/</link>
       <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
       
@@ -274,7 +112,52 @@
     </item>
     
     <item>
-      <title>Probe</title>
+      <title>storage</title>
+      <link>https://ziwon.github.io/tags/storage/</link>
+      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/storage/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>volumes</title>
+      <link>https://ziwon.github.io/tags/volumes/</link>
+      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/volumes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubeadm</title>
+      <link>https://ziwon.github.io/tags/kubeadm/</link>
+      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/kubeadm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>single master</title>
+      <link>https://ziwon.github.io/tags/single-master/</link>
+      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/single-master/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>liveness</title>
+      <link>https://ziwon.github.io/tags/liveness/</link>
+      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/liveness/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>probe</title>
       <link>https://ziwon.github.io/tags/probe/</link>
       <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
       
@@ -283,34 +166,7 @@
     </item>
     
     <item>
-      <title>Programming</title>
-      <link>https://ziwon.github.io/tags/programming/</link>
-      <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/programming/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://ziwon.github.io/tags/python/</link>
-      <pubDate>Mon, 30 Jan 2017 03:37:00 +0000</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rbac</title>
-      <link>https://ziwon.github.io/tags/rbac/</link>
-      <pubDate>Tue, 05 Feb 2019 11:55:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/tags/rbac/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Readiness</title>
+      <title>readiness</title>
       <link>https://ziwon.github.io/tags/readiness/</link>
       <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
       
@@ -319,20 +175,29 @@
     </item>
     
     <item>
-      <title>Rest</title>
-      <link>https://ziwon.github.io/tags/rest/</link>
-      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
+      <title>tgik</title>
+      <link>https://ziwon.github.io/tags/tgik/</link>
+      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/rest/</guid>
+      <guid>https://ziwon.github.io/tags/tgik/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Scala</title>
-      <link>https://ziwon.github.io/tags/scala/</link>
-      <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
+      <title>RBAC</title>
+      <link>https://ziwon.github.io/tags/rbac/</link>
+      <pubDate>Tue, 05 Feb 2019 11:55:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/scala/</guid>
+      <guid>https://ziwon.github.io/tags/rbac/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Istio</title>
+      <link>https://ziwon.github.io/tags/istio/</link>
+      <pubDate>Sun, 27 Jan 2019 01:12:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/istio/</guid>
       <description></description>
     </item>
     
@@ -355,16 +220,52 @@
     </item>
     
     <item>
-      <title>Single Master</title>
-      <link>https://ziwon.github.io/tags/single-master/</link>
-      <pubDate>Fri, 22 Feb 2019 10:25:00 +0900</pubDate>
+      <title>CloudFormation</title>
+      <link>https://ziwon.github.io/tags/cloudformation/</link>
+      <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
       
-      <guid>https://ziwon.github.io/tags/single-master/</guid>
+      <guid>https://ziwon.github.io/tags/cloudformation/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Ssh</title>
+      <title>Heptio</title>
+      <link>https://ziwon.github.io/tags/heptio/</link>
+      <pubDate>Sat, 19 Jan 2019 08:12:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/heptio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Networking</title>
+      <link>https://ziwon.github.io/tags/networking/</link>
+      <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/networking/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bastion</title>
+      <link>https://ziwon.github.io/tags/bastion/</link>
+      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/bastion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kops</title>
+      <link>https://ziwon.github.io/tags/kops/</link>
+      <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/kops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssh</title>
       <link>https://ziwon.github.io/tags/ssh/</link>
       <pubDate>Wed, 02 Jan 2019 12:12:00 +0000</pubDate>
       
@@ -373,38 +274,137 @@
     </item>
     
     <item>
-      <title>Storage</title>
-      <link>https://ziwon.github.io/tags/storage/</link>
-      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
+      <title>DevOps</title>
+      <link>https://ziwon.github.io/tags/devops/</link>
+      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
       
-      <guid>https://ziwon.github.io/tags/storage/</guid>
+      <guid>https://ziwon.github.io/tags/devops/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Tendermint</title>
-      <link>https://ziwon.github.io/tags/tendermint/</link>
-      <pubDate>Thu, 07 Mar 2019 09:04:00 +0900</pubDate>
+      <title>Load Balancing</title>
+      <link>https://ziwon.github.io/tags/load-balancing/</link>
+      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
       
-      <guid>https://ziwon.github.io/tags/tendermint/</guid>
+      <guid>https://ziwon.github.io/tags/load-balancing/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Tgik</title>
-      <link>https://ziwon.github.io/tags/tgik/</link>
-      <pubDate>Mon, 11 Feb 2019 11:55:00 +0900</pubDate>
+      <title>Microservice</title>
+      <link>https://ziwon.github.io/tags/microservice/</link>
+      <pubDate>Mon, 05 Nov 2018 02:37:00 +0000</pubDate>
       
-      <guid>https://ziwon.github.io/tags/tgik/</guid>
+      <guid>https://ziwon.github.io/tags/microservice/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Volumes</title>
-      <link>https://ziwon.github.io/tags/volumes/</link>
-      <pubDate>Sun, 24 Feb 2019 16:59:00 +0900</pubDate>
+      <title>python</title>
+      <link>https://ziwon.github.io/tags/python/</link>
+      <pubDate>Mon, 30 Jan 2017 03:37:00 +0000</pubDate>
       
-      <guid>https://ziwon.github.io/tags/volumes/</guid>
+      <guid>https://ziwon.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>django</title>
+      <link>https://ziwon.github.io/tags/django/</link>
+      <pubDate>Fri, 09 Dec 2016 11:00:25 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>channel</title>
+      <link>https://ziwon.github.io/tags/channel/</link>
+      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/channel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>concurrency</title>
+      <link>https://ziwon.github.io/tags/concurrency/</link>
+      <pubDate>Fri, 25 Sep 2015 11:01:21 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/concurrency/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>api</title>
+      <link>https://ziwon.github.io/tags/api/</link>
+      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>falcon</title>
+      <link>https://ziwon.github.io/tags/falcon/</link>
+      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/falcon/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rest</title>
+      <link>https://ziwon.github.io/tags/rest/</link>
+      <pubDate>Fri, 04 Sep 2015 00:27:35 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/rest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming</title>
+      <link>https://ziwon.github.io/tags/programming/</link>
+      <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scala</title>
+      <link>https://ziwon.github.io/tags/scala/</link>
+      <pubDate>Sat, 30 Aug 2014 17:23:11 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/scala/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>coursera</title>
+      <link>https://ziwon.github.io/tags/coursera/</link>
+      <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/coursera/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>functional</title>
+      <link>https://ziwon.github.io/tags/functional/</link>
+      <pubDate>Wed, 22 Jan 2014 11:15:43 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/functional/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Calculus</title>
+      <link>https://ziwon.github.io/tags/calculus/</link>
+      <pubDate>Tue, 22 Oct 2013 13:03:05 +0900</pubDate>
+      
+      <guid>https://ziwon.github.io/tags/calculus/</guid>
       <description></description>
     </item>
     

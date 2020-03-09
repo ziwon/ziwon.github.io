@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Single Master on 人生は短くて使える時間も限られてる。</title>
+    <title>single master on ziwon.github.io</title>
     <link>https://ziwon.github.io/tags/single-master/</link>
-    <description>Recent content in Single Master on 人生は短くて使える時間も限られてる。</description>
+    <description>Recent content in single master on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Youngpil Yoon&lt;/a&gt;</copyright>
@@ -19,10 +19,9 @@
       
       <guid>https://ziwon.github.io/post/tgik-006/</guid>
       <description>여섯 번째 에피소드는 kubeadm을 이용해서 싱글 마스터 쿠버네티스 클러스터를 설치하는 내용이다. 말할 필요도 없이, 실제 프로덕션 수준의 고가용성 쿠버네티스 클러스터 셋업은 아래처럼 단순하지 않으니 어디까지나 참고만 하도록 한다.
-•••
 오픈소스 릴리즈 - Velero (aka. Ark) &amp;amp; Sonobuoy 앞서, Heptio가 릴리즈한 오픈소스에 대해 간략히 설명하는데, 해당 깃헙 저장소의 README 파일을 내용을 요약하면 아래와 같다.
- Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
- 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제  Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</description>
+  Velero: 클러스터 리소스 및 영구 볼륨을 백업하고 복원하는 도구
+ 클러스터의 백업본을 가져오고 손실된 경우 복원 클러스터 자원을 다른 클러스터에 복사, 개발 환경 및 테스트 환경을 위해 프로덕션 환경을 복제    Sonobuoy: 비파괴적인 방식으로 Kubernetes 적합성 테스트 셋을 실행하는 진단 도구</description>
     </item>
     
   </channel>
