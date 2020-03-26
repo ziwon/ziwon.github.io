@@ -138,8 +138,9 @@
       <div class="content">
         <h2 id="wireguard-소개">WireGuard 소개</h2>
 <p>WireGuard는 임베디드 인터페이스와 슈퍼 컴퓨터를 위한 범용 VPN로, 최첨단 암호화 기술을 사용하며 단순하고 빠르고 현대적인 VPN이다. IPsec보다 더 간단하며 더 빠르고, OpenVPN보다 성능이 훨씬 뛰어나다. 또한 Linux 커널 5.6 버전부터 기본 패키지로 탑재된다.</p>
+<!-- raw HTML omitted -->
 <h2 id="wireguard-서버-설치">WireGuard 서버 설치</h2>
-<p>먼저, AWS에서 Amazon AMI Linux 2를 선택해서 EC2 서버를 생성했을 경우, Amazon AMI Linux2에는 WireGuard 패키지가 없기 때문에 다음과 같이 리포지토리를 추가하여 설치한다.</p>
+<p>먼저, AWS에서 Amazon AMI Linux 2를 선택해서 EC2 서버를 생성한다. Amazon AMI Linux2에는 WireGuard 패키지가 없기 때문에 다음과 같이 리포지토리를 추가하여 설치한다.</p>
 <pre><code>$ curl -L -o /etc/yum.repos.d/wireguard.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
 
 $ yum install wireguard-dkms wireguard-tools
@@ -153,7 +154,7 @@ $ cat privatekey
 $ cat publickey
 Bhw11tUPFzyV+MWuqBQ23obspqLWN/jGpNKKJ7hvQ2I=
 </code></pre>
-<p>그리고 서버 설정 정보는 다음과 같이 <code>/etc/wireguard/wg0.conf</code> 파일에 저장한다. 서버 <code>Interface</code>항목에 에 생성된 Private Key를 기입하고, VPN Port는 ｀1194`로 설정한다.</p>
+<p>그리고 서버 설정 정보는 다음과 같이 <code>/etc/wireguard/wg0.conf</code> 파일에 저장한다. 서버 <code>Interface</code>항목에 에 생성된 Private Key를 기입하고, VPN Port는 <code>1194</code>로 설정한다.</p>
 <pre><code>$ cat /etc/wireguard/wg0.conf
 [Interface]
 Address = 172.32.100.1/32
@@ -169,10 +170,9 @@ A peer is missing a public key
 Invalid configuration
 [#] ip link delete dev wg0
 </code></pre><p>다음으로 서버에서 영구적으로 IP 포워딩이 되도록 설정한다.</p>
-<pre><code>sysctl net.ipv4.conf.all.forwarding=1 | tee -a /etc/sysctl.d/forwarding.conf
-</code></pre>
-<p>이상, 시스템 부팅 시에 WireGuard가 자동 시작이 되도록 서비스에 등록하여 설치를 완료한다.</p>
-<pre><code>$ systemctl enable wg-quick@wg0.service
+<pre><code>$ sysctl net.ipv4.conf.all.forwarding=1 | tee -a /etc/sysctl.d/forwarding.conf
+</code></pre><p>이상, 시스템 부팅 시에 WireGuard가 자동 시작이 되도록 서비스에 등록하여 설치를 완료한다.</p>
+<pre><code>$ systemctl enable wg-quick@wg0
 </code></pre>
 <h2 id="wireguard-클라이언트-설치">WireGuard 클라이언트 설치</h2>
 <p>원격 클라이언트 서버를 우분투 18.04이라고 하면,  다음과 같이 클라이언트를 구성할 수 있다.</p>
@@ -198,7 +198,7 @@ PersistentKeepalive = 5
 </code></pre><p>서버와 동일하게 자동 시작이 되도록 서비스에 등록하여 설치를 완료한다.</p>
 <pre><code>$ systemctl start wg-quick@wg0
 </code></pre>
-<h2 id="wireguard-서버-피어-추가">WireGuard 서버 피어 추가</h2>
+<h2 id="wireguard-서버에-클라이언트-peer-추가">WireGuard 서버에 클라이언트 Peer 추가</h2>
 <p>서버에 연결될 클라이언트를 설치한 후에는, Amazon Linux AMI 2 서버에 접속하여 해당 정보를 업데이트 한다.</p>
 <pre><code>$ vi /etc/wireguard/wg0.conf
 [Interface]
@@ -274,7 +274,7 @@ local 192.168.100.209 dev ens33 proto kernel scope host src 192.168.100.209
 broadcast 192.168.100.255 dev ens33 proto kernel scope link src 192.168.100.209
 </code></pre><p>좀 더 자세한 내용은 WireGuard의 공식 문서 <a href="https://www.wireguard.com/netns/#routing-all-your-traffic">Routing All Your Traffic</a> 을 참고한다.</p>
 <h2 id="방화벽-설정">방화벽 설정</h2>
-<p>클라이언트에서 WireGuard VPN을 위한 방화벽 설정은 다음과 같다.</p>
+<p>마지막으로, 클라이언트에서 WireGuard VPN을 위한 방화벽 설정은 다음과 같다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nv">IF0</span><span class="o">=</span><span class="s2">&#34;ens33&#34;</span>
 <span class="nv">WG0</span><span class="o">=</span><span class="s2">&#34;wg0&#34;</span>
 <span class="nv">VPN_PORT</span><span class="o">=</span><span class="s2">&#34;1194&#34;</span>
