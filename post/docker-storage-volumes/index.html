@@ -161,7 +161,7 @@
 </ul>
 </li>
 </ul>
-<!-- raw HTML omitted -->
+<center>•••</center>
 <h1 id="볼륨-사용">볼륨 사용</h1>
 <p>볼륨은 도커 컨테이너에 의해 생성되고 사용되는 데이터를 영속하기 위해 선호되는 메커니즘이다. 바인드 마운트는 호스트 머신의 디렉토리 구조에 따라 달라지지만, 볼륨은 도커에 의해 완전히 관리된다. 볼륨은 바인드 마운트에 비해 몇 가지 장점이 있다.</p>
 <ul>
@@ -173,7 +173,7 @@
 <li>새 볼륨은 컨테이너에 의해 그 내용물을 미리 채울 수 있다.</li>
 </ul>
 <p>또한, 볼륨은 사용하는 컨테이너의 크기를 증가시키지 않고, 주어진 컨테이너의 라이프사이클 밖에 볼륨의 내용이 존재하기 때문에, 컨테이너의 쓰기 가능한 레이어에서 데이터를 영속하는 것보다 더 나은 선택이라고 할 수 있다.</p>
-<!-- raw HTML omitted -->
+<center><img src="https://docs.docker.com/storage/images/types-of-mounts-volume.png"/></center>
 <p>컨테이너가 비영속적인 상태 데이터를 생성하는 경우, <code>tmpfs</code> 마운트를 사용하여 데이터를 어디에나 영속적으로 저장하지 않도록 하고, 컨테이너의 쓰기 가능한 레이어에 쓰기를 막아 컨테이너 성능을 향상시키는 것을 고려해볼 수 있다.</p>
 <p>볼륨은 <code>rprivate</code> 바인드 전파를 사용하는데, 볼륨에 대한 바인드 전파는 설정할 수 없다.</p>
 <h2 id="-v-또는---mount-플래그-선택">-v 또는 &ndash;mount 플래그 선택</h2>
@@ -201,7 +201,7 @@
 </li>
 </ul>
 <blockquote>
-<p><strong>외부 CSV 파서에서 값을 이스케이프(escape)하기</strong> <!-- raw HTML omitted -->
+<p><strong>외부 CSV 파서에서 값을 이스케이프(escape)하기</strong> <br/>
 볼륨 드라이버가 쉼표로 구분된 목록을 옵션으로 받아들이는 경우, 외부 CSV 파서에서 값을 이스케이프해야 한다. <code>volume-opt</code>에서 이스케이프하려면, 큰따옴표(&quot;)로 묶고 전체 마운트 매개변수를 작은따옴표(')로 묶는다.</p>
 </blockquote>
 <blockquote>
@@ -210,9 +210,9 @@
 <blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"></code></pre></div></blockquote>
 <p>$ docker service create<br>
-&ndash;mount &lsquo;type=volume,src=<!-- raw HTML omitted -->,dst=<!-- raw HTML omitted -->,volume-driver=local,volume-opt=type=nfs,volume-opt=device=<!-- raw HTML omitted -->:<!-- raw HTML omitted -->,&ldquo;volume-opt=o=addr=<!-- raw HTML omitted -->,vers=4,soft,timeo=180,bg,tcp,rw&rdquo;&rsquo;
+&ndash;mount &lsquo;type=volume,src=<VOLUME-NAME>,dst=<CONTAINER-PATH>,volume-driver=local,volume-opt=type=nfs,volume-opt=device=<nfs-server>:<nfs-path>,&ldquo;volume-opt=o=addr=<nfs-address>,vers=4,soft,timeo=180,bg,tcp,rw&rdquo;&rsquo;
 &ndash;name myservice<br>
-<!-- raw HTML omitted --></p>
+<IMAGE></p>
 <pre><code>
 아래 예제는 가능한 경우 `--mount` 및 `-v` 구문을 모두 표시하고 `--mount`가 먼저 제시된다.
 
@@ -354,7 +354,7 @@ $ docker container rm nginxtest
 $ docker volume rm nginx-vol
 </code></pre></div><h2 id="머신-간에-데이터-공유">머신 간에 데이터 공유</h2>
 <p>내결함성(fault-tolerant) 어플리케이션을 빌드할 때 같은 파일에 액세 할 수 있도록 동일한 서비스의 여러 복제본을 구성해야할 수도 있다.</p>
-<!-- raw HTML omitted -->
+<center><img src="https://docs.docker.com/storage/images/volumes-shared-storage.svg"/></center>
 <p>애플리케이션을 개발할 때 이를 수행 할 수 있는 몇 가지 방법이 있다. 하나는 애플리케이션에 로직을 추가하여 Amazon S3와 같은 클라우드 객체 저장소 시스템에 파일을 저장하는 것이다. 다른 하나는 NFS 또는 Amazon S3와 같은 외부 스토리지 시스템에 파일 쓰기를 지원하는 드라이버로 볼륨을 생성하는 것이다.</p>
 <p>볼륨 드라이버를 사용하면 애플리케이션 로직에서 기본 저장소 시스템을 추상화할 수 있다. 예를 들어, 서비스에서 NFS 드라이버와 함께 볼륨을 사용하는 경우, 애플리케이션 로직을 변경하지 않고 클라우드에 데이터를 저장하는 예와 같이 다른 드라이버를 사용하도록 서비스를 업데이트할 수 있다.</p>
 <h2 id="볼륨-드라이버-사용">볼륨 드라이버 사용</h2>

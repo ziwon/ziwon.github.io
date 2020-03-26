@@ -142,7 +142,7 @@
       <div class="content">
         <h1 id="tgik-003-istio">TGIK 003: Istio</h1>
 <p><a href="https://github.com/heptio/tgik/tree/master/episodes/003">세번째 에피소드</a>는 Istio에 다루고 있다. Istio를 돌려본 적은 없기 때문에 같이 배울 것이라고 한다.</p>
-<!-- raw HTML omitted -->
+<center>•••</center>
 <h1 id="service-network">Service Network</h1>
 <p>앞서 자신이 발표한 자료를 참고하여, 서비스 네트워크에 대해 간략히 언급한다. 해당 슬라이드는 <a href="http://slides.eightypercent.net/linuxcon-ops-dividend/index.html">The Operations Dividend - Joe Beda (LinuxCon North America 2016)</a>를 참고한다.</p>
 <p>여러 가지 타입의 마이크로 서비스가 있을 수 있다.</p>
@@ -172,7 +172,66 @@ $ curl -L https://git.io/getLatestIstio <span class="p">|</span> sh -
 </code></pre></div><p>다운 받은 후에는 Path를 잡아줘야 하는데, <code>kubectl</code>, <code>helm</code> 등과 마찬가지로 다음과 같이 그냥 <code>/usr/local/bin</code>에 복사한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ cp ./bin/istioctl /usr/local/bin
 </code></pre></div><p>먼저, Istio의 CRD(Custom Resource Definition)을 생성한다.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>
+	```shell
+	kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+	```
+</summary>
+```shell
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+customresourcedefinition.apiextensions.k8s.io/virtualservices.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/destinationrules.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/serviceentries.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/gateways.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/envoyfilters.networking.istio.io created
+customresourcedefinition.apiextensions.k8s.io/policies.authentication.istio.io created
+customresourcedefinition.apiextensions.k8s.io/meshpolicies.authentication.istio.io created
+customresourcedefinition.apiextensions.k8s.io/httpapispecbindings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/httpapispecs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/quotaspecbindings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/quotaspecs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/rules.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/attributemanifests.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/bypasses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/circonuses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/deniers.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/fluentds.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/kubernetesenvs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/listcheckers.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/memquotas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/noops.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/opas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/prometheuses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/rbacs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/redisquotas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/servicecontrols.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/signalfxs.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/solarwindses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/stackdrivers.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/statsds.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/stdios.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/apikeys.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/authorizations.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/checknothings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/kuberneteses.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/listentries.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/logentries.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/edges.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/metrics.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/quotas.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/reportnothings.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/servicecontrolreports.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/tracespans.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/rbacconfigs.rbac.istio.io created
+customresourcedefinition.apiextensions.k8s.io/serviceroles.rbac.istio.io created
+customresourcedefinition.apiextensions.k8s.io/servicerolebindings.rbac.istio.io created
+customresourcedefinition.apiextensions.k8s.io/adapters.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/instances.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/templates.config.istio.io created
+customresourcedefinition.apiextensions.k8s.io/handlers.config.istio.io created
+```
+</details>
 <p>다음으로, 데모 리소스를 설치한다. <code>install</code> 디렉토리에는 상호 TLS 인증용(<code>istio-demo-auth.yaml</code>)과 비인증용(<code>istio-demo.yaml</code>) 두 가지 파일이 있는데, <code>istio-demo-auth.yaml</code>를 사용한다.</p>
 <blockquote>
 <p>덧붙여서 학습용 목적의 개인 클러스터의 경우, 워커 노드의 리소스가 매우 작기 때문에, 기본 요구 사항에 맞는 노드를 찾지 못해 Pod의 스케쥴링 <code>Pending</code> 이 발생할 수 있다. 일단, 데모이니 생략하기로 한다. (또는 리밋을 걸어도 무방) <code>install/kubernetes/istio-demo.yaml</code> 파일의 13565 라인에서 13568 라인까지를 삭제한다.</p>
@@ -190,7 +249,8 @@ $ curl -L https://git.io/getLatestIstio <span class="p">|</span> sh -
 </span><span class="w">              </span><span class="k">cpu</span><span class="p">:</span><span class="w"> </span>500m<span class="w">
 </span><span class="w"></span><span class="k">13568           memory</span><span class="p">:</span><span class="w"> </span>2048Mi<span class="w">
 </span></code></pre></div><p>다음과 같이, Istio 컴포넌트를 설치한다.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>kubectl apply -f install/kubernetes/istio-demo-auth.yaml</summary>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl apply -f install/kubernetes/istio-demo-auth.yaml
 namespace/istio-system created
 configmap/istio-galley-configuration created
@@ -343,7 +403,7 @@ rule.config.istio.io/tcpkubeattrgenrulerule created
 kubernetes.config.istio.io/attributes created
 destinationrule.networking.istio.io/istio-policy created
 destinationrule.networking.istio.io/istio-telemetry created
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div></details>
 <p>설치 후에는 서비스 목록을 확인한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl get svc -n istio-system
 NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP                                                                    PORT<span class="o">(</span>S<span class="o">)</span>                                                                                                                   AGE
@@ -458,7 +518,7 @@ Hello version: v2, instance: helloworld-v2-c4bb7875c-rnpnd
 <li><a href="https://istio.io/docs/tasks/telemetry/distributed-tracing/">https://istio.io/docs/tasks/telemetry/distributed-tracing/</a></li>
 <li><a href="https://www.jaegertracing.io">https://www.jaegertracing.io</a></li>
 </ul>
-<!-- raw HTML omitted -->
+<center>•••</center>
 <h2 id="service-account-오류-수정">Service Account 오류 수정</h2>
 <p>2017년 데모 당시에는 Istio RBAC 활성화시에 제대로 배포되지 않는 버그가 있었다. 그 과정이 흥미진진하고 마지막에 해결하는 모습이 멋있어서 그 과정을 간략히 요약해보았다.</p>
 <ul>

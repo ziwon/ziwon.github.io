@@ -137,7 +137,7 @@
       </div>
       <div class="content">
         <p><a href="https://github.com/heptio/tgik/tree/master/episodes/004">네번째 에피소드</a>는 쿠버네티스의 RBAC을 중심으로 인증(Authorization)과 권한(Authentication)에 대해 설명하고 있다. 영상에서도 <a href="https://www.linkedin.com/pulse/adding-users-quick-start-kubernetes-aws-jakub-scholz">Adding users on &ldquo;Quick Start for Kubernetes on AWS&rdquo;</a> 블로그 내용을 참고해서 사용자 계정을 추가하고 있기 때문에, RBAC에 대해 충분한 이해가 있다면 해당 아티클만 보아도 좋을 듯 하다.  RBAC에 대한 기본적인 개념과 쿠버네티스에서의 RBAC 정책에 대해 좀 더 알고자 한다면 CNCF의 <a href="https://www.youtube.com/watch?v=CnHTCTP8d48">Role based access control (RBAC) policies in Kubernetes</a> 웨비나를 추천한다.</p>
-<!-- raw HTML omitted -->
+<center>•••</center>
 <h2 id="kubeconfig">KubeConfig</h2>
 <p><code>kubeconfig</code> 파일의 기본 위치는 <code>$HOME/.kube/config</code>이며, <code>KUBECONFIG</code> 환경변수 또는 <code>--kubeconfig</code> 옵션으로 지정할 수 있다.</p>
 <p>앞선 TGIK 데모에서는 Heptio의 QuickStart를 사용해 쿠버네티스 클러스터를 생성할 때, 클러스터 작업을 실행하기 위해 다음과 같은 방법으로 마스터 노드에서 복사한 <code>kubeconfig</code> 파일을 로컬에 복사하였다.</p>
@@ -196,7 +196,7 @@
     --tls-private-key-file<span class="o">=</span>/etc/kubernetes/pki/apiserver.key
 </code></pre></div><p>보다시피 API 서버의 경우, TLS 연결을 위한 인증서와 개인키는 각각 <code>--tls-cert-file</code>, <code>--tls-private-key-file</code> 인자를 통해 전달되고 있다. 그리고 API 서버의 <code>--client-ca-file</code> 인자는 <code>/etc/kubernetes/pki/ca.crt</code> 파일로 전달되고 있는데, 이는 쿠버네티스의 Root CA이며, 이는 앞서 살펴본 <code>kubeconfig</code>의 <code>certificate-authority-data</code>와 동일하다.</p>
 <p>모든 쿠버네티스 클러스터에는 쿠버네티스 컨트롤 플레인 또는 사용자에게 인증서를 제공하는데 사용할 수 있는 클러스터 내장 인증 기관(certificate authority)이 있다. CA는 API 컴포넌트에서 API 서버의 인증서를 확인하고, API 서버가 kubelet 클라이언트 인증서를 확인하는데 사용한다. 이를 지원하기 위해 CA 인증서 번들은 클러스터의 모든 노드에 분산되며 <code>default</code> 서비스 계정에 연결된 시크릿으로서 배포된다. 쿠버네티스에는 기본적으로 세 가지 Root CA가 필요하다. 이들은 <code>/etc/kubernetes/pki</code>에 저장된다.</p>
-<!-- raw HTML omitted -->
+<center>
 <table>
 <thead>
 <tr>
@@ -224,7 +224,7 @@
 </tbody>
 </table>
 <p>(참고 - <a href="https://kubernetes.io/docs/setup/certificates/">PKI Certificates and Requirements</a>)</p>
-<!-- raw HTML omitted -->
+</center>
 <p>이외에도 API 서버는 다음과 같이 인증과 관련된 다른 커맨드라인 인자를 지정할 수 있다. (참고 - <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">kube-apiserver
 </a>)</p>
 <div class="highlight"><pre class="chroma"><code class="language-txt" data-lang="txt">--cert-dir string                           The directory where the TLS certs are located. If --tls-cert-file and --tls-private-key-file are provided, this flag will be ignored. (default &#34;/var/run/kubernetes&#34;)
@@ -246,11 +246,430 @@
 --tls-private-key-file string               File containing the default x509 private key matching --tls-cert-file.
 --tls-sni-cert-key namedCertKey             A pair of x509 certificate and private key file paths, optionally suffixed with a list of domain patterns which are fully qualified domain names, possibly with prefixed wildcard segments. If no domain patterns are provided, the names of the certificate are extracted. Non-wildcard matches trump over wildcard matches, explicit domain patterns trump over extracted names. For multiple key/certificate pairs, use the --tls-sni-cert-key multiple times. Examples: &#34;example.crt,example.key&#34; or &#34;foo.crt,foo.key:*.foo.com,foo.com&#34;. (default [])
 </code></pre></div><p>다음과 같이, <code>kubectl</code>에서 클러스터 노드 정보를 조회할 때 디버그 레벨 <code>--v=10</code>을 지정해보자.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>kubectl get nodes --v=10</summary>
+```shell
+$ kubectl get nodes --v=10
+I0204 13:05:46.390541   15326 loader.go:359] Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
+I0204 13:05:46.391193   15326 loader.go:359] Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
+I0204 13:05:46.392557   15326 cached_discovery.go:104] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/servergroups.json
+I0204 13:05:46.393214   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1/serverresources.json
+I0204 13:05:46.393495   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v2beta1/serverresources.json
+I0204 13:05:46.393529   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/certificates.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393559   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1beta1/serverresources.json
+I0204 13:05:46.393583   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393599   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/policy/v1beta1/serverresources.json
+I0204 13:05:46.393613   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1/serverresources.json
+I0204 13:05:46.393622   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/admissionregistration.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393638   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393657   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta2/serverresources.json
+I0204 13:05:46.393653   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/scheduling.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393707   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiextensions.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393740   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/networking.k8s.io/v1/serverresources.json
+I0204 13:05:46.393750   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/v1/serverresources.json
+I0204 13:05:46.393771   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v1/serverresources.json
+I0204 13:05:46.393787   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393802   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1/serverresources.json
+I0204 13:05:46.393816   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1/serverresources.json
+I0204 13:05:46.393845   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1/serverresources.json
+I0204 13:05:46.393899   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/events.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393912   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393922   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1/serverresources.json
+I0204 13:05:46.393941   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta1/serverresources.json
+I0204 13:05:46.393946   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/extensions/v1beta1/serverresources.json
+I0204 13:05:46.393966   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.393984   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1/serverresources.json
+I0204 13:05:46.394926   15326 loader.go:359] Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
+I0204 13:05:46.395217   15326 cached_discovery.go:104] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/servergroups.json
+I0204 13:05:46.395311   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/scheduling.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395382   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v1/serverresources.json
+I0204 13:05:46.395421   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1/serverresources.json
+I0204 13:05:46.395452   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/policy/v1beta1/serverresources.json
+I0204 13:05:46.395477   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1beta1/serverresources.json
+I0204 13:05:46.395521   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1/serverresources.json
+I0204 13:05:46.395529   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v2beta1/serverresources.json
+I0204 13:05:46.395547   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/networking.k8s.io/v1/serverresources.json
+I0204 13:05:46.395550   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/admissionregistration.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395559   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395550   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395551   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/certificates.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395592   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395599   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1/serverresources.json
+I0204 13:05:46.395620   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/extensions/v1beta1/serverresources.json
+I0204 13:05:46.395625   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiextensions.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395639   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/events.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395651   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1/serverresources.json
+I0204 13:05:46.395677   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395651   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1/serverresources.json
+I0204 13:05:46.395652   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/v1/serverresources.json
+I0204 13:05:46.395660   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1/serverresources.json
+I0204 13:05:46.395660   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.395743   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1/serverresources.json
+I0204 13:05:46.395722   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta1/serverresources.json
+I0204 13:05:46.395753   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta2/serverresources.json
+I0204 13:05:46.395900   15326 cached_discovery.go:104] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/servergroups.json
+I0204 13:05:46.396066   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/v1/serverresources.json
+I0204 13:05:46.396129   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1/serverresources.json
+I0204 13:05:46.396186   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiregistration.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.396276   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/extensions/v1beta1/serverresources.json
+I0204 13:05:46.396383   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1/serverresources.json
+I0204 13:05:46.396474   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta2/serverresources.json
+I0204 13:05:46.396549   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apps/v1beta1/serverresources.json
+I0204 13:05:46.396602   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/events.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.396649   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1/serverresources.json
+I0204 13:05:46.396705   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authentication.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.396761   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1/serverresources.json
+I0204 13:05:46.396821   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/authorization.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.396873   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v1/serverresources.json
+I0204 13:05:46.396934   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/autoscaling/v2beta1/serverresources.json
+I0204 13:05:46.396988   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1/serverresources.json
+I0204 13:05:46.397045   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/batch/v1beta1/serverresources.json
+I0204 13:05:46.397103   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/certificates.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.397157   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/networking.k8s.io/v1/serverresources.json
+I0204 13:05:46.397221   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/policy/v1beta1/serverresources.json
+I0204 13:05:46.397285   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1/serverresources.json
+I0204 13:05:46.397350   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/rbac.authorization.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.397403   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1/serverresources.json
+I0204 13:05:46.397458   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/storage.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.397515   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/admissionregistration.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.397572   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/apiextensions.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.397625   15326 cached_discovery.go:70] returning cached discovery info from /Users/luno/.kube/cache/discovery/13.125.59.233_6443/scheduling.k8s.io/v1beta1/serverresources.json
+I0204 13:05:46.398497   15326 loader.go:359] Config loaded from file /Users/luno/Workspace/GitHub/ziwon/quickstart-heptio/kubeconfig
+I0204 13:05:46.398751   15326 round_trippers.go:386] curl -k -v -XGET  -H "Accept: application/json;as=Table;v=v1beta1;g=meta.k8s.io, application/json" -H "User-Agent: kubectl/v1.12.3 (darwin/amd64) kubernetes/435f92c" 'https://13.125.59.233:6443/api/v1/nodes?limit=500'
+I0204 13:05:46.435293   15326 round_trippers.go:405] GET https://13.125.59.233:6443/api/v1/nodes?limit=500 200 OK in 36 milliseconds
+I0204 13:05:46.435313   15326 round_trippers.go:411] Response Headers:
+I0204 13:05:46.435318   15326 round_trippers.go:414]     Content-Type: application/json
+I0204 13:05:46.435324   15326 round_trippers.go:414]     Date: Mon, 04 Feb 2019 04:05:46 GMT
+I0204 13:05:46.437396   15326 request.go:942] Response Body: {"kind":"Table","apiVersion":"meta.k8s.io/v1beta1","metadata":{"selfLink":"/api/v1/nodes","resourceVersion":"7633"},"columnDefinitions":[{"name":"Name","type":"string","format":"name","description":"Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names","priority":0},{"name":"Status","type":"string","format":"","description":"The status of the node","priority":0},{"name":"Roles","type":"string","format":"","description":"The roles of the node","priority":0},{"name":"Age","type":"string","format":"","description":"CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.\n\nPopulated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata","priority":0},{"name":"Version","type":"string","format":"","description":"Kubelet Version reported by the node.","priority":0},{"name":"Internal-IP","type":"string","format":"","description":"List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses","priority":1},{"name":"External-IP","type":"string","format":"","description":"List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses","priority":1},{"name":"OS-Image","type":"string","format":"","description":"OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)).","priority":1},{"name":"Kernel-Version","type":"string","format":"","description":"Kernel Version reported by the node from 'uname -r' (e.g. 3.16.0-0.bpo.4-amd64).","priority":1},{"name":"Container-Runtime","type":"string","format":"","description":"ContainerRuntime Version reported by the node through runtime remote API (e.g. docker://1.5.0).","priority":1}],"rows":[{"cells":["ip-10-0-11-90.ap-northeast-2.compute.internal","Ready","\u003cnone\u003e","1h","v1.11.5","10.0.11.90","\u003cnone\u003e","Ubuntu 16.04.5 LTS","4.4.0-1072-aws","docker://17.3.2"],"object":{"kind":"PartialObjectMetadata","apiVersion":"meta.k8s.io/v1beta1","metadata":{"name":"ip-10-0-11-90.ap-northeast-2.compute.internal","selfLink":"/api/v1/nodes/ip-10-0-11-90.ap-northeast-2.compute.internal","uid":"208bde9f-2829-11e9-a2c8-02015048da6c","resourceVersion":"7622","creationTimestamp":"2019-02-04T03:01:11Z","labels":{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t2.small","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"ap-northeast-2","failure-domain.beta.kubernetes.io/zone":"ap-northeast-2a","kubernetes.io/hostname":"ip-10-0-11-90.ap-northeast-2.compute.internal"},"annotations":{"kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock","node.alpha.kubernetes.io/ttl":"0","volumes.kubernetes.io/controller-managed-attach-detach":"true"}}}},{"cells":["ip-10-0-15-49.ap-northeast-2.compute.internal","Ready","\u003cnone\u003e","1h","v1.11.5","10.0.15.49","\u003cnone\u003e","Ubuntu 16.04.5 LTS","4.4.0-1072-aws","docker://17.3.2"],"object":{"kind":"PartialObjectMetadata","apiVersion":"meta.k8s.io/v1beta1","metadata":{"name":"ip-10-0-15-49.ap-northeast-2.compute.internal","selfLink":"/api/v1/nodes/ip-10-0-15-49.ap-northeast-2.compute.internal","uid":"208d8cb1-2829-11e9-a2c8-02015048da6c","resourceVersion":"7619","creationTimestamp":"2019-02-04T03:01:11Z","labels":{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t2.small","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"ap-northeast-2","failure-domain.beta.kubernetes.io/zone":"ap-northeast-2a","kubernetes.io/hostname":"ip-10-0-15-49.ap-northeast-2.compute.internal"},"annotations":{"kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock","node.alpha.kubernetes.io/ttl":"0","volumes.kubernetes.io/controller-managed-attach-detach":"true"}}}},{"cells":["ip-10-0-21-21.ap-northeast-2.compute.internal","Ready","master","1h","v1.11.5","10.0.21.21","\u003cnone\u003e","Ubuntu 16.04.5 LTS","4.4.0-1072-aws","docker://17.3.2"],"object":{"kind":"PartialObjectMetadata","apiVersion":"meta.k8s.io/v1beta1","metadata":{"name":"ip-10-0-21-21.ap-northeast-2.compute.internal","selfLink":"/api/v1/nodes/ip-10-0-21-21.ap-northeast-2.compute.internal","uid":"af849c71-2828-11e9-a2c8-02015048da6c","resourceVersion":"7626","creationTimestamp":"2019-02-04T02:58:02Z","labels":{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t2.small","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"ap-northeast-2","failure-domain.beta.kubernetes.io/zone":"ap-northeast-2a","kubernetes.io/hostname":"ip-10-0-21-21.ap-northeast-2.compute.internal","node-role.kubernetes.io/master":""},"annotations":{"kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock","node.alpha.kubernetes.io/ttl":"0","volumes.kubernetes.io/controller-managed-attach-detach":"true"}}}},{"cells":["ip-10-0-23-205.ap-northeast-2.compute.internal","Ready","\u003cnone\u003e","1h","v1.11.5","10.0.23.205","\u003cnone\u003e","Ubuntu 16.04.5 LTS","4.4.0-1072-aws","docker://17.3.2"],"object":{"kind":"PartialObjectMetadata","apiVersion":"meta.k8s.io/v1beta1","metadata":{"name":"ip-10-0-23-205.ap-northeast-2.compute.internal","selfLink":"/api/v1/nodes/ip-10-0-23-205.ap-northeast-2.compute.internal","uid":"22442c26-2829-11e9-a2c8-02015048da6c","resourceVersion":"7628","creationTimestamp":"2019-02-04T03:01:14Z","labels":{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t2.small","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"ap-northeast-2","failure-domain.beta.kubernetes.io/zone":"ap-northeast-2a","kubernetes.io/hostname":"ip-10-0-23-205.ap-northeast-2.compute.internal"},"annotations":{"kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock","node.alpha.kubernetes.io/ttl":"0","volumes.kubernetes.io/controller-managed-attach-detach":"true"}}}},{"cells":["ip-10-0-30-16.ap-northeast-2.compute.internal","Ready","\u003cnone\u003e","1h","v1.11.5","10.0.30.16","\u003cnone\u003e","Ubuntu 16.04.5 LTS","4.4.0-1072-aws","docker://17.3.2"],"object":{"kind":"PartialObjectMetadata","apiVersion":"meta.k8s.io/v1beta1","metadata":{"name":"ip-10-0-30-16.ap-northeast-2.compute.internal","selfLink":"/api/v1/nodes/ip-10-0-30-16.ap-northeast-2.compute.internal","uid":"1c7ce276-2829-11e9-a2c8-02015048da6c","resourceVersion":"7627","creationTimestamp":"2019-02-04T03:01:04Z","labels":{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t2.small","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"ap-northeast-2","failure-domain.beta.kubernetes.io/zone":"ap-northeast-2a","kubernetes.io/hostname":"ip-10-0-30-16.ap-northeast-2.compute.internal"},"annotations":{"kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock","node.alpha.kubernetes.io/ttl":"0","volumes.kubernetes.io/controller-managed-attach-detach":"true"}}}},{"cells":["ip-10-0-7-175.ap-northeast-2.compute.internal","Ready","\u003cnone\u003e","1h","v1.11.5","10.0.7.175","\u003cnone\u003e","Ubuntu 16.04.5 LTS","4.4.0-1072-aws","docker://17.3.2"],"object":{"kind":"PartialObjectMetadata","apiVersion":"meta.k8s.io/v1beta1","metadata":{"name":"ip-10-0-7-175.ap-northeast-2.compute.internal","selfLink":"/api/v1/nodes/ip-10-0-7-175.ap-northeast-2.compute.internal","uid":"3f3c5d27-2829-11e9-a2c8-02015048da6c","resourceVersion":"7623","creationTimestamp":"2019-02-04T03:02:03Z","labels":{"beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t2.small","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"ap-northeast-2","failure-domain.beta.kubernetes.io/zone":"ap-northeast-2a","kubernetes.io/hostname":"ip-10-0-7-175.ap-northeast-2.compute.internal"},"annotations":{"kubeadm.alpha.kubernetes.io/cri-socket":"/var/run/dockershim.sock","node.alpha.kubernetes.io/ttl":"0","volumes.kubernetes.io/controller-managed-attach-detach":"true"}}}}]}
+I0204 13:05:46.438816   15326 get.go:558] no kind is registered for the type v1beta1.Table in scheme "k8s.io/kubernetes/pkg/api/legacyscheme/scheme.go:29"
+NAME                                             STATUS   ROLES    AGE   VERSION
+ip-10-0-11-90.ap-northeast-2.compute.internal    Ready    <none>   1h    v1.11.5
+ip-10-0-15-49.ap-northeast-2.compute.internal    Ready    <none>   1h    v1.11.5
+ip-10-0-21-21.ap-northeast-2.compute.internal    Ready    master   1h    v1.11.5
+ip-10-0-23-205.ap-northeast-2.compute.internal   Ready    <none>   1h    v1.11.5
+ip-10-0-30-16.ap-northeast-2.compute.internal    Ready    <none>   1h    v1.11.5
+ip-10-0-7-175.ap-northeast-2.compute.internal    Ready    <none>   1h    v1.11.5
+```
+</details>
 <p>그러면 위 상세 로그에서 다음과 같은 <code>kubectl get node</code>에 대응하는 <code>curl</code> 명령어를 확인할 수 있다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ curl -k -v -XGET  -H <span class="s2">&#34;Accept: application/json;as=Table;v=v1beta1;g=meta.k8s.io, application/json&#34;</span> -H <span class="s2">&#34;User-Agent: kubectl/v1.12.3 (darwin/amd64) kubernetes/435f92c&#34;</span> <span class="s1">&#39;https://13.125.59.233:6443/api/v1/nodes?limit=500&#39;</span>
 </code></pre></div><p>위 <code>kubectl</code>을 통해서 호출되는 API 서버의 응답은 다음과 같다.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>`kubectl get node` json 응답</summary>
+```json
+{
+  "kind": "Table",
+  "apiVersion": "meta.k8s.io/v1beta1",
+  "metadata": {
+    "selfLink": "/api/v1/nodes",
+    "resourceVersion": "7633"
+  },
+  "columnDefinitions": [
+    {
+      "name": "Name",
+      "type": "string",
+      "format": "name",
+      "description": "Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: http://kubernetes.io/docs/user-guide/identifiers#names",
+      "priority": 0
+    },
+    {
+      "name": "Status",
+      "type": "string",
+      "format": "",
+      "description": "The status of the node",
+      "priority": 0
+    },
+    {
+      "name": "Roles",
+      "type": "string",
+      "format": "",
+      "description": "The roles of the node",
+      "priority": 0
+    },
+    {
+      "name": "Age",
+      "type": "string",
+      "format": "",
+      "description": "CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.\n\nPopulated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
+      "priority": 0
+    },
+    {
+      "name": "Version",
+      "type": "string",
+      "format": "",
+      "description": "Kubelet Version reported by the node.",
+      "priority": 0
+    },
+    {
+      "name": "Internal-IP",
+      "type": "string",
+      "format": "",
+      "description": "List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses",
+      "priority": 1
+    },
+    {
+      "name": "External-IP",
+      "type": "string",
+      "format": "",
+      "description": "List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses",
+      "priority": 1
+    },
+    {
+      "name": "OS-Image",
+      "type": "string",
+      "format": "",
+      "description": "OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)).",
+      "priority": 1
+    },
+    {
+      "name": "Kernel-Version",
+      "type": "string",
+      "format": "",
+      "description": "Kernel Version reported by the node from 'uname -r' (e.g. 3.16.0-0.bpo.4-amd64).",
+      "priority": 1
+    },
+    {
+      "name": "Container-Runtime",
+      "type": "string",
+      "format": "",
+      "description": "ContainerRuntime Version reported by the node through runtime remote API (e.g. docker://1.5.0).",
+      "priority": 1
+    }
+  ],
+  "rows": [
+    {
+      "cells": [
+        "ip-10-0-11-90.ap-northeast-2.compute.internal",
+        "Ready",
+        "<none>",
+        "1h",
+        "v1.11.5",
+        "10.0.11.90",
+        "<none>",
+        "Ubuntu 16.04.5 LTS",
+        "4.4.0-1072-aws",
+        "docker://17.3.2"
+      ],
+      "object": {
+        "kind": "PartialObjectMetadata",
+        "apiVersion": "meta.k8s.io/v1beta1",
+        "metadata": {
+          "name": "ip-10-0-11-90.ap-northeast-2.compute.internal",
+          "selfLink": "/api/v1/nodes/ip-10-0-11-90.ap-northeast-2.compute.internal",
+          "uid": "208bde9f-2829-11e9-a2c8-02015048da6c",
+          "resourceVersion": "7622",
+          "creationTimestamp": "2019-02-04T03:01:11Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "t2.small",
+            "beta.kubernetes.io/os": "linux",
+            "failure-domain.beta.kubernetes.io/region": "ap-northeast-2",
+            "failure-domain.beta.kubernetes.io/zone": "ap-northeast-2a",
+            "kubernetes.io/hostname": "ip-10-0-11-90.ap-northeast-2.compute.internal"
+          },
+          "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+      }
+    },
+    {
+      "cells": [
+        "ip-10-0-15-49.ap-northeast-2.compute.internal",
+        "Ready",
+        "<none>",
+        "1h",
+        "v1.11.5",
+        "10.0.15.49",
+        "<none>",
+        "Ubuntu 16.04.5 LTS",
+        "4.4.0-1072-aws",
+        "docker://17.3.2"
+      ],
+      "object": {
+        "kind": "PartialObjectMetadata",
+        "apiVersion": "meta.k8s.io/v1beta1",
+        "metadata": {
+          "name": "ip-10-0-15-49.ap-northeast-2.compute.internal",
+          "selfLink": "/api/v1/nodes/ip-10-0-15-49.ap-northeast-2.compute.internal",
+          "uid": "208d8cb1-2829-11e9-a2c8-02015048da6c",
+          "resourceVersion": "7619",
+          "creationTimestamp": "2019-02-04T03:01:11Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "t2.small",
+            "beta.kubernetes.io/os": "linux",
+            "failure-domain.beta.kubernetes.io/region": "ap-northeast-2",
+            "failure-domain.beta.kubernetes.io/zone": "ap-northeast-2a",
+            "kubernetes.io/hostname": "ip-10-0-15-49.ap-northeast-2.compute.internal"
+          },
+          "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+      }
+    },
+    {
+      "cells": [
+        "ip-10-0-21-21.ap-northeast-2.compute.internal",
+        "Ready",
+        "master",
+        "1h",
+        "v1.11.5",
+        "10.0.21.21",
+        "<none>",
+        "Ubuntu 16.04.5 LTS",
+        "4.4.0-1072-aws",
+        "docker://17.3.2"
+      ],
+      "object": {
+        "kind": "PartialObjectMetadata",
+        "apiVersion": "meta.k8s.io/v1beta1",
+        "metadata": {
+          "name": "ip-10-0-21-21.ap-northeast-2.compute.internal",
+          "selfLink": "/api/v1/nodes/ip-10-0-21-21.ap-northeast-2.compute.internal",
+          "uid": "af849c71-2828-11e9-a2c8-02015048da6c",
+          "resourceVersion": "7626",
+          "creationTimestamp": "2019-02-04T02:58:02Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "t2.small",
+            "beta.kubernetes.io/os": "linux",
+            "failure-domain.beta.kubernetes.io/region": "ap-northeast-2",
+            "failure-domain.beta.kubernetes.io/zone": "ap-northeast-2a",
+            "kubernetes.io/hostname": "ip-10-0-21-21.ap-northeast-2.compute.internal",
+            "node-role.kubernetes.io/master": ""
+          },
+          "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+      }
+    },
+    {
+      "cells": [
+        "ip-10-0-23-205.ap-northeast-2.compute.internal",
+        "Ready",
+        "<none>",
+        "1h",
+        "v1.11.5",
+        "10.0.23.205",
+        "<none>",
+        "Ubuntu 16.04.5 LTS",
+        "4.4.0-1072-aws",
+        "docker://17.3.2"
+      ],
+      "object": {
+        "kind": "PartialObjectMetadata",
+        "apiVersion": "meta.k8s.io/v1beta1",
+        "metadata": {
+          "name": "ip-10-0-23-205.ap-northeast-2.compute.internal",
+          "selfLink": "/api/v1/nodes/ip-10-0-23-205.ap-northeast-2.compute.internal",
+          "uid": "22442c26-2829-11e9-a2c8-02015048da6c",
+          "resourceVersion": "7628",
+          "creationTimestamp": "2019-02-04T03:01:14Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "t2.small",
+            "beta.kubernetes.io/os": "linux",
+            "failure-domain.beta.kubernetes.io/region": "ap-northeast-2",
+            "failure-domain.beta.kubernetes.io/zone": "ap-northeast-2a",
+            "kubernetes.io/hostname": "ip-10-0-23-205.ap-northeast-2.compute.internal"
+          },
+          "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+      }
+    },
+    {
+      "cells": [
+        "ip-10-0-30-16.ap-northeast-2.compute.internal",
+        "Ready",
+        "<none>",
+        "1h",
+        "v1.11.5",
+        "10.0.30.16",
+        "<none>",
+        "Ubuntu 16.04.5 LTS",
+        "4.4.0-1072-aws",
+        "docker://17.3.2"
+      ],
+      "object": {
+        "kind": "PartialObjectMetadata",
+        "apiVersion": "meta.k8s.io/v1beta1",
+        "metadata": {
+          "name": "ip-10-0-30-16.ap-northeast-2.compute.internal",
+          "selfLink": "/api/v1/nodes/ip-10-0-30-16.ap-northeast-2.compute.internal",
+          "uid": "1c7ce276-2829-11e9-a2c8-02015048da6c",
+          "resourceVersion": "7627",
+          "creationTimestamp": "2019-02-04T03:01:04Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "t2.small",
+            "beta.kubernetes.io/os": "linux",
+            "failure-domain.beta.kubernetes.io/region": "ap-northeast-2",
+            "failure-domain.beta.kubernetes.io/zone": "ap-northeast-2a",
+            "kubernetes.io/hostname": "ip-10-0-30-16.ap-northeast-2.compute.internal"
+          },
+          "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+      }
+    },
+    {
+      "cells": [
+        "ip-10-0-7-175.ap-northeast-2.compute.internal",
+        "Ready",
+        "<none>",
+        "1h",
+        "v1.11.5",
+        "10.0.7.175",
+        "<none>",
+        "Ubuntu 16.04.5 LTS",
+        "4.4.0-1072-aws",
+        "docker://17.3.2"
+      ],
+      "object": {
+        "kind": "PartialObjectMetadata",
+        "apiVersion": "meta.k8s.io/v1beta1",
+        "metadata": {
+          "name": "ip-10-0-7-175.ap-northeast-2.compute.internal",
+          "selfLink": "/api/v1/nodes/ip-10-0-7-175.ap-northeast-2.compute.internal",
+          "uid": "3f3c5d27-2829-11e9-a2c8-02015048da6c",
+          "resourceVersion": "7623",
+          "creationTimestamp": "2019-02-04T03:02:03Z",
+          "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/instance-type": "t2.small",
+            "beta.kubernetes.io/os": "linux",
+            "failure-domain.beta.kubernetes.io/region": "ap-northeast-2",
+            "failure-domain.beta.kubernetes.io/zone": "ap-northeast-2a",
+            "kubernetes.io/hostname": "ip-10-0-7-175.ap-northeast-2.compute.internal"
+          },
+          "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "/var/run/dockershim.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+</details>
 <p>위 <code>curl</code> 명령을 <code>kubeconfig</code>에 인증서없이 그대로 호출하게 되면, 다음과 같이 API 서버로부터 <code>403</code> 인증 오류가 반환된다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
   <span class="nt">&#34;kind&#34;</span><span class="p">:</span> <span class="s2">&#34;Status&#34;</span><span class="p">,</span>
@@ -487,9 +906,302 @@ system:volume-scheduler                                                8h
 view                                                                   8h
 weave-net                                                              8h
 </code></pre></div><p>먼저, 클러스터 전체에 대해 정의된 기본 사용자 <code>system:basic-user</code>의 RBAC을 확인해보자.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>$ kubectl get clusterrole system:basic-user -o yaml</summary>
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: 2019-02-04T05:11:12Z
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: system:basic-user
+  resourceVersion: "43"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/system%3Abasic-user
+  uid: 49fa84df-283b-11e9-9ac2-0242c86ffe48
+rules:
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - selfsubjectaccessreviews
+  - selfsubjectrulesreviews
+  verbs:
+  - create
+```
+</details>
 <p>다음으로 클러스터 전체를 관리하는 관리자 <code>admin</code>의 RBAC을 확인해보자.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>$ kubectl get clusterrole admin -o yaml</summary>
+```yaml
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.authorization.k8s.io/aggregate-to-admin: "true"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    rbac.authorization.kubernetes.io/autoupdate: "true"
+  creationTimestamp: 2019-02-04T05:11:12Z
+  labels:
+    kubernetes.io/bootstrapping: rbac-defaults
+  name: admin
+  resourceVersion: "350"
+  selfLink: /apis/rbac.authorization.k8s.io/v1/clusterroles/admin
+  uid: 49faedb8-283b-11e9-9ac2-0242c86ffe48
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods/attach
+  - pods/exec
+  - pods/portforward
+  - pods/proxy
+  - secrets
+  - services/proxy
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - impersonate
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/attach
+  - pods/exec
+  - pods/portforward
+  - pods/proxy
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - persistentvolumeclaims
+  - replicationcontrollers
+  - replicationcontrollers/scale
+  - secrets
+  - serviceaccounts
+  - services
+  - services/proxy
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - apps
+  resources:
+  - daemonsets
+  - deployments
+  - deployments/rollback
+  - deployments/scale
+  - replicasets
+  - replicasets/scale
+  - statefulsets
+  - statefulsets/scale
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  - jobs
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - extensions
+  resources:
+  - daemonsets
+  - deployments
+  - deployments/rollback
+  - deployments/scale
+  - ingresses
+  - networkpolicies
+  - replicasets
+  - replicasets/scale
+  - replicationcontrollers/scale
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - networkpolicies
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - persistentvolumeclaims
+  - pods
+  - replicationcontrollers
+  - replicationcontrollers/scale
+  - serviceaccounts
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - bindings
+  - events
+  - limitranges
+  - namespaces/status
+  - pods/log
+  - pods/status
+  - replicationcontrollers/status
+  - resourcequotas
+  - resourcequotas/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - controllerrevisions
+  - daemonsets
+  - deployments
+  - deployments/scale
+  - replicasets
+  - replicasets/scale
+  - statefulsets
+  - statefulsets/scale
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  - jobs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - extensions
+  resources:
+  - daemonsets
+  - deployments
+  - deployments/scale
+  - ingresses
+  - networkpolicies
+  - replicasets
+  - replicasets/scale
+  - replicationcontrollers/scale
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - networkpolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - localsubjectaccessreviews
+  verbs:
+  - create
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  - roles
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+```
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl create rolebinding ziwon --clusterrole<span class="o">=</span>admin --user<span class="o">=</span>users:ziwon --dry-run -o yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -504,7 +1216,7 @@ subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: User
   name: users:ziwon
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div></details>
 <p>먼저, <code>foo</code>라는 네임스페이스를 만든다. 이때 기본 <code>~/.kube/config</code>를 사용한다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl run --restart<span class="o">=</span>Never --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:blue kuard
 </code></pre></div><p>그리고 새로운 쉘에서 새로 추가된 사용자 <code>users:ziwon</code>의 <code>kubeconfig-ziwon</code>를 이용해 Pod을 하나 배포해본다.</p>

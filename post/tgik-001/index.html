@@ -151,7 +151,9 @@
 <li><a href="https://aws-quickstart.s3.amazonaws.com/quickstart-heptio/doc/heptio-kubernetes-on-the-aws-cloud.pdf">Step by Step Guide - heptio-kubernetes-on-the-aws-cloud</a></li>
 </ul>
 <p>전체적인 아키텍처는 다음과 같다. AWS의 베스트 프랙티스를 따라, Public Network와 Private Network로 디자인하고 있다. Kubernets API를 외부에서 접속할 수 있도록 마스터 노드에 ELB를 연결한 것이 특이하다.</p>
-<!-- raw HTML omitted -->
+ <center>
+  ![](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/heptio-kubernetes-architecture.4ce06fe6b45b290e2b46ddf5dc7a664d45d7aae2.png)
+</center>
 <p>데모에서는 CloudFormation을 사용해 다음의 컴포넌트들을 AWS에 구성하게 된다. (이상, <a href="https://github.com/heptio/aws-quickstart/blob/master/templates/kubernetes-cluster-with-new-vpc.template">kubernetes-cluster-with-new-vpc.template 참조</a>)</p>
 <ul>
 <li>단일 가용영 영역에 가상 프라이빗 클라우드 (VPC)</li>

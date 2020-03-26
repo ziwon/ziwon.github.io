@@ -143,7 +143,7 @@
 <blockquote>
 <p>결국, heptio-quickstart를 AWS에 올리고 따라해보았다. 아무래도 GCP UI나 커맨드라인 결과가 조금 다른 것으로 인해 혼란의 여지가 있을 것 같다. QuickStart이긴 하나, CloudFormation 기반으로 Kubernetes 컴포넌트들을 설치해가는 스크립트를 하나하나씩 살펴보는 것도 유의미해보인다.</p>
 </blockquote>
-<!-- raw HTML omitted -->
+<center>•••</center>
 <h1 id="networking">Networking</h1>
 <p>먼저, 10개의 <code>kuard</code> <code>Pod</code>를 띄운다.</p>
 <div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl run --replicas<span class="o">=</span><span class="m">10</span> --image<span class="o">=</span>gcr.io/kuar-demo/kuard-amd64:1 kuard
@@ -532,7 +532,15 @@ kube-scheduler-ip-10-0-18-181.ap-northeast-2.compute.internal            1/1    
 kubernetes-dashboard-84fff45879-cmmtp                                    1/1       Running   <span class="m">0</span>          2h
 </code></pre></div><p><code>kube-proxy</code>의 메커니즘은 다음과 같다. <code>kube-proxy</code>는 ClusterIP를 지닌 모든 <code>Service</code>를 모니터링한다. 그리고 연관된 <code>EndPoint</code> 변경을 따라 iptable을 구성하고, 해당 iptable을 사용해서 ClusterIP를 통하는 모든 트래픽이 해당하는 엔드포인트에 랜덤하게 로드 밸런싱되게 한다.</p>
 <p>iptable을 살펴보자. calico가 관리하는 iptable은 <code>cali</code>라고 주석이 달려 있다.</p>
-<!-- raw HTML omitted -->
+<details>
+<summary>`iptables -L`</summary>
+```shell
+$ iptables -L
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+cali-INPUT  all  --  anywhere             anywhere             /* cali:Cz_u1IQiXIMmKD4c */
+KUBE-EXTERNAL-SERVICES  all  --  anywhere             anywhere             ctstate NEW /* kubernetes externally-visible service portals */
+KUBE-FIREWALL  all  --  anywhere             anywhere            
 <p>Chain FORWARD (policy DROP)
 target     prot opt source               destination      <br>
 cali-FORWARD  all  &ndash;  anywhere             anywhere             /* cali:wUHhoiAYhphO9Mso */
@@ -902,8 +910,7 @@ status:
 </span><span class="w">  </span><span class="k">readyReplicas</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
 </span><span class="w">  </span><span class="k">replicas</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
 </span><span class="w">  </span><span class="k">updatedReplicas</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
-</span></code></pre></div><!-- raw HTML omitted -->
-
+</span></code></pre></div><center>•••</center>
         
         <div class="related">
 
