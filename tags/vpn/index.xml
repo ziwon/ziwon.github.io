@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Networking on ziwon.github.io</title>
-    <link>https://ziwon.github.io/tags/networking/</link>
-    <description>Recent content in Networking on ziwon.github.io</description>
+    <title>VPN on ziwon.github.io</title>
+    <link>https://ziwon.github.io/tags/vpn/</link>
+    <description>Recent content in VPN on ziwon.github.io</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&lt;a href=&#34;https://github.com/ziwon&#34;&gt;Yeongpil Yoon&lt;/a&gt;</copyright>
     <lastBuildDate>Thu, 26 Mar 2020 22:23:00 +0900</lastBuildDate>
     
-	<atom:link href="https://ziwon.github.io/tags/networking/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ziwon.github.io/tags/vpn/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -21,17 +21,6 @@
       <description>WireGuard 소개 WireGuard는 임베디드 인터페이스와 슈퍼 컴퓨터를 위한 범용 VPN로, 최첨단 암호화 기술을 사용하며 단순하고 빠르고 현대적인 VPN이다. IPsec보다 더 간단하며 더 빠르고, OpenVPN보다 성능이 훨씬 뛰어나다. 또한 Linux 커널 5.6 버전부터 기본 패키지로 탑재된다.
 WireGuard 서버 설치 먼저, AWS에서 Amazon AMI Linux 2를 선택해서 EC2 서버를 생성했을 경우, Amazon AMI Linux2에는 WireGuard 패키지가 없기 때문에 다음과 같이 리포지토리를 추가하여 설치한다.
 $ curl -L -o /etc/yum.repos.d/wireguard.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo $ yum install wireguard-dkms wireguard-tools  서버에서 사용할 public 키와 private 키를 wg 유틸리티를 사용하여 생성한다.</description>
-    </item>
-    
-    <item>
-      <title>[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</title>
-      <link>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</link>
-      <pubDate>Wed, 16 Jan 2019 08:23:00 +0900</pubDate>
-      
-      <guid>https://ziwon.github.io/post/designing-scalable-portable-docker-container-networks/</guid>
-      <description>원문: Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks (오역 및 오타는 댓글로 알려주세요)
-  ※ 컨테이너가 아닌 Pod간의 Kubernetes 네트워킹 모델은 도커 네트워킹 모델과 좀 다릅니다. 자세한 내용은 하단의 기타 아티클을 참조하세요.
-  배우게 될 것 도커 컨테이너는 실행에 필요한 모든 것, 즉 코드, 런타임, 시스템 도구, 시스템 라이브러리 등 서버에 설치할 수 있는 모든 것을 포함하는 완전한 파일 시스템에 있는 소프트웨어 하나를 래핑한다. 이는 소프트웨어가 환경에 관계없이 항상 동일한 기능을 실행할 것을 보장한다.</description>
     </item>
     
   </channel>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>WireGuard 설치 및 방화벽 설정 | ziwon.github.io</title>
+
+
+
+<link href="https://ziwon.github.io/index.xml" rel="alternate" type="application/rss+xml" title="ziwon.github.io" />
+<link rel='stylesheet' href='https://ziwon.github.io/css/style-kiss.css'><link rel='stylesheet' href='https://ziwon.github.io/css/custom.css'><link rel='stylesheet' href='https://ziwon.github.io/css/syntax-github.css'><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/bash.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/go.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.9/languages/scala.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+<section class="section">
+  <div class="container">
+    <nav id="nav-main" class="nav">
+      <div id="nav-name" class="nav-left">
+        <a id="nav-anchor" class="nav-item" href="https://ziwon.github.io/">
+          <h1 id="nav-heading" class="title is-4">ziwon.github.io</h1>
+        </a>
+      </div>
+      <div class="nav-right">
+        <nav id="nav-items" class="nav-item level is-mobile"><a class="level-item" aria-label="twitter" href='https://twitter.com/theluno'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="github" href='https://github.com/ziwon'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="email" href='mailto:yngpil.yoon@gmail.com'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" aria-label="instagram" href='https://instagram.com/ziwon.y'
+            target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+
+    <nav class="nav">
+      
+      <div class="nav-left"><a class="nav-item" href="http://keybase.io/ziwon">
+          <h2 class="title is-5">keybase</h2>
+        </a></div>
+      
+
+      
+      <div class="nav-right"><a class="nav-item" href="https://desync.quip.com">
+          <h2 class="title is-5">docs</h2>
+        </a></div>
+      
+    </nav>
+
+  </div>
+  <script src="/js/navicon-shift.js"></script>
+</section>
+<section class="section">
+  <div class="container">
+    <article>
+      <h1 class="title"><a href="https://ziwon.github.io/post/wireguard/">WireGuard 설치 및 방화벽 설정</a></h1>
+      <h2 class="subtitle is-6">2020-03-26 </h2>
+      <div class="subtitle tags is-6 is-pulled-right">
+        
+        
+<a class="subtitle is-6" href="/tags/networking">#Networking</a>
+
+
+
+  
+  | <a class="subtitle is-6" href="/tags/vpn">#VPN</a>
+  
+
+        
+      </div>
+      <div class="content">
+        <h2 id="wireguard-소개">WireGuard 소개</h2>
+<p>WireGuard는 임베디드 인터페이스와 슈퍼 컴퓨터를 위한 범용 VPN로, 최첨단 암호화 기술을 사용하며 단순하고 빠르고 현대적인 VPN이다. IPsec보다 더 간단하며 더 빠르고, OpenVPN보다 성능이 훨씬 뛰어나다. 또한 Linux 커널 5.6 버전부터 기본 패키지로 탑재된다.</p>
+<h2 id="wireguard-서버-설치">WireGuard 서버 설치</h2>
+<p>먼저, AWS에서 Amazon AMI Linux 2를 선택해서 EC2 서버를 생성했을 경우, Amazon AMI Linux2에는 WireGuard 패키지가 없기 때문에 다음과 같이 리포지토리를 추가하여 설치한다.</p>
+<pre><code>$ curl -L -o /etc/yum.repos.d/wireguard.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
+
+$ yum install wireguard-dkms wireguard-tools
+</code></pre>
+<p>서버에서 사용할 public 키와 private 키를 <code>wg</code> 유틸리티를 사용하여 생성한다.</p>
+<pre><code>$ wg genkey | tee privatekey | wg pubkey &gt; publickey
+
+$ cat privatekey
+6PF4yqfeh1KSBg5N1VwEOHmF5pPIyY3f/EVSZwOxAFM=
+
+$ cat publickey
+Bhw11tUPFzyV+MWuqBQ23obspqLWN/jGpNKKJ7hvQ2I=
+</code></pre>
+<p>그리고 서버 설정 정보는 다음과 같이 <code>/etc/wireguard/wg0.conf</code> 파일에 저장한다. 서버 <code>Interface</code>항목에 에 생성된 Private Key를 기입하고, VPN Port는 ｀1194`로 설정한다.</p>
+<pre><code>$ cat /etc/wireguard/wg0.conf
+[Interface]
+Address = 172.32.100.1/32
+ListenPort = 1194
+PrivateKey = 6PF4yqfeh1KSBg5N1VwEOHmF5pPIyY3f/EVSZwOxAFM=
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+</code></pre><p><code>wg-quick</code> 커맨드로 데몬을 실행해본다. 아직 클라이언트 Peer 정보를 구성하지 않았기 때문에, <code>A peer is missing a public key</code> 오류 메세지를 확인할 수 있다.</p>
+<pre><code>$ wg-quick up wg0
+#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+A peer is missing a public key
+Invalid configuration
+[#] ip link delete dev wg0
+</code></pre><p>다음으로 서버에서 영구적으로 IP 포워딩이 되도록 설정한다.</p>
+<pre><code>sysctl net.ipv4.conf.all.forwarding=1 | tee -a /etc/sysctl.d/forwarding.conf
+</code></pre>
+<p>이상, 시스템 부팅 시에 WireGuard가 자동 시작이 되도록 서비스에 등록하여 설치를 완료한다.</p>
+<pre><code>$ systemctl enable wg-quick@wg0.service
+</code></pre>
+<h2 id="wireguard-클라이언트-설치">WireGuard 클라이언트 설치</h2>
+<p>원격 클라이언트 서버를 우분투 18.04이라고 하면,  다음과 같이 클라이언트를 구성할 수 있다.</p>
+<p>먼저, 리포지토리를 추가한다.</p>
+<pre><code>$ add-apt-repository ppa:wireguard/wireguard
+</code></pre>
+<p>wireguard와 openresolv를 설치한다.</p>
+<pre><code>$ sudo apt install wireguard openresolv
+</code></pre>
+<p>동일하게 wg 유틸리티를 사용하여 public 키와 private 키를 생성한다.</p>
+<pre><code>$ wg genkey | tee privatekey | wg pubkey &gt; publickey
+</code></pre>
+<p>클라이언트 설정 정보도 동일하게 <code>/etc/wireguard/wg0.conf</code>에 저장한다. 클라이언트 <code>Interface</code> 에 할당할 IP (예, <code>172.32.100.10/32</code>)를 기입하고, 생성된 private 키를 추가한다. 그리고 <code>Peer</code>에는 앞서 구성한 서버 정보(공개키 값, 타겟 주소, 엔트포인트)를 입력한다.</p>
+<pre><code>[Interface]
+Address = 172.32.100.10/24
+PrivateKey = kBjlZKrmLK17sy6PyNq2cMFAQ9UUh26osb9/BzffEFU=
+
+[Peer]
+PublicKey = Bhw11tUPFzyV+MWuqBQ23obspqLWN/jGpNKKJ7hvQ2I=
+AllowedIPs = 172.32.100.0/24
+Endpoint = 53.125.176.231:1194
+PersistentKeepalive = 5
+</code></pre><p>서버와 동일하게 자동 시작이 되도록 서비스에 등록하여 설치를 완료한다.</p>
+<pre><code>$ systemctl start wg-quick@wg0
+</code></pre>
+<h2 id="wireguard-서버-피어-추가">WireGuard 서버 피어 추가</h2>
+<p>서버에 연결될 클라이언트를 설치한 후에는, Amazon Linux AMI 2 서버에 접속하여 해당 정보를 업데이트 한다.</p>
+<pre><code>$ vi /etc/wireguard/wg0.conf
+[Interface]
+Address = 172.32.100.1/32
+ListenPort = 1194
+PrivateKey = OJ3K8Bb/yJemfTeLl879l/JTqHneymccEgkxr3grLG0=
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+[Peer]
+PublicKey = NIk44fDwmXNSMxeYHJvYN2lIm/xUNgpXkDkBo6GjIx4=
+#AllowedIPs = 172.32.100.10/32
+</code></pre><p>클라이언트 피어를 추가하였으므로, WireGuard 인터페이스 유틸리티로 구동시켜 본다.</p>
+<pre><code>$ wg-quick up wg0
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 172.32.100.1/32 dev wg0
+[#] ip link set mtu 8921 up dev wg0
+[#] ip -4 route add 172.32.100.10/32 dev wg0
+[#] iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre><p>정상적으로 구동되었다면 서버를 재시작한다.</p>
+<pre><code>$ systemctl restart wg-quick@wg0
+</code></pre><pre><code>[root@ip-10-200-20-194 ~]# wg show
+interface: wg0
+  public key: Bhw11tUPFzyV+MWuqBQ23obspqLWN/jGpNKKJ7hvQ2I=
+  private key: (hidden)
+  listening port: 1194
+
+peer: NIk44fDwmXNSMxeYHJvYN2lIm/xUNgpXkDkBo6GjIx4=
+  endpoint: 210.224.81.99:47411
+  allowed ips: 172.32.100.10/32
+  latest handshake: 1 minute, 9 seconds ago
+  transfer: 1.55 MiB received, 181.46 KiB sent
+</code></pre><h2 id="모든-트래픽을-vpn으로-라우팅">모든 트래픽을 VPN으로 라우팅</h2>
+<p>클라이언트의 모든 트래픽을 VPN 인터페이스 wg0으로 라우팅하려면, 다음과 같이 클라이언트 설정에서 AllowedIPs의 값을 <code>0.0.0.0/0</code>으로 변경한다.</p>
+<pre><code>[Interface]
+Address = 172.32.100.10/24
+PrivateKey = kBjlZKrmLK17sy6PyNq2cMFAQ9UUh26osb9/BzffEFU=
+
+[Peer]
+PublicKey = Bhw11tUPFzyV+MWuqBQ23obspqLWN/jGpNKKJ7hvQ2I=
+AllowedIPs = 172.32.100.0/24
+Endpoint = 53.125.176.231:1194
+PersistentKeepalive = 5
+</code></pre><p>그리고 wg-quick 유틸리티를 이용하여 wg0 인터페이스를 구동시킨다. 그럼, 다음과 같이 별도의 WireGuard 전용 라우팅 테이블이 생성하고, Rule 기반 라우팅이 추가되는 것을 확인할 수 있다.</p>
+<pre><code>$ wg-quick up wg0
+[#] ip link add wg0 type wireguard
+[#] wg setconf wg0 /dev/fd/63
+[#] ip -4 address add 172.32.100.10/32 dev wg0
+[#] ip link set mtu 1420 up dev wg0
+[#] resolvconf -a tun.wg0 -m 0 -x
+[#] wg set wg0 fwmark 51820
+[#] ip -4 route add 0.0.0.0/0 dev wg0 table 51820
+[#] ip -4 rule add not fwmark 51820 table 51820
+[#] ip -4 rule add table main suppress_prefixlength 0
+[#] sysctl -q net.ipv4.conf.all.src_valid_mark=1
+[#] iptables-restore -n
+</code></pre><p>구성된 라우팅 테이블은 각각 다음과 같다.</p>
+<p><strong>메인 라우팅 테이블</strong></p>
+<pre><code>$ ip route show table main
+default via 192.168.100.1 dev ens33 proto dhcp metric 100
+169.254.0.0/16 dev ens33 scope link metric 1000
+192.168.100.0/24 dev ens33 proto kernel scope link src 192.168.100.209 metric 100
+</code></pre><p><strong>로컬 라우팅 테이블</strong></p>
+<pre><code>$ ip route show table local
+broadcast 127.0.0.0 dev lo proto kernel scope link src 127.0.0.1
+local 127.0.0.0/8 dev lo proto kernel scope host src 127.0.0.1
+local 127.0.0.1 dev lo proto kernel scope host src 127.0.0.1
+broadcast 127.255.255.255 dev lo proto kernel scope link src 127.0.0.1
+local 172.32.100.10 dev wg0 proto kernel scope host src 172.32.100.11
+broadcast 192.168.100.0 dev ens33 proto kernel scope link src 192.168.100.209
+local 192.168.100.209 dev ens33 proto kernel scope host src 192.168.100.209
+broadcast 192.168.100.255 dev ens33 proto kernel scope link src 192.168.100.209
+</code></pre><p>좀 더 자세한 내용은 WireGuard의 공식 문서 <a href="https://www.wireguard.com/netns/#routing-all-your-traffic">Routing All Your Traffic</a> 을 참고한다.</p>
+<h2 id="방화벽-설정">방화벽 설정</h2>
+<p>클라이언트에서 WireGuard VPN을 위한 방화벽 설정은 다음과 같다.</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="nv">IF0</span><span class="o">=</span><span class="s2">&#34;ens33&#34;</span>
+<span class="nv">WG0</span><span class="o">=</span><span class="s2">&#34;wg0&#34;</span>
+<span class="nv">VPN_PORT</span><span class="o">=</span><span class="s2">&#34;1194&#34;</span>
+<span class="nv">VPN_NET</span><span class="o">=</span><span class="s2">&#34;172.32.100.0/24&#34;</span>
+
+iptables -A INPUT -i <span class="nv">$IF0</span> -p udp --dport <span class="nv">$VPN_PORT</span> -j ACCEPT
+iptables -A INPUT -i <span class="nv">$IF0</span> -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A INPUT -i <span class="nv">$WG0</span> -j ACCEPT
+
+iptables -A FORWARD -i <span class="nv">$WG0</span> -j ACCEPT
+iptables -A FORWARD -i <span class="nv">$WG0</span> -o <span class="nv">$IF0</span> -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i <span class="nv">$IF0</span> -o <span class="nv">$WG0</span> -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+iptables -t nat -A POSTROUTING -s <span class="nv">$VPN_NET</span> -o <span class="nv">$IF0</span> -j MASQUERADE
+iptables -A OUTPUT -o <span class="nv">$WG0</span> -j ACCEPT
+</code></pre></div>
+        
+        <div class="related">
+
+<h3>Similar articles:</h3>
+<ul>
+	
+	<li><a href="/post/designing-scalable-portable-docker-container-networks/">[번역] 확장성 있고, 이식성 있는 도커 컨테이너 네트워크 설계</a></li>
+	
+</ul>
+</div>
+        
+      </div>
+    </article>
+    
+
+    
+    <nav class="post-nav">
+        
+        
+        <a class="next" href="https://ziwon.github.io/post/tgik-007/">
+            <span class="next-text nav-default">TGI Kubernetes 007: Controller 만들기</span>
+            <span class="next-text nav-mobile"></span>
+            >
+        </a>
+    </nav>
+
+  </div>
+ 
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'ziwon';
+      function disqus() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+  
+      disqus();
+  
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><a href="https://github.com/ziwon">Yeongpil Yoon</a></p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-129419926-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+</body>
+</html>
+
