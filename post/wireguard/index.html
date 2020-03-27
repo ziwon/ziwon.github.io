@@ -224,7 +224,7 @@ AllowedIPs = 172.32.100.10/32
 [#] iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 </code></pre><p>정상적으로 구동되었다면 서버를 재시작한다.</p>
 <pre><code>$ systemctl restart wg-quick@wg0
-</code></pre><pre><code>[root@ip-10-200-20-194 ~]# wg show
+</code></pre><pre><code>$ wg show
 interface: wg0
   public key: Bhw11tUPFzyV+MWuqBQ23obspqLWN/jGpNKKJ7hvQ2I=
   private key: (hidden)
@@ -275,6 +275,17 @@ local 172.32.100.10 dev wg0 proto kernel scope host src 172.32.100.11
 broadcast 192.168.100.0 dev ens33 proto kernel scope link src 192.168.100.209
 local 192.168.100.209 dev ens33 proto kernel scope host src 192.168.100.209
 broadcast 192.168.100.255 dev ens33 proto kernel scope link src 192.168.100.209
+</code></pre><p>이상, google.com 애 대한 경로를 보면, AWS 인스턴스를 통해 접속하는 것을 확인할 수 있다.</p>
+<pre><code>$ traceroute google.com
+traceroute to google.com (172.217.25.78), 30 hops max, 60 byte packets
+ 1  172.32.100.1 (172.32.100.1)  5.458 ms  5.423 ms  5.391 ms
+ 2  ec2-52-80-0-92.ap-northeast-2.compute.amazonaws.com (52.80.0.92)  20.313 ms ec2-52.80.0.0.ap-northeast-2.compute.amazonaws.com (52.80.0.0)  23.326 ms ec2-52-80-0-4.ap-northeast-2.compute.amazonaws.com (52.80.0.4)  19.217 ms
+ 3  100.64.3.8 (100.64.3.8)  11.309 ms 100.64.3.200 (100.64.3.200)  22.228 ms 100.64.1.142 (100.64.1.142)  22.896 ms
+ 4  100.66.11.38 (100.66.11.38)  12.142 ms 100.66.11.166 (100.66.11.166)  10.131 ms 100.66.11.2 (100.66.11.2)  11.856 ms
+ 5  100.66.7.3 (100.66.7.3)  8.734 ms 100.66.7.97 (100.66.7.97)  8.989 ms 100.66.7.229 (100.66.7.229)  85.119 ms
+ 6  100.66.4.145 (100.66.4.145)  38.938 ms 100.66.4.99 (100.66.4.99)  7.576 ms 100.66.4.115 (100.66.4.115)  7.644 ms
+ 7  100.65.9.33 (100.65.9.33)  5.083 ms  4.547 ms 100.65.11.33 (100.65.11.33)  6.132 ms
+ 8  54.239.122.7 (54.239.122.7)  4.947 ms  7.116 ms  7.214 ms
 </code></pre><p>좀 더 자세한 내용은 WireGuard의 공식 문서 <a href="https://www.wireguard.com/netns/#routing-all-your-traffic">Routing All Your Traffic</a> 을 참고한다.</p>
 <h2 id="방화벽-설정">방화벽 설정</h2>
 <p>마지막으로, 클라이언트에서 WireGuard VPN을 위한 방화벽 설정은 다음과 같다.</p>
